@@ -1,0 +1,142 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-display: "Nunito", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: 1rem;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-soft: var(--primary-soft);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent-soft: var(--accent-soft);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-chart-1: var(--primary);
+  --color-chart-2: var(--accent);
+  --color-chart-3: var(--success);
+  --color-chart-4: var(--warning);
+  --color-chart-5: var(--muted-foreground);
+}
+
+:root {
+  --radius: 0.75rem;
+  /* #FAF7F2 */
+  --background: oklch(0.977 0.008 80);
+  /* #1C1917 ink */
+  --foreground: oklch(0.216 0.006 56);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.216 0.006 56);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.216 0.006 56);
+  /* #14532D */
+  --primary: oklch(0.393 0.095 152.5);
+  --primary-foreground: oklch(0.985 0.005 80);
+  --primary-soft: oklch(0.94 0.035 150);
+  --secondary: oklch(0.94 0.012 80);
+  --secondary-foreground: oklch(0.216 0.006 56);
+  --muted: oklch(0.94 0.012 80);
+  /* #78716C, darkened slightly for AA on off-white */
+  --muted-foreground: oklch(0.5 0.01 56);
+  /* #F59E0B */
+  --accent: oklch(0.769 0.165 70);
+  --accent-foreground: oklch(0.216 0.006 56);
+  --accent-soft: oklch(0.95 0.06 85);
+  --success: oklch(0.627 0.17 149);
+  --warning: oklch(0.555 0.163 49);
+  --destructive: oklch(0.577 0.215 27);
+  --destructive-foreground: oklch(0.985 0 0);
+  --border: oklch(0.9 0.012 75);
+  --input: oklch(0.88 0.012 75);
+  --ring: oklch(0.393 0.095 152.5);
+  --sidebar: oklch(0.32 0.075 152.5);
+  --sidebar-foreground: oklch(0.96 0.01 120);
+  --sidebar-primary: oklch(0.769 0.165 70);
+  --sidebar-primary-foreground: oklch(0.216 0.006 56);
+  --sidebar-accent: oklch(0.393 0.085 152.5);
+  --sidebar-accent-foreground: oklch(0.985 0.005 80);
+  --sidebar-border: oklch(0.42 0.07 152.5);
+  --sidebar-ring: oklch(0.769 0.165 70);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+  html {
+    font-size: 16px;
+  }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    line-height: 1.6;
+  }
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+  }
+  :focus-visible {
+    outline: 3px solid var(--accent);
+    outline-offset: 2px;
+  }
+}
+
+@utility container-page {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 72rem;
+  padding-inline: 1rem;
+  @media (min-width: 768px) {
+    padding-inline: 2rem;
+  }
+}
+
+@utility eyebrow {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--primary);
+}
+
+@utility prose-lesson {
+  & p { margin-bottom: 1rem; font-size: 1.0625rem; }
+  & h2 { font-size: 1.25rem; margin: 1.5rem 0 0.5rem; color: var(--primary); }
+  & ul { list-style: disc; padding-left: 1.25rem; margin-bottom: 1rem; }
+  & strong { font-weight: 700; }
+}

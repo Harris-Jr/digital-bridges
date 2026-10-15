@@ -110,6 +110,14 @@ Images are stored as URLs in the content tables, so they can equally come from
 object storage. For offline packs, bundle low-bitrate media; stream-only
 (e.g. YouTube) links are for online supplementary content.
 
+## Learning pathways
+
+Courses are grouped under **pathways** (top-level tracks) — e.g. Digital Skills
+and Civic Education. The home page shows a "Choose your path" selector; each card
+opens that pathway's courses at `/paths/<slug>`. Pathways are managed in the
+admin (Pathways), and each course is assigned a pathway on its edit form. Adding
+a new track (e.g. Health) is content-only — no code change.
+
 ## AI features (optional)
 
 With a Google Gemini key (`GEMINI_API_KEY` in the server `.env`; free tier from

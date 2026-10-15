@@ -140,12 +140,24 @@ const categorySchema = z.object({
   sort_order: z.coerce.number().int().default(0),
 });
 
+const pathwaySchema = z.object({
+  slug: nonEmpty(80),
+  title: nonEmpty(120),
+  subtitle: z.string().trim().max(200).default(""),
+  description: z.string().trim().max(2000).default(""),
+  icon_name: z.string().trim().max(60).default("Compass"),
+  accent: z.enum(["primary", "accent"]).default("primary"),
+  sort_order: z.coerce.number().int().default(0),
+  is_published: z.boolean().default(true),
+});
+
 const courseSchema = z.object({
   slug: nonEmpty(120),
   title: nonEmpty(200),
   tagline: z.string().trim().max(300).default(""),
   description: z.string().trim().max(5000).default(""),
   category_id: z.string().uuid().nullish(),
+  pathway_id: z.string().uuid().nullish(),
   icon_name: z.string().trim().max(60).default("BookOpen"),
   difficulty: z.enum(["start_here", "easy", "intermediate"]).default("easy"),
   estimated_hours: z.coerce.number().min(0).default(1),
@@ -211,9 +223,14 @@ registerResource("categories", {
   table: "categories", idColumn: "id", orderBy: "sort_order",
   columns: ["slug", "name", "icon_name", "sort_order"], schema: categorySchema,
 });
+registerResource("pathways", {
+  table: "pathways", idColumn: "id", orderBy: "sort_order",
+  columns: ["slug", "title", "subtitle", "description", "icon_name", "accent", "sort_order", "is_published"],
+  schema: pathwaySchema,
+});
 registerResource("courses", {
   table: "courses", idColumn: "id", orderBy: "sort_order",
-  columns: ["slug", "title", "tagline", "description", "category_id", "icon_name", "difficulty", "estimated_hours", "outcomes", "image_url", "is_published", "sort_order"],
+  columns: ["slug", "title", "tagline", "description", "category_id", "pathway_id", "icon_name", "difficulty", "estimated_hours", "outcomes", "image_url", "is_published", "sort_order"],
   jsonbColumns: ["outcomes"], schema: courseSchema,
 });
 registerResource("lessons", {

@@ -3,8 +3,8 @@ import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { SiteLayout, Icon, CourseCard, CardsSkeleton, ErrorNote, Motif } from "@/components/site";
-import { Testimonials, Partners } from "@/components/home-sections";
-import { usePage, usePublished, usePublishedCourses } from "@/lib/content";
+import { Testimonials, Partners, PathwaySelector } from "@/components/home-sections";
+import { usePage, usePublished, usePublishedCourses, usePathways } from "@/lib/content";
 import { useI18n } from "@/lib/i18n";
 
 const WHY_TONE = [
@@ -30,6 +30,7 @@ function Home() {
   const { t } = useI18n();
   const page = usePage("home");
   const stats = usePublished<{ id: string; label: string; value: string }>("stats");
+  const pathways = usePathways();
   const courses = usePublishedCourses();
   const testimonials = usePublished<{ id: string; quote: string; name: string; role_location: string }>("testimonials");
   const partners = usePublished<{ id: string; name: string; category: string }>("partners");
@@ -61,6 +62,8 @@ function Home() {
           </div>
         </div>
       </section>
+
+      <PathwaySelector items={pathways.data ?? []} />
 
       {stats.data && stats.data.length > 0 && (
         <section aria-label="Platform at a glance" className="border-y border-border bg-primary text-primary-foreground">

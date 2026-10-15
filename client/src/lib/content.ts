@@ -31,6 +31,17 @@ export const usePolicyVersion = () => {
 };
 
 export type Category = { id: string; slug: string; name: string; icon_name: string; sort_order: number };
+export type Pathway = {
+  id: string;
+  slug: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  icon_name: string;
+  accent: "primary" | "accent";
+  sort_order: number;
+  course_count?: number;
+};
 export type Course = {
   id: string;
   slug: string;
@@ -38,6 +49,7 @@ export type Course = {
   tagline: string;
   description: string;
   category_id: string | null;
+  pathway_id: string | null;
   icon_name: string;
   difficulty: "start_here" | "easy" | "intermediate";
   estimated_hours: number;
@@ -46,8 +58,12 @@ export type Course = {
   is_published: boolean;
   sort_order: number;
   categories?: Category | null;
+  pathway?: { slug: string; title: string } | null;
   lessons?: { id: string; is_published?: boolean }[];
 };
+
+export const usePathways = () =>
+  useQuery({ queryKey: ["pathways"], queryFn: () => apiGet<Pathway[]>("/pathways", false) });
 export type Lesson = {
   id: string;
   course_id: string;
@@ -81,12 +97,22 @@ export const useCategories = () =>
     queryFn: () => apiGet<Category[]>("/categories", false),
   });
 
-export const usePublishedCourses = () =>
+export const usePublishedCourses = (pathwaySlug?: string) =>
   useQuery({
-    queryKey: ["courses", "published"],
+    queryKey: ["courses", "published", pathwaySlug ?? "all"],
     queryFn: async () => {
-      const rows = await apiGet<ApiCourse[]>("/courses", false);
+      const qs = pathwaySlug ? `?pathway=${encodeURIComponent(pathwaySlug)}` : "";
+      const rows = await apiGet<ApiCourse[]>(`/courses${qs}`, false);
       return rows.map(({ category, ...c }) => ({ ...c, categories: category }));
+    },
+  });
+
+export const usePathway = (slug: string) =>
+  useQuery({
+    queryKey: ["pathway", slug],
+    queryFn: async () => {
+      const { pathway, courses } = await apiGet<{ pathway: Pathway; courses: ApiCourse[] }>(`/pathways/${slug}`, false);
+      return { pathway, courses: courses.map(({ category, ...c }) => ({ ...c, categories: category })) };
     },
   });
 

@@ -3,7 +3,7 @@ import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   LayoutDashboard, BookOpen, FileText, MessageSquareQuote, Handshake, HelpCircle,
-  Plus, Pencil, Trash2, ArrowLeft, Loader2, LogOut, Eye, EyeOff, Sparkles,
+  Plus, Pencil, Trash2, ArrowLeft, Loader2, LogOut, Eye, EyeOff, Sparkles, Route as RouteIcon,
 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -19,11 +19,12 @@ import { cn } from "@/lib/utils";
 
 /* ------------------------------------------------------------------ shell */
 
-type AdminPath = "/admin" | "/admin/courses" | "/admin/pages" | "/admin/testimonials" | "/admin/partners" | "/admin/faqs";
+type AdminPath = "/admin" | "/admin/pathways" | "/admin/courses" | "/admin/pages" | "/admin/testimonials" | "/admin/partners" | "/admin/faqs";
 type NavItem = { to: AdminPath; label: string; icon: typeof LayoutDashboard; exact?: boolean };
 
 const NAV: NavItem[] = [
   { to: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
+  { to: "/admin/pathways", label: "Pathways", icon: RouteIcon },
   { to: "/admin/courses", label: "Courses", icon: BookOpen },
   { to: "/admin/pages", label: "Site pages", icon: FileText },
   { to: "/admin/testimonials", label: "Testimonials", icon: MessageSquareQuote },

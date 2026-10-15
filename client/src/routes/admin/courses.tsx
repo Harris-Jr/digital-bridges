@@ -13,15 +13,18 @@ type Course = {
   is_published: boolean; sort_order: number;
 };
 type Category = { id: string; name: string };
+type Pathway = { id: string; title: string };
 
 function Courses() {
   const categories = useQuery({ queryKey: ["admin", "categories"], queryFn: () => apiGet<Category[]>("/admin/categories") });
+  const pathways = useQuery({ queryKey: ["admin", "pathways"], queryFn: () => apiGet<Pathway[]>("/admin/pathways") });
 
   const fields: Field[] = [
     { name: "title", label: "Title", type: "text", required: true },
     { name: "slug", label: "Slug (URL)", type: "text", required: true, help: "Lowercase words with dashes, e.g. staying-safe-online" },
     { name: "tagline", label: "Tagline", type: "text" },
     { name: "description", label: "Description", type: "textarea" },
+    { name: "pathway_id", label: "Pathway", type: "select", options: (pathways.data ?? []).map((p) => ({ value: p.id, label: p.title })) },
     { name: "category_id", label: "Category", type: "select", options: (categories.data ?? []).map((c) => ({ value: c.id, label: c.name })) },
     { name: "difficulty", label: "Difficulty", type: "select", options: [
       { value: "start_here", label: "Start here" }, { value: "easy", label: "Easy" }, { value: "intermediate", label: "Intermediate" },

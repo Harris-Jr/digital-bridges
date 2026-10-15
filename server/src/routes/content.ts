@@ -35,23 +35,60 @@ contentRouter.get(
   }),
 );
 
-// Published courses, each with its category and the ids of its published lessons
-// (enough for the catalogue and progress maths without shipping full lesson bodies).
+// Published pathways (top-level tracks), each with a published-course count.
 contentRouter.get(
-  "/courses",
+  "/pathways",
   asyncHandler(async (_req, res) => {
     const { rows } = await query(`
-      select c.*,
-             to_jsonb(cat.*) as category,
-             coalesce(
-               (select jsonb_agg(jsonb_build_object('id', l.id, 'is_published', l.is_published) order by l.sort_order)
-                  from lessons l where l.course_id = c.id and l.is_published = true),
-               '[]'::jsonb) as lessons
-        from courses c
-        left join categories cat on cat.id = c.category_id
-       where c.is_published = true
-       order by c.sort_order
+      select p.*,
+             (select count(*) from courses c where c.pathway_id = p.id and c.is_published = true)::int as course_count
+        from pathways p
+       where p.is_published = true
+       order by p.sort_order
     `);
+    res.json(rows);
+  }),
+);
+
+// One pathway with its published courses (each with category + lesson ids).
+contentRouter.get(
+  "/pathways/:slug",
+  asyncHandler(async (req, res) => {
+    const { rows: pr } = await query("select * from pathways where slug = $1 and is_published = true", [req.params.slug]);
+    if (!pr[0]) throw notFound("Pathway not found");
+    const { rows: courses } = await query(
+      `select c.*, to_jsonb(cat.*) as category,
+              coalesce((select jsonb_agg(jsonb_build_object('id', l.id, 'is_published', l.is_published) order by l.sort_order)
+                          from lessons l where l.course_id = c.id and l.is_published = true), '[]'::jsonb) as lessons
+         from courses c left join categories cat on cat.id = c.category_id
+        where c.pathway_id = $1 and c.is_published = true order by c.sort_order`,
+      [pr[0].id],
+    );
+    res.json({ pathway: pr[0], courses });
+  }),
+);
+
+// Published courses, each with its category, pathway and published lesson ids.
+// Optional ?pathway=<slug> filter.
+contentRouter.get(
+  "/courses",
+  asyncHandler(async (req, res) => {
+    const pathway = typeof req.query.pathway === "string" ? req.query.pathway : null;
+    const { rows } = await query(
+      `select c.*,
+              to_jsonb(cat.*) as category,
+              jsonb_build_object('slug', p.slug, 'title', p.title) as pathway,
+              coalesce(
+                (select jsonb_agg(jsonb_build_object('id', l.id, 'is_published', l.is_published) order by l.sort_order)
+                   from lessons l where l.course_id = c.id and l.is_published = true),
+                '[]'::jsonb) as lessons
+         from courses c
+         left join categories cat on cat.id = c.category_id
+         left join pathways p on p.id = c.pathway_id
+        where c.is_published = true and ($1::text is null or p.slug = $1)
+        order by c.sort_order`,
+      [pathway],
+    );
     res.json(rows);
   }),
 );

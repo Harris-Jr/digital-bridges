@@ -1,8 +1,52 @@
 import { useCallback, useRef, useState } from "react";
-import { Quote, GraduationCap, Radio, HeartHandshake, Cpu, Landmark, Signal, type LucideIcon } from "lucide-react";
+import { Link } from "@tanstack/react-router";
+import { Quote, GraduationCap, Radio, HeartHandshake, Cpu, Landmark, Signal, ArrowRight, type LucideIcon } from "lucide-react";
+import { Icon } from "@/components/site";
+import type { Pathway } from "@/lib/content";
+import { cn } from "@/lib/utils";
 
 type Testimonial = { id: string; quote: string; name: string; role_location: string };
 type Partner = { id: string; name: string; category: string };
+
+/* Home "choose your path" selector — one card per pathway (e.g. Digital Skills,
+   Civic Education). Each card opens that pathway's courses. */
+export function PathwaySelector({ items }: { items: Pathway[] }) {
+  if (items.length === 0) return null;
+  return (
+    <section className="container-page py-16 md:py-20">
+      <div className="max-w-2xl">
+        <p className="eyebrow">Choose your path</p>
+        <h2 className="mt-2 text-3xl md:text-4xl">What would you like to learn?</h2>
+        <p className="mt-3 text-lg text-muted-foreground">Pick a path to see its courses. You can switch between paths any time.</p>
+      </div>
+      <div className="mt-8 grid gap-5 md:grid-cols-2">
+        {items.map((p) => {
+          const accent = p.accent === "accent";
+          return (
+            <Link
+              key={p.id}
+              to="/paths/$slug"
+              params={{ slug: p.slug }}
+              className="group relative flex items-start gap-5 overflow-hidden rounded-3xl border border-border bg-card p-7 shadow-sm transition-[transform,box-shadow,border-color] duration-300 ease-out hover:border-primary/40 hover:shadow-lg motion-safe:hover:-translate-y-1"
+            >
+              <span className={cn("grid size-16 shrink-0 place-items-center rounded-2xl transition-colors duration-300", accent ? "bg-accent-soft text-accent-foreground group-hover:bg-accent" : "bg-primary-soft text-primary group-hover:bg-primary group-hover:text-primary-foreground")}>
+                <Icon name={p.icon_name} className="size-8" />
+              </span>
+              <div className="min-w-0">
+                <h3 className="text-2xl font-semibold">{p.title}</h3>
+                <p className="mt-1 text-muted-foreground">{p.subtitle}</p>
+                <p className="mt-4 inline-flex items-center gap-1.5 font-semibold text-primary">
+                  {p.course_count ?? 0} {p.course_count === 1 ? "course" : "courses"}
+                  <ArrowRight className="size-4 transition-transform duration-200 group-hover:translate-x-1" />
+                </p>
+              </div>
+            </Link>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
 
 /* Reveal a section's children once, when it first scrolls into view.
    Uses a callback ref so the observer attaches whenever the node mounts

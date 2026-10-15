@@ -114,31 +114,8 @@ authRouter.patch(
   }),
 );
 
-// First person to claim admin becomes admin — only while no admin exists yet.
-authRouter.post(
-  "/claim-admin",
-  requireAuth,
-  asyncHandler(async (req, res) => {
-    const ok = await withTransaction(async (client) => {
-      const existing = await client.query("select 1 from user_roles where role = 'admin' limit 1");
-      if (existing.rowCount) return false;
-      await client.query(
-        "insert into user_roles (user_id, role) values ($1, 'admin') on conflict do nothing",
-        [req.auth!.id],
-      );
-      return true;
-    });
-    res.json({ ok });
-  }),
-);
-
-authRouter.get(
-  "/admin-exists",
-  asyncHandler(async (_req, res) => {
-    const { rowCount } = await query("select 1 from user_roles where role = 'admin' limit 1");
-    res.json({ exists: !!rowCount });
-  }),
-);
+// Admin is provisioned server-side via `npm run set-admin -- <email>`, never
+// self-claimed through the API. (See server/src/scripts/set-admin.ts.)
 
 authRouter.post(
   "/request-trainer",

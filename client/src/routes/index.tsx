@@ -1,8 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, Quote } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { SiteLayout, Icon, CourseCard, CardsSkeleton, ErrorNote, Motif } from "@/components/site";
+import { Testimonials, PartnersMarquee } from "@/components/home-sections";
 import { usePage, usePublished, usePublishedCourses } from "@/lib/content";
 import { useI18n } from "@/lib/i18n";
 
@@ -117,32 +118,9 @@ function Home() {
         </section>
       )}
 
-      {testimonials.data && testimonials.data.length > 0 && (
-        <section className="container-page py-8">
-          <p className="eyebrow">From learners</p>
-          <h2 className="mt-2 text-3xl">What people tell us</h2>
-          <div className="mt-8 grid gap-4 md:grid-cols-3">
-            {testimonials.data.map((q) => (
-              <figure key={q.id} className="rounded-2xl border border-border bg-card p-6 shadow-sm">
-                <Quote className="size-6 text-accent" aria-hidden="true" />
-                <blockquote className="mt-3">{q.quote}</blockquote>
-                <figcaption className="mt-4 text-sm"><span className="font-semibold">{q.name}</span><span className="text-muted-foreground"> · {q.role_location}</span></figcaption>
-              </figure>
-            ))}
-          </div>
-        </section>
-      )}
+      <Testimonials items={testimonials.data ?? []} />
 
-      {partners.data && partners.data.length > 0 && (
-        <section className="container-page py-16">
-          <p className="eyebrow">Working with</p>
-          <ul className="mt-4 flex flex-wrap gap-3">
-            {partners.data.map((p) => (
-              <li key={p.id} className="rounded-full border border-border bg-card px-5 py-2.5 text-sm font-semibold">{p.name}</li>
-            ))}
-          </ul>
-        </section>
-      )}
+      <PartnersMarquee items={partners.data ?? []} />
     </SiteLayout>
   );
 }

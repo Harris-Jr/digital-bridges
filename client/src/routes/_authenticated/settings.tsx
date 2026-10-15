@@ -1,6 +1,6 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import { Download, Trash2, Cookie, ShieldCheck } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -28,7 +28,7 @@ export const Route = createFileRoute("/_authenticated/settings")({
 });
 
 function Settings() {
-  const { user, profile, refresh, signOut } = useAuth();
+  const { user, profile, refresh, signOut, isStaff } = useAuth();
   const { setLang, lang } = useI18n();
   const { openManager } = useConsent();
   const version = usePolicyVersion() ?? "1.0";
@@ -42,11 +42,6 @@ function Settings() {
   useEffect(() => {
     if (profile) setF({ full_name: profile.full_name ?? "", phone: profile.phone ?? "", district: profile.district ?? "" });
   }, [profile]);
-  const adminExists = useQuery({
-    queryKey: ["admin-exists"],
-    queryFn: async () => (await apiGet<{ exists: boolean }>("/auth/admin-exists", false)).exists,
-  });
-
   const saveProfile = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -95,15 +90,6 @@ function Settings() {
     } catch {
       toast.error("We could not delete your account. Please try again.");
     }
-  };
-
-  const claimAdmin = async () => {
-    const { ok } = await apiPost<{ ok: boolean }>("/auth/claim-admin");
-    if (ok) {
-      await refresh();
-      toast.success("You are now the site admin.");
-      qc.invalidateQueries({ queryKey: ["admin-exists"] });
-    } else toast.error("An admin already exists.");
   };
 
   const changePw = async () => {
@@ -168,11 +154,11 @@ function Settings() {
           </div>
         </div>
 
-        {adminExists.data === false && (
+        {isStaff && (
           <div className="rounded-2xl border border-accent bg-accent-soft p-6">
-            <h2 className="flex items-center gap-2 text-xl"><ShieldCheck className="size-5" aria-hidden="true" />Set up site admin</h2>
-            <p className="mt-1 text-sm">No one manages this site yet. The first person to claim admin can edit all content.</p>
-            <Button className="mt-3" onClick={claimAdmin}>Make me the admin</Button>
+            <h2 className="flex items-center gap-2 text-xl"><ShieldCheck className="size-5" aria-hidden="true" />Content management</h2>
+            <p className="mt-1 text-sm">You have editor access. Manage courses, lessons, pages and more in the admin area.</p>
+            <Button asChild className="mt-3"><Link to="/admin">Open admin</Link></Button>
           </div>
         )}
       </div>

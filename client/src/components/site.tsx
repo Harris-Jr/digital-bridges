@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "@tanstack/react-router";
-import { icons, Menu, X, LogOut, LayoutDashboard, Settings, Clock, BookOpen, WifiOff } from "lucide-react";
+import { icons, Menu, X, LogOut, LayoutDashboard, Settings, ShieldCheck, Clock, BookOpen, WifiOff } from "lucide-react";
 import { useState, type ReactNode } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
@@ -114,7 +114,7 @@ function LangToggle() {
 
 export function SiteHeader() {
   const { t } = useI18n();
-  const { user, signOut } = useAuth();
+  const { user, isStaff, signOut } = useAuth();
   const qc = useQueryClient();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
@@ -144,6 +144,7 @@ export function SiteHeader() {
           <LangToggle />
           {user ? (
             <>
+              {isStaff && <Button asChild variant="ghost" size="sm"><Link to="/admin"><ShieldCheck />Admin</Link></Button>}
               <Button asChild variant="ghost" size="sm"><Link to="/dashboard"><LayoutDashboard />{t("nav.dashboard", "My learning")}</Link></Button>
               <Button asChild variant="ghost" size="icon" aria-label={t("nav.settings", "Settings")}><Link to="/settings"><Settings /></Link></Button>
               <Button variant="ghost" size="icon" onClick={doSignOut} aria-label={t("nav.signout", "Sign out")}><LogOut /></Button>

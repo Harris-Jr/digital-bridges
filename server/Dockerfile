@@ -1,4 +1,4 @@
-# Digital Bridges API — multi-stage build on Node 22 LTS.
+# Digital Bridges API — multi-stage build on Node 20.
 FROM node:20-bookworm-slim AS build
 WORKDIR /app
 COPY package.json package-lock.json ./

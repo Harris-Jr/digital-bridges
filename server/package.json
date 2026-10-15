@@ -11,6 +11,7 @@
     "build": "tsc -p tsconfig.json",
     "start": "node --env-file=.env dist/index.js",
     "migrate": "node --env-file=.env --import tsx src/migrate.ts",
+    "set-admin": "node --env-file=.env --import tsx src/scripts/set-admin.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

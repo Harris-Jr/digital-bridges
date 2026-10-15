@@ -24,20 +24,27 @@ export function CookieConsentManager() {
   return (
     <>
       {ready && !choice && !managerOpen && (
-        <div role="region" aria-label="Cookie choices" className="fixed inset-x-0 bottom-0 z-50 border-t border-border bg-card shadow-sm">
-          <div className="container-page flex flex-col gap-4 py-4 md:flex-row md:items-center md:justify-between">
-            <p className="flex items-start gap-3 text-sm">
-              <Cookie className="mt-0.5 size-5 shrink-0 text-primary" aria-hidden="true" />
-              <span>
-                We use a few cookies to keep you signed in and to count visitors. You choose.{" "}
+        <div
+          role="region"
+          aria-label="Cookie choices"
+          className="fixed bottom-4 left-4 right-4 z-50 mx-auto max-w-sm rounded-2xl border border-border bg-card p-5 shadow-lg motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-4 motion-safe:duration-500 sm:right-auto"
+        >
+          <div className="flex items-start gap-3">
+            <span className="grid size-9 shrink-0 place-items-center rounded-full bg-primary-soft">
+              <Cookie className="size-5 text-primary" aria-hidden="true" />
+            </span>
+            <div>
+              <p className="font-semibold">A few cookies?</p>
+              <p className="mt-1 text-sm text-muted-foreground">
+                We use a few to keep you signed in and count visitors — you choose.{" "}
                 <Link to="/privacy" className="font-semibold text-primary underline">Read more</Link>
-              </span>
-            </p>
-            <div className="flex flex-wrap gap-2">
-              <Button variant="outline" size="sm" onClick={() => save({ preferences: false, analytics: false })}>Essential only</Button>
-              <Button variant="ghost" size="sm" onClick={openManager}>Manage choices</Button>
-              <Button size="sm" onClick={() => save({ preferences: true, analytics: true })}>Allow all</Button>
+              </p>
             </div>
+          </div>
+          <div className="mt-4 flex flex-wrap gap-2">
+            <Button size="sm" onClick={() => save({ preferences: true, analytics: true })}>Allow all</Button>
+            <Button variant="outline" size="sm" onClick={() => save({ preferences: false, analytics: false })}>Essential only</Button>
+            <Button variant="ghost" size="sm" onClick={openManager}>Manage</Button>
           </div>
         </div>
       )}

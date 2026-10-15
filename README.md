@@ -1,46 +1,112 @@
 # Digital Bridges
 
-Free, practical digital-literacy training for communities in Zambia: phones, mobile money,
-online safety, misinformation and work skills. Offline-friendly, multilingual (English,
-Bemba, Nyanja), built for low bandwidth and shared devices.
+Inclusive digital literacy training platform for underserved communities in
+Zambia. Learners work through short, plain-language courses on phone basics,
+online safety, mobile money, finding work and more — on any smartphone, on slow
+or intermittent connections.
 
-## Stack
+## Stack (PERN)
 
 | Layer | Technology |
 | --- | --- |
-| Web | React 19, TypeScript, Vite, TanStack Router + Query, Tailwind v4, shadcn/ui |
-| API (Stage 2) | Node.js, Express, TypeScript |
-| Database (Stage 2) | PostgreSQL (ACID source of truth) |
-| Media | Cloudinary behind an `assets` abstraction (swappable) |
+| Frontend | React 19 + TanStack Router, built with Vite 7 as an **offline-first PWA** |
+| Backend | Node 22 (LTS) + Express 5 REST API |
+| Database | PostgreSQL 17 (vanilla; ACID, foreign keys, constraints) |
+| Auth | JWT (bcrypt-hashed passwords), role-based access |
+| Styling | Tailwind CSS v4 + shadcn/ui components |
 
-## Repository layout
+Everything runs comfortably within the projected 100–50,000 users on a single
+Hostinger VPS. The design is built to scale horizontally: the API is stateless
+(add replicas behind a reverse proxy), Postgres is pooled (front it with
+PgBouncer as load grows), and the offline-first client keeps most reads off the
+server.
+
+## Why these choices
+
+- **PERN over MERN** — the app is transaction-heavy (quiz submissions, progress,
+  enrollments, badges, consent records). PostgreSQL gives real ACID guarantees
+  and referential integrity; JSONB columns cover the flexible content blocks, so
+  nothing is lost versus a document database.
+- **Offline-first PWA** — the primary beneficiaries are rural, low-bandwidth
+  users. A service worker precaches the app shell and runtime-caches API reads
+  and media, so lessons keep working with little or no connection.
+- **ACID in practice** — every all-or-nothing write runs in a transaction
+  (`withTransaction`). Marking a lesson complete and awarding any unlocked badges
+  commit together; the progress upsert is idempotent (`ON CONFLICT DO NOTHING`)
+  so a replayed offline request is safe.
+
+## Project structure
 
 ```
-apps/
-  web/        React SPA (this is where the UI lives today)
-  api/        Express API (added in Stage 2)
-docs/
-  MIGRATION.md   staged plan, Supabase to PERN mapping, known issues
+digital-bridges/
+├── client/              React PWA (Vite)
+│   ├── src/
+│   │   ├── routes/       file-based routes (TanStack Router)
+│   │   ├── components/   UI + shadcn/ui
+│   │   └── lib/          api client, auth, content hooks, i18n, consent
+│   ├── nginx.conf        production static serving + API proxy
+│   └── Dockerfile
+├── server/              Express + Postgres API
+│   ├── src/
+│   │   ├── routes/       auth, content, learner, profile, trainer, public
+│   │   ├── db.ts         pooled pg + withTransaction()
+│   │   ├── migrate.ts    minimal SQL migration runner
+│   │   └── middleware.ts JWT auth + role guards
+│   ├── migrations/       001_schema.sql, 002_seed.sql
+│   └── Dockerfile
+├── docker-compose.yml    db + api + web
+└── .env.example
 ```
 
-## Getting started
+## Run with Docker (simplest)
 
-Requires Node 22.12+ (`nvm use`).
+```bash
+cp .env.example .env          # then edit secrets
+docker compose up --build
+```
 
-```sh
+The web app is served at http://localhost:8080 and proxies `/api` to the API.
+Migrations run automatically on API start.
+
+## Run locally (for development)
+
+Requires Node 22+ and a running PostgreSQL 17.
+
+```bash
+# 1. Database
+createdb digitalbridges
+
+# 2. API
+cd server
+cp .env.example .env          # point DATABASE_URL at your database
 npm install
-cp apps/web/.env.example apps/web/.env   # fill in the temporary Supabase values
-npm run dev                              # http://localhost:5173
+npm run migrate               # create schema + seed content
+npm run dev                   # http://localhost:4000
+
+# 3. Client (second terminal)
+cd client
+npm install
+npm run dev                   # http://localhost:5173  (proxies /api to :4000)
 ```
 
-Other scripts: `npm run build`, `npm run typecheck`, `npm run lint`, `npm test`.
+First account: sign up, then open **Settings → Make me the admin** to claim the
+first admin role (only works while no admin exists).
 
-## Roadmap
+## Scripts
 
-See [docs/MIGRATION.md](docs/MIGRATION.md).
+Server: `npm run dev`, `npm run build`, `npm start`, `npm run migrate`, `npm run typecheck`
+Client: `npm run dev`, `npm run build`, `npm run preview`, `npm test`, `npm run typecheck`
 
-- [x] Stage 1: monorepo, remove Lovable, convert to a Vite SPA
-- [ ] Stage 2: Express API + PostgreSQL schema, migrations, seed, auth
-- [ ] Stage 3: switch the web app from Supabase to the API
-- [ ] Stage 4: offline PWA and one course in two languages
-- [ ] Phase 2: assessments, certificates, facilitator cohorts, dashboards
+## Media
+
+Images, infographics and short lesson audio/video are referenced by URL in the
+content tables, so they can be served from Cloudinary or object storage. For
+offline packs, bundle low-bitrate media; stream-only (e.g. YouTube) links are
+for online supplementary content.
+
+## Data protection
+
+The platform follows Zambia's Data Protection Act No. 3 of 2021: consent is
+recorded, and learners can export or delete their data from Settings. A
+meaningful share of learners are minors (15–35 target), so age confirmation is
+captured at sign-up.

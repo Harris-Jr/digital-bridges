@@ -1,23 +1,23 @@
-# Dependencies & build output
-node_modules
-dist
-coverage
-.tanstack
+# Dependencies
+node_modules/
 
-# Environment (never commit secrets; commit .env.example only)
+# Build output
+dist/
+*.tsbuildinfo
+
+# Environment / secrets
 .env
 .env.*
 !.env.example
 
 # Logs
-logs
 *.log
 npm-debug.log*
 
-# Editors / OS
-.vscode/*
-!.vscode/extensions.json
-.idea
+# OS / editor
 .DS_Store
-*.suo
-*.sw?
+.vscode/
+.idea/
+
+# Note: client/src/routeTree.gen.ts is generated but committed so cold
+# `npm run build` / `npm test` work without a pre-generate step.

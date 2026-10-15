@@ -3,9 +3,16 @@ import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { SiteLayout, Icon, CourseCard, CardsSkeleton, ErrorNote, Motif } from "@/components/site";
-import { Testimonials, PartnersMarquee } from "@/components/home-sections";
+import { Testimonials, Partners } from "@/components/home-sections";
 import { usePage, usePublished, usePublishedCourses } from "@/lib/content";
 import { useI18n } from "@/lib/i18n";
+
+const WHY_TONE = [
+  "bg-primary-soft text-primary group-hover:bg-primary group-hover:text-primary-foreground",
+  "bg-accent-soft text-accent-foreground group-hover:bg-accent group-hover:text-accent-foreground",
+  "bg-primary-soft text-primary group-hover:bg-primary group-hover:text-primary-foreground",
+  "bg-accent-soft text-accent-foreground group-hover:bg-accent group-hover:text-accent-foreground",
+];
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -70,15 +77,25 @@ function Home() {
       )}
 
       {Array.isArray(body.why) && body.why.length > 0 && (
-        <section className="container-page py-16">
-          <p className="eyebrow">Why this platform</p>
-          <h2 className="mt-2 text-3xl">Made for the way people here use phones</h2>
-          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {body.why.map((w: { title: string; body: string; icon?: string }) => (
-              <div key={w.title} className="rounded-2xl border border-border bg-card p-6 shadow-sm">
-                <Icon name={w.icon} className="size-7 text-primary" />
-                <h3 className="mt-4 text-lg">{w.title}</h3>
-                <p className="mt-1 text-sm text-muted-foreground">{w.body}</p>
+        <section className="container-page py-16 md:py-20">
+          <div className="max-w-2xl">
+            <p className="eyebrow">Why this platform</p>
+            <h2 className="mt-2 text-3xl md:text-4xl">Made for the way people here use phones</h2>
+            <p className="mt-3 text-lg text-muted-foreground">
+              Short, plain-language lessons that work on any handset — built with communities, not for a classroom far away.
+            </p>
+          </div>
+          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {body.why.map((w: { title: string; body: string; icon?: string }, i: number) => (
+              <div
+                key={w.title}
+                className="group rounded-2xl border border-border bg-card p-6 shadow-sm transition-[transform,box-shadow,border-color] duration-300 ease-out hover:border-primary/40 hover:shadow-md motion-safe:hover:-translate-y-1"
+              >
+                <span className={`grid size-14 place-items-center rounded-2xl transition-colors duration-300 ${WHY_TONE[i % WHY_TONE.length]}`}>
+                  <Icon name={w.icon} className="size-7" />
+                </span>
+                <h3 className="mt-5 text-lg font-semibold">{w.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{w.body}</p>
               </div>
             ))}
           </div>
@@ -103,24 +120,50 @@ function Home() {
       </section>
 
       {Array.isArray(body.steps) && body.steps.length > 0 && (
-        <section className="container-page py-16">
-          <p className="eyebrow">How it works</p>
-          <h2 className="mt-2 text-3xl">Three steps</h2>
-          <ol className="mt-8 grid gap-4 md:grid-cols-3">
-            {body.steps.map((s: { title: string; body: string }, i: number) => (
-              <li key={s.title} className="rounded-2xl border border-border bg-card p-6 shadow-sm">
-                <span className="flex size-10 items-center justify-center rounded-full bg-accent font-display text-lg font-extrabold text-accent-foreground">{i + 1}</span>
-                <h3 className="mt-4 text-lg">{s.title}</h3>
-                <p className="mt-1 text-sm text-muted-foreground">{s.body}</p>
-              </li>
-            ))}
-          </ol>
+        <section className="border-y border-border bg-secondary/40">
+          <div className="container-page py-16 md:py-20">
+            <div className="max-w-2xl">
+              <p className="eyebrow">How it works</p>
+              <h2 className="mt-2 text-3xl md:text-4xl">Three steps to get going</h2>
+            </div>
+            <ol className="relative mt-12 grid gap-10 md:grid-cols-3 md:gap-6">
+              {/* connecting line behind the numbers on desktop */}
+              <span aria-hidden="true" className="absolute left-0 right-0 top-7 hidden h-px bg-border md:block" />
+              {body.steps.map((s: { title: string; body: string }, i: number) => (
+                <li key={s.title} className="relative">
+                  <span className="relative z-10 flex size-14 items-center justify-center rounded-full bg-primary font-display text-xl font-extrabold text-primary-foreground shadow-sm ring-8 ring-[var(--background)]">
+                    {i + 1}
+                  </span>
+                  <h3 className="mt-5 text-xl font-semibold">{s.title}</h3>
+                  <p className="mt-2 leading-relaxed text-muted-foreground">{s.body}</p>
+                </li>
+              ))}
+            </ol>
+          </div>
         </section>
       )}
 
       <Testimonials items={testimonials.data ?? []} />
 
-      <PartnersMarquee items={partners.data ?? []} />
+      <Partners items={partners.data ?? []} />
+
+      {/* Closing call to action */}
+      <section className="relative overflow-hidden bg-primary text-primary-foreground">
+        <div className="pointer-events-none absolute -right-16 -top-16 size-64 rounded-full bg-accent/20 blur-2xl" aria-hidden="true" />
+        <div className="pointer-events-none absolute -bottom-24 -left-10 size-72 rounded-full bg-white/10 blur-3xl" aria-hidden="true" />
+        <div className="container-page relative py-16 text-center md:py-20">
+          <h2 className="font-display text-3xl font-extrabold md:text-4xl">Start learning today — it's free</h2>
+          <p className="mx-auto mt-3 max-w-xl text-lg opacity-90">
+            Make a free account in a minute and pick up on any phone. No fees, ever, for learners and community groups.
+          </p>
+          <div className="mt-8 flex flex-wrap justify-center gap-3">
+            <Button asChild variant="accent" size="lg"><Link to="/signup">{t("nav.start", "Start learning")}<ArrowRight /></Link></Button>
+            <Button asChild size="lg" className="border border-primary-foreground/40 bg-transparent text-primary-foreground hover:bg-primary-foreground/10">
+              <Link to="/trainer">Run a workshop</Link>
+            </Button>
+          </div>
+        </div>
+      </section>
     </SiteLayout>
   );
 }

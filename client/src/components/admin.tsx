@@ -52,7 +52,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
     <div className="min-h-screen bg-muted/30 md:grid md:grid-cols-[240px_1fr]">
       <aside className="sticky top-0 z-20 flex h-auto flex-col gap-1 border-b border-border bg-card p-3 md:h-screen md:border-b-0 md:border-r">
         <Link to="/" className="mb-3 flex items-center gap-2 px-2 py-1">
-          <span className="grid size-8 place-items-center rounded-lg bg-primary font-display text-sm font-extrabold text-primary-foreground">DB</span>
+          <img src="/images/brand-icon.png" alt="" className="size-8" width={32} height={32} />
           <span className="font-display text-lg font-extrabold">Admin</span>
         </Link>
         <nav className="flex flex-row flex-wrap gap-1 md:flex-col">

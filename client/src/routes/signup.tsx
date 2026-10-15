@@ -1,15 +1,12 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import { Mail, User } from "lucide-react";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { SiteLayout } from "@/components/site";
-import { GoogleButton, MethodTabs, PhoneSoon } from "@/components/auth-forms";
+import { AuthShell, UnderlineField, PasswordField } from "@/components/auth-shell";
 import { ApiError, apiPost } from "@/lib/api";
 import { useAuth } from "@/lib/auth";
+import { useI18n } from "@/lib/i18n";
 import { usePolicyVersion } from "@/lib/content";
 
 export const Route = createFileRoute("/signup")({
@@ -17,57 +14,56 @@ export const Route = createFileRoute("/signup")({
     meta: [
       { title: "Create your free account — Digital Bridges" },
       { name: "description", content: "Join Digital Bridges for free and start learning digital skills today." },
-      { property: "og:title", content: "Create your free account — Digital Bridges" },
-      { property: "og:description", content: "Free digital skills lessons. Sign up in one minute." },
     ],
   }),
   component: SignUp,
 });
 
 const schema = z.object({
-  name: z.string().trim().min(2, "Please tell us your name").max(100),
-  district: z.string().trim().max(60),
+  first: z.string().trim().min(1, "Please tell us your name").max(60),
+  last: z.string().trim().max(60),
   email: z.string().trim().email("This email does not look right").max(255),
   password: z.string().min(8, "Use at least 8 characters. A short sentence works well."),
 });
 
 function SignUp() {
+  const { t } = useI18n();
   const { user, signUp } = useAuth();
   const navigate = useNavigate();
   const version = usePolicyVersion() ?? "1.0";
-  const [method, setMethod] = useState<"phone" | "email">("email");
-  const [f, setF] = useState({ name: "", district: "", email: "", password: "" });
+  const [f, setF] = useState({ first: "", last: "", email: "", password: "", confirm: "" });
   const [terms, setTerms] = useState(false);
   const [age, setAge] = useState<"" | "adult" | "minor">("");
   const [news, setNews] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [busy, setBusy] = useState(false);
+
   useEffect(() => {
     if (user) navigate({ to: "/dashboard", replace: true });
   }, [user, navigate]);
+
+  const set = (k: keyof typeof f) => (e: React.ChangeEvent<HTMLInputElement>) => setF({ ...f, [k]: e.target.value });
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     const r = schema.safeParse(f);
     const errs: Record<string, string> = r.success ? {} : Object.fromEntries(r.error.issues.map((i) => [String(i.path[0]), i.message]));
-    if (!terms) errs["terms"] = "Please agree to the Terms and Privacy Policy to continue.";
-    if (!age) errs["age"] = "Please choose one of the age options.";
+    if (f.confirm !== f.password) errs["confirm"] = t("auth.err.match", "Passwords do not match.");
+    if (!terms) errs["terms"] = t("auth.err.terms", "Please agree to the Terms and Privacy Policy to continue.");
+    if (!age) errs["age"] = t("auth.err.age", "Please choose one of the age options.");
     setErrors(errs);
     if (Object.keys(errs).length) return;
+
     setBusy(true);
     try {
-      await signUp({ email: f.email.trim(), password: f.password, full_name: f.name.trim(), district: f.district.trim() });
+      await signUp({ email: f.email.trim(), password: f.password, full_name: `${f.first} ${f.last}`.trim() });
     } catch (err) {
       setBusy(false);
-      setErrors({
-        form:
-          err instanceof ApiError && err.status === 409
-            ? "There is already an account with this email. Try signing in."
-            : "We could not create your account. Please try again.",
-      });
+      setErrors({ form: err instanceof ApiError && err.status === 409
+        ? t("auth.err.exists", "There is already an account with this email. Try signing in.")
+        : t("auth.err.create", "We could not create your account. Please try again.") });
       return;
     }
-    // The account is created and signed in; record the consents given at sign-up.
     const consents = [
       { type: "terms" as const, version, granted: true, details: { accepted: ["terms", "privacy"] } },
       { type: "age" as const, version, granted: true, details: { status: age === "adult" ? "18_or_older" : "under_18_guardian_agreed" } },
@@ -78,66 +74,55 @@ function SignUp() {
         await apiPost("/newsletter", { email: f.email.trim() }, false);
         await apiPost("/me/consent", { type: "newsletter", version, granted: true });
       }
-    } catch {
-      /* non-blocking: account exists even if consent logging fails */
-    }
+    } catch { /* non-blocking */ }
     setBusy(false);
     navigate({ to: "/dashboard", replace: true });
   };
 
-  const field = (k: keyof typeof f, label: string, type = "text", auto = "") => (
-    <div>
-      <Label htmlFor={k}>{label}</Label>
-      <Input id={k} type={type} autoComplete={auto} value={f[k]} onChange={(e) => setF({ ...f, [k]: e.target.value })} aria-invalid={!!errors[k]} aria-describedby={`${k}-err`} className="mt-1 h-11" />
-      {errors[k] && <p id={`${k}-err`} className="mt-1 text-sm text-destructive">{errors[k]}</p>}
-    </div>
-  );
-
   return (
-    <SiteLayout>
-      <section className="container-page max-w-md py-12">
-        <h1 className="text-3xl">Create your free account</h1>
-        <p className="mt-2 text-muted-foreground">Save your progress, earn badges and pick up on any phone.</p>
-        <div className="mt-6 space-y-4 rounded-2xl border border-border bg-card p-6 shadow-sm">
-          <MethodTabs method={method} setMethod={setMethod} />
-          {method === "phone" ? <PhoneSoon onEmail={() => setMethod("email")} /> : (
-            <form onSubmit={submit} noValidate className="space-y-4">
-              {field("name", "Your name", "text", "name")}
-              {field("district", "Your district (optional)", "text", "address-level2")}
-              {field("email", "Email address", "email", "email")}
-              {field("password", "Choose a password", "password", "new-password")}
+    <AuthShell>
+      <form onSubmit={submit} noValidate className="no-scrollbar max-h-[calc(100vh-7rem)] space-y-5 overflow-y-auto pr-1">
+        <h2 className="text-center font-display text-3xl font-extrabold">{t("auth.create", "Create Account")}</h2>
 
-              <fieldset className="space-y-3 rounded-xl border border-border p-4">
-                <legend className="px-1 text-sm font-semibold">Before you start</legend>
-                <div className="flex items-start gap-3">
-                  <Checkbox id="terms" checked={terms} onCheckedChange={(v) => setTerms(v === true)} className="mt-1" aria-describedby="terms-err" />
-                  <Label htmlFor="terms" className="font-normal leading-snug">
-                    I agree to the <Link to="/terms" className="text-primary underline">Terms</Link> and have read the <Link to="/privacy" className="text-primary underline">Privacy Policy</Link>.
-                  </Label>
-                </div>
-                {errors["terms"] && <p id="terms-err" className="text-sm text-destructive">{errors["terms"]}</p>}
-                <RadioGroup value={age} onValueChange={(v) => setAge(v as "adult" | "minor")} aria-label="Age confirmation" className="gap-2">
-                  <div className="flex items-start gap-3"><RadioGroupItem value="adult" id="adult" className="mt-1" /><Label htmlFor="adult" className="font-normal">I am 18 or older</Label></div>
-                  <div className="flex items-start gap-3"><RadioGroupItem value="minor" id="minor" className="mt-1" /><Label htmlFor="minor" className="font-normal leading-snug">I am under 18 and my parent or guardian has agreed</Label></div>
-                </RadioGroup>
-                {errors["age"] && <p className="text-sm text-destructive">{errors["age"]}</p>}
-              </fieldset>
-
-              <div className="flex items-start gap-3">
-                <Checkbox id="news" checked={news} onCheckedChange={(v) => setNews(v === true)} className="mt-1" />
-                <Label htmlFor="news" className="font-normal leading-snug">Optional: email me about new lessons and workshops near me. I can stop any time.</Label>
-              </div>
-
-              {errors["form"] && <p role="alert" className="text-sm text-destructive">{errors["form"]}</p>}
-              <Button type="submit" variant="accent" className="w-full" disabled={busy}>{busy ? "Creating account…" : "Create my account"}</Button>
-            </form>
-          )}
-          <div className="flex items-center gap-3 text-xs text-muted-foreground"><span className="h-px flex-1 bg-border" />or<span className="h-px flex-1 bg-border" /></div>
-          <GoogleButton label="Continue with Google" />
-          <p className="text-xs text-muted-foreground">If you use Google, we will ask you to accept the Terms when you first arrive.</p>
+        <div className="grid grid-cols-2 gap-3">
+          <UnderlineField id="first" label={t("auth.first", "First name")} icon={User} autoComplete="given-name" value={f.first} onChange={set("first")} error={errors["first"]} />
+          <UnderlineField id="last" label={t("auth.last", "Last name")} autoComplete="family-name" value={f.last} onChange={set("last")} error={errors["last"]} />
         </div>
-        <p className="mt-4 text-sm">Already have an account? <Link to="/signin" className="font-semibold text-primary underline">Sign in</Link></p>
-      </section>
-    </SiteLayout>
+        <UnderlineField id="email" label={t("auth.email", "Email address")} icon={Mail} type="email" autoComplete="email" value={f.email} onChange={set("email")} error={errors["email"]} />
+        <PasswordField id="password" label={t("auth.password", "Password")} autoComplete="new-password" value={f.password} onChange={set("password")} error={errors["password"]} />
+        <PasswordField id="confirm" label={t("auth.confirm", "Confirm password")} autoComplete="new-password" value={f.confirm} onChange={set("confirm")} error={errors["confirm"]} />
+
+        <fieldset className="space-y-2 rounded-xl border border-foreground/15 p-3 text-sm">
+          <label className="flex items-start gap-2">
+            <input type="checkbox" checked={terms} onChange={(e) => setTerms(e.target.checked)} className="mt-0.5 size-4 accent-[var(--primary)]" />
+            <span className="leading-snug">
+              {t("auth.agree", "I agree to the")} <Link to="/terms" className="text-primary underline">{t("auth.terms", "Terms")}</Link> {t("auth.and", "and")} <Link to="/privacy" className="text-primary underline">{t("auth.privacy", "Privacy Policy")}</Link>.
+            </span>
+          </label>
+          {errors["terms"] && <p className="font-semibold text-destructive">{errors["terms"]}</p>}
+          <div className="flex flex-col gap-1.5 pt-1">
+            <label className="flex items-center gap-2"><input type="radio" name="age" checked={age === "adult"} onChange={() => setAge("adult")} className="size-4 accent-[var(--primary)]" />{t("auth.adult", "I am 18 or older")}</label>
+            <label className="flex items-start gap-2"><input type="radio" name="age" checked={age === "minor"} onChange={() => setAge("minor")} className="mt-0.5 size-4 accent-[var(--primary)]" /><span className="leading-snug">{t("auth.minor", "I am under 18 and my parent or guardian has agreed")}</span></label>
+          </div>
+          {errors["age"] && <p className="font-semibold text-destructive">{errors["age"]}</p>}
+        </fieldset>
+
+        <label className="flex items-start gap-2 text-sm text-muted-foreground">
+          <input type="checkbox" checked={news} onChange={(e) => setNews(e.target.checked)} className="mt-0.5 size-4 accent-[var(--primary)]" />
+          <span className="leading-snug">{t("auth.news", "Optional: email me about new lessons and workshops near me.")}</span>
+        </label>
+
+        {errors["form"] && <p role="alert" className="text-sm font-semibold text-destructive">{errors["form"]}</p>}
+
+        <Button type="submit" variant="accent" className="w-full" size="lg" disabled={busy}>
+          {busy ? t("auth.creating", "Creating account…") : t("auth.create", "Create Account")}
+        </Button>
+
+        <p className="text-center text-sm text-muted-foreground">
+          {t("auth.haveaccount", "Already have an account?")}{" "}
+          <Link to="/signin" className="font-bold text-primary hover:underline">{t("auth.login", "Login")}</Link>
+        </p>
+      </form>
+    </AuthShell>
   );
 }

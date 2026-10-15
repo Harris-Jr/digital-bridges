@@ -17,16 +17,8 @@ export function Icon({ name, className }: { name?: string | null | undefined; cl
 
 export function Logo({ className }: { className?: string }) {
   return (
-    <Link to="/" className={cn("flex items-center gap-2 font-display text-lg font-extrabold text-primary", className)} aria-label="Digital Bridges home">
-      <svg viewBox="0 0 40 40" className="size-9" aria-hidden="true">
-        <rect width="40" height="40" rx="12" className="fill-primary" />
-        <path d="M6 26 Q20 10 34 26" className="stroke-accent" strokeWidth="3" fill="none" strokeLinecap="round" />
-        <line x1="12" y1="20" x2="12" y2="27" className="stroke-primary-foreground" strokeWidth="2" />
-        <line x1="20" y1="17" x2="20" y2="27" className="stroke-primary-foreground" strokeWidth="2" />
-        <line x1="28" y1="20" x2="28" y2="27" className="stroke-primary-foreground" strokeWidth="2" />
-        <line x1="5" y1="28" x2="35" y2="28" className="stroke-primary-foreground" strokeWidth="2.5" strokeLinecap="round" />
-      </svg>
-      <span>Digital Bridges</span>
+    <Link to="/" className={cn("flex items-center", className)} aria-label="Digital Bridges home">
+      <img src="/images/logo.png" alt="Digital Bridges" className="h-9 w-auto md:h-10" width={188} height={40} />
     </Link>
   );
 }
@@ -135,7 +127,7 @@ export function SiteHeader() {
         <Logo />
         <nav aria-label="Main" className="hidden items-center gap-1 md:flex">
           {links.map((l) => (
-            <Link key={l.to} to={l.to} className="rounded-full px-4 py-2 text-sm font-medium text-foreground hover:bg-secondary" activeProps={{ className: "bg-secondary" }}>
+            <Link key={l.to} to={l.to} className="rounded-full px-4 py-2 text-sm font-medium text-foreground transition-colors duration-200 hover:bg-secondary" activeProps={{ className: "bg-secondary" }}>
               {l.label}
             </Link>
           ))}
@@ -150,10 +142,7 @@ export function SiteHeader() {
               <Button variant="ghost" size="icon" onClick={doSignOut} aria-label={t("nav.signout", "Sign out")}><LogOut /></Button>
             </>
           ) : (
-            <>
-              <Button asChild variant="ghost"><Link to="/signin">{t("nav.signin", "Sign in")}</Link></Button>
-              <Button asChild variant="accent"><Link to="/signup">{t("nav.start", "Start learning")}</Link></Button>
-            </>
+            <Button asChild variant="accent"><Link to="/signin">{t("nav.signin", "Sign in")}</Link></Button>
           )}
         </div>
         <Button variant="ghost" size="icon" className="md:hidden" onClick={() => setOpen(!open)} aria-label={open ? "Close menu" : "Open menu"} aria-expanded={open}>
@@ -173,9 +162,8 @@ export function SiteHeader() {
                 <button onClick={doSignOut} className="rounded-xl px-4 py-3 text-left font-medium hover:bg-secondary">{t("nav.signout", "Sign out")}</button>
               </>
             ) : (
-              <div className="flex gap-2 px-4 pt-2">
-                <Button asChild variant="outline" className="flex-1"><Link to="/signin">{t("nav.signin", "Sign in")}</Link></Button>
-                <Button asChild variant="accent" className="flex-1"><Link to="/signup">{t("nav.start", "Start learning")}</Link></Button>
+              <div className="px-4 pt-2">
+                <Button asChild variant="accent" className="w-full"><Link to="/signin">{t("nav.signin", "Sign in")}</Link></Button>
               </div>
             )}
           </nav>
@@ -201,16 +189,16 @@ export function SiteFooter() {
         </div>
         <nav aria-label="Learn" className="flex flex-col gap-2 text-sm">
           <span className="font-semibold">Learn</span>
-          <Link to="/courses" className="text-muted-foreground hover:text-foreground">Courses</Link>
-          <Link to="/about" className="text-muted-foreground hover:text-foreground">About</Link>
-          <Link to="/trainer" className="text-muted-foreground hover:text-foreground">For Trainers</Link>
-          <Link to="/contact" className="text-muted-foreground hover:text-foreground">Contact</Link>
+          <Link to="/courses" className="text-muted-foreground transition-colors duration-200 hover:text-foreground">Courses</Link>
+          <Link to="/about" className="text-muted-foreground transition-colors duration-200 hover:text-foreground">About</Link>
+          <Link to="/trainer" className="text-muted-foreground transition-colors duration-200 hover:text-foreground">For Trainers</Link>
+          <Link to="/contact" className="text-muted-foreground transition-colors duration-200 hover:text-foreground">Contact</Link>
         </nav>
         <nav aria-label="Legal" className="flex flex-col gap-2 text-sm">
           <span className="font-semibold">Your data</span>
-          <Link to="/privacy" className="text-muted-foreground hover:text-foreground">Privacy</Link>
-          <Link to="/terms" className="text-muted-foreground hover:text-foreground">Terms</Link>
-          <Link to="/accessibility" className="text-muted-foreground hover:text-foreground">Accessibility</Link>
+          <Link to="/privacy" className="text-muted-foreground transition-colors duration-200 hover:text-foreground">Privacy</Link>
+          <Link to="/terms" className="text-muted-foreground transition-colors duration-200 hover:text-foreground">Terms</Link>
+          <Link to="/accessibility" className="text-muted-foreground transition-colors duration-200 hover:text-foreground">Accessibility</Link>
           <button onClick={openManager} className="text-left text-muted-foreground hover:text-foreground">Cookie settings</button>
         </nav>
       </div>
@@ -265,11 +253,16 @@ export function CourseCard({ course, index, progress }: { course: Course; index:
     <Link
       to="/courses/$slug"
       params={{ slug: course.slug }}
-      className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-colors hover:border-primary"
+      className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-[transform,box-shadow,border-color] duration-300 ease-out hover:border-primary/50 hover:shadow-lg motion-safe:hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
     >
-      <div className="relative h-28">
-        <ContentImage src={course.image_url} motif={course.categories?.slug} alt="" />
-        <span className="absolute left-3 top-3 rounded-full bg-background px-2.5 py-0.5 font-display text-sm font-extrabold text-primary">
+      <div className="relative h-28 overflow-hidden">
+        <ContentImage
+          src={course.image_url}
+          motif={course.categories?.slug}
+          alt=""
+          className="motion-safe:transition-transform motion-safe:duration-500 motion-safe:ease-out motion-safe:group-hover:scale-105"
+        />
+        <span className="absolute left-3 top-3 rounded-full bg-background px-2.5 py-0.5 font-display text-sm font-extrabold text-primary transition-colors duration-300 group-hover:bg-primary group-hover:text-primary-foreground">
           {String(index + 1).padStart(2, "0")}
         </span>
       </div>
@@ -280,7 +273,7 @@ export function CourseCard({ course, index, progress }: { course: Course; index:
             {difficultyLabel[course.difficulty]}
           </span>
         </div>
-        <h3 className="mt-3 text-lg group-hover:text-primary">{course.title}</h3>
+        <h3 className="mt-3 text-lg transition-colors duration-200 group-hover:text-primary">{course.title}</h3>
         <p className="mt-1 flex-1 text-sm text-muted-foreground">{course.tagline}</p>
         <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted-foreground">
           <span className="inline-flex items-center gap-1"><BookOpen className="size-3.5" aria-hidden="true" />{lessons} lessons</span>

@@ -97,37 +97,43 @@ const PARTNER_ICON: Record<string, LucideIcon> = {
   telecom: Signal,
 };
 
-function PartnerChip({ partner }: { partner: Partner }) {
+const PARTNER_LABEL: Record<string, string> = {
+  school: "School",
+  radio: "Community radio",
+  cs: "Civil society",
+  ict_hub: "ICT hub",
+  gov: "Government",
+  telecom: "Telecom",
+};
+
+function PartnerCard({ partner }: { partner: Partner }) {
   const Icon = PARTNER_ICON[partner.category] ?? HeartHandshake;
   return (
-    <span className="mx-2 inline-flex items-center gap-2.5 whitespace-nowrap rounded-full border border-border bg-card px-5 py-2.5 text-sm font-semibold shadow-sm">
-      <Icon className="size-4 text-primary" aria-hidden="true" />
-      {partner.name}
-    </span>
+    <div className="group flex items-start gap-4 rounded-2xl border border-border bg-card p-5 shadow-sm transition-[transform,box-shadow,border-color] duration-300 ease-out hover:border-primary/40 hover:shadow-md motion-safe:hover:-translate-y-1">
+      <span className="grid size-12 shrink-0 place-items-center rounded-xl bg-primary-soft text-primary transition-colors duration-300 group-hover:bg-primary group-hover:text-primary-foreground">
+        <Icon className="size-6" aria-hidden="true" />
+      </span>
+      <div className="min-w-0">
+        <h3 className="font-semibold leading-snug">{partner.name}</h3>
+        <p className="mt-0.5 text-sm text-muted-foreground">{PARTNER_LABEL[partner.category] ?? "Partner"}</p>
+      </div>
+    </div>
   );
 }
 
-export function PartnersMarquee({ items }: { items: Partner[] }) {
+export function Partners({ items }: { items: Partner[] }) {
   if (items.length === 0) return null;
-  // Duplicate the list so the -50% translate loops seamlessly.
-  const track = [...items, ...items];
-
   return (
     <section className="container-page py-16">
-      <p className="eyebrow">Working with</p>
-      <h2 className="mt-2 text-3xl">Built alongside local institutions</h2>
-      <p className="mt-2 max-w-lg text-muted-foreground">
-        Schools, radio stations, ICT hubs and community groups helping learners meet us where they already are.
-      </p>
-
-      <div className="db-marquee-group db-marquee-mask mt-8 overflow-hidden" aria-label="Partner organisations">
-        <ul className="db-marquee-track py-1" style={{ ["--db-marquee-duration" as string]: `${Math.max(24, items.length * 6)}s` }}>
-          {track.map((p, i) => (
-            <li key={`${p.id}-${i}`} aria-hidden={i >= items.length}>
-              <PartnerChip partner={p} />
-            </li>
-          ))}
-        </ul>
+      <div className="max-w-2xl">
+        <p className="eyebrow">Working with</p>
+        <h2 className="mt-2 text-3xl md:text-4xl">Built alongside local institutions</h2>
+        <p className="mt-3 text-lg text-muted-foreground">
+          Schools, radio stations, ICT hubs and community groups helping learners meet us where they already are.
+        </p>
+      </div>
+      <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {items.map((p) => <PartnerCard key={p.id} partner={p} />)}
       </div>
     </section>
   );

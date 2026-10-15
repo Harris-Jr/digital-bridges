@@ -11,6 +11,12 @@ const schema = z.object({
   JWT_EXPIRES_IN: z.string().default("30d"),
   // Comma-separated list of allowed browser origins for CORS.
   CORS_ORIGIN: z.string().default("http://localhost:5173"),
+  // Cloudinary (optional). When unset, media uploads are disabled and the admin
+  // falls back to pasting a URL.
+  CLOUDINARY_CLOUD_NAME: z.string().optional(),
+  CLOUDINARY_API_KEY: z.string().optional(),
+  CLOUDINARY_API_SECRET: z.string().optional(),
+  CLOUDINARY_FOLDER: z.string().default("digital-bridges"),
 });
 
 const parsed = schema.safeParse(process.env);

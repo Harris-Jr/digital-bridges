@@ -99,10 +99,16 @@ Client: `npm run dev`, `npm run build`, `npm run preview`, `npm test`, `npm run 
 
 ## Media
 
-Images, infographics and short lesson audio/video are referenced by URL in the
-content tables, so they can be served from Cloudinary or object storage. For
-offline packs, bundle low-bitrate media; stream-only (e.g. YouTube) links are
-for online supplementary content.
+Course and lesson images are managed in the admin. With Cloudinary configured
+(set `CLOUDINARY_*` in the server `.env`), staff upload images directly from the
+edit dialog — the browser uploads straight to Cloudinary using a short-lived
+signature from `/api/admin/media/sign`, so large files never pass through the
+API. Without Cloudinary keys, uploads are disabled and admins paste an image URL
+instead; nothing else changes.
+
+Images are stored as URLs in the content tables, so they can equally come from
+object storage. For offline packs, bundle low-bitrate media; stream-only
+(e.g. YouTube) links are for online supplementary content.
 
 ## Data protection
 

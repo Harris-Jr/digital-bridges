@@ -28,7 +28,7 @@ function Lessons() {
     { name: "key_points", label: "Key points (Remember)", type: "lines", help: "One point per line" },
     { name: "try_it_action", label: "Try it yourself", type: "text" },
     { name: "svg_motif", label: "Motif (phone, shield, radio, community, circle)", type: "text" },
-    { name: "image_url", label: "Image URL", type: "text" },
+    { name: "image_url", label: "Lesson image", type: "image", help: "Optional. Falls back to the motif if empty." },
     { name: "sort_order", label: "Sort order", type: "number" },
     { name: "is_published", label: "Published", type: "boolean" },
   ];

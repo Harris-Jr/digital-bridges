@@ -29,7 +29,7 @@ function Courses() {
     { name: "estimated_hours", label: "Estimated hours", type: "number" },
     { name: "outcomes", label: "Learning outcomes", type: "lines", help: "One outcome per line" },
     { name: "icon_name", label: "Icon name (lucide)", type: "text" },
-    { name: "image_url", label: "Image URL", type: "text" },
+    { name: "image_url", label: "Course image", type: "image", help: "Shown on the course card and header." },
     { name: "sort_order", label: "Sort order", type: "number" },
     { name: "is_published", label: "Published", type: "boolean" },
   ];

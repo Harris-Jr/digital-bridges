@@ -1,4 +1,4 @@
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
@@ -102,7 +102,8 @@ export type Field =
   | { name: string; label: string; type: "boolean" }
   | { name: string; label: string; type: "select"; options: { value: string; label: string }[] }
   | { name: string; label: string; type: "lines"; help?: string }
-  | { name: string; label: string; type: "json"; help?: string };
+  | { name: string; label: string; type: "json"; help?: string }
+  | { name: string; label: string; type: "image"; help?: string };
 
 export type Column<T> = { label: string; render: (row: T) => ReactNode; className?: string };
 
@@ -272,6 +273,15 @@ function FieldInput({ field, value, onChange }: { field: Field; value: string | 
       </div>
     );
   }
+  if (field.type === "image") {
+    return (
+      <div>
+        <Label>{field.label}</Label>
+        <div className="mt-1"><MediaUpload value={String(value ?? "")} onChange={(v) => onChange(v)} /></div>
+        {field.help && <p className="mt-1 text-xs text-muted-foreground">{field.help}</p>}
+      </div>
+    );
+  }
   return (
     <div>
       <Label htmlFor={field.name}>{field.label}</Label>
@@ -286,6 +296,67 @@ function FieldInput({ field, value, onChange }: { field: Field; value: string | 
         <Input id={field.name} type={field.type === "number" ? "number" : "text"} className="mt-1 h-11" placeholder={field.type !== "number" ? field.placeholder : undefined} value={String(value ?? "")} onChange={(e) => onChange(e.target.value)} />
       )}
       {"help" in field && field.help && <p className="mt-1 text-xs text-muted-foreground">{field.help}</p>}
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------ media upload */
+
+type MediaConfig = { enabled: boolean; cloudName: string | null };
+type SignResponse = { cloudName: string; apiKey: string; folder: string; timestamp: number; signature: string };
+
+async function uploadToCloudinary(file: File): Promise<string> {
+  const sign = await apiPost<SignResponse>("/admin/media/sign");
+  const form = new FormData();
+  form.append("file", file);
+  form.append("api_key", sign.apiKey);
+  form.append("timestamp", String(sign.timestamp));
+  form.append("folder", sign.folder);
+  form.append("signature", sign.signature);
+  const res = await fetch(`https://api.cloudinary.com/v1_1/${sign.cloudName}/image/upload`, { method: "POST", body: form });
+  const data = (await res.json()) as { secure_url?: string; error?: { message?: string } };
+  if (!res.ok || !data.secure_url) throw new Error(data.error?.message ?? "Upload failed. Please try again.");
+  return data.secure_url;
+}
+
+function MediaUpload({ value, onChange }: { value: string; onChange: (v: string) => void }) {
+  const cfg = useQuery({ queryKey: ["media-config"], queryFn: () => apiGet<MediaConfig>("/admin/media/config"), staleTime: 5 * 60_000 });
+  const [busy, setBusy] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const onFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setBusy(true);
+    try {
+      onChange(await uploadToCloudinary(file));
+      toast.success("Image uploaded");
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Upload failed");
+    } finally {
+      setBusy(false);
+      if (inputRef.current) inputRef.current.value = "";
+    }
+  };
+
+  return (
+    <div className="space-y-2">
+      {value && <img src={value} alt="" className="h-28 w-full rounded-lg border border-border object-cover" />}
+      <div className="flex flex-wrap gap-2">
+        {cfg.data?.enabled && (
+          <>
+            <input ref={inputRef} type="file" accept="image/*" className="hidden" onChange={onFile} />
+            <Button type="button" variant="outline" size="sm" onClick={() => inputRef.current?.click()} disabled={busy}>
+              {busy ? "Uploading…" : value ? "Replace image" : "Upload image"}
+            </Button>
+          </>
+        )}
+        {value && <Button type="button" variant="ghost" size="sm" onClick={() => onChange("")}>Remove</Button>}
+      </div>
+      <Input value={value} onChange={(e) => onChange(e.target.value)} placeholder="https://… image URL" className="h-11" />
+      {cfg.data && !cfg.data.enabled && (
+        <p className="text-xs text-muted-foreground">Uploads aren't set up yet — paste an image URL above. (Add Cloudinary keys to the server .env to enable uploads.)</p>
+      )}
     </div>
   );
 }

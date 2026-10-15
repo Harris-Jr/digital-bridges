@@ -3,7 +3,7 @@ import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   LayoutDashboard, BookOpen, FileText, MessageSquareQuote, Handshake, HelpCircle,
-  Plus, Pencil, Trash2, ArrowLeft, Loader2, LogOut, Eye, EyeOff,
+  Plus, Pencil, Trash2, ArrowLeft, Loader2, LogOut, Eye, EyeOff, Sparkles,
 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -358,6 +358,86 @@ function MediaUpload({ value, onChange }: { value: string; onChange: (v: string)
         <p className="text-xs text-muted-foreground">Uploads aren't set up yet — paste an image URL above. (Add Cloudinary keys to the server .env to enable uploads.)</p>
       )}
     </div>
+  );
+}
+
+/* ------------------------------------------------------- AI quiz generator */
+
+type AiDraft = { question: string; options: string[]; correct_index: number; explanation: string };
+
+export function AiQuizGenerator({ lessonId }: { lessonId: string }) {
+  const qc = useQueryClient();
+  const cfg = useQuery({ queryKey: ["ai-admin-config"], queryFn: () => apiGet<{ enabled: boolean }>("/admin/ai/config"), staleTime: 5 * 60_000 });
+  const [open, setOpen] = useState(false);
+  const [count, setCount] = useState(4);
+  const [drafts, setDrafts] = useState<AiDraft[] | null>(null);
+  const [sel, setSel] = useState<Set<number>>(new Set());
+
+  const gen = useMutation({
+    mutationFn: () => apiPost<AiDraft[]>("/admin/ai/quiz-from-lesson", { lesson_id: lessonId, count }),
+    onSuccess: (d) => { setDrafts(d); setSel(new Set(d.map((_, i) => i))); },
+    onError: (e) => toast.error(e instanceof Error ? e.message : "Could not generate questions."),
+  });
+
+  const save = useMutation({
+    mutationFn: async () => {
+      const chosen = (drafts ?? []).filter((_, i) => sel.has(i));
+      for (const q of chosen) {
+        await apiPost("/admin/quiz-questions", { lesson_id: lessonId, question: q.question, options: q.options, correct_index: q.correct_index, explanation: q.explanation });
+      }
+      return chosen.length;
+    },
+    onSuccess: (n) => { toast.success(`${n} question${n === 1 ? "" : "s"} added`); setOpen(false); setDrafts(null); qc.invalidateQueries({ queryKey: ["admin", "quiz-questions", lessonId] }); },
+    onError: () => toast.error("Could not save the questions."),
+  });
+
+  if (!cfg.data?.enabled) return null;
+  const toggle = (i: number) => setSel((s) => { const n = new Set(s); n.has(i) ? n.delete(i) : n.add(i); return n; });
+
+  return (
+    <>
+      <Button type="button" variant="outline" onClick={() => { setOpen(true); setDrafts(null); gen.mutate(); }}>
+        <Sparkles className="size-4" />Generate with AI
+      </Button>
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent className="max-h-[85vh] overflow-y-auto sm:max-w-2xl">
+          <DialogHeader><DialogTitle>AI quiz draft</DialogTitle></DialogHeader>
+          <div className="flex items-center gap-2 text-sm">
+            <span className="text-muted-foreground">Questions:</span>
+            <select value={count} onChange={(e) => setCount(Number(e.target.value))} className="h-9 rounded-md border border-input bg-background px-2">
+              {[3, 4, 5, 6].map((n) => <option key={n} value={n}>{n}</option>)}
+            </select>
+            <Button type="button" variant="ghost" size="sm" onClick={() => gen.mutate()} disabled={gen.isPending}>Regenerate</Button>
+          </div>
+          {gen.isPending ? (
+            <div className="py-10 text-center text-muted-foreground"><Loader2 className="mx-auto size-6 animate-spin" /><p className="mt-2 text-sm">Writing questions from the lesson…</p></div>
+          ) : drafts && drafts.length > 0 ? (
+            <div className="space-y-3">
+              {drafts.map((q, i) => (
+                <div key={i} className="rounded-xl border border-border p-4">
+                  <label className="flex items-start gap-2">
+                    <input type="checkbox" checked={sel.has(i)} onChange={() => toggle(i)} className="mt-1 size-4 accent-[var(--primary)]" />
+                    <span className="font-medium">{q.question}</span>
+                  </label>
+                  <ul className="mt-2 space-y-1 pl-6 text-sm">
+                    {q.options.map((o, j) => <li key={j} className={j === q.correct_index ? "font-semibold text-success" : "text-muted-foreground"}>{j === q.correct_index ? "✓ " : "• "}{o}</li>)}
+                  </ul>
+                  {q.explanation && <p className="mt-2 pl-6 text-xs text-muted-foreground">{q.explanation}</p>}
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="py-6 text-center text-sm text-muted-foreground">No questions generated. Try again.</p>
+          )}
+          <DialogFooter>
+            <Button type="button" variant="outline" onClick={() => setOpen(false)}>Cancel</Button>
+            <Button type="button" onClick={() => save.mutate()} disabled={save.isPending || !drafts || sel.size === 0}>
+              {save.isPending ? "Adding…" : `Add ${sel.size} selected`}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 }
 

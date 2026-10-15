@@ -13,6 +13,8 @@ import { trainerRouter } from "./routes/trainer.js";
 import { publicRouter } from "./routes/public.js";
 import { adminRouter } from "./routes/admin.js";
 import { mediaRouter } from "./routes/media.js";
+import { aiAdminRouter } from "./routes/ai-admin.js";
+import { assistantRouter } from "./routes/assistant.js";
 
 const app = express();
 
@@ -43,7 +45,9 @@ app.use("/api/profile", profileRouter);
 app.use("/api/me", learnerRouter);
 app.use("/api/trainer", trainerRouter);
 app.use("/api/admin/media", mediaRouter);
+app.use("/api/admin/ai", aiAdminRouter);
 app.use("/api/admin", adminRouter);
+app.use("/api/assistant", assistantRouter);
 
 app.use(errorMiddleware);
 

@@ -110,6 +110,22 @@ Images are stored as URLs in the content tables, so they can equally come from
 object storage. For offline packs, bundle low-bitrate media; stream-only
 (e.g. YouTube) links are for online supplementary content.
 
+## AI features (optional)
+
+With a Google Gemini key (`GEMINI_API_KEY` in the server `.env`; free tier from
+aistudio.google.com), two AI helpers turn on automatically:
+
+- **Learner chatbot** — a floating "ask for help" assistant for signed-in
+  learners, grounded in the platform's own courses, answering in plain language
+  (EN/Bemba/Nyanja) and kept to digital-literacy help with basic safety rules.
+- **Admin quiz generation** — on a lesson's quiz page, "Generate with AI" drafts
+  multiple-choice questions (options, correct answer, explanation) from the
+  lesson text; staff review, pick, and save them.
+
+Both call Gemini server-side, are rate-limited by Google's free tier, and are
+hidden entirely when no key is set. `GEMINI_MODEL` is overridable if Google
+renames the current free Flash model.
+
 ## Data protection
 
 The platform follows Zambia's Data Protection Act No. 3 of 2021: consent is

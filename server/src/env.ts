@@ -17,6 +17,11 @@ const schema = z.object({
   CLOUDINARY_API_KEY: z.string().optional(),
   CLOUDINARY_API_SECRET: z.string().optional(),
   CLOUDINARY_FOLDER: z.string().default("digital-bridges"),
+  // AI (optional, Google Gemini). When GEMINI_API_KEY is unset, AI features are
+  // disabled and the UI hides them. GEMINI_MODEL defaults to a free Flash model;
+  // override it if Google renames the current free tier.
+  GEMINI_API_KEY: z.string().optional(),
+  GEMINI_MODEL: z.string().default("gemini-2.0-flash"),
 });
 
 const parsed = schema.safeParse(process.env);

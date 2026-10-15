@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { CrudManager, type Column, type Field } from "@/components/admin";
+import { CrudManager, AiQuizGenerator, type Column, type Field } from "@/components/admin";
 
 export const Route = createFileRoute("/admin/lessons/$lessonId/quiz")({
   component: Quiz,
@@ -36,6 +36,7 @@ function Quiz() {
       filter={{ key: "lesson_id", value: lessonId }}
       backLink={{ to: "/admin/courses", label: "Back to courses" }}
       defaults={{ correct_index: 0, sort_order: 0, options: [], explanation: "" }}
+      headerExtra={<AiQuizGenerator lessonId={lessonId} />}
     />
   );
 }

@@ -125,6 +125,17 @@ contentRouter.get(
   }),
 );
 
+contentRouter.get(
+  "/lessons/:id/scenario",
+  asyncHandler(async (req, res) => {
+    const { rows } = await query(
+      "select id, lesson_id, prompt, options, feedback, best_index, sort_order from scenario_steps where lesson_id = $1 order by sort_order",
+      [req.params.id],
+    );
+    res.json(rows);
+  }),
+);
+
 const PUBLISHED_TABLES = new Set(["testimonials", "partners", "faqs", "stats"]);
 
 contentRouter.get(

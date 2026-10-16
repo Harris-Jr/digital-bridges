@@ -69,7 +69,7 @@ export type Lesson = {
   course_id: string;
   slug: string;
   title: string;
-  type: "read" | "quiz" | "practice";
+  type: "read" | "quiz" | "practice" | "scenario";
   body_richtext: string;
   key_points: string[];
   try_it_action: string | null;
@@ -150,6 +150,23 @@ export const useQuiz = (lessonId: string | undefined) =>
     queryKey: ["quiz", lessonId],
     enabled: !!lessonId,
     queryFn: () => apiGet<QuizQuestion[]>(`/lessons/${lessonId}/quiz`, false),
+  });
+
+export type ScenarioStep = {
+  id: string;
+  lesson_id: string;
+  prompt: string;
+  options: string[];
+  feedback: string[];
+  best_index: number;
+  sort_order: number;
+};
+
+export const useScenario = (lessonId: string | undefined, enabled: boolean) =>
+  useQuery({
+    queryKey: ["scenario", lessonId],
+    enabled: !!lessonId && enabled,
+    queryFn: () => apiGet<ScenarioStep[]>(`/lessons/${lessonId}/scenario`, false),
   });
 
 export const useMyProgress = (userId: string | undefined) =>

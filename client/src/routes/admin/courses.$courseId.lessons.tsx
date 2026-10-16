@@ -22,7 +22,7 @@ function Lessons() {
     { name: "title", label: "Title", type: "text", required: true },
     { name: "slug", label: "Slug", type: "text", required: true },
     { name: "type", label: "Type", type: "select", options: [
-      { value: "read", label: "Read" }, { value: "quiz", label: "Quiz" }, { value: "practice", label: "Practice" },
+      { value: "read", label: "Read" }, { value: "quiz", label: "Quiz" }, { value: "practice", label: "Practice" }, { value: "scenario", label: "Scenario" },
     ] },
     { name: "body_richtext", label: "Lesson body", type: "textarea", help: "Plain text. Use ## for a sub-heading and **word** for bold." },
     { name: "key_points", label: "Key points (Remember)", type: "lines", help: "One point per line" },
@@ -40,6 +40,11 @@ function Lessons() {
     { label: "Status", render: (l) => <PublishBadge published={l.is_published} /> },
     { label: "Quiz", render: (l) => (
       <Button asChild variant="outline" size="sm"><Link to="/admin/lessons/$lessonId/quiz" params={{ lessonId: l.id }}>Questions</Link></Button>
+    ) },
+    { label: "Scenario", render: (l) => (
+      l.type === "scenario"
+        ? <Button asChild variant="outline" size="sm"><Link to="/admin/lessons/$lessonId/scenario" params={{ lessonId: l.id }}>Steps</Link></Button>
+        : <span className="text-xs text-muted-foreground">—</span>
     ) },
   ];
 

@@ -48,6 +48,7 @@ function packUrls(course: CourseLike): { api: string[]; media: string[] } {
   if (course.image_url) media.push(course.image_url);
   for (const l of course.lessons) {
     api.push(`${origin}/api/lessons/${l.id}/quiz`);
+    api.push(`${origin}/api/lessons/${l.id}/scenario`);
     if (l.image_url) media.push(l.image_url);
     if (l.audio_url) media.push(l.audio_url);
   }

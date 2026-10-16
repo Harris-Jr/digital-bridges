@@ -1,5 +1,16 @@
 import { Link, useNavigate } from "@tanstack/react-router";
-import { icons, Menu, X, LogOut, LayoutDashboard, Settings, ShieldCheck, Clock, BookOpen, WifiOff } from "lucide-react";
+import {
+  Menu, X, LogOut, LayoutDashboard, Settings, ShieldCheck, Clock, BookOpen, WifiOff,
+  // Icons referenced by name from CMS data (category/course/pathway/badge icon_name)
+  // and by EmptyState. Imported individually so lucide tree-shakes to just these
+  // instead of bundling its whole ~1,000-icon registry on every page.
+  Circle, Smartphone, Shield, Wallet, Users, Briefcase, Store, MessageCircle, MessageSquare,
+  Landmark, Compass, FileSearch, Building2, Flame, Award, BookX, CalendarDays, FileX,
+  FolderOpen, Megaphone, SearchX, SearchCheck, Footprints, Inbox, Radio, Phone, Globe, Lock,
+  Scale, Gavel, Banknote, Coins, Receipt, ClipboardList, Vote, HandHeart, Heart, Newspaper,
+  Eye, Lightbulb, HelpCircle, CheckCircle2, AlertTriangle, MapPin, Mic, UserCheck, FileCheck,
+  Handshake, Map, Scroll, Building, type LucideIcon,
+} from "lucide-react";
 import { useState, type ReactNode } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
@@ -12,8 +23,20 @@ import { AssistantWidget } from "@/components/assistant-widget";
 import { OfflineBar } from "@/components/offline-sync";
 import { cn } from "@/lib/utils";
 
+// Curated registry for CMS-driven icon names. Add a name here (and import it
+// above) to make it available to content editors; unknown names fall back to a
+// neutral circle.
+const ICON_MAP: Record<string, LucideIcon> = {
+  Circle, Smartphone, Shield, ShieldCheck, Wallet, Users, Briefcase, Store, MessageCircle,
+  MessageSquare, Landmark, Compass, FileSearch, Building2, Building, Flame, Award, BookOpen,
+  BookX, CalendarDays, FileX, FolderOpen, Megaphone, SearchX, SearchCheck, Footprints, Inbox,
+  Radio, Phone, Globe, Lock, Scale, Gavel, Banknote, Coins, Receipt, ClipboardList, Vote,
+  HandHeart, Heart, Newspaper, Eye, Lightbulb, HelpCircle, CheckCircle2, AlertTriangle, MapPin,
+  Mic, UserCheck, FileCheck, Handshake, Map, Scroll, Settings,
+};
+
 export function Icon({ name, className }: { name?: string | null | undefined; className?: string }) {
-  const C = (name && (icons as Record<string, typeof Menu>)[name]) || icons.Circle;
+  const C = (name && ICON_MAP[name]) || Circle;
   return <C className={className} aria-hidden="true" />;
 }
 

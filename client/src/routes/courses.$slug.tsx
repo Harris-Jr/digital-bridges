@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { CheckCircle2, Circle, ChevronRight, Clock, BookOpen, HelpCircle, Hand, Download, Loader2, Check, Trash2, WifiOff } from "lucide-react";
+import { CheckCircle2, Circle, ChevronRight, Clock, BookOpen, HelpCircle, Hand, Download, Loader2, Check, Trash2, WifiOff, Compass } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -24,7 +24,7 @@ export const Route = createFileRoute("/courses/$slug")({
   component: CourseDetail,
 });
 
-const typeIcon = { read: BookOpen, quiz: HelpCircle, practice: Hand };
+const typeIcon = { read: BookOpen, quiz: HelpCircle, practice: Hand, scenario: Compass };
 
 function CourseDetail() {
   const { slug } = Route.useParams();

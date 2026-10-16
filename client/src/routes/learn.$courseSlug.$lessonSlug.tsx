@@ -1,12 +1,12 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { ArrowLeft, ArrowRight, CheckCircle2, Lightbulb, Hand, X, XCircle, Volume2 } from "lucide-react";
+import { ArrowLeft, ArrowRight, CheckCircle2, Lightbulb, Hand, X, XCircle, Volume2, Compass, ThumbsUp } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ContentImage, EmptyState, ErrorNote, RichText } from "@/components/site";
-import { useCourse, useMyProgress, useQuiz, type QuizQuestion } from "@/lib/content";
+import { useCourse, useMyProgress, useQuiz, useScenario, type QuizQuestion, type ScenarioStep } from "@/lib/content";
 import { useAuth } from "@/lib/auth";
 import { useI18n } from "@/lib/i18n";
 import { apiPost } from "@/lib/api";
@@ -41,6 +41,7 @@ function LessonPlayer() {
   useEffect(() => setTab(lesson?.type === "quiz" ? "quiz" : "lesson"), [lesson?.id, lesson?.type]);
 
   const quiz = useQuiz(lesson?.id);
+  const scenario = useScenario(lesson?.id, lesson?.type === "scenario");
 
   const complete = useMutation({
     mutationFn: async () => {
@@ -135,6 +136,9 @@ function LessonPlayer() {
               </div>
             )}
             <div className="rounded-2xl border border-border bg-card p-6 shadow-sm"><RichText text={lesson.body_richtext} /></div>
+            {lesson.type === "scenario" && (scenario.data?.length ?? 0) > 0 && (
+              <Scenario steps={scenario.data ?? []} onFinish={() => user && !isDone && complete.mutate()} />
+            )}
             {Array.isArray(lesson.key_points) && lesson.key_points.length > 0 && (
               <div className="rounded-2xl border border-accent bg-accent-soft p-6">
                 <h2 className="flex items-center gap-2 text-lg"><Lightbulb className="size-5 text-warning" aria-hidden="true" />Remember</h2>
@@ -232,6 +236,63 @@ function Quiz({ questions, onFinish }: { questions: QuizQuestion[]; onFinish: ()
             if (i + 1 < questions.length) { setI(i + 1); setPicked(null); }
             else { setFinished(true); onFinish(); }
           }}>{i + 1 < questions.length ? "Next question" : "See my result"}</Button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function Scenario({ steps, onFinish }: { steps: ScenarioStep[]; onFinish: () => void }) {
+  const [i, setI] = useState(0);
+  const [picked, setPicked] = useState<number | null>(null);
+  const [done, setDone] = useState(false);
+  if (steps.length === 0) return null;
+
+  if (done)
+    return (
+      <div className="rounded-2xl border border-primary/30 bg-primary-soft p-6">
+        <h2 className="flex items-center gap-2 text-xl"><ThumbsUp className="size-5 text-success" aria-hidden="true" />You worked through it</h2>
+        <p className="mt-2 text-muted-foreground">Well done. Every choice teaches something — try it again to explore the other options.</p>
+        <Button className="mt-4" variant="outline" onClick={() => { setI(0); setPicked(null); setDone(false); }}>Start over</Button>
+      </div>
+    );
+
+  const step = steps[i]!;
+  const answered = picked !== null;
+  const best = answered && picked === step.best_index;
+  return (
+    <div className="rounded-2xl border border-accent bg-accent-soft p-6">
+      <p className="flex items-center gap-2 text-sm font-semibold text-primary"><Compass className="size-4" aria-hidden="true" />Scenario · step {i + 1} of {steps.length}</p>
+      <h2 className="mt-2 text-xl">{step.prompt}</h2>
+      <div className="mt-4 grid gap-2" role="radiogroup" aria-label="What would you do?">
+        {step.options.map((o, j) => (
+          <button
+            key={j}
+            role="radio"
+            aria-checked={picked === j}
+            disabled={answered}
+            onClick={() => setPicked(j)}
+            className={cn(
+              "flex min-h-12 items-center justify-between rounded-xl border bg-card px-4 py-3 text-left font-medium transition-colors",
+              !answered && "border-border hover:border-primary",
+              answered && j === step.best_index && "border-success bg-primary-soft",
+              answered && picked === j && j !== step.best_index && "border-warning",
+              answered && picked !== j && j !== step.best_index && "opacity-60",
+            )}
+          >
+            {o}
+            {answered && j === step.best_index && <CheckCircle2 className="size-5 shrink-0 text-success" aria-label="Most advisable" />}
+          </button>
+        ))}
+      </div>
+      {answered && (
+        <div aria-live="polite" className="mt-4 rounded-xl bg-card p-4 shadow-sm">
+          <p className="font-semibold">{best ? "Good choice." : "That could work, but there is a better way."}</p>
+          <p className="mt-1 text-sm">{step.feedback[picked] ?? step.feedback[step.best_index] ?? ""}</p>
+          <Button className="mt-3" onClick={() => {
+            if (i + 1 < steps.length) { setI(i + 1); setPicked(null); }
+            else { setDone(true); onFinish(); }
+          }}>{i + 1 < steps.length ? "Next step" : "Finish scenario"}</Button>
         </div>
       )}
     </div>

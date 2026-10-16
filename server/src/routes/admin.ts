@@ -171,7 +171,7 @@ const lessonSchema = z.object({
   course_id: z.string().uuid(),
   slug: nonEmpty(120),
   title: nonEmpty(200),
-  type: z.enum(["read", "quiz", "practice"]).default("read"),
+  type: z.enum(["read", "quiz", "practice", "scenario"]).default("read"),
   body_richtext: z.string().max(20000).default(""),
   key_points: z.array(z.string()).default([]),
   try_it_action: z.string().trim().max(1000).nullish(),
@@ -188,6 +188,15 @@ const quizSchema = z.object({
   options: z.array(z.string()).min(2),
   correct_index: z.coerce.number().int().min(0).default(0),
   explanation: z.string().max(2000).default(""),
+  sort_order: z.coerce.number().int().default(0),
+});
+
+const scenarioSchema = z.object({
+  lesson_id: z.string().uuid(),
+  prompt: nonEmpty(1000),
+  options: z.array(z.string()).min(2),
+  feedback: z.array(z.string()).default([]),
+  best_index: z.coerce.number().int().min(0).default(0),
   sort_order: z.coerce.number().int().default(0),
 });
 
@@ -243,6 +252,11 @@ registerResource("quiz-questions", {
   table: "quiz_questions", idColumn: "id", orderBy: "sort_order",
   columns: ["lesson_id", "question", "options", "correct_index", "explanation", "sort_order"],
   jsonbColumns: ["options"], schema: quizSchema, filters: ["lesson_id"],
+});
+registerResource("scenario-steps", {
+  table: "scenario_steps", idColumn: "id", orderBy: "sort_order",
+  columns: ["lesson_id", "prompt", "options", "feedback", "best_index", "sort_order"],
+  jsonbColumns: ["options", "feedback"], schema: scenarioSchema, filters: ["lesson_id"],
 });
 registerResource("site-pages", {
   table: "site_pages", idColumn: "slug", orderBy: "slug",

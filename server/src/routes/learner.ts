@@ -172,6 +172,45 @@ learnerRouter.get(
   }),
 );
 
+// Cohorts the learner belongs to (name, location and facilitator).
+learnerRouter.get(
+  "/cohorts",
+  asyncHandler(async (req, res) => {
+    const { rows } = await query(
+      `select g.id, g.name, g.location,
+              coalesce(p.full_name, '') as facilitator
+         from cohort_members m
+         join community_groups g on g.id = m.group_id
+         left join profiles p on p.id = g.trainer_id
+        where m.user_id = $1
+        order by g.name`,
+      [req.auth!.id],
+    );
+    res.json(rows);
+  }),
+);
+
+// Join a cohort with a facilitator's join code.
+learnerRouter.post(
+  "/join-cohort",
+  asyncHandler(async (req, res) => {
+    const schema = z.object({ code: z.string().trim().toUpperCase().min(4).max(12) });
+    const input = schema.safeParse(req.body);
+    if (!input.success) throw badRequest("Enter the join code your facilitator gave you.");
+    const { rows } = await query<{ id: string; name: string }>(
+      "select id, name from community_groups where join_code = $1",
+      [input.data.code],
+    );
+    const group = rows[0];
+    if (!group) throw notFound("That code did not match any cohort. Check it and try again.");
+    await query(
+      "insert into cohort_members (group_id, user_id) values ($1, $2) on conflict do nothing",
+      [group.id, req.auth!.id],
+    );
+    res.status(201).json({ id: group.id, name: group.name });
+  }),
+);
+
 // Record a quiz attempt (optional; the client may submit a score).
 learnerRouter.post(
   "/quiz-attempts",

@@ -1,7 +1,7 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Download, MapPin, Users, FileText } from "lucide-react";
+import { Download, MapPin, Users, FileText, Plus, ArrowRight } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -29,8 +29,20 @@ function Trainer() {
   const page = usePage("trainers");
   const qc = useQueryClient();
   type Group = { id: string; name: string; location: string; learners: number; avg_completion: number };
+  type Cohort = { id: string; name: string; location: string; join_code: string | null; member_count: number };
   type Resource = { id: string; title: string; type: string; file_url: string };
   type Workshop = { id: string; topic: string; date: string; venue: string; status: string };
+  const cohorts = useQuery({
+    queryKey: ["cohorts"],
+    enabled: isTrainer,
+    queryFn: () => apiGet<Cohort[]>("/trainer/cohorts"),
+  });
+  const [cf, setCf] = useState({ name: "", location: "" });
+  const createCohort = useMutation({
+    mutationFn: () => apiPost("/trainer/cohorts", { name: cf.name.trim(), location: cf.location.trim() }),
+    onSuccess: () => { toast.success("Cohort created. Share the join code with your learners."); setCf({ name: "", location: "" }); qc.invalidateQueries({ queryKey: ["cohorts"] }); },
+    onError: () => toast.error("Could not create that cohort. Please try again."),
+  });
   const groups = useQuery({
     queryKey: ["groups"],
     enabled: isTrainer,
@@ -82,6 +94,38 @@ function Trainer() {
           <EmptyState icon="Megaphone" title="Become a community facilitator" body="Facilitators can see community groups, download teaching materials and plan workshops. It is free." action={<Button onClick={become}>Set me up as a facilitator</Button>} />
         ) : (
           <>
+            <section>
+              <div className="flex items-center justify-between gap-4">
+                <h2 className="text-2xl">My cohorts</h2>
+              </div>
+              <p className="mt-1 text-muted-foreground">Groups of learners you run through courses. Create one, then add learners by email or share the join code.</p>
+
+              <form
+                className="mt-4 flex flex-wrap items-end gap-3 rounded-2xl border border-border bg-card p-4 shadow-sm"
+                onSubmit={(e) => { e.preventDefault(); if (cf.name.trim() && cf.location.trim()) createCohort.mutate(); }}
+              >
+                <div className="flex-1 min-w-48"><Label htmlFor="cname">Cohort name</Label><Input id="cname" className="mt-1 h-11" value={cf.name} onChange={(e) => setCf({ ...cf, name: e.target.value })} placeholder="For example: Mtendere Tuesday Group" /></div>
+                <div className="flex-1 min-w-40"><Label htmlFor="cloc">Location</Label><Input id="cloc" className="mt-1 h-11" value={cf.location} onChange={(e) => setCf({ ...cf, location: e.target.value })} placeholder="For example: Lusaka" /></div>
+                <Button type="submit" disabled={createCohort.isPending}><Plus className="size-4" />Create cohort</Button>
+              </form>
+
+              {cohorts.isLoading ? <Skeleton className="mt-4 h-28 rounded-2xl" /> : cohorts.data?.length ? (
+                <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                  {cohorts.data.map((c) => (
+                    <Link key={c.id} to="/cohorts/$id" params={{ id: c.id }} className="group rounded-2xl border border-border bg-card p-5 shadow-sm transition-colors hover:border-primary">
+                      <h3 className="text-lg">{c.name}</h3>
+                      <p className="mt-1 flex items-center gap-1 text-sm text-muted-foreground"><MapPin className="size-4" aria-hidden="true" />{c.location}</p>
+                      <p className="mt-1 flex items-center gap-1 text-sm text-muted-foreground"><Users className="size-4" aria-hidden="true" />{c.member_count} {c.member_count === 1 ? "learner" : "learners"}</p>
+                      <div className="mt-3 flex items-center justify-between">
+                        {c.join_code && <span className="rounded-md bg-secondary px-2 py-1 font-display text-sm font-bold tracking-[0.15em] text-primary">{c.join_code}</span>}
+                        <span className="inline-flex items-center gap-1 text-sm font-semibold text-primary">Open<ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" /></span>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              ) : <div className="mt-4"><EmptyState icon="Users" title="No cohorts yet" body="Create your first cohort above to start tracking a group of learners." /></div>}
+            </section>
+
             <section>
               <h2 className="text-2xl">Community groups</h2>
               {groups.isLoading ? <Skeleton className="mt-4 h-32 rounded-2xl" /> : groups.data?.length ? (

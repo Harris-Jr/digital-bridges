@@ -262,6 +262,42 @@ registerResource("faqs", {
   columns: ["question", "answer", "sort_order", "is_published"], schema: faqSchema,
 });
 
+// Workshop requests from facilitators, newest first, with the requester's name.
+adminRouter.get(
+  "/workshop-requests",
+  asyncHandler(async (req, res) => {
+    const status = typeof req.query.status === "string" ? req.query.status : "";
+    const valid = ["pending", "approved", "declined"].includes(status);
+    const { rows } = await query(
+      `select w.id, w.topic, w.date, w.venue, w.expected_learners, w.status, w.created_at,
+              coalesce(p.full_name, u.email) as trainer_name, u.email as trainer_email
+         from workshop_requests w
+         join users u on u.id = w.trainer_id
+         left join profiles p on p.id = w.trainer_id
+        ${valid ? "where w.status = $1" : ""}
+        order by w.created_at desc`,
+      valid ? [status] : [],
+    );
+    res.json(rows);
+  }),
+);
+
+// Approve or decline a workshop request.
+adminRouter.patch(
+  "/workshop-requests/:id",
+  asyncHandler(async (req, res) => {
+    const schema = z.object({ status: z.enum(["approved", "declined", "pending"]) });
+    const input = schema.safeParse(req.body);
+    if (!input.success) throw badRequest("Choose approve or decline.");
+    const { rows } = await query(
+      "update workshop_requests set status = $1 where id = $2 returning id, status",
+      [input.data.status, req.params.id],
+    );
+    if (!rows[0]) throw notFound("Request not found.");
+    res.json(rows[0]);
+  }),
+);
+
 // Lightweight dashboard counts for the CMS landing page.
 adminRouter.get(
   "/stats",

@@ -1,13 +1,16 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
-import { Flame, BookOpenCheck, ArrowRight, Award } from "lucide-react";
+import { useState } from "react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Flame, BookOpenCheck, ArrowRight, Award, Users, MapPin } from "lucide-react";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { SiteLayout, ProgressRing, BadgeMedal, CourseCard, EmptyState, ContentImage } from "@/components/site";
 import { useAuth } from "@/lib/auth";
 import { useI18n } from "@/lib/i18n";
-import { computeStreak, useMyProgress, usePublishedCourses, useMyCertificates } from "@/lib/content";
-import { apiGet } from "@/lib/api";
+import { computeStreak, useMyProgress, usePublishedCourses, useMyCertificates, useMyLearnerCohorts } from "@/lib/content";
+import { apiGet, apiPost } from "@/lib/api";
 
 export const Route = createFileRoute("/_authenticated/dashboard")({
   head: () => ({
@@ -27,6 +30,14 @@ function Dashboard() {
   const courses = usePublishedCourses();
   const progress = useMyProgress(user?.id);
   const certificates = useMyCertificates(user?.id);
+  const myCohorts = useMyLearnerCohorts(user?.id);
+  const qc = useQueryClient();
+  const [joinCode, setJoinCode] = useState("");
+  const join = useMutation({
+    mutationFn: () => apiPost<{ name: string }>("/me/join-cohort", { code: joinCode.trim().toUpperCase() }),
+    onSuccess: (r) => { toast.success(`You joined ${r.name}.`); setJoinCode(""); qc.invalidateQueries({ queryKey: ["my-cohorts"] }); },
+    onError: (e: Error) => toast.error(e.message || "That code did not match a cohort."),
+  });
   const badges = useQuery({
     queryKey: ["my-badges", user?.id],
     enabled: !!user?.id,
@@ -115,6 +126,32 @@ function Dashboard() {
             </div>
           </div>
         )}
+
+        <div className="mt-10">
+          <h2 className="text-2xl">Your cohorts</h2>
+          <p className="mt-1 text-muted-foreground">Learning with a facilitator? Enter the join code they gave you.</p>
+          <form
+            className="mt-4 flex flex-wrap items-end gap-3 rounded-2xl border border-border bg-card p-4 shadow-sm"
+            onSubmit={(e) => { e.preventDefault(); if (joinCode.trim()) join.mutate(); }}
+          >
+            <div className="flex-1 min-w-48">
+              <label htmlFor="join" className="text-sm font-medium">Join code</label>
+              <Input id="join" className="mt-1 h-11 uppercase tracking-[0.2em]" value={joinCode} onChange={(e) => setJoinCode(e.target.value)} placeholder="ABC123" maxLength={12} />
+            </div>
+            <Button type="submit" disabled={join.isPending}><Users className="size-4" />Join cohort</Button>
+          </form>
+          {myCohorts.data && myCohorts.data.length > 0 && (
+            <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {myCohorts.data.map((c) => (
+                <div key={c.id} className="rounded-2xl border border-border bg-card p-5 shadow-sm">
+                  <p className="font-semibold">{c.name}</p>
+                  <p className="mt-1 flex items-center gap-1 text-sm text-muted-foreground"><MapPin className="size-4" aria-hidden="true" />{c.location}</p>
+                  {c.facilitator && <p className="mt-1 text-sm text-muted-foreground">Facilitator: {c.facilitator}</p>}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
 
         {notStarted.length > 0 && (
           <div className="mt-10">

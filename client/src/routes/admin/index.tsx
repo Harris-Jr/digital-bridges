@@ -20,7 +20,7 @@ function Dashboard() {
     { label: "Courses", value: stats.data && `${stats.data.published_courses}/${stats.data.courses} published`, icon: BookOpen, to: "/admin/courses" },
     { label: "Lessons", value: stats.data?.lessons, icon: GraduationCap, to: "/admin/courses" },
     { label: "Registered learners", value: stats.data?.users, icon: Users },
-    { label: "Pending workshops", value: stats.data?.pending_workshops, icon: CalendarClock },
+    { label: "Pending workshops", value: stats.data?.pending_workshops, icon: CalendarClock, to: "/admin/workshops" },
     { label: "Unread messages", value: stats.data?.unread_messages, icon: Mail },
   ];
 

@@ -29,10 +29,12 @@ import { Route as AdminPagesRouteImport } from './routes/admin/pages'
 import { Route as AdminPartnersRouteImport } from './routes/admin/partners'
 import { Route as AdminPathwaysRouteImport } from './routes/admin/pathways'
 import { Route as AdminTestimonialsRouteImport } from './routes/admin/testimonials'
+import { Route as AdminWorkshopsRouteImport } from './routes/admin/workshops'
 import { Route as CertificatesSlugRouteImport } from './routes/certificates.$slug'
 import { Route as CoursesIndexRouteImport } from './routes/courses.index'
 import { Route as CoursesSlugRouteImport } from './routes/courses.$slug'
 import { Route as PathsSlugRouteImport } from './routes/paths.$slug'
+import { Route as AuthenticatedCohortsIdRouteImport } from './routes/_authenticated/cohorts.$id'
 import { Route as LearnCourseSlugLessonSlugRouteImport } from './routes/learn.$courseSlug.$lessonSlug'
 import { Route as AdminCoursesCourseIdLessonsRouteImport } from './routes/admin/courses.$courseId.lessons'
 import { Route as AdminLessonsLessonIdQuizRouteImport } from './routes/admin/lessons.$lessonId.quiz'
@@ -136,6 +138,11 @@ const AdminTestimonialsRoute = AdminTestimonialsRouteImport.update({
   path: '/testimonials',
   getParentRoute: () => AdminRouteRoute,
 } as any)
+const AdminWorkshopsRoute = AdminWorkshopsRouteImport.update({
+  id: '/workshops',
+  path: '/workshops',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
 const CertificatesSlugRoute = CertificatesSlugRouteImport.update({
   id: '/certificates/$slug',
   path: '/certificates/$slug',
@@ -155,6 +162,11 @@ const PathsSlugRoute = PathsSlugRouteImport.update({
   id: '/paths/$slug',
   path: '/paths/$slug',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedCohortsIdRoute = AuthenticatedCohortsIdRouteImport.update({
+  id: '/cohorts/$id',
+  path: '/cohorts/$id',
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const LearnCourseSlugLessonSlugRoute =
   LearnCourseSlugLessonSlugRouteImport.update({
@@ -194,11 +206,13 @@ export interface FileRoutesByFullPath {
   '/admin/partners': typeof AdminPartnersRoute
   '/admin/pathways': typeof AdminPathwaysRoute
   '/admin/testimonials': typeof AdminTestimonialsRoute
+  '/admin/workshops': typeof AdminWorkshopsRoute
   '/certificates/$slug': typeof CertificatesSlugRoute
   '/courses/$slug': typeof CoursesSlugRoute
   '/paths/$slug': typeof PathsSlugRoute
   '/admin/': typeof AdminIndexRoute
   '/courses/': typeof CoursesIndexRoute
+  '/cohorts/$id': typeof AuthenticatedCohortsIdRoute
   '/learn/$courseSlug/$lessonSlug': typeof LearnCourseSlugLessonSlugRoute
   '/admin/courses/$courseId/lessons': typeof AdminCoursesCourseIdLessonsRoute
   '/admin/lessons/$lessonId/quiz': typeof AdminLessonsLessonIdQuizRoute
@@ -221,11 +235,13 @@ export interface FileRoutesByTo {
   '/admin/partners': typeof AdminPartnersRoute
   '/admin/pathways': typeof AdminPathwaysRoute
   '/admin/testimonials': typeof AdminTestimonialsRoute
+  '/admin/workshops': typeof AdminWorkshopsRoute
   '/certificates/$slug': typeof CertificatesSlugRoute
   '/courses/$slug': typeof CoursesSlugRoute
   '/paths/$slug': typeof PathsSlugRoute
   '/admin': typeof AdminIndexRoute
   '/courses': typeof CoursesIndexRoute
+  '/cohorts/$id': typeof AuthenticatedCohortsIdRoute
   '/learn/$courseSlug/$lessonSlug': typeof LearnCourseSlugLessonSlugRoute
   '/admin/courses/$courseId/lessons': typeof AdminCoursesCourseIdLessonsRoute
   '/admin/lessons/$lessonId/quiz': typeof AdminLessonsLessonIdQuizRoute
@@ -251,11 +267,13 @@ export interface FileRoutesById {
   '/admin/partners': typeof AdminPartnersRoute
   '/admin/pathways': typeof AdminPathwaysRoute
   '/admin/testimonials': typeof AdminTestimonialsRoute
+  '/admin/workshops': typeof AdminWorkshopsRoute
   '/certificates/$slug': typeof CertificatesSlugRoute
   '/courses/$slug': typeof CoursesSlugRoute
   '/paths/$slug': typeof PathsSlugRoute
   '/admin/': typeof AdminIndexRoute
   '/courses/': typeof CoursesIndexRoute
+  '/_authenticated/cohorts/$id': typeof AuthenticatedCohortsIdRoute
   '/learn/$courseSlug/$lessonSlug': typeof LearnCourseSlugLessonSlugRoute
   '/admin/courses/$courseId/lessons': typeof AdminCoursesCourseIdLessonsRoute
   '/admin/lessons/$lessonId/quiz': typeof AdminLessonsLessonIdQuizRoute
@@ -281,11 +299,13 @@ export interface FileRouteTypes {
     | '/admin/partners'
     | '/admin/pathways'
     | '/admin/testimonials'
+    | '/admin/workshops'
     | '/certificates/$slug'
     | '/courses/$slug'
     | '/paths/$slug'
     | '/admin/'
     | '/courses/'
+    | '/cohorts/$id'
     | '/learn/$courseSlug/$lessonSlug'
     | '/admin/courses/$courseId/lessons'
     | '/admin/lessons/$lessonId/quiz'
@@ -308,11 +328,13 @@ export interface FileRouteTypes {
     | '/admin/partners'
     | '/admin/pathways'
     | '/admin/testimonials'
+    | '/admin/workshops'
     | '/certificates/$slug'
     | '/courses/$slug'
     | '/paths/$slug'
     | '/admin'
     | '/courses'
+    | '/cohorts/$id'
     | '/learn/$courseSlug/$lessonSlug'
     | '/admin/courses/$courseId/lessons'
     | '/admin/lessons/$lessonId/quiz'
@@ -337,11 +359,13 @@ export interface FileRouteTypes {
     | '/admin/partners'
     | '/admin/pathways'
     | '/admin/testimonials'
+    | '/admin/workshops'
     | '/certificates/$slug'
     | '/courses/$slug'
     | '/paths/$slug'
     | '/admin/'
     | '/courses/'
+    | '/_authenticated/cohorts/$id'
     | '/learn/$courseSlug/$lessonSlug'
     | '/admin/courses/$courseId/lessons'
     | '/admin/lessons/$lessonId/quiz'
@@ -507,6 +531,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminTestimonialsRouteImport
       parentRoute: typeof AdminRouteRoute
     }
+    '/admin/workshops': {
+      id: '/admin/workshops'
+      path: '/workshops'
+      fullPath: '/admin/workshops'
+      preLoaderRoute: typeof AdminWorkshopsRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
     '/certificates/$slug': {
       id: '/certificates/$slug'
       path: '/certificates/$slug'
@@ -534,6 +565,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/paths/$slug'
       preLoaderRoute: typeof PathsSlugRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/cohorts/$id': {
+      id: '/_authenticated/cohorts/$id'
+      path: '/cohorts/$id'
+      fullPath: '/cohorts/$id'
+      preLoaderRoute: typeof AuthenticatedCohortsIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/learn/$courseSlug/$lessonSlug': {
       id: '/learn/$courseSlug/$lessonSlug'
@@ -563,12 +601,14 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
   AuthenticatedTrainerRoute: typeof AuthenticatedTrainerRoute
+  AuthenticatedCohortsIdRoute: typeof AuthenticatedCohortsIdRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
   AuthenticatedTrainerRoute: AuthenticatedTrainerRoute,
+  AuthenticatedCohortsIdRoute: AuthenticatedCohortsIdRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
@@ -593,6 +633,7 @@ interface AdminRouteRouteChildren {
   AdminPartnersRoute: typeof AdminPartnersRoute
   AdminPathwaysRoute: typeof AdminPathwaysRoute
   AdminTestimonialsRoute: typeof AdminTestimonialsRoute
+  AdminWorkshopsRoute: typeof AdminWorkshopsRoute
   AdminIndexRoute: typeof AdminIndexRoute
   AdminLessonsLessonIdQuizRoute: typeof AdminLessonsLessonIdQuizRoute
 }
@@ -604,6 +645,7 @@ const AdminRouteRouteChildren: AdminRouteRouteChildren = {
   AdminPartnersRoute: AdminPartnersRoute,
   AdminPathwaysRoute: AdminPathwaysRoute,
   AdminTestimonialsRoute: AdminTestimonialsRoute,
+  AdminWorkshopsRoute: AdminWorkshopsRoute,
   AdminIndexRoute: AdminIndexRoute,
   AdminLessonsLessonIdQuizRoute: AdminLessonsLessonIdQuizRoute,
 }

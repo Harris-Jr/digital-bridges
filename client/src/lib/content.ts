@@ -88,6 +88,15 @@ export const useMyCertificates = (userId: string | undefined) =>
     enabled: !!userId,
     queryFn: () => apiGet<Certificate[]>("/me/certificates"),
   });
+export type LearnerCohort = { id: string; name: string; location: string; facilitator: string };
+
+export const useMyLearnerCohorts = (userId: string | undefined) =>
+  useQuery({
+    queryKey: ["my-cohorts", userId],
+    enabled: !!userId,
+    queryFn: () => apiGet<LearnerCohort[]>("/me/cohorts"),
+  });
+
 export type QuizQuestion = {
   id: string;
   lesson_id: string;

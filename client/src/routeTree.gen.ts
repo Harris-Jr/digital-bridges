@@ -29,6 +29,7 @@ import { Route as AdminPagesRouteImport } from './routes/admin/pages'
 import { Route as AdminPartnersRouteImport } from './routes/admin/partners'
 import { Route as AdminPathwaysRouteImport } from './routes/admin/pathways'
 import { Route as AdminTestimonialsRouteImport } from './routes/admin/testimonials'
+import { Route as CertificatesSlugRouteImport } from './routes/certificates.$slug'
 import { Route as CoursesIndexRouteImport } from './routes/courses.index'
 import { Route as CoursesSlugRouteImport } from './routes/courses.$slug'
 import { Route as PathsSlugRouteImport } from './routes/paths.$slug'
@@ -135,6 +136,11 @@ const AdminTestimonialsRoute = AdminTestimonialsRouteImport.update({
   path: '/testimonials',
   getParentRoute: () => AdminRouteRoute,
 } as any)
+const CertificatesSlugRoute = CertificatesSlugRouteImport.update({
+  id: '/certificates/$slug',
+  path: '/certificates/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CoursesIndexRoute = CoursesIndexRouteImport.update({
   id: '/courses/',
   path: '/courses/',
@@ -188,6 +194,7 @@ export interface FileRoutesByFullPath {
   '/admin/partners': typeof AdminPartnersRoute
   '/admin/pathways': typeof AdminPathwaysRoute
   '/admin/testimonials': typeof AdminTestimonialsRoute
+  '/certificates/$slug': typeof CertificatesSlugRoute
   '/courses/$slug': typeof CoursesSlugRoute
   '/paths/$slug': typeof PathsSlugRoute
   '/admin/': typeof AdminIndexRoute
@@ -214,6 +221,7 @@ export interface FileRoutesByTo {
   '/admin/partners': typeof AdminPartnersRoute
   '/admin/pathways': typeof AdminPathwaysRoute
   '/admin/testimonials': typeof AdminTestimonialsRoute
+  '/certificates/$slug': typeof CertificatesSlugRoute
   '/courses/$slug': typeof CoursesSlugRoute
   '/paths/$slug': typeof PathsSlugRoute
   '/admin': typeof AdminIndexRoute
@@ -243,6 +251,7 @@ export interface FileRoutesById {
   '/admin/partners': typeof AdminPartnersRoute
   '/admin/pathways': typeof AdminPathwaysRoute
   '/admin/testimonials': typeof AdminTestimonialsRoute
+  '/certificates/$slug': typeof CertificatesSlugRoute
   '/courses/$slug': typeof CoursesSlugRoute
   '/paths/$slug': typeof PathsSlugRoute
   '/admin/': typeof AdminIndexRoute
@@ -272,6 +281,7 @@ export interface FileRouteTypes {
     | '/admin/partners'
     | '/admin/pathways'
     | '/admin/testimonials'
+    | '/certificates/$slug'
     | '/courses/$slug'
     | '/paths/$slug'
     | '/admin/'
@@ -298,6 +308,7 @@ export interface FileRouteTypes {
     | '/admin/partners'
     | '/admin/pathways'
     | '/admin/testimonials'
+    | '/certificates/$slug'
     | '/courses/$slug'
     | '/paths/$slug'
     | '/admin'
@@ -326,6 +337,7 @@ export interface FileRouteTypes {
     | '/admin/partners'
     | '/admin/pathways'
     | '/admin/testimonials'
+    | '/certificates/$slug'
     | '/courses/$slug'
     | '/paths/$slug'
     | '/admin/'
@@ -346,6 +358,7 @@ export interface RootRouteChildren {
   SigninRoute: typeof SigninRoute
   SignupRoute: typeof SignupRoute
   TermsRoute: typeof TermsRoute
+  CertificatesSlugRoute: typeof CertificatesSlugRoute
   CoursesSlugRoute: typeof CoursesSlugRoute
   PathsSlugRoute: typeof PathsSlugRoute
   CoursesIndexRoute: typeof CoursesIndexRoute
@@ -494,6 +507,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminTestimonialsRouteImport
       parentRoute: typeof AdminRouteRoute
     }
+    '/certificates/$slug': {
+      id: '/certificates/$slug'
+      path: '/certificates/$slug'
+      fullPath: '/certificates/$slug'
+      preLoaderRoute: typeof CertificatesSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/courses/': {
       id: '/courses/'
       path: '/courses'
@@ -603,6 +623,7 @@ const rootRouteChildren: RootRouteChildren = {
   SigninRoute: SigninRoute,
   SignupRoute: SignupRoute,
   TermsRoute: TermsRoute,
+  CertificatesSlugRoute: CertificatesSlugRoute,
   CoursesSlugRoute: CoursesSlugRoute,
   PathsSlugRoute: PathsSlugRoute,
   CoursesIndexRoute: CoursesIndexRoute,

@@ -1,7 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { ArrowLeft, ArrowRight, CheckCircle2, Lightbulb, Hand, X, XCircle } from "lucide-react";
+import { ArrowLeft, ArrowRight, CheckCircle2, Lightbulb, Hand, X, XCircle, Volume2 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -43,9 +43,8 @@ function LessonPlayer() {
 
   const complete = useMutation({
     mutationFn: async () => {
-      if (!user || !lesson) return 0;
-      const res = await apiPost<{ ok: boolean; badges_earned: number }>("/me/progress", { lesson_id: lesson.id });
-      return res.badges_earned;
+      if (!user || !lesson) return { badges_earned: 0, certificate: null as null | { slug: string; title: string } };
+      return apiPost<{ ok: boolean; badges_earned: number; certificate: null | { slug: string; title: string } }>("/me/progress", { lesson_id: lesson.id });
     },
     onMutate: async () => {
       if (!user || !lesson) return;
@@ -54,10 +53,15 @@ function LessonPlayer() {
         { lesson_id: lesson.id, completed_at: new Date().toISOString() },
       ]);
     },
-    onSuccess: (n) => {
-      toast.success(n ? "Lesson done — you earned a new badge!" : "Lesson marked as done");
+    onSuccess: (res) => {
+      if (res.certificate) {
+        toast.success(`Course complete! You earned a certificate for “${res.certificate.title}”.`, { duration: 6000 });
+      } else {
+        toast.success(res.badges_earned ? "Lesson done — you earned a new badge!" : "Lesson marked as done");
+      }
       qc.invalidateQueries({ queryKey: ["progress"] });
       qc.invalidateQueries({ queryKey: ["my-badges"] });
+      qc.invalidateQueries({ queryKey: ["certificates"] });
     },
     onError: () => {
       toast.error("We could not save that. Check your connection and try again.");
@@ -117,6 +121,12 @@ function LessonPlayer() {
         {tab === "lesson" ? (
           <div className="mt-6 space-y-6">
             <div className="h-44 overflow-hidden rounded-2xl border border-border"><ContentImage src={lesson.image_url} motif={lesson.svg_motif ?? course.data.categories?.slug} alt="" /></div>
+            {lesson.audio_url && (
+              <div className="rounded-2xl border border-accent bg-accent-soft p-4">
+                <p className="mb-2 flex items-center gap-2 text-sm font-semibold"><Volume2 className="size-4 text-primary" aria-hidden="true" />{t("lesson.listen", "Listen to this lesson")}</p>
+                <audio controls preload="none" src={lesson.audio_url} className="w-full">{t("lesson.noaudio", "Your browser cannot play audio.")}</audio>
+              </div>
+            )}
             <div className="rounded-2xl border border-border bg-card p-6 shadow-sm"><RichText text={lesson.body_richtext} /></div>
             {Array.isArray(lesson.key_points) && lesson.key_points.length > 0 && (
               <div className="rounded-2xl border border-accent bg-accent-soft p-6">

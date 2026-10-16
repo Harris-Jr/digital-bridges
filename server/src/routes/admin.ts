@@ -177,6 +177,7 @@ const lessonSchema = z.object({
   try_it_action: z.string().trim().max(1000).nullish(),
   svg_motif: z.string().trim().max(60).nullish(),
   image_url: z.string().trim().max(1000).nullish(),
+  audio_url: z.string().trim().max(1000).nullish(),
   sort_order: z.coerce.number().int().default(0),
   is_published: z.boolean().default(true),
 });
@@ -235,7 +236,7 @@ registerResource("courses", {
 });
 registerResource("lessons", {
   table: "lessons", idColumn: "id", orderBy: "sort_order",
-  columns: ["course_id", "slug", "title", "type", "body_richtext", "key_points", "try_it_action", "svg_motif", "image_url", "sort_order", "is_published"],
+  columns: ["course_id", "slug", "title", "type", "body_richtext", "key_points", "try_it_action", "svg_motif", "image_url", "audio_url", "sort_order", "is_published"],
   jsonbColumns: ["key_points"], schema: lessonSchema, filters: ["course_id"],
 });
 registerResource("quiz-questions", {

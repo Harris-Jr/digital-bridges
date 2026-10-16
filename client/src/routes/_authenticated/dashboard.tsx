@@ -1,12 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { Flame, BookOpenCheck, ArrowRight } from "lucide-react";
+import { Flame, BookOpenCheck, ArrowRight, Award } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { SiteLayout, ProgressRing, BadgeMedal, CourseCard, EmptyState, ContentImage } from "@/components/site";
 import { useAuth } from "@/lib/auth";
 import { useI18n } from "@/lib/i18n";
-import { computeStreak, useMyProgress, usePublishedCourses } from "@/lib/content";
+import { computeStreak, useMyProgress, usePublishedCourses, useMyCertificates } from "@/lib/content";
 import { apiGet } from "@/lib/api";
 
 export const Route = createFileRoute("/_authenticated/dashboard")({
@@ -26,6 +26,7 @@ function Dashboard() {
   const { t } = useI18n();
   const courses = usePublishedCourses();
   const progress = useMyProgress(user?.id);
+  const certificates = useMyCertificates(user?.id);
   const badges = useQuery({
     queryKey: ["my-badges", user?.id],
     enabled: !!user?.id,
@@ -97,6 +98,23 @@ function Dashboard() {
             <div className="mt-4"><EmptyState icon="Award" title="No badges yet" body="Finish your first lesson to earn the First Lesson badge." /></div>
           )}
         </div>
+
+        {certificates.data && certificates.data.length > 0 && (
+          <div className="mt-10">
+            <h2 className="text-2xl">Your certificates</h2>
+            <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {certificates.data.map((cert) => (
+                <div key={cert.id} className="flex items-center justify-between gap-3 rounded-2xl border border-border bg-card p-5 shadow-sm">
+                  <div className="min-w-0">
+                    <p className="inline-flex items-center gap-1.5 text-xs font-semibold text-success"><Award className="size-4" />Completed</p>
+                    <p className="mt-1 truncate font-semibold">{cert.course_title}</p>
+                  </div>
+                  <Button asChild variant="outline" size="sm"><Link to="/certificates/$slug" params={{ slug: cert.course_slug }}>View</Link></Button>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
         {notStarted.length > 0 && (
           <div className="mt-10">

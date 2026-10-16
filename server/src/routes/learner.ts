@@ -3,7 +3,7 @@ import { Router } from "express";
 import type { PoolClient } from "pg";
 import { z } from "zod";
 import { query, withTransaction } from "../db.js";
-import { asyncHandler, badRequest } from "../lib/http.js";
+import { asyncHandler, badRequest, notFound } from "../lib/http.js";
 import { requireAuth } from "../middleware.js";
 
 export const learnerRouter = Router();
@@ -99,16 +99,76 @@ learnerRouter.post(
     if (!input.success) throw badRequest("A valid lesson is required.");
     const userId = req.auth!.id;
 
-    const earned = await withTransaction(async (client) => {
+    const result = await withTransaction(async (client) => {
       await client.query(
         `insert into lesson_progress (user_id, lesson_id) values ($1, $2)
          on conflict (user_id, lesson_id) do nothing`,
         [userId, input.data.lesson_id],
       );
-      return awardBadges(client, userId);
+      const badges = await awardBadges(client, userId);
+      // Issue a certificate if the lesson's course is now fully complete.
+      const { rows: cert } = await client.query<{ course_id: string }>(
+        `insert into certificates (user_id, course_id)
+         select $1, l.course_id from lessons l
+          where l.id = $2
+            and exists (select 1 from courses c where c.id = l.course_id and c.is_published)
+            and not exists (
+              select 1 from lessons x
+               where x.course_id = l.course_id and x.is_published
+                 and not exists (select 1 from lesson_progress lp where lp.user_id = $1 and lp.lesson_id = x.id))
+         on conflict (user_id, course_id) do nothing
+         returning course_id`,
+        [userId, input.data.lesson_id],
+      );
+      let certificate: { slug: string; title: string } | null = null;
+      if (cert[0]) {
+        const { rows } = await client.query<{ slug: string; title: string }>(
+          "select slug, title from courses where id = $1",
+          [cert[0].course_id],
+        );
+        certificate = rows[0] ?? null;
+      }
+      return { badges, certificate };
     });
 
-    res.json({ ok: true, badges_earned: earned });
+    res.json({ ok: true, badges_earned: result.badges, certificate: result.certificate });
+  }),
+);
+
+// Earned course-completion certificates.
+learnerRouter.get(
+  "/certificates",
+  asyncHandler(async (req, res) => {
+    const { rows } = await query(
+      `select ct.id, ct.issued_at, c.slug as course_slug, c.title as course_title
+         from certificates ct join courses c on c.id = ct.course_id
+        where ct.user_id = $1 order by ct.issued_at desc`,
+      [req.auth!.id],
+    );
+    res.json(rows);
+  }),
+);
+
+// One certificate (for the printable view), by course slug.
+learnerRouter.get(
+  "/certificates/:slug",
+  asyncHandler(async (req, res) => {
+    const { rows } = await query<{ id: string; issued_at: string; course_title: string; full_name: string }>(
+      `select ct.id, ct.issued_at, c.title as course_title, coalesce(p.full_name, '') as full_name
+         from certificates ct
+         join courses c on c.id = ct.course_id
+         left join profiles p on p.id = ct.user_id
+        where ct.user_id = $1 and c.slug = $2`,
+      [req.auth!.id, req.params.slug],
+    );
+    const row = rows[0];
+    if (!row) throw notFound("Certificate not found");
+    res.json({
+      learner_name: row.full_name || "Learner",
+      course_title: row.course_title,
+      issued_at: row.issued_at,
+      serial: `DB-${row.id.slice(0, 8).toUpperCase()}`,
+    });
   }),
 );
 

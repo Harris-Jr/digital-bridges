@@ -29,6 +29,7 @@ function Lessons() {
     { name: "try_it_action", label: "Try it yourself", type: "text" },
     { name: "svg_motif", label: "Motif (phone, shield, radio, community, circle)", type: "text" },
     { name: "image_url", label: "Lesson image", type: "image", help: "Optional. Falls back to the motif if empty." },
+    { name: "audio_url", label: "Lesson audio (read aloud)", type: "audio", help: "Optional narration. Learners can listen instead of reading." },
     { name: "sort_order", label: "Sort order", type: "number" },
     { name: "is_published", label: "Published", type: "boolean" },
   ];

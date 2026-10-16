@@ -75,9 +75,19 @@ export type Lesson = {
   try_it_action: string | null;
   svg_motif: string | null;
   image_url: string | null;
+  audio_url: string | null;
   sort_order: number;
   is_published: boolean;
 };
+
+export type Certificate = { id: string; course_slug: string; course_title: string; issued_at: string };
+
+export const useMyCertificates = (userId: string | undefined) =>
+  useQuery({
+    queryKey: ["certificates", userId],
+    enabled: !!userId,
+    queryFn: () => apiGet<Certificate[]>("/me/certificates"),
+  });
 export type QuizQuestion = {
   id: string;
   lesson_id: string;

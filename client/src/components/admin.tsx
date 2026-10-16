@@ -104,7 +104,8 @@ export type Field =
   | { name: string; label: string; type: "select"; options: { value: string; label: string }[] }
   | { name: string; label: string; type: "lines"; help?: string }
   | { name: string; label: string; type: "json"; help?: string }
-  | { name: string; label: string; type: "image"; help?: string };
+  | { name: string; label: string; type: "image"; help?: string }
+  | { name: string; label: string; type: "audio"; help?: string };
 
 export type Column<T> = { label: string; render: (row: T) => ReactNode; className?: string };
 
@@ -274,11 +275,11 @@ function FieldInput({ field, value, onChange }: { field: Field; value: string | 
       </div>
     );
   }
-  if (field.type === "image") {
+  if (field.type === "image" || field.type === "audio") {
     return (
       <div>
         <Label>{field.label}</Label>
-        <div className="mt-1"><MediaUpload value={String(value ?? "")} onChange={(v) => onChange(v)} /></div>
+        <div className="mt-1"><MediaUpload value={String(value ?? "")} onChange={(v) => onChange(v)} kind={field.type} /></div>
         {field.help && <p className="mt-1 text-xs text-muted-foreground">{field.help}</p>}
       </div>
     );
@@ -306,7 +307,7 @@ function FieldInput({ field, value, onChange }: { field: Field; value: string | 
 type MediaConfig = { enabled: boolean; cloudName: string | null };
 type SignResponse = { cloudName: string; apiKey: string; folder: string; timestamp: number; signature: string };
 
-async function uploadToCloudinary(file: File): Promise<string> {
+async function uploadToCloudinary(file: File, resourceType: "image" | "video"): Promise<string> {
   const sign = await apiPost<SignResponse>("/admin/media/sign");
   const form = new FormData();
   form.append("file", file);
@@ -314,24 +315,26 @@ async function uploadToCloudinary(file: File): Promise<string> {
   form.append("timestamp", String(sign.timestamp));
   form.append("folder", sign.folder);
   form.append("signature", sign.signature);
-  const res = await fetch(`https://api.cloudinary.com/v1_1/${sign.cloudName}/image/upload`, { method: "POST", body: form });
+  const res = await fetch(`https://api.cloudinary.com/v1_1/${sign.cloudName}/${resourceType}/upload`, { method: "POST", body: form });
   const data = (await res.json()) as { secure_url?: string; error?: { message?: string } };
   if (!res.ok || !data.secure_url) throw new Error(data.error?.message ?? "Upload failed. Please try again.");
   return data.secure_url;
 }
 
-function MediaUpload({ value, onChange }: { value: string; onChange: (v: string) => void }) {
+function MediaUpload({ value, onChange, kind = "image" }: { value: string; onChange: (v: string) => void; kind?: "image" | "audio" }) {
   const cfg = useQuery({ queryKey: ["media-config"], queryFn: () => apiGet<MediaConfig>("/admin/media/config"), staleTime: 5 * 60_000 });
   const [busy, setBusy] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const isAudio = kind === "audio";
+  const noun = isAudio ? "audio" : "image";
 
   const onFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
     setBusy(true);
     try {
-      onChange(await uploadToCloudinary(file));
-      toast.success("Image uploaded");
+      onChange(await uploadToCloudinary(file, isAudio ? "video" : "image"));
+      toast.success(`${isAudio ? "Audio" : "Image"} uploaded`);
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Upload failed");
     } finally {
@@ -342,21 +345,23 @@ function MediaUpload({ value, onChange }: { value: string; onChange: (v: string)
 
   return (
     <div className="space-y-2">
-      {value && <img src={value} alt="" className="h-28 w-full rounded-lg border border-border object-cover" />}
+      {value && (isAudio
+        ? <audio controls src={value} className="w-full" />
+        : <img src={value} alt="" className="h-28 w-full rounded-lg border border-border object-cover" />)}
       <div className="flex flex-wrap gap-2">
         {cfg.data?.enabled && (
           <>
-            <input ref={inputRef} type="file" accept="image/*" className="hidden" onChange={onFile} />
+            <input ref={inputRef} type="file" accept={isAudio ? "audio/*" : "image/*"} className="hidden" onChange={onFile} />
             <Button type="button" variant="outline" size="sm" onClick={() => inputRef.current?.click()} disabled={busy}>
-              {busy ? "Uploading…" : value ? "Replace image" : "Upload image"}
+              {busy ? "Uploading…" : value ? `Replace ${noun}` : `Upload ${noun}`}
             </Button>
           </>
         )}
         {value && <Button type="button" variant="ghost" size="sm" onClick={() => onChange("")}>Remove</Button>}
       </div>
-      <Input value={value} onChange={(e) => onChange(e.target.value)} placeholder="https://… image URL" className="h-11" />
+      <Input value={value} onChange={(e) => onChange(e.target.value)} placeholder={`https://… ${noun} URL`} className="h-11" />
       {cfg.data && !cfg.data.enabled && (
-        <p className="text-xs text-muted-foreground">Uploads aren't set up yet — paste an image URL above. (Add Cloudinary keys to the server .env to enable uploads.)</p>
+        <p className="text-xs text-muted-foreground">Uploads aren't set up yet — paste a {noun} URL above. (Add Cloudinary keys to the server .env to enable uploads.)</p>
       )}
     </div>
   );

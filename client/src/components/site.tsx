@@ -208,23 +208,23 @@ export function SiteFooter() {
         <div className="md:col-span-2">
           <Logo />
           <p className="mt-3 max-w-sm text-sm text-muted-foreground">
-            Free digital skills lessons for communities across Zambia.
+            {t("footer.tagline", "Free digital skills lessons for communities across Zambia.")}
           </p>
           <p className="mt-2 text-xs text-muted-foreground">{t("note.translations", "Lesson translations are rolling out. Menus are translated now.")}</p>
         </div>
         <nav aria-label="Learn" className="flex flex-col gap-2 text-sm">
-          <span className="font-semibold">Learn</span>
-          <Link to="/courses" className="text-muted-foreground transition-colors duration-200 hover:text-foreground">Courses</Link>
-          <Link to="/about" className="text-muted-foreground transition-colors duration-200 hover:text-foreground">About</Link>
-          <Link to="/trainer" className="text-muted-foreground transition-colors duration-200 hover:text-foreground">For Trainers</Link>
-          <Link to="/contact" className="text-muted-foreground transition-colors duration-200 hover:text-foreground">Contact</Link>
+          <span className="font-semibold">{t("footer.learn", "Learn")}</span>
+          <Link to="/courses" className="text-muted-foreground transition-colors duration-200 hover:text-foreground">{t("nav.courses", "Courses")}</Link>
+          <Link to="/about" className="text-muted-foreground transition-colors duration-200 hover:text-foreground">{t("nav.about", "About")}</Link>
+          <Link to="/trainer" className="text-muted-foreground transition-colors duration-200 hover:text-foreground">{t("nav.trainers", "For Trainers")}</Link>
+          <Link to="/contact" className="text-muted-foreground transition-colors duration-200 hover:text-foreground">{t("footer.contact", "Contact")}</Link>
         </nav>
         <nav aria-label="Legal" className="flex flex-col gap-2 text-sm">
-          <span className="font-semibold">Your data</span>
-          <Link to="/privacy" className="text-muted-foreground transition-colors duration-200 hover:text-foreground">Privacy</Link>
-          <Link to="/terms" className="text-muted-foreground transition-colors duration-200 hover:text-foreground">Terms</Link>
-          <Link to="/accessibility" className="text-muted-foreground transition-colors duration-200 hover:text-foreground">Accessibility</Link>
-          <button onClick={openManager} className="text-left text-muted-foreground hover:text-foreground">Cookie settings</button>
+          <span className="font-semibold">{t("footer.yourdata", "Your data")}</span>
+          <Link to="/privacy" className="text-muted-foreground transition-colors duration-200 hover:text-foreground">{t("footer.privacy", "Privacy")}</Link>
+          <Link to="/terms" className="text-muted-foreground transition-colors duration-200 hover:text-foreground">{t("footer.terms", "Terms")}</Link>
+          <Link to="/accessibility" className="text-muted-foreground transition-colors duration-200 hover:text-foreground">{t("footer.accessibility", "Accessibility")}</Link>
+          <button onClick={openManager} className="text-left text-muted-foreground hover:text-foreground">{t("footer.cookies", "Cookie settings")}</button>
         </nav>
       </div>
     </footer>
@@ -275,6 +275,7 @@ export function CardsSkeleton({ n = 4 }: { n?: number }) {
 }
 
 export function CourseCard({ course, index, progress }: { course: Course; index: number; progress?: number | undefined }) {
+  const { t } = useI18n();
   const lessons = course.lessons?.length ?? 0;
   return (
     <Link
@@ -297,15 +298,15 @@ export function CourseCard({ course, index, progress }: { course: Course; index:
         <div className="flex items-center gap-2">
           <Icon name={course.icon_name} className="size-5 text-primary" />
           <span className={cn("rounded-full px-2.5 py-0.5 text-xs font-semibold", course.difficulty === "start_here" ? "bg-accent text-accent-foreground" : "bg-secondary text-secondary-foreground")}>
-            {difficultyLabel[course.difficulty]}
+            {t(`difficulty.${course.difficulty}`, difficultyLabel[course.difficulty] ?? course.difficulty)}
           </span>
         </div>
         <h3 className="mt-3 text-lg transition-colors duration-200 group-hover:text-primary">{course.title}</h3>
         <p className="mt-1 flex-1 text-sm text-muted-foreground">{course.tagline}</p>
         <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted-foreground">
-          <span className="inline-flex items-center gap-1"><BookOpen className="size-3.5" aria-hidden="true" />{lessons} lessons</span>
-          <span className="inline-flex items-center gap-1"><Clock className="size-3.5" aria-hidden="true" />{course.estimated_hours} hrs</span>
-          <span className="inline-flex items-center gap-1 text-success"><WifiOff className="size-3.5" aria-hidden="true" />Light on data</span>
+          <span className="inline-flex items-center gap-1"><BookOpen className="size-3.5" aria-hidden="true" />{lessons} {t("course.lessons", "lessons")}</span>
+          <span className="inline-flex items-center gap-1"><Clock className="size-3.5" aria-hidden="true" />{course.estimated_hours} {t("course.hrs", "hrs")}</span>
+          <span className="inline-flex items-center gap-1 text-success"><WifiOff className="size-3.5" aria-hidden="true" />{t("course.lightdata", "Light on data")}</span>
         </div>
         {progress !== undefined && progress > 0 && (
           <div className="mt-4" aria-label={`${progress}% complete`}>

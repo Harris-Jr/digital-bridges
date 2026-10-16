@@ -50,7 +50,7 @@ function Home() {
           ) : null}
           <div className="mt-8 flex flex-wrap gap-3">
             <Button asChild variant="accent" size="lg"><Link to="/signup">{t("nav.start", "Start learning")}<ArrowRight /></Link></Button>
-            <Button asChild variant="outline" size="lg"><Link to="/courses">See all courses</Link></Button>
+            <Button asChild variant="outline" size="lg"><Link to="/courses">{t("home.seeall", "See all courses")}</Link></Button>
           </div>
         </div>
         <div className="overflow-hidden rounded-2xl border border-border shadow-sm">
@@ -82,10 +82,10 @@ function Home() {
       {Array.isArray(body.why) && body.why.length > 0 && (
         <section className="container-page py-16 md:py-20">
           <div className="max-w-2xl">
-            <p className="eyebrow">Why this platform</p>
-            <h2 className="mt-2 text-3xl md:text-4xl">Made for the way people here use phones</h2>
+            <p className="eyebrow">{t("home.why.eyebrow", "Why this platform")}</p>
+            <h2 className="mt-2 text-3xl md:text-4xl">{t("home.why.title", "Made for the way people here use phones")}</h2>
             <p className="mt-3 text-lg text-muted-foreground">
-              Short, plain-language lessons that work on any handset — built with communities, not for a classroom far away.
+              {t("home.why.sub", "Short, plain-language lessons that work on any handset — built with communities, not for a classroom far away.")}
             </p>
           </div>
           <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
@@ -108,10 +108,10 @@ function Home() {
       <section className="container-page py-8">
         <div className="flex items-end justify-between gap-4">
           <div>
-            <p className="eyebrow">Courses</p>
-            <h2 className="mt-2 text-3xl">Start with one of these</h2>
+            <p className="eyebrow">{t("nav.courses", "Courses")}</p>
+            <h2 className="mt-2 text-3xl">{t("home.courses.title", "Start with one of these")}</h2>
           </div>
-          <Link to="/courses" className="hidden font-semibold text-primary hover:underline sm:inline">All courses</Link>
+          <Link to="/courses" className="hidden font-semibold text-primary hover:underline sm:inline">{t("home.courses.all", "All courses")}</Link>
         </div>
         <div className="mt-8">
           {courses.isLoading ? <CardsSkeleton /> : courses.isError ? <ErrorNote /> : (
@@ -126,8 +126,8 @@ function Home() {
         <section className="border-y border-border bg-secondary/40">
           <div className="container-page py-16 md:py-20">
             <div className="max-w-2xl">
-              <p className="eyebrow">How it works</p>
-              <h2 className="mt-2 text-3xl md:text-4xl">Three steps to get going</h2>
+              <p className="eyebrow">{t("home.how.eyebrow", "How it works")}</p>
+              <h2 className="mt-2 text-3xl md:text-4xl">{t("home.how.title", "Three steps to get going")}</h2>
             </div>
             <ol className="relative mt-12 grid gap-10 md:grid-cols-3 md:gap-6">
               {/* connecting line behind the numbers on desktop */}
@@ -155,14 +155,14 @@ function Home() {
         <div className="pointer-events-none absolute -right-16 -top-16 size-64 rounded-full bg-accent/20 blur-2xl" aria-hidden="true" />
         <div className="pointer-events-none absolute -bottom-24 -left-10 size-72 rounded-full bg-white/10 blur-3xl" aria-hidden="true" />
         <div className="container-page relative py-16 text-center md:py-20">
-          <h2 className="font-display text-3xl font-extrabold md:text-4xl">Start learning today — it's free</h2>
+          <h2 className="font-display text-3xl font-extrabold md:text-4xl">{t("home.cta.title", "Start learning today — it's free")}</h2>
           <p className="mx-auto mt-3 max-w-xl text-lg opacity-90">
-            Make a free account in a minute and pick up on any phone. No fees, ever, for learners and community groups.
+            {t("home.cta.sub", "Make a free account in a minute and pick up on any phone. No fees, ever, for learners and community groups.")}
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <Button asChild variant="accent" size="lg"><Link to="/signup">{t("nav.start", "Start learning")}<ArrowRight /></Link></Button>
             <Button asChild size="lg" className="border border-primary-foreground/40 bg-transparent text-primary-foreground hover:bg-primary-foreground/10">
-              <Link to="/trainer">Run a workshop</Link>
+              <Link to="/trainer">{t("home.runworkshop", "Run a workshop")}</Link>
             </Button>
           </div>
         </div>

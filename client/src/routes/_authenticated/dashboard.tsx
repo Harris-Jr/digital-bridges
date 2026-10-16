@@ -67,22 +67,22 @@ function Dashboard() {
     <SiteLayout>
       <section className="container-page py-12">
         <h1 className="text-3xl md:text-4xl">{t("greeting", "Moni")}{firstName ? `, ${firstName}` : ""}</h1>
-        <p className="mt-2 text-muted-foreground">Here is how your learning is going.</p>
+        <p className="mt-2 text-muted-foreground">{t("dash.sub", "Here is how your learning is going.")}</p>
 
         <div className="mt-8 grid gap-4 md:grid-cols-3">
           <div className="flex items-center gap-5 rounded-2xl border border-border bg-card p-6 shadow-sm">
             <ProgressRing value={pct} />
-            <div><p className="font-semibold">All courses</p><p className="text-sm text-muted-foreground">{doneCount} of {totalLessons} lessons</p></div>
+            <div><p className="font-semibold">{t("dash.allcourses", "All courses")}</p><p className="text-sm text-muted-foreground">{doneCount} {t("course.of", "of")} {totalLessons} {t("course.lessons", "lessons")}</p></div>
           </div>
           <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
             <Flame className="size-7 text-warning" aria-hidden="true" />
             <p className="mt-3 font-display text-3xl font-extrabold">{streak} {streak === 1 ? "day" : "days"}</p>
-            <p className="text-sm text-muted-foreground">Learning streak</p>
+            <p className="text-sm text-muted-foreground">{t("dash.streak", "Learning streak")}</p>
           </div>
           <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
             <BookOpenCheck className="size-7 text-success" aria-hidden="true" />
             <p className="mt-3 font-display text-3xl font-extrabold">{doneCount}</p>
-            <p className="text-sm text-muted-foreground">Lessons completed</p>
+            <p className="text-sm text-muted-foreground">{t("dash.completed", "Lessons completed")}</p>
           </div>
         </div>
 
@@ -90,7 +90,7 @@ function Dashboard() {
           <div className="mt-8 grid overflow-hidden rounded-2xl border border-border bg-card shadow-sm md:grid-cols-[240px_1fr]">
             <div className="h-36 md:h-auto"><ContentImage src={continueCourse.image_url} motif={continueCourse.categories?.slug} alt="" /></div>
             <div className="p-6">
-              <p className="eyebrow">{inProgress ? t("cta.continue", "Continue learning") : "Start here"}</p>
+              <p className="eyebrow">{inProgress ? t("cta.continue", "Continue learning") : t("dash.starthere", "Start here")}</p>
               <h2 className="mt-1 text-2xl">{continueCourse.title}</h2>
               <p className="mt-1 text-muted-foreground">{continueCourse.tagline}</p>
               <div className="mt-3 h-2 max-w-sm rounded-full bg-secondary"><div className="h-2 rounded-full bg-success" style={{ width: `${pctOf(continueCourse)}%` }} /></div>
@@ -100,7 +100,7 @@ function Dashboard() {
         )}
 
         <div className="mt-10">
-          <h2 className="text-2xl">Your badges</h2>
+          <h2 className="text-2xl">{t("dash.badges", "Your badges")}</h2>
           {badges.data && badges.data.length > 0 ? (
             <div className="mt-4 flex flex-wrap gap-6 rounded-2xl border border-border bg-card p-6 shadow-sm">
               {badges.data.map((b) => <BadgeMedal key={b.id} icon={b.icon_name} earned={b.earned} label={b.name} />)}
@@ -112,15 +112,15 @@ function Dashboard() {
 
         {certificates.data && certificates.data.length > 0 && (
           <div className="mt-10">
-            <h2 className="text-2xl">Your certificates</h2>
+            <h2 className="text-2xl">{t("dash.certificates", "Your certificates")}</h2>
             <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
               {certificates.data.map((cert) => (
                 <div key={cert.id} className="flex items-center justify-between gap-3 rounded-2xl border border-border bg-card p-5 shadow-sm">
                   <div className="min-w-0">
-                    <p className="inline-flex items-center gap-1.5 text-xs font-semibold text-success"><Award className="size-4" />Completed</p>
+                    <p className="inline-flex items-center gap-1.5 text-xs font-semibold text-success"><Award className="size-4" />{t("dash.completedBadge", "Completed")}</p>
                     <p className="mt-1 truncate font-semibold">{cert.course_title}</p>
                   </div>
-                  <Button asChild variant="outline" size="sm"><Link to="/certificates/$slug" params={{ slug: cert.course_slug }}>View</Link></Button>
+                  <Button asChild variant="outline" size="sm"><Link to="/certificates/$slug" params={{ slug: cert.course_slug }}>{t("dash.view", "View")}</Link></Button>
                 </div>
               ))}
             </div>
@@ -128,17 +128,17 @@ function Dashboard() {
         )}
 
         <div className="mt-10">
-          <h2 className="text-2xl">Your cohorts</h2>
-          <p className="mt-1 text-muted-foreground">Learning with a facilitator? Enter the join code they gave you.</p>
+          <h2 className="text-2xl">{t("dash.cohorts", "Your cohorts")}</h2>
+          <p className="mt-1 text-muted-foreground">{t("dash.cohortsSub", "Learning with a facilitator? Enter the join code they gave you.")}</p>
           <form
             className="mt-4 flex flex-wrap items-end gap-3 rounded-2xl border border-border bg-card p-4 shadow-sm"
             onSubmit={(e) => { e.preventDefault(); if (joinCode.trim()) join.mutate(); }}
           >
             <div className="flex-1 min-w-48">
-              <label htmlFor="join" className="text-sm font-medium">Join code</label>
+              <label htmlFor="join" className="text-sm font-medium">{t("cohort.joincode", "Join code")}</label>
               <Input id="join" className="mt-1 h-11 uppercase tracking-[0.2em]" value={joinCode} onChange={(e) => setJoinCode(e.target.value)} placeholder="ABC123" maxLength={12} />
             </div>
-            <Button type="submit" disabled={join.isPending}><Users className="size-4" />Join cohort</Button>
+            <Button type="submit" disabled={join.isPending}><Users className="size-4" />{t("cohort.join", "Join cohort")}</Button>
           </form>
           {myCohorts.data && myCohorts.data.length > 0 && (
             <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -146,7 +146,7 @@ function Dashboard() {
                 <div key={c.id} className="rounded-2xl border border-border bg-card p-5 shadow-sm">
                   <p className="font-semibold">{c.name}</p>
                   <p className="mt-1 flex items-center gap-1 text-sm text-muted-foreground"><MapPin className="size-4" aria-hidden="true" />{c.location}</p>
-                  {c.facilitator && <p className="mt-1 text-sm text-muted-foreground">Facilitator: {c.facilitator}</p>}
+                  {c.facilitator && <p className="mt-1 text-sm text-muted-foreground">{t("cohort.facilitator", "Facilitator")}: {c.facilitator}</p>}
                 </div>
               ))}
             </div>
@@ -155,7 +155,7 @@ function Dashboard() {
 
         {notStarted.length > 0 && (
           <div className="mt-10">
-            <h2 className="text-2xl">Recommended for you</h2>
+            <h2 className="text-2xl">{t("dash.recommended", "Recommended for you")}</h2>
             <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {notStarted.filter((c) => c.id !== continueCourse?.id).slice(0, 3).map((c) => (
                 <CourseCard key={c.id} course={c} index={list.findIndex((x) => x.id === c.id)} />

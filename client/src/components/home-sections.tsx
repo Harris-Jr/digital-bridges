@@ -2,6 +2,7 @@ import { useCallback, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { Quote, GraduationCap, Radio, HeartHandshake, Cpu, Landmark, Signal, ArrowRight, type LucideIcon } from "lucide-react";
 import { Icon } from "@/components/site";
+import { useI18n } from "@/lib/i18n";
 import type { Pathway } from "@/lib/content";
 import { cn } from "@/lib/utils";
 
@@ -11,13 +12,14 @@ type Partner = { id: string; name: string; category: string };
 /* Home "choose your path" selector — one card per pathway (e.g. Digital Skills,
    Civic Education). Each card opens that pathway's courses. */
 export function PathwaySelector({ items }: { items: Pathway[] }) {
+  const { t } = useI18n();
   if (items.length === 0) return null;
   return (
     <section className="container-page py-16 md:py-20">
       <div className="max-w-2xl">
-        <p className="eyebrow">Choose your path</p>
-        <h2 className="mt-2 text-3xl md:text-4xl">What would you like to learn?</h2>
-        <p className="mt-3 text-lg text-muted-foreground">Pick a path to see its courses. You can switch between paths any time.</p>
+        <p className="eyebrow">{t("home.path.eyebrow", "Choose your path")}</p>
+        <h2 className="mt-2 text-3xl md:text-4xl">{t("home.path.title", "What would you like to learn?")}</h2>
+        <p className="mt-3 text-lg text-muted-foreground">{t("home.path.sub", "Pick a path to see its courses. You can switch between paths any time.")}</p>
       </div>
       <div className="mt-8 grid gap-5 md:grid-cols-2">
         {items.map((p) => {
@@ -36,7 +38,7 @@ export function PathwaySelector({ items }: { items: Pathway[] }) {
                 <h3 className="text-2xl font-semibold">{p.title}</h3>
                 <p className="mt-1 text-muted-foreground">{p.subtitle}</p>
                 <p className="mt-4 inline-flex items-center gap-1.5 font-semibold text-primary">
-                  {p.course_count ?? 0} {p.course_count === 1 ? "course" : "courses"}
+                  {p.course_count ?? 0} {p.course_count === 1 ? t("home.path.course", "course") : t("home.path.courses", "courses")}
                   <ArrowRight className="size-4 transition-transform duration-200 group-hover:translate-x-1" />
                 </p>
               </div>
@@ -96,14 +98,15 @@ function initials(name: string): string {
 }
 
 export function Testimonials({ items }: { items: Testimonial[] }) {
+  const { t } = useI18n();
   const { ref, shown } = useReveal<HTMLDivElement>();
   if (items.length === 0) return null;
 
   return (
     <section className="border-y border-border bg-primary-soft/40">
       <div className="container-page py-16">
-        <p className="eyebrow">From learners</p>
-        <h2 className="mt-2 max-w-xl text-3xl md:text-4xl">Small wins people felt in their own words</h2>
+        <p className="eyebrow">{t("home.testimonials.eyebrow", "From learners")}</p>
+        <h2 className="mt-2 max-w-xl text-3xl md:text-4xl">{t("home.testimonials.title", "Small wins people felt in their own words")}</h2>
 
         <div ref={ref} className="mt-10 grid gap-5 md:grid-cols-3">
           {items.slice(0, 3).map((q, i) => (
@@ -166,12 +169,13 @@ function PartnerCard({ partner }: { partner: Partner }) {
 }
 
 export function Partners({ items }: { items: Partner[] }) {
+  const { t } = useI18n();
   if (items.length === 0) return null;
   return (
     <section className="container-page py-16">
       <div className="max-w-2xl">
-        <p className="eyebrow">Working with</p>
-        <h2 className="mt-2 text-3xl md:text-4xl">Built alongside local institutions</h2>
+        <p className="eyebrow">{t("home.partners.eyebrow", "Working with")}</p>
+        <h2 className="mt-2 text-3xl md:text-4xl">{t("home.partners.title", "Built alongside local institutions")}</h2>
         <p className="mt-3 text-lg text-muted-foreground">
           Schools, radio stations, ICT hubs and community groups helping learners meet us where they already are.
         </p>

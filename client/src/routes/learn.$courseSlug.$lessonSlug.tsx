@@ -114,13 +114,13 @@ function LessonPlayer() {
       <main id="main" className="container-page max-w-3xl py-8 pb-32">
         <p className="eyebrow">{course.data.title}</p>
         <h1 className="mt-2 text-3xl">{lesson.title}</h1>
-        {isDone && <p className="mt-2 inline-flex items-center gap-1 text-sm font-semibold text-success"><CheckCircle2 className="size-4" aria-hidden="true" />Done</p>}
+        {isDone && <p className="mt-2 inline-flex items-center gap-1 text-sm font-semibold text-success"><CheckCircle2 className="size-4" aria-hidden="true" />{t("lesson.done", "Done")}</p>}
 
         {hasQuiz && (
           <div role="tablist" aria-label="Lesson sections" className="mt-6 inline-flex rounded-full border border-border bg-card p-1">
             {(["lesson", "quiz"] as const).map((k) => (
               <button key={k} role="tab" aria-selected={tab === k} onClick={() => setTab(k)} className={cn("min-h-10 rounded-full px-5 text-sm font-semibold capitalize", tab === k ? "bg-primary text-primary-foreground" : "text-muted-foreground")}>
-                {k === "lesson" ? "Lesson" : "Quiz"}
+                {k === "lesson" ? t("lesson.tab", "Lesson") : t("lesson.quizTab", "Quiz")}
               </button>
             ))}
           </div>
@@ -141,7 +141,7 @@ function LessonPlayer() {
             )}
             {Array.isArray(lesson.key_points) && lesson.key_points.length > 0 && (
               <div className="rounded-2xl border border-accent bg-accent-soft p-6">
-                <h2 className="flex items-center gap-2 text-lg"><Lightbulb className="size-5 text-warning" aria-hidden="true" />Remember</h2>
+                <h2 className="flex items-center gap-2 text-lg"><Lightbulb className="size-5 text-warning" aria-hidden="true" />{t("lesson.remember", "Remember")}</h2>
                 <ul className="mt-3 space-y-2">
                   {lesson.key_points.map((k) => <li key={k} className="flex gap-2"><CheckCircle2 className="mt-1 size-4 shrink-0 text-primary" aria-hidden="true" />{k}</li>)}
                 </ul>
@@ -149,11 +149,11 @@ function LessonPlayer() {
             )}
             {lesson.try_it_action && (
               <div className="rounded-2xl bg-primary p-6 text-primary-foreground">
-                <h2 className="flex items-center gap-2 text-lg"><Hand className="size-5 text-accent" aria-hidden="true" />Try it yourself</h2>
+                <h2 className="flex items-center gap-2 text-lg"><Hand className="size-5 text-accent" aria-hidden="true" />{t("lesson.tryit", "Try it yourself")}</h2>
                 <p className="mt-2">{lesson.try_it_action}</p>
               </div>
             )}
-            {hasQuiz && <Button variant="outline" onClick={() => setTab("quiz")}>Go to the quiz</Button>}
+            {hasQuiz && <Button variant="outline" onClick={() => setTab("quiz")}>{t("lesson.gotoquiz", "Go to the quiz")}</Button>}
           </div>
         ) : (
           <Quiz questions={quiz.data ?? []} onFinish={() => user && !isDone && complete.mutate()} />
@@ -175,7 +175,7 @@ function LessonPlayer() {
             {user && !isDone && (
               <Button variant="ghost" onClick={() => complete.mutate()} disabled={complete.isPending}>{t("lesson.complete", "Mark as done")}</Button>
             )}
-            <Button variant="accent" onClick={goNext}>{next ? t("lesson.next", "Next") : "Finish course"}<ArrowRight /></Button>
+            <Button variant="accent" onClick={goNext}>{next ? t("lesson.next", "Next") : t("lesson.finish", "Finish course")}<ArrowRight /></Button>
           </div>
         </div>
       </nav>
@@ -184,24 +184,25 @@ function LessonPlayer() {
 }
 
 function Quiz({ questions, onFinish }: { questions: QuizQuestion[]; onFinish: () => void }) {
+  const { t } = useI18n();
   const [i, setI] = useState(0);
   const [picked, setPicked] = useState<number | null>(null);
   const [score, setScore] = useState(0);
   const [finished, setFinished] = useState(false);
-  if (questions.length === 0) return <p className="mt-6 text-muted-foreground">No quiz questions for this lesson yet.</p>;
+  if (questions.length === 0) return <p className="mt-6 text-muted-foreground">{t("quiz.none", "No quiz questions for this lesson yet.")}</p>;
   if (finished)
     return (
       <div className="mt-6 rounded-2xl border border-border bg-card p-6 shadow-sm">
-        <h2 className="text-2xl">You got {score} of {questions.length} right</h2>
-        <p className="mt-2 text-muted-foreground">{score === questions.length ? "Well done! You know this well." : "Good effort. Read the lesson again and try once more."}</p>
-        <Button className="mt-4" variant="outline" onClick={() => { setI(0); setPicked(null); setScore(0); setFinished(false); }}>Try again</Button>
+        <h2 className="text-2xl">{t("quiz.got", "You got")} {score} {t("course.of", "of")} {questions.length} {t("quiz.right", "right")}</h2>
+        <p className="mt-2 text-muted-foreground">{score === questions.length ? t("quiz.perfect", "Well done! You know this well.") : t("quiz.tryagainMsg", "Good effort. Read the lesson again and try once more.")}</p>
+        <Button className="mt-4" variant="outline" onClick={() => { setI(0); setPicked(null); setScore(0); setFinished(false); }}>{t("quiz.tryagain", "Try again")}</Button>
       </div>
     );
   const q = questions[i]!;
   const answered = picked !== null;
   return (
     <div className="mt-6 rounded-2xl border border-border bg-card p-6 shadow-sm">
-      <p className="text-sm text-muted-foreground">Question {i + 1} of {questions.length}</p>
+      <p className="text-sm text-muted-foreground">{t("quiz.question", "Question")} {i + 1} {t("course.of", "of")} {questions.length}</p>
       <h2 className="mt-2 text-xl">{q.question}</h2>
       <div className="mt-4 grid gap-2" role="radiogroup" aria-label="Answers">
         {q.options.map((o, j) => {
@@ -230,12 +231,12 @@ function Quiz({ questions, onFinish }: { questions: QuizQuestion[]; onFinish: ()
       </div>
       {answered && (
         <div aria-live="polite" className="mt-4 rounded-xl bg-secondary p-4">
-          <p className="font-semibold">{picked === q.correct_index ? "Correct!" : "Not quite."}</p>
+          <p className="font-semibold">{picked === q.correct_index ? t("quiz.correct", "Correct!") : t("quiz.wrong", "Not quite.")}</p>
           <p className="mt-1 text-sm">{q.explanation}</p>
           <Button className="mt-3" onClick={() => {
             if (i + 1 < questions.length) { setI(i + 1); setPicked(null); }
             else { setFinished(true); onFinish(); }
-          }}>{i + 1 < questions.length ? "Next question" : "See my result"}</Button>
+          }}>{i + 1 < questions.length ? t("quiz.nextq", "Next question") : t("quiz.result", "See my result")}</Button>
         </div>
       )}
     </div>
@@ -243,6 +244,7 @@ function Quiz({ questions, onFinish }: { questions: QuizQuestion[]; onFinish: ()
 }
 
 function Scenario({ steps, onFinish }: { steps: ScenarioStep[]; onFinish: () => void }) {
+  const { t } = useI18n();
   const [i, setI] = useState(0);
   const [picked, setPicked] = useState<number | null>(null);
   const [done, setDone] = useState(false);
@@ -251,9 +253,9 @@ function Scenario({ steps, onFinish }: { steps: ScenarioStep[]; onFinish: () => 
   if (done)
     return (
       <div className="rounded-2xl border border-primary/30 bg-primary-soft p-6">
-        <h2 className="flex items-center gap-2 text-xl"><ThumbsUp className="size-5 text-success" aria-hidden="true" />You worked through it</h2>
-        <p className="mt-2 text-muted-foreground">Well done. Every choice teaches something — try it again to explore the other options.</p>
-        <Button className="mt-4" variant="outline" onClick={() => { setI(0); setPicked(null); setDone(false); }}>Start over</Button>
+        <h2 className="flex items-center gap-2 text-xl"><ThumbsUp className="size-5 text-success" aria-hidden="true" />{t("scenario.doneTitle", "You worked through it")}</h2>
+        <p className="mt-2 text-muted-foreground">{t("scenario.doneBody", "Well done. Every choice teaches something — try it again to explore the other options.")}</p>
+        <Button className="mt-4" variant="outline" onClick={() => { setI(0); setPicked(null); setDone(false); }}>{t("scenario.startover", "Start over")}</Button>
       </div>
     );
 
@@ -262,7 +264,7 @@ function Scenario({ steps, onFinish }: { steps: ScenarioStep[]; onFinish: () => 
   const best = answered && picked === step.best_index;
   return (
     <div className="rounded-2xl border border-accent bg-accent-soft p-6">
-      <p className="flex items-center gap-2 text-sm font-semibold text-primary"><Compass className="size-4" aria-hidden="true" />Scenario · step {i + 1} of {steps.length}</p>
+      <p className="flex items-center gap-2 text-sm font-semibold text-primary"><Compass className="size-4" aria-hidden="true" />{t("scenario.step", "Scenario · step")} {i + 1} {t("course.of", "of")} {steps.length}</p>
       <h2 className="mt-2 text-xl">{step.prompt}</h2>
       <div className="mt-4 grid gap-2" role="radiogroup" aria-label="What would you do?">
         {step.options.map((o, j) => (
@@ -287,12 +289,12 @@ function Scenario({ steps, onFinish }: { steps: ScenarioStep[]; onFinish: () => 
       </div>
       {answered && (
         <div aria-live="polite" className="mt-4 rounded-xl bg-card p-4 shadow-sm">
-          <p className="font-semibold">{best ? "Good choice." : "That could work, but there is a better way."}</p>
+          <p className="font-semibold">{best ? t("scenario.good", "Good choice.") : t("scenario.better", "That could work, but there is a better way.")}</p>
           <p className="mt-1 text-sm">{step.feedback[picked] ?? step.feedback[step.best_index] ?? ""}</p>
           <Button className="mt-3" onClick={() => {
             if (i + 1 < steps.length) { setI(i + 1); setPicked(null); }
             else { setDone(true); onFinish(); }
-          }}>{i + 1 < steps.length ? "Next step" : "Finish scenario"}</Button>
+          }}>{i + 1 < steps.length ? t("scenario.next", "Next step") : t("scenario.finish", "Finish scenario")}</Button>
         </div>
       )}
     </div>

@@ -4,6 +4,7 @@ import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { SiteLayout, CourseCard, CardsSkeleton, ErrorNote, EmptyState, PageHero } from "@/components/site";
+import { useI18n } from "@/lib/i18n";
 import { useCategories, useMyProgress, usePublishedCourses } from "@/lib/content";
 import { useAuth } from "@/lib/auth";
 import { cn } from "@/lib/utils";
@@ -21,6 +22,7 @@ export const Route = createFileRoute("/courses/")({
 });
 
 function CoursesPage() {
+  const { t } = useI18n();
   const { user } = useAuth();
   const courses = usePublishedCourses();
   const cats = useCategories();
@@ -40,24 +42,24 @@ function CoursesPage() {
 
   return (
     <SiteLayout>
-      <PageHero eyebrow="Courses" title="Pick what you want to learn" sub="Every course is free, short and written in plain language. If you are new to phones, begin with course 1." />
+      <PageHero eyebrow={t("nav.courses", "Courses")} title={t("courses.title", "Pick what you want to learn")} sub={t("courses.sub", "Every course is free, short and written in plain language. If you are new to phones, begin with course 1.")} />
       <section className="container-page">
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div role="group" aria-label="Filter by topic" className="flex flex-wrap gap-2">
-            <Pill active={!cat} onClick={() => setCat(null)}>All</Pill>
+            <Pill active={!cat} onClick={() => setCat(null)}>{t("courses.all", "All")}</Pill>
             {cats.data?.map((c) => (
               <Pill key={c.id} active={cat === c.id} onClick={() => setCat(c.id)}>{c.name}</Pill>
             ))}
           </div>
           <label className="relative block md:w-72">
-            <span className="sr-only">Search courses</span>
+            <span className="sr-only">{t("courses.search", "Search courses")}</span>
             <Search className="absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" aria-hidden="true" />
-            <Input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search courses" className="h-11 rounded-full bg-card pl-10" />
+            <Input value={q} onChange={(e) => setQ(e.target.value)} placeholder={t("courses.search", "Search courses")} className="h-11 rounded-full bg-card pl-10" />
           </label>
         </div>
         <div className="mt-8">
           {courses.isLoading ? <CardsSkeleton n={8} /> : courses.isError ? <ErrorNote /> : list.length === 0 ? (
-            <EmptyState icon="SearchX" title="No courses match" body="Try a different word, or show all topics." action={<Button variant="outline" onClick={() => { setQ(""); setCat(null); }}>Show all courses</Button>} />
+            <EmptyState icon="SearchX" title={t("courses.nomatch", "No courses match")} body={t("courses.nomatchBody", "Try a different word, or show all topics.")} action={<Button variant="outline" onClick={() => { setQ(""); setCat(null); }}>{t("courses.showall", "Show all courses")}</Button>} />
           ) : (
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {list.map((c) => {

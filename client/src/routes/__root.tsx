@@ -12,6 +12,7 @@ import { AuthProvider } from "@/lib/auth";
 import { I18nProvider } from "@/lib/i18n";
 import { ConsentProvider } from "@/lib/consent";
 import { CookieConsentManager, PolicyVersionGate, Analytics } from "@/components/compliance";
+import { OfflineSync } from "@/components/offline-sync";
 import { Toaster } from "@/components/ui/sonner";
 
 function NotFoundComponent() {
@@ -81,6 +82,7 @@ function RootComponent() {
             <Outlet />
             <CookieConsentManager />
             <PolicyVersionGate />
+            <OfflineSync />
             <Analytics />
             <Toaster />
           </ConsentProvider>

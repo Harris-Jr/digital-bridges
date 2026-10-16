@@ -1,10 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { CheckCircle2, Circle, ChevronRight, Clock, BookOpen, HelpCircle, Hand } from "lucide-react";
+import { useState } from "react";
+import { CheckCircle2, Circle, ChevronRight, Clock, BookOpen, HelpCircle, Hand, Download, Loader2, Check, Trash2, WifiOff } from "lucide-react";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { SiteLayout, ContentImage, ErrorNote, EmptyState, Icon, CourseCard } from "@/components/site";
-import { difficultyLabel, useCourse, useMyProgress, usePublishedCourses } from "@/lib/content";
+import { difficultyLabel, useCourse, useMyProgress, usePublishedCourses, type Lesson } from "@/lib/content";
 import { useAuth } from "@/lib/auth";
+import { downloadPack, removePack, isDownloaded, offlineSupported } from "@/lib/offline";
 
 export const Route = createFileRoute("/courses/$slug")({
   head: ({ params }) => {
@@ -118,6 +121,7 @@ function CourseDetail() {
                 </Button>
               )}
               {!user && <p className="mt-3 text-xs text-muted-foreground"><Link to="/signup" className="font-semibold text-primary underline">Create a free account</Link> to save your progress.</p>}
+              {c.lessons.length > 0 && <OfflineDownload slug={c.slug} title={c.title} image_url={c.image_url} lessons={c.lessons} />}
             </div>
           </div>
           {related && (
@@ -129,5 +133,45 @@ function CourseDetail() {
         </aside>
       </section>
     </SiteLayout>
+  );
+}
+
+function OfflineDownload({ slug, title, image_url, lessons }: { slug: string; title: string; image_url: string | null; lessons: Lesson[] }) {
+  const [saved, setSaved] = useState(() => isDownloaded(slug));
+  const [pct, setPct] = useState<number | null>(null);
+  const course = { slug, title, image_url, lessons };
+
+  // Only shown once a service worker controls the page (production/installed PWA).
+  if (!offlineSupported() && !saved) {
+    return <p className="mt-3 flex items-center gap-1.5 text-xs text-muted-foreground"><WifiOff className="size-3.5" aria-hidden="true" />Offline download works in the installed app.</p>;
+  }
+
+  const start = async () => {
+    setPct(0);
+    const ok = await downloadPack(course, (d, t) => setPct(Math.round((d / t) * 100)));
+    setPct(null);
+    if (ok) { setSaved(true); toast.success(`“${title}” is saved for offline use.`); }
+    else toast.error("Could not save this course for offline use.");
+  };
+  const remove = async () => { await removePack(course); setSaved(false); toast.success("Removed from offline storage."); };
+
+  if (pct !== null)
+    return (
+      <div className="mt-3">
+        <p className="flex items-center gap-1.5 text-sm text-muted-foreground"><Loader2 className="size-4 animate-spin" aria-hidden="true" />Saving for offline… {pct}%</p>
+        <div className="mt-2 h-1.5 rounded-full bg-secondary"><div className="h-1.5 rounded-full bg-primary transition-all" style={{ width: `${pct}%` }} /></div>
+      </div>
+    );
+
+  if (saved)
+    return (
+      <div className="mt-3 flex items-center justify-between gap-2 rounded-xl border border-success/40 bg-primary-soft px-3 py-2">
+        <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-success"><Check className="size-4" aria-hidden="true" />Available offline</span>
+        <Button variant="ghost" size="sm" className="h-8 px-2 text-muted-foreground" onClick={remove}><Trash2 className="size-4" />Remove</Button>
+      </div>
+    );
+
+  return (
+    <Button variant="outline" className="mt-3 w-full" onClick={start}><Download className="size-4" />Download for offline</Button>
   );
 }

@@ -10,6 +10,7 @@ import { useCourse, useMyProgress, useQuiz, type QuizQuestion } from "@/lib/cont
 import { useAuth } from "@/lib/auth";
 import { useI18n } from "@/lib/i18n";
 import { apiPost } from "@/lib/api";
+import { queueProgress } from "@/lib/offline";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/learn/$courseSlug/$lessonSlug")({
@@ -64,6 +65,12 @@ function LessonPlayer() {
       qc.invalidateQueries({ queryKey: ["certificates"] });
     },
     onError: () => {
+      // Offline: keep the optimistic "done" state, queue it, and sync later.
+      if (lesson && !navigator.onLine) {
+        queueProgress(lesson.id);
+        toast.success("Saved offline. This lesson will sync when you reconnect.");
+        return;
+      }
       toast.error("We could not save that. Check your connection and try again.");
       qc.invalidateQueries({ queryKey: ["progress"] });
     },

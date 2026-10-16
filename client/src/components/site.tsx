@@ -9,6 +9,7 @@ import { useI18n, LANGS } from "@/lib/i18n";
 import { useConsent } from "@/lib/consent";
 import { difficultyLabel, type Course } from "@/lib/content";
 import { AssistantWidget } from "@/components/assistant-widget";
+import { OfflineBar } from "@/components/offline-sync";
 import { cn } from "@/lib/utils";
 
 export function Icon({ name, className }: { name?: string | null | undefined; className?: string }) {
@@ -211,6 +212,7 @@ export function SiteLayout({ children }: { children: ReactNode }) {
   return (
     <div className="flex min-h-screen flex-col">
       <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-full focus:bg-accent focus:px-4 focus:py-2">Skip to content</a>
+      <OfflineBar />
       <SiteHeader />
       <main id="main" className="flex-1">{children}</main>
       <SiteFooter />

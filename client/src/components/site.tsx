@@ -255,10 +255,10 @@ export function SiteFooter() {
   const { openManager } = useConsent();
   const { t } = useI18n();
   return (
-    <footer className="mt-24 bg-primary text-primary-foreground">
+    <footer className="bg-primary text-primary-foreground">
       <div className="container-page grid gap-8 py-12 md:grid-cols-4">
         <div className="md:col-span-2">
-          <Logo imgClassName="brightness-0 invert" />
+          <Logo className="w-fit rounded-xl bg-white px-3 py-2 shadow-sm" />
           <p className="mt-3 max-w-sm text-sm text-primary-foreground/70">
             {t("footer.tagline", "Free digital skills lessons for communities across Zambia.")}
           </p>
@@ -384,13 +384,11 @@ export function CourseCard({ course, progress }: { course: Course; index?: numbe
         <h3 className="font-display text-xl font-bold leading-snug text-primary">{course.title}</h3>
         <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">{course.tagline}</p>
         <div className="mt-6 flex items-end justify-between gap-3">
-          <div className="min-w-0 text-xs text-muted-foreground">
-            {course.categories?.name && <p className="font-semibold text-primary">{course.categories.name}</p>}
-            <p className="mt-1 inline-flex flex-wrap items-center gap-x-3 gap-y-1">
-              <span className="inline-flex items-center gap-1"><BookOpen className="size-3.5" aria-hidden="true" />{lessons} {t("course.lessons", "lessons")}</span>
-              <span className="inline-flex items-center gap-1"><Clock className="size-3.5" aria-hidden="true" />{course.estimated_hours} {t("course.hrs", "hrs")}</span>
-            </p>
-          </div>
+          <p className="flex min-w-0 flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted-foreground">
+            {course.categories?.name && <span className="font-semibold text-primary">{course.categories.name}</span>}
+            <span>{lessons} {t("course.lessons", "lessons")}</span>
+            <span>{course.estimated_hours} {t("course.hrs", "hrs")}</span>
+          </p>
           <span className="grid size-11 shrink-0 place-items-center rounded-full bg-primary text-primary-foreground transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden="true">
             <ArrowRight className="size-5" />
           </span>

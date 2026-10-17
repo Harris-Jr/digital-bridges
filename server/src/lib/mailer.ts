@@ -97,6 +97,18 @@ export function welcomeEmail(name: string): { subject: string; html: string } {
   };
 }
 
+/** Password reset email with a time-limited link. */
+export function passwordResetEmail(resetUrl: string): { subject: string; html: string } {
+  return {
+    subject: "Reset your Digital Bridges password",
+    html: layout("Reset your password", `
+      <p style="line-height:1.7;margin:0 0 14px;">We received a request to reset the password for your Digital Bridges account. Click below to choose a new one. This link expires in one hour.</p>
+      ${button("Reset my password", resetUrl)}
+      <p style="line-height:1.7;margin:18px 0 0;color:#78716c;font-size:13px;">If you did not ask for this, you can safely ignore this email — your password will not change.</p>
+    `),
+  };
+}
+
 /** Email to a facilitator when their workshop request is approved or declined. */
 export function workshopDecisionEmail(topic: string, approved: boolean): { subject: string; html: string } {
   const url = env.APP_URL.replace(/\/$/, "");

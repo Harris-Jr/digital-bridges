@@ -38,6 +38,7 @@ function Home() {
 
   return (
     <SiteLayout>
+      <div className="border-b border-border bg-gradient-to-b from-primary-soft/40 via-primary-soft/10 to-background">
       <section className="container-page grid items-center gap-10 py-12 md:grid-cols-2 md:py-20">
         <div>
           {page.isLoading ? (
@@ -62,6 +63,7 @@ function Home() {
           </div>
         </div>
       </section>
+      </div>
 
       <PathwaySelector items={pathways.data ?? []} />
 

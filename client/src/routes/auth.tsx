@@ -118,10 +118,11 @@ function LoginForm({ onToggle }: { onToggle: () => void }) {
     }
   };
 
-  const reset = () => {
+  const reset = async () => {
     setErr("");
     if (!email.includes("@")) { setErr(t("auth.err.emailfirst", "Type your email above first, then tap Forgot password.")); return; }
-    setInfo(t("auth.reset.info", "To reset your password, please use the Contact page and we will help you."));
+    try { await apiPost("/auth/forgot-password", { email: email.trim() }, false); } catch { /* always show the same message */ }
+    setInfo(t("auth.reset.sent", "If that email is registered, we have sent a reset link. Please check your inbox."));
   };
 
   return (

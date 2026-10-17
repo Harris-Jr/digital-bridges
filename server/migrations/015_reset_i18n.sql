@@ -1,0 +1,25 @@
+-- Translations for the password-reset flow (stage 19).
+insert into i18n_strings(key,lang,value) values
+('auth.reset.sent','bem','Nga iyo email yalilembeshiwe, twatuma link ya kupyanga. Ceba mu inbox yobe.'),
+('auth.reset.sent','nya','Ngati email imeneyo inalembetsedwa, tatumiza link yosinthira. Onani mu inbox yanu.'),
+('reset.title','bem','Ika insa ipya'),
+('reset.title','nya','Ikani mawu achinsinsi atsopano'),
+('reset.sub','bem','Saala insa ipya ya akaanti kobe.'),
+('reset.sub','nya','Sankhani mawu achinsinsi atsopano a akaunti yanu.'),
+('reset.save','bem','Pyanga insa'),
+('reset.save','nya','Sinthani mawu achinsinsi'),
+('reset.saving','bem','Ndesunga…'),
+('reset.saving','nya','Ndikusunga…'),
+('reset.back','bem','Bwelela ku kwingila'),
+('reset.back','nya','Bwererani kokalowera'),
+('reset.short','bem','Bomfya te kucepa ku malembo 8.'),
+('reset.short','nya','Gwiritsani ntchito osachepera zilembo 8.'),
+('reset.notoken','bem','Iyi link yabula kodi. Bomfya link iya mu email yobe.'),
+('reset.notoken','nya','Link iyi ikusowa khodi. Gwiritsani ntchito link yochokera mu email yanu.'),
+('reset.failed','bem','Tacakwanishe ukupyanga insa yobe. Link napo yapwa.'),
+('reset.failed','nya','Sitinathe kusintha mawu anu achinsinsi. Mwina link yatha nthawi.'),
+('reset.doneTitle','bem','Insa yapyangwa'),
+('reset.doneTitle','nya','Mawu achinsinsi asinthidwa'),
+('reset.doneBody','bem','Nomba kuti wingila na insa yobe ipya.'),
+('reset.doneBody','nya','Tsopano mutha kulowa ndi mawu anu achinsinsi atsopano.')
+on conflict (key,lang) do update set value = excluded.value;

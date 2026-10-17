@@ -1,10 +1,12 @@
+import crypto from "node:crypto";
 import { Router } from "express";
 import { z } from "zod";
 import { query, withTransaction } from "../db.js";
 import { hashPassword, signToken, verifyPassword } from "../lib/auth.js";
 import { asyncHandler, badRequest, conflict, unauthorized } from "../lib/http.js";
 import { requireAuth, type Role } from "../middleware.js";
-import { sendMail, welcomeEmail } from "../lib/mailer.js";
+import { sendMail, welcomeEmail, passwordResetEmail } from "../lib/mailer.js";
+import { env } from "../env.js";
 
 export const authRouter = Router();
 
@@ -116,6 +118,58 @@ authRouter.patch(
     if (!input.success) throw badRequest("Use at least 8 characters.");
     const hash = await hashPassword(input.data.password);
     await query("update users set password_hash = $1 where id = $2", [hash, req.auth!.id]);
+    res.json({ ok: true });
+  }),
+);
+
+// Request a password reset link by email. Always returns 200 so the response
+// never reveals whether an email is registered.
+authRouter.post(
+  "/forgot-password",
+  asyncHandler(async (req, res) => {
+    const schema = z.object({ email: z.string().trim().toLowerCase().email() });
+    const input = schema.safeParse(req.body);
+    if (!input.success) throw badRequest("Please enter a valid email address.");
+    const { rows } = await query<{ id: string }>("select id from users where lower(email) = $1", [input.data.email]);
+    const user = rows[0];
+    if (user) {
+      const token = crypto.randomBytes(32).toString("hex");
+      const tokenHash = crypto.createHash("sha256").update(token).digest("hex");
+      const expires = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
+      await query(
+        "insert into password_reset_tokens (user_id, token_hash, expires_at) values ($1, $2, $3)",
+        [user.id, tokenHash, expires],
+      );
+      const url = `${env.APP_URL.replace(/\/$/, "")}/reset-password?token=${token}`;
+      const mail = passwordResetEmail(url);
+      void sendMail({ to: input.data.email, subject: mail.subject, html: mail.html });
+    }
+    res.json({ ok: true });
+  }),
+);
+
+// Complete a password reset with the emailed token.
+authRouter.post(
+  "/reset-password",
+  asyncHandler(async (req, res) => {
+    const schema = z.object({ token: z.string().min(10), password: z.string().min(8).max(200) });
+    const input = schema.safeParse(req.body);
+    if (!input.success) throw badRequest("Please choose a new password of at least 8 characters.");
+    const tokenHash = crypto.createHash("sha256").update(input.data.token).digest("hex");
+    const { rows } = await query<{ id: string; user_id: string; expires_at: string; used_at: string | null }>(
+      "select id, user_id, expires_at, used_at from password_reset_tokens where token_hash = $1",
+      [tokenHash],
+    );
+    const row = rows[0];
+    if (!row || row.used_at || new Date(row.expires_at) < new Date()) {
+      throw badRequest("This reset link is invalid or has expired. Please request a new one.");
+    }
+    const hash = await hashPassword(input.data.password);
+    await withTransaction(async (client) => {
+      await client.query("update users set password_hash = $1 where id = $2", [hash, row.user_id]);
+      // Mark this token used and invalidate any other outstanding ones.
+      await client.query("update password_reset_tokens set used_at = now() where user_id = $1 and used_at is null", [row.user_id]);
+    });
     res.json({ ok: true });
   }),
 );

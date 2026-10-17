@@ -1,0 +1,27 @@
+-- Translations for the redesigned nav search and the home features strip (stage 20).
+insert into i18n_strings(key,lang,value) values
+('nav.home','bem','Intanshi'),
+('nav.home','nya','Kunyumba'),
+('search.label','bem','Fwaya amasambililo'),
+('search.label','nya','Sakani maphunziro'),
+('search.placeholder','bem','Fwaya…'),
+('search.placeholder','nya','Sakani…'),
+('feat.aria','bem','Mulandu wakusambilila nafwe'),
+('feat.aria','nya','Chifukwa chophunzira nafe'),
+('feat.pace.title','bem','Sambilila pa muwayo obe'),
+('feat.pace.title','nya','Phunzirani pa liwiro lanu'),
+('feat.pace.body','bem','Amasambililo ayanono ayo kuti upwishe pa kati ka milimo imbi — takwaba ama deadline.'),
+('feat.pace.body','nya','Maphunziro aafupi omwe mungamalize pakati pa zinthu zina — palibe nthawi yoletsa.'),
+('feat.device.title','bem','Ebomba pa fyonse ifya kubomfya'),
+('feat.device.title','nya','Zimagwira pa chipangizo chilichonse'),
+('feat.device.body','bem','Yapangilwe ifoni iili mu nkwama yobe, ukufuma ku foni yakale.'),
+('feat.device.body','nya','Zapangidwa kuti zigwire pa foni iliyonse, kuyambira foni zakale.'),
+('feat.data.title','bem','Tayipoosa ama data'),
+('feat.data.title','nya','Osadya data'),
+('feat.data.body','bem','Amapeji ayawuma na ama offline pack pa kuti uposhe panono pa ma bundle.'),
+('feat.data.body','nya','Masamba opepuka ndi ma offline pack kuti muwononge zochepa pa ma bundle.'),
+('feat.skills.title','bem','Kuula amano ya cine'),
+('feat.skills.title','nya','Mangani luso lenileni'),
+('feat.skills.body','bem','Amano ya digital na ya buteko ayo kuti ubomfye bulya bwine.'),
+('feat.skills.body','nya','Luso la digito ndi la unansi lomwe mungagwiritse ntchito tsiku lomwelo.')
+on conflict (key,lang) do update set value = excluded.value;

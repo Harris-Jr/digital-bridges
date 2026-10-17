@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "@tanstack/react-router";
 import {
   Menu, X, LogOut, LayoutDashboard, Settings, ShieldCheck, Clock, BookOpen, WifiOff,
+  Search, ArrowRight, GraduationCap,
   // Icons referenced by name from CMS data (category/course/pathway/badge icon_name)
   // and by EmptyState. Imported individually so lucide tree-shakes to just these
   // instead of bundling its whole ~1,000-icon registry on every page.
@@ -18,7 +19,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useAuth } from "@/lib/auth";
 import { useI18n, LANGS } from "@/lib/i18n";
 import { useConsent } from "@/lib/consent";
-import { difficultyLabel, type Course } from "@/lib/content";
+import { type Course } from "@/lib/content";
 import { AssistantWidget } from "@/components/assistant-widget";
 import { OfflineBar } from "@/components/offline-sync";
 import { cn } from "@/lib/utils";
@@ -40,10 +41,10 @@ export function Icon({ name, className }: { name?: string | null | undefined; cl
   return <C className={className} aria-hidden="true" />;
 }
 
-export function Logo({ className }: { className?: string }) {
+export function Logo({ className, imgClassName }: { className?: string; imgClassName?: string }) {
   return (
     <Link to="/" className={cn("flex items-center", className)} aria-label="Digital Bridges home">
-      <img src="/images/logo.png" alt="Digital Bridges" className="h-12 w-auto md:h-14" width={188} height={40} />
+      <img src="/images/logo.png" alt="Digital Bridges" className={cn("h-12 w-auto md:h-14", imgClassName)} width={188} height={40} />
     </Link>
   );
 }
@@ -135,10 +136,14 @@ export function SiteHeader() {
   const qc = useQueryClient();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [q, setQ] = useState("");
   const links = [
+    { to: "/", label: t("nav.home", "Home") },
     { to: "/courses", label: t("nav.courses", "Courses") },
     { to: "/about", label: t("nav.about", "About") },
     { to: "/trainer", label: t("nav.trainers", "For Trainers") },
+    { to: "/contact", label: t("footer.contact", "Contact") },
   ] as const;
   const doSignOut = async () => {
     await qc.cancelQueries();
@@ -146,18 +151,45 @@ export function SiteHeader() {
     await signOut();
     navigate({ to: "/signin", replace: true });
   };
+  const submitSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    const term = q.trim();
+    setSearchOpen(false);
+    setOpen(false);
+    navigate({ to: "/courses", search: term ? { q: term } : {} });
+  };
+  const linkBase =
+    "relative px-1 py-5 text-sm font-medium text-foreground/80 transition-colors duration-200 hover:text-primary after:absolute after:inset-x-0 after:bottom-3 after:h-0.5 after:scale-x-0 after:bg-primary after:transition-transform after:duration-200";
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-background">
       <div className="container-page flex h-16 items-center justify-between gap-4">
         <Logo />
-        <nav aria-label="Main" className="hidden items-center gap-1 md:flex">
+        <nav aria-label="Main" className="hidden items-center gap-7 md:flex">
           {links.map((l) => (
-            <Link key={l.to} to={l.to} className="rounded-full px-4 py-2 text-sm font-medium text-foreground transition-colors duration-200 hover:bg-secondary" activeProps={{ className: "bg-secondary" }}>
+            <Link
+              key={l.to}
+              to={l.to}
+              className={linkBase}
+              activeProps={{ className: "text-primary after:scale-x-100" }}
+              activeOptions={l.to === "/" ? { exact: true } : undefined}
+            >
               {l.label}
             </Link>
           ))}
         </nav>
-        <div className="hidden items-center gap-2 md:flex">
+        <div className="hidden items-center gap-1.5 md:flex">
+          <form onSubmit={submitSearch} className="relative">
+            <label htmlFor="site-search" className="sr-only">{t("search.label", "Search courses")}</label>
+            <Search className="pointer-events-none absolute left-2.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" aria-hidden="true" />
+            <input
+              id="site-search"
+              type="search"
+              value={q}
+              onChange={(e) => setQ(e.target.value)}
+              placeholder={t("search.placeholder", "Search…")}
+              className="h-9 w-40 rounded-full border border-border bg-secondary/50 pl-8 pr-3 text-sm outline-none transition-[width,border-color] duration-200 focus:w-56 focus:border-primary focus:bg-background"
+            />
+          </form>
           <LangToggle />
           {user ? (
             <>
@@ -170,10 +202,30 @@ export function SiteHeader() {
             <Button asChild variant="accent"><Link to="/signin">{t("nav.signin", "Sign in")}</Link></Button>
           )}
         </div>
-        <Button variant="ghost" size="icon" className="md:hidden" onClick={() => setOpen(!open)} aria-label={open ? "Close menu" : "Open menu"} aria-expanded={open}>
-          {open ? <X /> : <Menu />}
-        </Button>
+        <div className="flex items-center gap-1 md:hidden">
+          <Button variant="ghost" size="icon" onClick={() => setSearchOpen((v) => !v)} aria-label={t("search.label", "Search courses")} aria-expanded={searchOpen}>
+            <Search />
+          </Button>
+          <Button variant="ghost" size="icon" onClick={() => setOpen(!open)} aria-label={open ? "Close menu" : "Open menu"} aria-expanded={open}>
+            {open ? <X /> : <Menu />}
+          </Button>
+        </div>
       </div>
+      {searchOpen && (
+        <div className="border-t border-border bg-background md:hidden">
+          <form onSubmit={submitSearch} className="container-page relative py-3">
+            <Search className="pointer-events-none absolute left-7 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" aria-hidden="true" />
+            <input
+              type="search"
+              value={q}
+              onChange={(e) => setQ(e.target.value)}
+              autoFocus
+              placeholder={t("search.placeholder", "Search…")}
+              className="h-11 w-full rounded-full border border-border bg-secondary/50 pl-10 pr-4 text-sm outline-none focus:border-primary focus:bg-background"
+            />
+          </form>
+        </div>
+      )}
       {open && (
         <div className="border-t border-border bg-background md:hidden">
           <nav aria-label="Mobile" className="container-page flex flex-col gap-1 py-4" onClick={() => setOpen(false)}>
@@ -203,36 +255,36 @@ export function SiteFooter() {
   const { openManager } = useConsent();
   const { t } = useI18n();
   return (
-    <footer className="mt-24 border-t border-border bg-card">
+    <footer className="mt-24 bg-primary text-primary-foreground">
       <div className="container-page grid gap-8 py-12 md:grid-cols-4">
         <div className="md:col-span-2">
-          <Logo />
-          <p className="mt-3 max-w-sm text-sm text-muted-foreground">
+          <Logo imgClassName="brightness-0 invert" />
+          <p className="mt-3 max-w-sm text-sm text-primary-foreground/70">
             {t("footer.tagline", "Free digital skills lessons for communities across Zambia.")}
           </p>
-          <p className="mt-2 text-xs text-muted-foreground">{t("note.translations", "Lesson translations are rolling out. Menus are translated now.")}</p>
+          <p className="mt-2 text-xs text-primary-foreground/60">{t("note.translations", "Lesson translations are rolling out. Menus are translated now.")}</p>
         </div>
         <nav aria-label="Learn" className="flex flex-col gap-2 text-sm">
-          <span className="font-semibold">{t("footer.learn", "Learn")}</span>
-          <Link to="/courses" className="text-muted-foreground transition-colors duration-200 hover:text-foreground">{t("nav.courses", "Courses")}</Link>
-          <Link to="/about" className="text-muted-foreground transition-colors duration-200 hover:text-foreground">{t("nav.about", "About")}</Link>
-          <Link to="/trainer" className="text-muted-foreground transition-colors duration-200 hover:text-foreground">{t("nav.trainers", "For Trainers")}</Link>
-          <Link to="/contact" className="text-muted-foreground transition-colors duration-200 hover:text-foreground">{t("footer.contact", "Contact")}</Link>
+          <span className="font-semibold text-accent">{t("footer.learn", "Learn")}</span>
+          <Link to="/courses" className="text-primary-foreground/70 transition-colors duration-200 hover:text-primary-foreground">{t("nav.courses", "Courses")}</Link>
+          <Link to="/about" className="text-primary-foreground/70 transition-colors duration-200 hover:text-primary-foreground">{t("nav.about", "About")}</Link>
+          <Link to="/trainer" className="text-primary-foreground/70 transition-colors duration-200 hover:text-primary-foreground">{t("nav.trainers", "For Trainers")}</Link>
+          <Link to="/contact" className="text-primary-foreground/70 transition-colors duration-200 hover:text-primary-foreground">{t("footer.contact", "Contact")}</Link>
         </nav>
         <nav aria-label="Legal" className="flex flex-col gap-2 text-sm">
-          <span className="font-semibold">{t("footer.yourdata", "Your data")}</span>
-          <Link to="/privacy" className="text-muted-foreground transition-colors duration-200 hover:text-foreground">{t("footer.privacy", "Privacy")}</Link>
-          <Link to="/terms" className="text-muted-foreground transition-colors duration-200 hover:text-foreground">{t("footer.terms", "Terms")}</Link>
-          <Link to="/accessibility" className="text-muted-foreground transition-colors duration-200 hover:text-foreground">{t("footer.accessibility", "Accessibility")}</Link>
-          <button onClick={openManager} className="text-left text-muted-foreground hover:text-foreground">{t("footer.cookies", "Cookie settings")}</button>
+          <span className="font-semibold text-accent">{t("footer.yourdata", "Your data")}</span>
+          <Link to="/privacy" className="text-primary-foreground/70 transition-colors duration-200 hover:text-primary-foreground">{t("footer.privacy", "Privacy")}</Link>
+          <Link to="/terms" className="text-primary-foreground/70 transition-colors duration-200 hover:text-primary-foreground">{t("footer.terms", "Terms")}</Link>
+          <Link to="/accessibility" className="text-primary-foreground/70 transition-colors duration-200 hover:text-primary-foreground">{t("footer.accessibility", "Accessibility")}</Link>
+          <button onClick={openManager} className="text-left text-primary-foreground/70 transition-colors duration-200 hover:text-primary-foreground">{t("footer.cookies", "Cookie settings")}</button>
         </nav>
       </div>
-      <div className="border-t border-border">
-        <div className="container-page flex flex-col items-center justify-between gap-2 py-5 text-xs text-muted-foreground sm:flex-row">
+      <div className="border-t border-primary-foreground/15">
+        <div className="container-page flex flex-col items-center justify-between gap-2 py-5 text-xs text-primary-foreground/70 sm:flex-row">
           <p>© {new Date().getFullYear()} Digital Bridges. {t("footer.rights", "All rights reserved.")}</p>
           <p>
             {t("footer.developedby", "Developed by")}{" "}
-            <a href="https://zcsi-foundation.org" target="_blank" rel="noreferrer" className="font-semibold text-primary hover:underline">
+            <a href="https://zcsi-foundation.org" target="_blank" rel="noreferrer" className="font-semibold text-accent hover:underline">
               Zambia Cyber Security Foundation
             </a>{" "}
             {t("footer.initiative", "initiative")}
@@ -240,6 +292,31 @@ export function SiteFooter() {
         </div>
       </div>
     </footer>
+  );
+}
+
+export function FeatureStrip() {
+  const { t } = useI18n();
+  const items = [
+    { icon: Clock, title: t("feat.pace.title", "Learn at your own pace"), body: t("feat.pace.body", "Short lessons you can finish between other things — no deadlines.") },
+    { icon: Smartphone, title: t("feat.device.title", "Works on any device"), body: t("feat.device.body", "Built for the phone in your pocket, from the oldest handset up.") },
+    { icon: WifiOff, title: t("feat.data.title", "Low data friendly"), body: t("feat.data.body", "Light pages and offline packs so you spend less on bundles.") },
+    { icon: GraduationCap, title: t("feat.skills.title", "Build real skills"), body: t("feat.skills.body", "Practical digital and civic know-how you can use the same day.") },
+  ];
+  return (
+    <section aria-label={t("feat.aria", "Why learn with us")} className="border-y border-border bg-secondary/30">
+      <div className="container-page grid gap-8 py-14 sm:grid-cols-2 lg:grid-cols-4">
+        {items.map((it) => (
+          <div key={it.title} className="flex flex-col items-start">
+            <span className="grid size-12 place-items-center rounded-2xl bg-primary-soft text-primary">
+              <it.icon className="size-6" aria-hidden="true" />
+            </span>
+            <h3 className="mt-4 font-display text-lg font-bold text-foreground">{it.title}</h3>
+            <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">{it.body}</p>
+          </div>
+        ))}
+      </div>
+    </section>
   );
 }
 
@@ -286,39 +363,37 @@ export function CardsSkeleton({ n = 4 }: { n?: number }) {
   );
 }
 
-export function CourseCard({ course, index, progress }: { course: Course; index: number; progress?: number | undefined }) {
+export function CourseCard({ course, progress }: { course: Course; index?: number; progress?: number | undefined }) {
   const { t } = useI18n();
   const lessons = course.lessons?.length ?? 0;
   return (
     <Link
       to="/courses/$slug"
       params={{ slug: course.slug }}
-      className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-[transform,box-shadow,border-color] duration-300 ease-out hover:border-primary/50 hover:shadow-lg motion-safe:hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+      className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-[transform,box-shadow,border-color] duration-300 ease-out hover:border-primary/40 hover:shadow-lg motion-safe:hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
     >
-      <div className="relative h-28 overflow-hidden">
+      <div className="relative h-44 overflow-hidden bg-primary-soft/50">
         <ContentImage
           src={course.image_url}
           motif={course.categories?.slug}
           alt=""
           className="motion-safe:transition-transform motion-safe:duration-500 motion-safe:ease-out motion-safe:group-hover:scale-105"
         />
-        <span className="absolute left-3 top-3 rounded-full bg-background px-2.5 py-0.5 font-display text-sm font-extrabold text-primary transition-colors duration-300 group-hover:bg-primary group-hover:text-primary-foreground">
-          {String(index + 1).padStart(2, "0")}
-        </span>
       </div>
-      <div className="flex flex-1 flex-col p-5">
-        <div className="flex items-center gap-2">
-          <Icon name={course.icon_name} className="size-5 text-primary" />
-          <span className={cn("rounded-full px-2.5 py-0.5 text-xs font-semibold", course.difficulty === "start_here" ? "bg-accent text-accent-foreground" : "bg-secondary text-secondary-foreground")}>
-            {t(`difficulty.${course.difficulty}`, difficultyLabel[course.difficulty] ?? course.difficulty)}
+      <div className="flex flex-1 flex-col p-6">
+        <h3 className="font-display text-xl font-bold leading-snug text-primary">{course.title}</h3>
+        <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">{course.tagline}</p>
+        <div className="mt-6 flex items-end justify-between gap-3">
+          <div className="min-w-0 text-xs text-muted-foreground">
+            {course.categories?.name && <p className="font-semibold text-primary">{course.categories.name}</p>}
+            <p className="mt-1 inline-flex flex-wrap items-center gap-x-3 gap-y-1">
+              <span className="inline-flex items-center gap-1"><BookOpen className="size-3.5" aria-hidden="true" />{lessons} {t("course.lessons", "lessons")}</span>
+              <span className="inline-flex items-center gap-1"><Clock className="size-3.5" aria-hidden="true" />{course.estimated_hours} {t("course.hrs", "hrs")}</span>
+            </p>
+          </div>
+          <span className="grid size-11 shrink-0 place-items-center rounded-full bg-primary text-primary-foreground transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden="true">
+            <ArrowRight className="size-5" />
           </span>
-        </div>
-        <h3 className="mt-3 text-lg transition-colors duration-200 group-hover:text-primary">{course.title}</h3>
-        <p className="mt-1 flex-1 text-sm text-muted-foreground">{course.tagline}</p>
-        <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted-foreground">
-          <span className="inline-flex items-center gap-1"><BookOpen className="size-3.5" aria-hidden="true" />{lessons} {t("course.lessons", "lessons")}</span>
-          <span className="inline-flex items-center gap-1"><Clock className="size-3.5" aria-hidden="true" />{course.estimated_hours} {t("course.hrs", "hrs")}</span>
-          <span className="inline-flex items-center gap-1 text-success"><WifiOff className="size-3.5" aria-hidden="true" />{t("course.lightdata", "Light on data")}</span>
         </div>
         {progress !== undefined && progress > 0 && (
           <div className="mt-4" aria-label={`${progress}% complete`}>

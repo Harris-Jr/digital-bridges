@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -10,6 +10,9 @@ import { useAuth } from "@/lib/auth";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/courses/")({
+  validateSearch: (s: Record<string, unknown>): { q?: string } => ({
+    q: typeof s.q === "string" && s.q.trim() ? s.q.trim() : undefined,
+  }),
   head: () => ({
     meta: [
       { title: "Courses — Digital Bridges" },
@@ -24,11 +27,15 @@ export const Route = createFileRoute("/courses/")({
 function CoursesPage() {
   const { t } = useI18n();
   const { user } = useAuth();
+  const { q: qParam } = Route.useSearch();
   const courses = usePublishedCourses();
   const cats = useCategories();
   const progress = useMyProgress(user?.id);
   const [cat, setCat] = useState<string | null>(null);
-  const [q, setQ] = useState("");
+  const [q, setQ] = useState(qParam ?? "");
+
+  // Keep the box in sync when the nav search navigates here with a new ?q=.
+  useEffect(() => { if (qParam !== undefined) setQ(qParam); }, [qParam]);
   const done = new Set(progress.data?.map((p) => p.lesson_id));
   const list = useMemo(
     () =>

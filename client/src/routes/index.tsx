@@ -2,10 +2,23 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { SiteLayout, Icon, CourseCard, CardsSkeleton, ErrorNote, Motif } from "@/components/site";
+import { SiteLayout, Icon, CourseCard, CardsSkeleton, ErrorNote, Motif, FeatureStrip } from "@/components/site";
 import { Testimonials, Partners, PathwaySelector } from "@/components/home-sections";
 import { usePage, usePublished, usePublishedCourses, usePathways } from "@/lib/content";
 import { useI18n } from "@/lib/i18n";
+
+// Interleave courses from the two pathways (digital + civic) so the home
+// shortlist always shows a mix, not just the first-loaded pathway.
+function mixPathways<T extends { pathway?: { slug: string } | null }>(all: T[], n: number): T[] {
+  const civic = all.filter((c) => c.pathway?.slug === "civic-education");
+  const digital = all.filter((c) => c.pathway?.slug !== "civic-education");
+  const out: T[] = [];
+  for (let i = 0; out.length < n && (i < digital.length || i < civic.length); i++) {
+    if (digital[i]) out.push(digital[i]!);
+    if (out.length < n && civic[i]) out.push(civic[i]!);
+  }
+  return out.slice(0, n);
+}
 
 const WHY_TONE = [
   "bg-primary-soft text-primary group-hover:bg-primary group-hover:text-primary-foreground",
@@ -118,7 +131,7 @@ function Home() {
         <div className="mt-8">
           {courses.isLoading ? <CardsSkeleton /> : courses.isError ? <ErrorNote /> : (
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              {courses.data?.slice(0, 4).map((c, i) => <CourseCard key={c.id} course={c} index={i} />)}
+              {mixPathways(courses.data ?? [], 4).map((c, i) => <CourseCard key={c.id} course={c} index={i} />)}
             </div>
           )}
         </div>
@@ -169,6 +182,8 @@ function Home() {
           </div>
         </div>
       </section>
+
+      <FeatureStrip />
     </SiteLayout>
   );
 }

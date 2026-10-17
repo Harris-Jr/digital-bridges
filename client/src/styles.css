@@ -216,3 +216,102 @@
   @keyframes db-drift { 0%,100% { transform: translate3d(0,0,0) scale(1.04); } 50% { transform: translate3d(0,-10px,0) scale(1.04); } }
   .db-drift { animation: db-drift 14s ease-in-out infinite; }
 }
+
+/* ------------------------------------------------------------------ /auth */
+/* Sliding-panel auth page. Two absolutely-positioned halves (illustration +
+   form) that swap places via translate3d when the container gets .active. */
+.auth-page {
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  background: var(--background);
+  padding: 2.5rem 1rem;
+}
+.auth-container {
+  position: relative;
+  margin-inline: auto;
+  width: 100%;
+  max-width: 900px;
+  height: min(760px, calc(100dvh - 5rem));
+  min-height: 580px;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 30px 80px -30px rgba(20, 40, 25, 0.5);
+}
+.auth-container .form-box,
+.auth-container .toggle-box {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  will-change: transform;
+  transform: translateZ(0);
+  transition: transform 600ms ease-in-out, border-radius 600ms ease-in-out;
+}
+.auth-container .form-box {
+  right: 0;
+  z-index: 10;
+  width: 50%;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+.auth-container .form-box::-webkit-scrollbar { display: none; }
+.auth-container.active .form-box { transform: translate3d(-100%, 0, 0); }
+.auth-container .toggle-box {
+  left: 0;
+  z-index: 20;
+  width: 50%;
+  overflow: hidden;
+  border-radius: 0 150px 150px 0;
+}
+.auth-container.active .toggle-box {
+  transform: translate3d(100%, 0, 0);
+  border-radius: 150px 0 0 150px;
+}
+.auth-form { animation: auth-form-fade 650ms ease-in-out both; }
+@keyframes auth-form-fade {
+  0% { opacity: 0.3; transform: translateX(1.5rem); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+
+/* Tablet (650–1024px) */
+@media (max-width: 1024px) and (min-width: 650px) {
+  .auth-container { max-width: 800px; }
+  .auth-container .form-box { width: 58%; }
+  .auth-container.active .form-box { transform: translate3d(-72.414%, 0, 0); }
+  .auth-container .toggle-box { width: 42%; }
+  .auth-container.active .toggle-box { transform: translate3d(138.095%, 0, 0); }
+  .auth-form { font-size: 0.875rem; }
+}
+
+/* Mobile (<650px): stacked illustration header + form */
+@media (max-width: 649px) {
+  .auth-page { height: 100dvh; min-height: 0; overflow: hidden; padding: 12px; }
+  .auth-container { width: 100%; height: calc(100dvh - 24px); min-height: 0; max-width: none; border-radius: 20px; }
+  .auth-container .form-box,
+  .auth-container .toggle-box {
+    left: 0; right: auto; width: 100%;
+    transition: transform 450ms ease-in-out, border-radius 450ms ease-in-out;
+  }
+  .auth-container .toggle-box { top: 0; height: 30%; transform: translate3d(0, 0, 0); border-radius: 0 0 150px 150px; }
+  .auth-container.active .toggle-box { transform: translate3d(0, 233.333%, 0); border-radius: 150px 150px 0 0; }
+  .auth-container .form-box { top: 30%; bottom: 0; height: 70%; overflow-x: hidden; overscroll-behavior: contain; transform: translate3d(0, 0, 0); }
+  .auth-container.active .form-box { transform: translate3d(0, -42.857%, 0); }
+  .auth-form { animation-duration: 450ms; }
+}
+
+/* Respect reduced motion: swap instantly */
+@media (prefers-reduced-motion: reduce) {
+  .auth-container .form-box,
+  .auth-container .toggle-box { transition-duration: 1ms; }
+  .auth-form { animation: none; }
+}
+
+/* Kill the blue browser autofill background inside the glass card */
+.auth-form input:-webkit-autofill,
+.auth-form input:-webkit-autofill:hover,
+.auth-form input:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--foreground);
+  -webkit-box-shadow: 0 0 0 1000px color-mix(in srgb, white 36%, transparent) inset;
+  caret-color: var(--foreground);
+  transition: background-color 9999s ease-in-out 0s;
+}

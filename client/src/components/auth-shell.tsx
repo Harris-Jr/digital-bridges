@@ -1,6 +1,6 @@
 import { useState, type ReactNode, type InputHTMLAttributes } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
-import { X, Eye, EyeOff, Lock, type LucideIcon } from "lucide-react";
+import { X, Eye, EyeOff, type LucideIcon } from "lucide-react";
 import { LANGS, useI18n } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
@@ -70,10 +70,10 @@ export function AuthShell({ children }: { children: ReactNode }) {
   );
 }
 
-function LangPill() {
+export function LangPill({ onDark = false }: { onDark?: boolean }) {
   const { lang, setLang } = useI18n();
   return (
-    <div role="group" aria-label="Language" className="flex rounded-full border border-white/40 bg-white/30 p-1 backdrop-blur">
+    <div role="group" aria-label="Language" className={cn("flex rounded-full border p-1 backdrop-blur", onDark ? "border-white/50 bg-white/20" : "border-white/40 bg-white/30")}>
       {LANGS.map((l) => (
         <button
           key={l.code}
@@ -82,7 +82,7 @@ function LangPill() {
           aria-pressed={lang === l.code}
           className={cn(
             "min-h-8 rounded-full px-3 text-xs font-semibold transition-colors",
-            lang === l.code ? "bg-primary text-primary-foreground" : "text-foreground/80 hover:text-foreground",
+            lang === l.code ? "bg-primary text-primary-foreground" : onDark ? "text-white/90 hover:text-white" : "text-foreground/80 hover:text-foreground",
           )}
         >
           {l.label}
@@ -136,9 +136,10 @@ export function PasswordField({ label, error, id, ...props }: Omit<FieldProps, "
           type="button"
           onClick={() => setShow((s) => !s)}
           aria-label={show ? "Hide password" : "Show password"}
+          aria-pressed={show}
           className="absolute right-0 top-1/2 grid size-6 -translate-y-1/2 place-items-center text-muted-foreground transition-colors hover:text-primary"
         >
-          {show ? <EyeOff className="size-5" /> : props.value ? <Eye className="size-5" /> : <Lock className="size-5" />}
+          {show ? <EyeOff className="size-5" /> : <Eye className="size-5" />}
         </button>
       }
       {...props}

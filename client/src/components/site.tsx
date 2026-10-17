@@ -43,7 +43,7 @@ export function Icon({ name, className }: { name?: string | null | undefined; cl
 export function Logo({ className }: { className?: string }) {
   return (
     <Link to="/" className={cn("flex items-center", className)} aria-label="Digital Bridges home">
-      <img src="/images/logo.png" alt="Digital Bridges" className="h-9 w-auto md:h-10" width={188} height={40} />
+      <img src="/images/logo.png" alt="Digital Bridges" className="h-12 w-auto md:h-14" width={188} height={40} />
     </Link>
   );
 }
@@ -226,6 +226,18 @@ export function SiteFooter() {
           <Link to="/accessibility" className="text-muted-foreground transition-colors duration-200 hover:text-foreground">{t("footer.accessibility", "Accessibility")}</Link>
           <button onClick={openManager} className="text-left text-muted-foreground hover:text-foreground">{t("footer.cookies", "Cookie settings")}</button>
         </nav>
+      </div>
+      <div className="border-t border-border">
+        <div className="container-page flex flex-col items-center justify-between gap-2 py-5 text-xs text-muted-foreground sm:flex-row">
+          <p>© {new Date().getFullYear()} Digital Bridges. {t("footer.rights", "All rights reserved.")}</p>
+          <p>
+            {t("footer.developedby", "Developed by")}{" "}
+            <a href="https://zcsi-foundation.org" target="_blank" rel="noreferrer" className="font-semibold text-primary hover:underline">
+              Zambia Cyber Security Foundation
+            </a>{" "}
+            {t("footer.initiative", "initiative")}
+          </p>
+        </div>
       </div>
     </footer>
   );

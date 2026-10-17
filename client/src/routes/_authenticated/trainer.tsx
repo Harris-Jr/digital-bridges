@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Skeleton } from "@/components/ui/skeleton";
-import { SiteLayout, PageHero, EmptyState } from "@/components/site";
+import { PageHero, EmptyState } from "@/components/site";
 import { useAuth } from "@/lib/auth";
 import { usePage } from "@/lib/content";
 import { apiGet, apiPost } from "@/lib/api";
@@ -87,7 +87,7 @@ function Trainer() {
   };
 
   return (
-    <SiteLayout>
+    <>
       <PageHero eyebrow="For trainers" title={page.data?.hero_title ?? "Run workshops in your community"} sub={page.data?.hero_subline} />
       <div className="container-page space-y-12">
         {!isTrainer ? (
@@ -193,6 +193,6 @@ function Trainer() {
           </>
         )}
       </div>
-    </SiteLayout>
+    </>
   );
 }

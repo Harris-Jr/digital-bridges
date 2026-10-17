@@ -1,5 +1,6 @@
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 import { getToken } from "@/lib/api";
+import { AppShell } from "@/components/app-shell";
 
 export const Route = createFileRoute("/_authenticated")({
   // Client-side guard: a token must be present. The API still enforces auth on
@@ -7,5 +8,9 @@ export const Route = createFileRoute("/_authenticated")({
   beforeLoad: () => {
     if (!getToken()) throw redirect({ to: "/signin" });
   },
-  component: () => <Outlet />,
+  component: () => (
+    <AppShell>
+      <Outlet />
+    </AppShell>
+  ),
 });

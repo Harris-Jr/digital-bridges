@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Skeleton } from "@/components/ui/skeleton";
-import { SiteLayout, EmptyState } from "@/components/site";
+import { EmptyState } from "@/components/site";
 import { getToken, apiGet, apiPost, apiDelete } from "@/lib/api";
 
 export const Route = createFileRoute("/_authenticated/cohorts/$id")({
@@ -54,14 +54,14 @@ function CohortDetail() {
     onError: () => toast.error("Could not add that session."),
   });
 
-  if (q.isLoading) return <SiteLayout><div className="container-page space-y-4 py-12"><Skeleton className="h-10 w-1/3" /><Skeleton className="h-40 w-full rounded-2xl" /></div></SiteLayout>;
+  if (q.isLoading) return <><div className="container-page space-y-4 py-12"><Skeleton className="h-10 w-1/3" /><Skeleton className="h-40 w-full rounded-2xl" /></div></>;
   if (q.isError || !q.data)
     return (
-      <SiteLayout>
+      <>
         <div className="container-page py-16">
           <EmptyState icon="Users" title="Cohort not found" body="It may have been removed, or it belongs to another facilitator." action={<Button asChild><Link to="/trainer"><ArrowLeft />Back to trainer area</Link></Button>} />
         </div>
-      </SiteLayout>
+      </>
     );
 
   const { cohort, members, sessions } = q.data;
@@ -71,7 +71,7 @@ function CohortDetail() {
   };
 
   return (
-    <SiteLayout>
+    <>
       <section className="container-page py-10">
         <Button asChild variant="ghost" size="sm" className="mb-4"><Link to="/trainer"><ArrowLeft className="size-4" />Back to trainer area</Link></Button>
 
@@ -159,7 +159,7 @@ function CohortDetail() {
           )}
         </div>
       </section>
-    </SiteLayout>
+    </>
   );
 }
 

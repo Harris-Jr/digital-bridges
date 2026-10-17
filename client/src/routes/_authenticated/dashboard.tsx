@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
-import { SiteLayout, ProgressRing, BadgeMedal, CourseCard, EmptyState, ContentImage } from "@/components/site";
+import { ProgressRing, BadgeMedal, CourseCard, EmptyState, ContentImage } from "@/components/site";
 import { useAuth } from "@/lib/auth";
 import { useI18n } from "@/lib/i18n";
 import { computeStreak, useMyProgress, usePublishedCourses, useMyCertificates, useMyLearnerCohorts } from "@/lib/content";
@@ -46,7 +46,7 @@ function Dashboard() {
   });
 
   if (courses.isLoading || progress.isLoading)
-    return <SiteLayout><div className="container-page space-y-4 py-12"><Skeleton className="h-10 w-1/3" /><Skeleton className="h-40 w-full rounded-2xl" /></div></SiteLayout>;
+    return <><div className="container-page space-y-4 py-12"><Skeleton className="h-10 w-1/3" /><Skeleton className="h-40 w-full rounded-2xl" /></div></>;
 
   const list = courses.data ?? [];
   const done = new Set(progress.data?.map((p) => p.lesson_id));
@@ -64,7 +64,7 @@ function Dashboard() {
   const firstName = profile?.full_name?.split(" ")[0];
 
   return (
-    <SiteLayout>
+    <>
       <section className="container-page py-12">
         <h1 className="text-3xl md:text-4xl">{t("greeting", "Moni")}{firstName ? `, ${firstName}` : ""}</h1>
         <p className="mt-2 text-muted-foreground">{t("dash.sub", "Here is how your learning is going.")}</p>
@@ -164,6 +164,6 @@ function Dashboard() {
           </div>
         )}
       </section>
-    </SiteLayout>
+    </>
   );
 }

@@ -22,6 +22,21 @@ const schema = z.object({
   // override it if Google renames the current free tier.
   GEMINI_API_KEY: z.string().optional(),
   GEMINI_MODEL: z.string().default("gemini-2.0-flash"),
+  // SMTP email (optional). When SMTP_HOST/USER/PASS are unset, email is disabled
+  // and the app runs normally (sends are skipped). Works with any provider —
+  // Brevo, Gmail, Outlook, Hostinger, SendGrid, etc. — via these variables.
+  // Port 465 → set SMTP_SECURE=true; port 587/25 → leave it false (STARTTLS).
+  SMTP_HOST: z.string().optional(),
+  SMTP_PORT: z.coerce.number().int().positive().default(587),
+  // Parse explicitly: z.coerce.boolean() treats the string "false" as true.
+  SMTP_SECURE: z.preprocess((v) => v === "true" || v === "1" || v === true, z.boolean()),
+  SMTP_USER: z.string().optional(),
+  SMTP_PASS: z.string().optional(),
+  // The From header, e.g. "Digital Bridges <no-reply@yourdomain.org>".
+  // Falls back to SMTP_USER when unset.
+  SMTP_FROM: z.string().optional(),
+  // Public base URL of the app, used to build links inside emails.
+  APP_URL: z.string().default("http://localhost:5173"),
 });
 
 const parsed = schema.safeParse(process.env);

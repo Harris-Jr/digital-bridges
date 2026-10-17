@@ -7,6 +7,7 @@ import { z, type ZodType } from "zod";
 import { query } from "../db.js";
 import { asyncHandler, badRequest, notFound } from "../lib/http.js";
 import { requireAuth, requireStaff } from "../middleware.js";
+import { sendMail, workshopDecisionEmail } from "../lib/mailer.js";
 
 export const adminRouter = Router();
 adminRouter.use(requireAuth, requireStaff);
@@ -303,12 +304,21 @@ adminRouter.patch(
     const schema = z.object({ status: z.enum(["approved", "declined", "pending"]) });
     const input = schema.safeParse(req.body);
     if (!input.success) throw badRequest("Choose approve or decline.");
-    const { rows } = await query(
-      "update workshop_requests set status = $1 where id = $2 returning id, status",
+    const { rows } = await query<{ id: string; status: string; topic: string; email: string }>(
+      `update workshop_requests w set status = $1 from users u
+         where w.id = $2 and u.id = w.trainer_id
+         returning w.id, w.status, w.topic, u.email`,
       [input.data.status, req.params.id],
     );
-    if (!rows[0]) throw notFound("Request not found.");
-    res.json(rows[0]);
+    const row = rows[0];
+    if (!row) throw notFound("Request not found.");
+
+    // Notify the facilitator when a decision is made (fire-and-forget).
+    if (row.status === "approved" || row.status === "declined") {
+      const mail = workshopDecisionEmail(row.topic, row.status === "approved");
+      void sendMail({ to: row.email, subject: mail.subject, html: mail.html });
+    }
+    res.json({ id: row.id, status: row.status });
   }),
 );
 

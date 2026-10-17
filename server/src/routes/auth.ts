@@ -4,6 +4,7 @@ import { query, withTransaction } from "../db.js";
 import { hashPassword, signToken, verifyPassword } from "../lib/auth.js";
 import { asyncHandler, badRequest, conflict, unauthorized } from "../lib/http.js";
 import { requireAuth, type Role } from "../middleware.js";
+import { sendMail, welcomeEmail } from "../lib/mailer.js";
 
 export const authRouter = Router();
 
@@ -60,6 +61,11 @@ authRouter.post(
 
     const token = signToken({ sub: user.id, email: user.email });
     const { profile, roles } = await profileAndRoles(user.id);
+
+    // Fire-and-forget welcome email — never blocks or fails signup.
+    const welcome = welcomeEmail(full_name ?? "");
+    void sendMail({ to: user.email, subject: welcome.subject, html: welcome.html });
+
     res.status(201).json({ token, user, profile, roles });
   }),
 );

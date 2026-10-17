@@ -1,5 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
 import { apiGet } from "@/lib/api";
+import { useI18n } from "@/lib/i18n";
+
+// Append ?lang= for non-English so the API overlays translated content.
+// English needs no param (base rows are the source of truth).
+function langQs(lang: string, extra?: string): string {
+  const parts: string[] = [];
+  if (extra) parts.push(extra);
+  if (lang && lang !== "en") parts.push(`lang=${encodeURIComponent(lang)}`);
+  return parts.length ? `?${parts.join("&")}` : "";
+}
 
 export type Json = string | number | boolean | null | Json[] | { [k: string]: Json };
 
@@ -62,8 +72,10 @@ export type Course = {
   lessons?: { id: string; is_published?: boolean }[];
 };
 
-export const usePathways = () =>
-  useQuery({ queryKey: ["pathways"], queryFn: () => apiGet<Pathway[]>("/pathways", false) });
+export const usePathways = () => {
+  const { lang } = useI18n();
+  return useQuery({ queryKey: ["pathways", lang], queryFn: () => apiGet<Pathway[]>(`/pathways${langQs(lang)}`, false) });
+};
 export type Lesson = {
   id: string;
   course_id: string;
@@ -110,47 +122,57 @@ export type QuizQuestion = {
 // The API returns the joined category under `category`; the UI expects `categories`.
 type ApiCourse = Omit<Course, "categories"> & { category: Category | null };
 
-export const useCategories = () =>
-  useQuery({
-    queryKey: ["categories"],
-    queryFn: () => apiGet<Category[]>("/categories", false),
+export const useCategories = () => {
+  const { lang } = useI18n();
+  return useQuery({
+    queryKey: ["categories", lang],
+    queryFn: () => apiGet<Category[]>(`/categories${langQs(lang)}`, false),
   });
+};
 
-export const usePublishedCourses = (pathwaySlug?: string) =>
-  useQuery({
-    queryKey: ["courses", "published", pathwaySlug ?? "all"],
+export const usePublishedCourses = (pathwaySlug?: string) => {
+  const { lang } = useI18n();
+  return useQuery({
+    queryKey: ["courses", "published", pathwaySlug ?? "all", lang],
     queryFn: async () => {
-      const qs = pathwaySlug ? `?pathway=${encodeURIComponent(pathwaySlug)}` : "";
+      const qs = langQs(lang, pathwaySlug ? `pathway=${encodeURIComponent(pathwaySlug)}` : undefined);
       const rows = await apiGet<ApiCourse[]>(`/courses${qs}`, false);
       return rows.map(({ category, ...c }) => ({ ...c, categories: category }));
     },
   });
+};
 
-export const usePathway = (slug: string) =>
-  useQuery({
-    queryKey: ["pathway", slug],
+export const usePathway = (slug: string) => {
+  const { lang } = useI18n();
+  return useQuery({
+    queryKey: ["pathway", slug, lang],
     queryFn: async () => {
-      const { pathway, courses } = await apiGet<{ pathway: Pathway; courses: ApiCourse[] }>(`/pathways/${slug}`, false);
+      const { pathway, courses } = await apiGet<{ pathway: Pathway; courses: ApiCourse[] }>(`/pathways/${slug}${langQs(lang)}`, false);
       return { pathway, courses: courses.map(({ category, ...c }) => ({ ...c, categories: category })) };
     },
   });
+};
 
-export const useCourse = (slug: string) =>
-  useQuery({
-    queryKey: ["course", slug],
+export const useCourse = (slug: string) => {
+  const { lang } = useI18n();
+  return useQuery({
+    queryKey: ["course", slug, lang],
     queryFn: async () => {
-      const { category, ...c } = await apiGet<ApiCourse & { lessons: Lesson[] }>(`/courses/${slug}`, false);
+      const { category, ...c } = await apiGet<ApiCourse & { lessons: Lesson[] }>(`/courses/${slug}${langQs(lang)}`, false);
       return { ...c, categories: category } as Omit<Course, "lessons"> & { lessons: Lesson[] };
     },
     retry: (count, err) => !(err instanceof Error && err.message.toLowerCase().includes("not found")) && count < 1,
   });
+};
 
-export const useQuiz = (lessonId: string | undefined) =>
-  useQuery({
-    queryKey: ["quiz", lessonId],
+export const useQuiz = (lessonId: string | undefined) => {
+  const { lang } = useI18n();
+  return useQuery({
+    queryKey: ["quiz", lessonId, lang],
     enabled: !!lessonId,
-    queryFn: () => apiGet<QuizQuestion[]>(`/lessons/${lessonId}/quiz`, false),
+    queryFn: () => apiGet<QuizQuestion[]>(`/lessons/${lessonId}/quiz${langQs(lang)}`, false),
   });
+};
 
 export type ScenarioStep = {
   id: string;
@@ -162,12 +184,14 @@ export type ScenarioStep = {
   sort_order: number;
 };
 
-export const useScenario = (lessonId: string | undefined, enabled: boolean) =>
-  useQuery({
-    queryKey: ["scenario", lessonId],
+export const useScenario = (lessonId: string | undefined, enabled: boolean) => {
+  const { lang } = useI18n();
+  return useQuery({
+    queryKey: ["scenario", lessonId, lang],
     enabled: !!lessonId && enabled,
-    queryFn: () => apiGet<ScenarioStep[]>(`/lessons/${lessonId}/scenario`, false),
+    queryFn: () => apiGet<ScenarioStep[]>(`/lessons/${lessonId}/scenario${langQs(lang)}`, false),
   });
+};
 
 export const useMyProgress = (userId: string | undefined) =>
   useQuery({

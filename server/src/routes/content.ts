@@ -2,6 +2,7 @@
 import { Router } from "express";
 import { query } from "../db.js";
 import { asyncHandler, notFound } from "../lib/http.js";
+import { overlay, overlayLang } from "../lib/translate.js";
 
 export const contentRouter = Router();
 
@@ -29,8 +30,9 @@ contentRouter.get(
 
 contentRouter.get(
   "/categories",
-  asyncHandler(async (_req, res) => {
+  asyncHandler(async (req, res) => {
     const { rows } = await query("select * from categories order by sort_order");
+    await overlay("category", overlayLang(req.query.lang), rows);
     res.json(rows);
   }),
 );
@@ -38,7 +40,7 @@ contentRouter.get(
 // Published pathways (top-level tracks), each with a published-course count.
 contentRouter.get(
   "/pathways",
-  asyncHandler(async (_req, res) => {
+  asyncHandler(async (req, res) => {
     const { rows } = await query(`
       select p.*,
              (select count(*) from courses c where c.pathway_id = p.id and c.is_published = true)::int as course_count
@@ -46,6 +48,7 @@ contentRouter.get(
        where p.is_published = true
        order by p.sort_order
     `);
+    await overlay("pathway", overlayLang(req.query.lang), rows);
     res.json(rows);
   }),
 );
@@ -56,6 +59,8 @@ contentRouter.get(
   asyncHandler(async (req, res) => {
     const { rows: pr } = await query("select * from pathways where slug = $1 and is_published = true", [req.params.slug]);
     if (!pr[0]) throw notFound("Pathway not found");
+    const plang = overlayLang(req.query.lang);
+    await overlay("pathway", plang, pr);
     const { rows: courses } = await query(
       `select c.*, to_jsonb(cat.*) as category,
               coalesce((select jsonb_agg(jsonb_build_object('id', l.id, 'is_published', l.is_published) order by l.sort_order)
@@ -64,6 +69,8 @@ contentRouter.get(
         where c.pathway_id = $1 and c.is_published = true order by c.sort_order`,
       [pr[0].id],
     );
+    await overlay("course", plang, courses);
+    await overlay("category", plang, courses.map((c) => c.category as Record<string, unknown>).filter(Boolean));
     res.json({ pathway: pr[0], courses });
   }),
 );
@@ -89,6 +96,9 @@ contentRouter.get(
         order by c.sort_order`,
       [pathway],
     );
+    const clang = overlayLang(req.query.lang);
+    await overlay("course", clang, rows);
+    await overlay("category", clang, rows.map((c) => c.category as Record<string, unknown>).filter(Boolean));
     res.json(rows);
   }),
 );
@@ -110,6 +120,10 @@ contentRouter.get(
       [req.params.slug],
     );
     if (!rows[0]) throw notFound("Course not found");
+    const lang = overlayLang(req.query.lang);
+    await overlay("course", lang, rows);
+    await overlay("category", lang, [rows[0].category as Record<string, unknown>].filter(Boolean));
+    await overlay("lesson", lang, (rows[0].lessons as Record<string, unknown>[]) ?? []);
     res.json(rows[0]);
   }),
 );
@@ -121,6 +135,7 @@ contentRouter.get(
       "select * from quiz_questions where lesson_id = $1 order by sort_order",
       [req.params.id],
     );
+    await overlay("quiz_question", overlayLang(req.query.lang), rows);
     res.json(rows);
   }),
 );
@@ -132,6 +147,7 @@ contentRouter.get(
       "select id, lesson_id, prompt, options, feedback, best_index, sort_order from scenario_steps where lesson_id = $1 order by sort_order",
       [req.params.id],
     );
+    await overlay("scenario_step", overlayLang(req.query.lang), rows);
     res.json(rows);
   }),
 );

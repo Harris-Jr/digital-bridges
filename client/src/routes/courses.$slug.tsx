@@ -139,7 +139,7 @@ function CourseDetail() {
 }
 
 function OfflineDownload({ slug, title, image_url, lessons }: { slug: string; title: string; image_url: string | null; lessons: Lesson[] }) {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
   const [saved, setSaved] = useState(() => isDownloaded(slug));
   const [pct, setPct] = useState<number | null>(null);
   const course = { slug, title, image_url, lessons };
@@ -151,12 +151,12 @@ function OfflineDownload({ slug, title, image_url, lessons }: { slug: string; ti
 
   const start = async () => {
     setPct(0);
-    const ok = await downloadPack(course, (d, total) => setPct(Math.round((d / total) * 100)));
+    const ok = await downloadPack(course, (d, total) => setPct(Math.round((d / total) * 100)), [lang]);
     setPct(null);
     if (ok) { setSaved(true); toast.success(t("offline.saved", "This course is saved for offline use.")); }
     else toast.error(t("offline.saveFail", "Could not save this course for offline use."));
   };
-  const remove = async () => { await removePack(course); setSaved(false); toast.success(t("offline.removed", "Removed from offline storage.")); };
+  const remove = async () => { await removePack(course, [lang]); setSaved(false); toast.success(t("offline.removed", "Removed from offline storage.")); };
 
   if (pct !== null)
     return (

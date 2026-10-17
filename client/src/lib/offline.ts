@@ -41,14 +41,20 @@ export function isDownloaded(slug: string): boolean {
 }
 
 /** Absolute URLs this course needs cached, split by which cache they belong in. */
-function packUrls(course: CourseLike): { api: string[]; media: string[] } {
+// `langs` are extra (non-English) language codes to also pre-warm, so a learner
+// reading in Bemba/Nyanja has the translated content available offline. The
+// English URLs (no ?lang=) are always included.
+function packUrls(course: CourseLike, langs: string[] = []): { api: string[]; media: string[] } {
   const origin = location.origin;
-  const api = [`${origin}/api/courses/${course.slug}`];
+  const suffixes = ["", ...langs.filter((l) => l && l !== "en").map((l) => `?lang=${encodeURIComponent(l)}`)];
+  const api: string[] = [];
+  const pushLangged = (path: string) => { for (const s of suffixes) api.push(`${origin}${path}${s}`); };
+  pushLangged(`/api/courses/${course.slug}`);
   const media: string[] = [];
   if (course.image_url) media.push(course.image_url);
   for (const l of course.lessons) {
-    api.push(`${origin}/api/lessons/${l.id}/quiz`);
-    api.push(`${origin}/api/lessons/${l.id}/scenario`);
+    pushLangged(`/api/lessons/${l.id}/quiz`);
+    pushLangged(`/api/lessons/${l.id}/scenario`);
     if (l.image_url) media.push(l.image_url);
     if (l.audio_url) media.push(l.audio_url);
   }
@@ -60,9 +66,9 @@ function packUrls(course: CourseLike): { api: string[]; media: string[] } {
  * Resolves true on success. Cross-origin media is fetched no-cors and stored
  * as an opaque response, which the CacheFirst media handler still serves.
  */
-export async function downloadPack(course: CourseLike, onProgress?: (done: number, total: number) => void): Promise<boolean> {
+export async function downloadPack(course: CourseLike, onProgress?: (done: number, total: number) => void, langs: string[] = []): Promise<boolean> {
   if (!offlineSupported()) return false;
-  const { api, media } = packUrls(course);
+  const { api, media } = packUrls(course, langs);
   const total = api.length + media.length;
   let done = 0;
   const tick = () => { done += 1; onProgress?.(done, total); };
@@ -95,12 +101,12 @@ export async function downloadPack(course: CourseLike, onProgress?: (done: numbe
 }
 
 /** Remove a course pack: forget it and best-effort delete its cached entries. */
-export async function removePack(course: CourseLike): Promise<void> {
+export async function removePack(course: CourseLike, langs: string[] = []): Promise<void> {
   const packs = getPacks();
   delete packs[course.slug];
   setPacks(packs);
   if (typeof caches === "undefined") return;
-  const { api, media } = packUrls(course);
+  const { api, media } = packUrls(course, langs);
   try {
     const apiCache = await caches.open(API_CACHE);
     const mediaCache = await caches.open(MEDIA_CACHE);

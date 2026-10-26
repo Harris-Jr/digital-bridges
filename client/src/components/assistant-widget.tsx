@@ -38,7 +38,7 @@ export function AssistantWidget() {
       <Link
         to="/contact"
         aria-label={t("assistant.help", "Get help")}
-        className="fixed bottom-5 right-5 z-40 inline-flex items-center gap-2 rounded-full bg-primary px-4 py-3 text-sm font-semibold text-primary-foreground shadow-lg transition-transform duration-200 hover:shadow-xl motion-safe:hover:scale-105"
+        className="db-heartbeat fixed bottom-5 right-5 z-40 inline-flex items-center gap-2 rounded-full bg-primary px-4 py-3 text-sm font-semibold text-primary-foreground shadow-lg transition-transform duration-200 hover:shadow-xl motion-safe:hover:scale-105"
       >
         <LifeBuoy className="size-5" />
         {t("assistant.help", "Get help")}
@@ -69,7 +69,7 @@ export function AssistantWidget() {
         <button
           onClick={() => setOpen(true)}
           aria-label={t("assistant.open", "Ask for help")}
-          className="fixed bottom-5 right-5 z-40 grid size-14 place-items-center rounded-full bg-primary text-primary-foreground shadow-lg transition-transform duration-200 hover:shadow-xl motion-safe:hover:scale-105"
+          className="db-heartbeat fixed bottom-5 right-5 z-40 grid size-14 place-items-center rounded-full bg-primary text-primary-foreground shadow-lg transition-transform duration-200 hover:shadow-xl motion-safe:hover:scale-105"
         >
           <MessageCircle className="size-6" />
         </button>

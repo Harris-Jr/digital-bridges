@@ -215,6 +215,17 @@
 @media (prefers-reduced-motion: no-preference) {
   @keyframes db-drift { 0%,100% { transform: translate3d(0,0,0) scale(1.04); } 50% { transform: translate3d(0,-10px,0) scale(1.04); } }
   .db-drift { animation: db-drift 14s ease-in-out infinite; }
+
+  /* Heartbeat glow for the help launcher: a steady soft glow plus a quick
+     double-beat expanding ring, then a rest, like a pulse. */
+  @keyframes db-heartbeat {
+    0%      { box-shadow: 0 8px 22px -6px rgba(0,0,0,.35), 0 0 16px 2px color-mix(in srgb, var(--primary) 30%, transparent), 0 0 0 0 color-mix(in srgb, var(--primary) 55%, transparent); }
+    10%     { box-shadow: 0 8px 22px -6px rgba(0,0,0,.35), 0 0 20px 3px color-mix(in srgb, var(--primary) 42%, transparent), 0 0 0 10px color-mix(in srgb, var(--primary) 0%, transparent); }
+    20%     { box-shadow: 0 8px 22px -6px rgba(0,0,0,.35), 0 0 16px 2px color-mix(in srgb, var(--primary) 30%, transparent), 0 0 0 0 color-mix(in srgb, var(--primary) 50%, transparent); }
+    32%     { box-shadow: 0 8px 22px -6px rgba(0,0,0,.35), 0 0 22px 4px color-mix(in srgb, var(--primary) 46%, transparent), 0 0 0 14px color-mix(in srgb, var(--primary) 0%, transparent); }
+    45%,100%{ box-shadow: 0 8px 22px -6px rgba(0,0,0,.35), 0 0 16px 2px color-mix(in srgb, var(--primary) 26%, transparent), 0 0 0 0 color-mix(in srgb, var(--primary) 0%, transparent); }
+  }
+  .db-heartbeat { animation: db-heartbeat 2.4s ease-in-out infinite; }
 }
 
 /* ------------------------------------------------------------------ /auth */

@@ -49,13 +49,164 @@ export function Logo({ className, imgClassName }: { className?: string; imgClass
   );
 }
 
-/** Geometric SVG motifs in palette colours. */
+/** Map a course icon name or category/legacy key to a scene id. */
+function motifScene(kind?: string | null): string {
+  const k = (kind ?? "").toLowerCase();
+  const map: Record<string, string> = {
+    // course icon_name values
+    smartphone: "phone", shieldcheck: "shield", messagecircle: "chat",
+    searchcheck: "factcheck", wallet: "wallet", briefcase: "briefcase",
+    store: "shop", users: "people", building2: "office", filesearch: "docsearch",
+    landmark: "columns", coins: "coins", scale: "scale", globe: "globe",
+    // legacy / category / home-grid keys
+    phone: "phone", shield: "shield", safety: "shield", money: "wallet",
+    work: "briefcase", business: "shop", communication: "chat", radio: "radio",
+    community: "people", citizenship: "columns", circle: "dots",
+  };
+  return map[k] ?? "dots";
+}
+
+/** Flat SVG illustrations in the brand palette, one scene per topic. */
 export function Motif({ kind, className }: { kind?: string | null | undefined; className?: string }) {
-  const k = kind ?? "circle";
+  const s = motifScene(kind);
   return (
     <svg viewBox="0 0 200 140" className={className} role="img" aria-label="Illustration" preserveAspectRatio="xMidYMid slice">
       <rect width="200" height="140" className="fill-primary-soft" />
-      {(k === "radio" || k === "communication" || k === "citizenship") && (
+      <circle cx="30" cy="28" r="12" className="fill-accent" opacity=".5" />
+      <circle cx="172" cy="112" r="16" className="fill-primary" opacity=".18" />
+
+      {s === "phone" && (
+        <g>
+          <rect x="74" y="18" width="52" height="104" rx="10" className="fill-primary" />
+          <rect x="80" y="28" width="40" height="78" rx="4" className="fill-background" />
+          <circle cx="100" cy="114" r="4" className="fill-accent" />
+          <rect x="86" y="40" width="28" height="6" rx="3" className="fill-accent" />
+          <rect x="86" y="52" width="20" height="6" rx="3" className="fill-primary" opacity=".4" />
+          <rect x="86" y="64" width="24" height="6" rx="3" className="fill-primary" opacity=".4" />
+        </g>
+      )}
+      {s === "shield" && (
+        <g>
+          <path d="M100 16 L140 32 V66 C140 92 122 110 100 120 C78 110 60 92 60 66 V32 Z" className="fill-primary" />
+          <path d="M84 66 L96 78 L118 54" className="stroke-accent" strokeWidth="8" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+        </g>
+      )}
+      {s === "chat" && (
+        <g>
+          <rect x="40" y="36" width="80" height="52" rx="12" className="fill-primary" />
+          <path d="M60 88 L60 104 L80 88 Z" className="fill-primary" />
+          <circle cx="64" cy="62" r="5" className="fill-background" />
+          <circle cx="80" cy="62" r="5" className="fill-background" />
+          <circle cx="96" cy="62" r="5" className="fill-background" />
+          <rect x="104" y="60" width="56" height="40" rx="12" className="fill-accent" />
+          <path d="M140 100 L140 112 L124 100 Z" className="fill-accent" />
+        </g>
+      )}
+      {s === "factcheck" && (
+        <g>
+          <rect x="58" y="26" width="64" height="84" rx="6" className="fill-background" stroke="" />
+          <rect x="68" y="40" width="44" height="6" rx="3" className="fill-primary" opacity=".35" />
+          <rect x="68" y="54" width="34" height="6" rx="3" className="fill-primary" opacity=".35" />
+          <rect x="68" y="68" width="40" height="6" rx="3" className="fill-primary" opacity=".35" />
+          <circle cx="120" cy="92" r="24" className="fill-none stroke-primary" strokeWidth="7" />
+          <path d="M110 92 l7 7 l14 -16" className="stroke-accent" strokeWidth="7" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+          <rect x="136" y="108" width="22" height="9" rx="4" transform="rotate(45 136 108)" className="fill-primary" />
+        </g>
+      )}
+      {s === "wallet" && (
+        <g>
+          <rect x="52" y="44" width="96" height="60" rx="10" className="fill-primary" />
+          <rect x="52" y="58" width="96" height="14" className="fill-primary" />
+          <rect x="112" y="68" width="42" height="24" rx="6" className="fill-background" />
+          <circle cx="132" cy="80" r="6" className="fill-accent" />
+          <circle cx="86" cy="34" r="16" className="fill-accent" />
+          <text x="86" y="40" textAnchor="middle" className="fill-primary" fontSize="16" fontWeight="700">K</text>
+        </g>
+      )}
+      {s === "briefcase" && (
+        <g>
+          <rect x="52" y="52" width="96" height="60" rx="8" className="fill-primary" />
+          <rect x="80" y="38" width="40" height="18" rx="6" className="fill-none stroke-primary" strokeWidth="6" />
+          <rect x="52" y="74" width="96" height="8" className="fill-background" opacity=".5" />
+          <rect x="92" y="70" width="16" height="16" rx="3" className="fill-accent" />
+        </g>
+      )}
+      {s === "shop" && (
+        <g>
+          <path d="M50 52 L58 34 H142 L150 52 Z" className="fill-accent" />
+          <rect x="54" y="52" width="92" height="58" className="fill-primary" />
+          <rect x="88" y="78" width="24" height="32" className="fill-background" />
+          <rect x="64" y="64" width="22" height="16" rx="2" className="fill-background" opacity=".7" />
+          <rect x="114" y="64" width="22" height="16" rx="2" className="fill-background" opacity=".7" />
+        </g>
+      )}
+      {s === "people" && (
+        <g>
+          <circle cx="100" cy="52" r="15" className="fill-primary" />
+          <path d="M72 108 a28 28 0 0 1 56 0 Z" className="fill-primary" />
+          <circle cx="60" cy="62" r="12" className="fill-accent" />
+          <path d="M40 106 a20 20 0 0 1 40 0 Z" className="fill-accent" />
+          <circle cx="140" cy="62" r="12" className="fill-primary" opacity=".6" />
+          <path d="M120 106 a20 20 0 0 1 40 0 Z" className="fill-primary" opacity=".6" />
+        </g>
+      )}
+      {s === "office" && (
+        <g>
+          <rect x="60" y="34" width="80" height="80" className="fill-primary" />
+          <rect x="88" y="90" width="24" height="24" className="fill-background" />
+          {[44, 66, 88].map((y) => [72, 92, 112].map((x) => (
+            <rect key={`${x}-${y}`} x={x} y={y} width="12" height="12" className="fill-background" opacity=".8" />
+          )))}
+          <rect x="56" y="28" width="88" height="8" className="fill-accent" />
+        </g>
+      )}
+      {s === "docsearch" && (
+        <g>
+          <rect x="56" y="24" width="60" height="84" rx="6" className="fill-background" />
+          <rect x="66" y="38" width="40" height="6" rx="3" className="fill-primary" opacity=".35" />
+          <rect x="66" y="52" width="40" height="6" rx="3" className="fill-primary" opacity=".35" />
+          <rect x="66" y="66" width="28" height="6" rx="3" className="fill-primary" opacity=".35" />
+          <circle cx="118" cy="86" r="22" className="fill-none stroke-primary" strokeWidth="7" />
+          <rect x="132" y="100" width="22" height="9" rx="4" transform="rotate(45 132 100)" className="fill-accent" />
+        </g>
+      )}
+      {s === "columns" && (
+        <g>
+          <path d="M100 22 L150 44 H50 Z" className="fill-accent" />
+          {[62, 86, 110, 134].map((x) => <rect key={x} x={x} y="48" width="10" height="52" className="fill-primary" />)}
+          <rect x="52" y="44" width="96" height="6" className="fill-primary" />
+          <rect x="48" y="100" width="104" height="10" className="fill-primary" />
+        </g>
+      )}
+      {s === "coins" && (
+        <g>
+          {[96, 78, 60].map((y, i) => (
+            <g key={y}>
+              <ellipse cx="100" cy={y} rx="34" ry="12" className={i === 1 ? "fill-accent" : "fill-primary"} />
+            </g>
+          ))}
+          <text x="100" y="66" textAnchor="middle" className="fill-primary" fontSize="14" fontWeight="700">K</text>
+        </g>
+      )}
+      {s === "scale" && (
+        <g stroke="" >
+          <rect x="97" y="32" width="6" height="74" className="fill-primary" />
+          <rect x="72" y="100" width="56" height="8" rx="4" className="fill-primary" />
+          <path d="M60 44 H140" className="stroke-primary" strokeWidth="6" strokeLinecap="round" />
+          <circle cx="100" cy="40" r="7" className="fill-accent" />
+          <path d="M60 44 L48 72 H72 Z" className="fill-primary" opacity=".7" />
+          <path d="M140 44 L128 72 H152 Z" className="fill-accent" opacity=".85" />
+        </g>
+      )}
+      {s === "globe" && (
+        <g fill="none" strokeLinecap="round">
+          <circle cx="100" cy="68" r="40" className="fill-primary" />
+          <ellipse cx="100" cy="68" rx="16" ry="40" className="stroke-background" strokeWidth="4" />
+          <path d="M60 68 H140 M66 48 H134 M66 88 H134" className="stroke-background" strokeWidth="4" />
+          <circle cx="100" cy="68" r="40" className="stroke-accent" strokeWidth="4" />
+        </g>
+      )}
+      {s === "radio" && (
         <g fill="none" strokeWidth="5" strokeLinecap="round">
           <circle cx="100" cy="100" r="8" className="fill-primary stroke-none" />
           <path d="M78 82 a30 30 0 0 1 44 0" className="stroke-primary" />
@@ -63,37 +214,11 @@ export function Motif({ kind, className }: { kind?: string | null | undefined; c
           <path d="M46 50 a74 74 0 0 1 108 0" className="stroke-primary" opacity=".5" />
         </g>
       )}
-      {(k === "phone" || k === "money" || k === "work") && (
-        <g>
-          <rect x="74" y="18" width="52" height="96" rx="10" className="fill-primary" />
-          <rect x="80" y="28" width="40" height="70" rx="4" className="fill-background" />
-          <circle cx="100" cy="106" r="4" className="fill-accent" />
-          <rect x="86" y="40" width="28" height="6" rx="3" className="fill-accent" />
-          <rect x="86" y="52" width="20" height="6" rx="3" className="fill-primary" opacity=".4" />
-          <rect x="86" y="64" width="24" height="6" rx="3" className="fill-primary" opacity=".4" />
-          <circle cx="150" cy="40" r="14" className="fill-accent" opacity=".8" />
-          <circle cx="44" cy="100" r="10" className="fill-primary" opacity=".3" />
-        </g>
-      )}
-      {(k === "shield" || k === "safety") && (
-        <g>
-          <path d="M100 16 L140 32 V66 C140 92 122 110 100 120 C78 110 60 92 60 66 V32 Z" className="fill-primary" />
-          <path d="M84 66 L96 78 L118 54" className="stroke-accent" strokeWidth="8" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-          <circle cx="40" cy="36" r="10" className="fill-accent" opacity=".6" />
-          <circle cx="166" cy="104" r="14" className="fill-primary" opacity=".25" />
-        </g>
-      )}
-      {(k === "community" || k === "business" || k === "circle") && (
+      {s === "dots" && (
         <g>
           <circle cx="100" cy="70" r="44" className="fill-none stroke-primary" strokeWidth="4" strokeDasharray="6 8" />
           {[0, 60, 120, 180, 240, 300].map((a, i) => (
-            <circle
-              key={a}
-              cx={100 + 44 * Math.cos((a * Math.PI) / 180)}
-              cy={70 + 44 * Math.sin((a * Math.PI) / 180)}
-              r="11"
-              className={i % 2 ? "fill-accent" : "fill-primary"}
-            />
+            <circle key={a} cx={100 + 44 * Math.cos((a * Math.PI) / 180)} cy={70 + 44 * Math.sin((a * Math.PI) / 180)} r="11" className={i % 2 ? "fill-accent" : "fill-primary"} />
           ))}
           <circle cx="100" cy="70" r="16" className="fill-accent" />
         </g>
@@ -102,10 +227,12 @@ export function Motif({ kind, className }: { kind?: string | null | undefined; c
   );
 }
 
-/** Admin-uploaded image, or an SVG motif fallback keyed by category/motif. */
-export function ContentImage({ src, motif, alt, className }: { src?: string | null; motif?: string | null | undefined; alt: string; className?: string }) {
+/** Admin-uploaded image, or an SVG motif fallback. `icon` (a course's icon
+    name) is preferred over `motif` (category slug) so each course gets a
+    distinct illustration; both fall back gracefully inside Motif. */
+export function ContentImage({ src, motif, icon, alt, className }: { src?: string | null; motif?: string | null | undefined; icon?: string | null | undefined; alt: string; className?: string }) {
   if (src) return <img src={src} alt={alt} loading="lazy" className={cn("h-full w-full object-cover", className)} />;
-  return <Motif kind={motif} className={cn("h-full w-full", className)} />;
+  return <Motif kind={icon || motif} className={cn("h-full w-full", className)} />;
 }
 
 function LangToggle() {
@@ -375,6 +502,7 @@ export function CourseCard({ course, progress }: { course: Course; index?: numbe
       <div className="relative h-44 overflow-hidden bg-primary-soft/50">
         <ContentImage
           src={course.image_url}
+          icon={course.icon_name}
           motif={course.categories?.slug}
           alt=""
           className="motion-safe:transition-transform motion-safe:duration-500 motion-safe:ease-out motion-safe:group-hover:scale-105"

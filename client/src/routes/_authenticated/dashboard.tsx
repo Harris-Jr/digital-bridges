@@ -88,7 +88,7 @@ function Dashboard() {
 
         {continueCourse && (
           <div className="mt-8 grid overflow-hidden rounded-2xl border border-border bg-card shadow-sm md:grid-cols-[240px_1fr]">
-            <div className="h-36 md:h-auto"><ContentImage src={continueCourse.image_url} motif={continueCourse.categories?.slug} alt="" /></div>
+            <div className="h-36 md:h-auto"><ContentImage src={continueCourse.image_url} icon={continueCourse.icon_name} motif={continueCourse.categories?.slug} alt="" /></div>
             <div className="p-6">
               <p className="eyebrow">{inProgress ? t("cta.continue", "Continue learning") : t("dash.starthere", "Start here")}</p>
               <h2 className="mt-1 text-2xl">{continueCourse.title}</h2>

@@ -112,7 +112,7 @@ function CourseDetail() {
         </div>
         <aside className="md:sticky md:top-24 md:self-start">
           <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
-            <div className="h-40"><ContentImage src={c.image_url} motif={c.categories?.slug} alt="" /></div>
+            <div className="h-40"><ContentImage src={c.image_url} icon={c.icon_name} motif={c.categories?.slug} alt="" /></div>
             <div className="p-5">
               {user && <p className="text-sm text-muted-foreground">{completed} {t("course.of", "of")} {c.lessons.length} {t("course.lessonsDone", "lessons done")}</p>}
               {next && (

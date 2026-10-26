@@ -68,4 +68,6 @@ export const apiPost = <T = unknown>(path: string, body?: unknown, auth?: boolea
   api<T>(path, { method: "POST", body, auth });
 export const apiPatch = <T = unknown>(path: string, body?: unknown) =>
   api<T>(path, { method: "PATCH", body });
+export const apiPut = <T = unknown>(path: string, body?: unknown) =>
+  api<T>(path, { method: "PUT", body });
 export const apiDelete = <T = unknown>(path: string) => api<T>(path, { method: "DELETE" });

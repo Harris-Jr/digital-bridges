@@ -33,6 +33,7 @@ import { Route as AdminPagesRouteImport } from './routes/admin/pages'
 import { Route as AdminPartnersRouteImport } from './routes/admin/partners'
 import { Route as AdminPathwaysRouteImport } from './routes/admin/pathways'
 import { Route as AdminTestimonialsRouteImport } from './routes/admin/testimonials'
+import { Route as AdminTranslationsRouteImport } from './routes/admin/translations'
 import { Route as AdminWorkshopsRouteImport } from './routes/admin/workshops'
 import { Route as CertificatesSlugRouteImport } from './routes/certificates.$slug'
 import { Route as CoursesIndexRouteImport } from './routes/courses.index'
@@ -163,6 +164,11 @@ const AdminTestimonialsRoute = AdminTestimonialsRouteImport.update({
   path: '/testimonials',
   getParentRoute: () => AdminRouteRoute,
 } as any)
+const AdminTranslationsRoute = AdminTranslationsRouteImport.update({
+  id: '/translations',
+  path: '/translations',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
 const AdminWorkshopsRoute = AdminWorkshopsRouteImport.update({
   id: '/workshops',
   path: '/workshops',
@@ -241,6 +247,7 @@ export interface FileRoutesByFullPath {
   '/admin/partners': typeof AdminPartnersRoute
   '/admin/pathways': typeof AdminPathwaysRoute
   '/admin/testimonials': typeof AdminTestimonialsRoute
+  '/admin/translations': typeof AdminTranslationsRoute
   '/admin/workshops': typeof AdminWorkshopsRoute
   '/certificates/$slug': typeof CertificatesSlugRoute
   '/courses/$slug': typeof CoursesSlugRoute
@@ -275,6 +282,7 @@ export interface FileRoutesByTo {
   '/admin/partners': typeof AdminPartnersRoute
   '/admin/pathways': typeof AdminPathwaysRoute
   '/admin/testimonials': typeof AdminTestimonialsRoute
+  '/admin/translations': typeof AdminTranslationsRoute
   '/admin/workshops': typeof AdminWorkshopsRoute
   '/certificates/$slug': typeof CertificatesSlugRoute
   '/courses/$slug': typeof CoursesSlugRoute
@@ -312,6 +320,7 @@ export interface FileRoutesById {
   '/admin/partners': typeof AdminPartnersRoute
   '/admin/pathways': typeof AdminPathwaysRoute
   '/admin/testimonials': typeof AdminTestimonialsRoute
+  '/admin/translations': typeof AdminTranslationsRoute
   '/admin/workshops': typeof AdminWorkshopsRoute
   '/certificates/$slug': typeof CertificatesSlugRoute
   '/courses/$slug': typeof CoursesSlugRoute
@@ -349,6 +358,7 @@ export interface FileRouteTypes {
     | '/admin/partners'
     | '/admin/pathways'
     | '/admin/testimonials'
+    | '/admin/translations'
     | '/admin/workshops'
     | '/certificates/$slug'
     | '/courses/$slug'
@@ -383,6 +393,7 @@ export interface FileRouteTypes {
     | '/admin/partners'
     | '/admin/pathways'
     | '/admin/testimonials'
+    | '/admin/translations'
     | '/admin/workshops'
     | '/certificates/$slug'
     | '/courses/$slug'
@@ -419,6 +430,7 @@ export interface FileRouteTypes {
     | '/admin/partners'
     | '/admin/pathways'
     | '/admin/testimonials'
+    | '/admin/translations'
     | '/admin/workshops'
     | '/certificates/$slug'
     | '/courses/$slug'
@@ -624,6 +636,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminTestimonialsRouteImport
       parentRoute: typeof AdminRouteRoute
     }
+    '/admin/translations': {
+      id: '/admin/translations'
+      path: '/translations'
+      fullPath: '/admin/translations'
+      preLoaderRoute: typeof AdminTranslationsRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
     '/admin/workshops': {
       id: '/admin/workshops'
       path: '/workshops'
@@ -733,6 +752,7 @@ interface AdminRouteRouteChildren {
   AdminPartnersRoute: typeof AdminPartnersRoute
   AdminPathwaysRoute: typeof AdminPathwaysRoute
   AdminTestimonialsRoute: typeof AdminTestimonialsRoute
+  AdminTranslationsRoute: typeof AdminTranslationsRoute
   AdminWorkshopsRoute: typeof AdminWorkshopsRoute
   AdminIndexRoute: typeof AdminIndexRoute
   AdminLessonsLessonIdQuizRoute: typeof AdminLessonsLessonIdQuizRoute
@@ -746,6 +766,7 @@ const AdminRouteRouteChildren: AdminRouteRouteChildren = {
   AdminPartnersRoute: AdminPartnersRoute,
   AdminPathwaysRoute: AdminPathwaysRoute,
   AdminTestimonialsRoute: AdminTestimonialsRoute,
+  AdminTranslationsRoute: AdminTranslationsRoute,
   AdminWorkshopsRoute: AdminWorkshopsRoute,
   AdminIndexRoute: AdminIndexRoute,
   AdminLessonsLessonIdQuizRoute: AdminLessonsLessonIdQuizRoute,

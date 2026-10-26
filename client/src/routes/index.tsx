@@ -177,7 +177,7 @@ function Home() {
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <Button asChild variant="accent" size="lg"><Link to="/signup">{t("nav.start", "Start learning")}<ArrowRight /></Link></Button>
             <Button asChild size="lg" className="border border-primary-foreground/40 bg-transparent text-primary-foreground hover:bg-primary-foreground/10">
-              <Link to="/trainer">{t("home.runworkshop", "Run a workshop")}</Link>
+              <Link to="/for-trainers">{t("home.runworkshop", "Run a workshop")}</Link>
             </Button>
           </div>
         </div>

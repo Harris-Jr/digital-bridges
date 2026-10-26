@@ -12,7 +12,7 @@ import {
   Eye, Lightbulb, HelpCircle, CheckCircle2, AlertTriangle, MapPin, Mic, UserCheck, FileCheck,
   Handshake, Map, Scroll, Building, type LucideIcon,
 } from "lucide-react";
-import { useState, useRef, useEffect, type ReactNode } from "react";
+import { useState, useRef, useEffect, useCallback, type ReactNode } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -47,6 +47,29 @@ export function Logo({ className, imgClassName }: { className?: string; imgClass
       <img src="/images/logo.png" alt="Digital Bridges" className={cn("h-12 w-auto md:h-14", imgClassName)} width={188} height={40} />
     </Link>
   );
+}
+
+/** Returns a callback ref that adds `is-in` to the element once it scrolls into
+    view, so CSS reveal transitions (.db-reveal, .db-draw) play. A callback ref
+    (not useRef) so it attaches correctly even when the element mounts later,
+    e.g. after a loading state. One-shot. */
+export function useReveal<T extends HTMLElement = HTMLDivElement>(opts?: { threshold?: number }) {
+  const threshold = opts?.threshold ?? 0.12;
+  const cleanup = useRef<(() => void) | undefined>(undefined);
+  return useCallback((el: T | null) => {
+    cleanup.current?.();
+    cleanup.current = undefined;
+    if (!el) return;
+    if (typeof IntersectionObserver === "undefined") { el.classList.add("is-in"); return; }
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) if (e.isIntersecting) { el.classList.add("is-in"); io.disconnect(); }
+      },
+      { threshold, rootMargin: "0px 0px -8% 0px" },
+    );
+    io.observe(el);
+    cleanup.current = () => io.disconnect();
+  }, [threshold]);
 }
 
 /** Map a course icon name or category/legacy key to a scene id. */
@@ -319,7 +342,7 @@ export function SiteHeader() {
     { to: "/", label: t("nav.home", "Home") },
     { to: "/courses", label: t("nav.courses", "Courses") },
     { to: "/about", label: t("nav.about", "About") },
-    { to: "/trainer", label: t("nav.trainers", "For Trainers") },
+    { to: "/for-trainers", label: t("nav.trainers", "For Trainers") },
     { to: "/contact", label: t("footer.contact", "Contact") },
   ] as const;
   const doSignOut = async () => {
@@ -451,7 +474,7 @@ export function SiteFooter() {
           <span className="font-semibold text-accent">{t("footer.learn", "Learn")}</span>
           <Link to="/courses" className="text-primary-foreground/70 transition-colors duration-200 hover:text-primary-foreground">{t("nav.courses", "Courses")}</Link>
           <Link to="/about" className="text-primary-foreground/70 transition-colors duration-200 hover:text-primary-foreground">{t("nav.about", "About")}</Link>
-          <Link to="/trainer" className="text-primary-foreground/70 transition-colors duration-200 hover:text-primary-foreground">{t("nav.trainers", "For Trainers")}</Link>
+          <Link to="/for-trainers" className="text-primary-foreground/70 transition-colors duration-200 hover:text-primary-foreground">{t("nav.trainers", "For Trainers")}</Link>
           <Link to="/contact" className="text-primary-foreground/70 transition-colors duration-200 hover:text-primary-foreground">{t("footer.contact", "Contact")}</Link>
         </nav>
         <nav aria-label="Legal" className="flex flex-col gap-2 text-sm">

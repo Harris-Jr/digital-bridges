@@ -16,6 +16,7 @@ import { Route as AccessibilityRouteImport } from './routes/accessibility'
 import { Route as AdminRouteRouteImport } from './routes/admin/route'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ContactRouteImport } from './routes/contact'
+import { Route as ForTrainersRouteImport } from './routes/for-trainers'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as RegisterRouteImport } from './routes/register'
@@ -77,6 +78,11 @@ const AuthRoute = AuthRouteImport.update({
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ForTrainersRoute = ForTrainersRouteImport.update({
+  id: '/for-trainers',
+  path: '/for-trainers',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRoute = LoginRouteImport.update({
@@ -231,6 +237,7 @@ export interface FileRoutesByFullPath {
   '/accessibility': typeof AccessibilityRoute
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
+  '/for-trainers': typeof ForTrainersRoute
   '/login': typeof LoginRoute
   '/privacy': typeof PrivacyRoute
   '/register': typeof RegisterRoute
@@ -266,6 +273,7 @@ export interface FileRoutesByTo {
   '/accessibility': typeof AccessibilityRoute
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
+  '/for-trainers': typeof ForTrainersRoute
   '/login': typeof LoginRoute
   '/privacy': typeof PrivacyRoute
   '/register': typeof RegisterRoute
@@ -304,6 +312,7 @@ export interface FileRoutesById {
   '/accessibility': typeof AccessibilityRoute
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
+  '/for-trainers': typeof ForTrainersRoute
   '/login': typeof LoginRoute
   '/privacy': typeof PrivacyRoute
   '/register': typeof RegisterRoute
@@ -342,6 +351,7 @@ export interface FileRouteTypes {
     | '/accessibility'
     | '/auth'
     | '/contact'
+    | '/for-trainers'
     | '/login'
     | '/privacy'
     | '/register'
@@ -377,6 +387,7 @@ export interface FileRouteTypes {
     | '/accessibility'
     | '/auth'
     | '/contact'
+    | '/for-trainers'
     | '/login'
     | '/privacy'
     | '/register'
@@ -414,6 +425,7 @@ export interface FileRouteTypes {
     | '/accessibility'
     | '/auth'
     | '/contact'
+    | '/for-trainers'
     | '/login'
     | '/privacy'
     | '/register'
@@ -452,6 +464,7 @@ export interface RootRouteChildren {
   AccessibilityRoute: typeof AccessibilityRoute
   AuthRoute: typeof AuthRoute
   ContactRoute: typeof ContactRoute
+  ForTrainersRoute: typeof ForTrainersRoute
   LoginRoute: typeof LoginRoute
   PrivacyRoute: typeof PrivacyRoute
   RegisterRoute: typeof RegisterRoute
@@ -515,6 +528,13 @@ declare module '@tanstack/react-router' {
       path: '/contact'
       fullPath: '/contact'
       preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/for-trainers': {
+      id: '/for-trainers'
+      path: '/for-trainers'
+      fullPath: '/for-trainers'
+      preLoaderRoute: typeof ForTrainersRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -785,6 +805,7 @@ const rootRouteChildren: RootRouteChildren = {
   AccessibilityRoute: AccessibilityRoute,
   AuthRoute: AuthRoute,
   ContactRoute: ContactRoute,
+  ForTrainersRoute: ForTrainersRoute,
   LoginRoute: LoginRoute,
   PrivacyRoute: PrivacyRoute,
   RegisterRoute: RegisterRoute,

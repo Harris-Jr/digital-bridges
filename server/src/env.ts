@@ -20,16 +20,18 @@ const schema = z.object({
   // AI (optional). The learner assistant uses Gemini first and falls back to
   // Groq if Gemini is unset or fails. When BOTH key sets are unset, AI features
   // are disabled and the UI shows a plain help link instead.
-  // GEMINI_MODEL defaults to a free Flash model; override if Google renames it.
+  // GEMINI_MODEL defaults to the "latest Flash" alias so it tracks Google's
+  // current model and does not break when a specific version is retired. Pin a
+  // concrete version (e.g. gemini-3.8-flash) here or in .env if you prefer.
   GEMINI_API_KEY: z.string().optional(),
-  GEMINI_MODEL: z.string().default("gemini-2.0-flash"),
-  // Groq fallback (optional, OpenAI-compatible). GROQ_MODEL defaults to a fast
-  // Llama model; override if Groq retires it.
+  GEMINI_MODEL: z.string().default("gemini-flash-latest"),
+  // Groq fallback (optional, OpenAI-compatible). Default is a fast, low-cost
+  // open model; override with any chat model your Groq account can access.
   GROQ_API_KEY: z.string().optional(),
-  GROQ_MODEL: z.string().default("llama-3.3-70b-versatile"),
+  GROQ_MODEL: z.string().default("openai/gpt-oss-20b"),
   // SMTP email (optional). When SMTP_HOST/USER/PASS are unset, email is disabled
-  // and the app runs normally (sends are skipped). Works with any provider —
-  // Brevo, Gmail, Outlook, Hostinger, SendGrid, etc. — via these variables.
+  // and the app runs normally (sends are skipped). Works with any provider
+  // (Brevo, Gmail, Outlook, Hostinger, SendGrid, etc.) via these variables.
   // Port 465 → set SMTP_SECURE=true; port 587/25 → leave it false (STARTTLS).
   SMTP_HOST: z.string().optional(),
   SMTP_PORT: z.coerce.number().int().positive().default(587),

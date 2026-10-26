@@ -1,142 +1,329 @@
 # Digital Bridges
+### Inclusive Digital Literacy and Civic Education Platform
 
-Inclusive digital literacy training platform for underserved communities in
-Zambia. Learners work through short, plain-language courses on phone basics,
-online safety, mobile money, finding work and more — on any smartphone, on slow
-or intermittent connections.
+A free, offline-first, multilingual learning platform that helps people in underserved communities across Zambia learn to use their phones safely and take part in civic life.
 
-## Stack (PERN)
+**Repository:** https://github.com/Harris-Jr/digital-bridges
+**Built by:** [Zambia Cyber Security Foundation](https://zcsi-foundation.org) initiative
 
-| Layer | Technology |
-| --- | --- |
-| Frontend | React 19 + TanStack Router, built with Vite 7 as an **offline-first PWA** |
-| Backend | Node 22 (LTS) + Express 5 REST API |
-| Database | PostgreSQL 17 (vanilla; ACID, foreign keys, constraints) |
-| Auth | JWT (bcrypt-hashed passwords), role-based access |
-| Styling | Tailwind CSS v4 + shadcn/ui components |
+---
 
-Everything runs comfortably within the projected 100–50,000 users on a single
-Hostinger VPS. The design is built to scale horizontally: the API is stateless
-(add replicas behind a reverse proxy), Postgres is pooled (front it with
-PgBouncer as load grows), and the offline-first client keeps most reads off the
-server.
+## Overview
 
-## Why these choices
+Digital Bridges is a Progressive Web App (PWA) that teaches practical digital and civic skills in plain language, on any handset, with as little data as possible. It is built as one platform with two learning pathways (Digital Skills and Civic Education), short lessons with quizzes and real-life scenarios, printable certificates, trainer tools for running community workshops, and a full staff CMS for managing all content.
 
-- **PERN over MERN** — the app is transaction-heavy (quiz submissions, progress,
-  enrollments, badges, consent records). PostgreSQL gives real ACID guarantees
-  and referential integrity; JSONB columns cover the flexible content blocks, so
-  nothing is lost versus a document database.
-- **Offline-first PWA** — the primary beneficiaries are rural, low-bandwidth
-  users. A service worker precaches the app shell and runtime-caches API reads
-  and media, so lessons keep working with little or no connection.
-- **ACID in practice** — every all-or-nothing write runs in a transaction
-  (`withTransaction`). Marking a lesson complete and awarding any unlocked badges
-  commit together; the progress upsert is idempotent (`ON CONFLICT DO NOTHING`)
-  so a replayed offline request is safe.
+Three things shape every decision in this codebase:
 
-## Project structure
+1. **Reach over polish.** It must work on old Android phones, on slow networks, and offline. Pages are light, media is optional, and whole courses can be saved for offline use.
+2. **Language.** The entire interface and the course catalogue are available in English, Bemba, and Nyanja, with a translation layer that falls back to English for anything not yet translated.
+3. **Graceful degradation.** Every optional integration (AI assistant, email, media uploads) disables itself cleanly when its keys are not set, so the core app always runs.
+
+> **Note on translations:** The Bemba and Nyanja translations shipped in the seed data are a first pass and should be reviewed by native speakers before a public launch. Staff can edit any translation from the CMS Translations editor.
+
+---
+
+## Role Structure
+
+| Role | How it is granted | Access |
+|------|-------------------|--------|
+| `learner` | Default on sign up | Courses, lessons, quizzes, progress, certificates, offline packs, profile, help assistant |
+| `trainer` | Self-request, then approved by staff | Everything a learner has, plus trainer materials, cohorts, attendance, workshop requests |
+| `editor` | Granted by an admin | Full CMS: courses, lessons, quizzes, scenarios, pages, pathways, partners, testimonials, FAQs, translations |
+| `admin` | Provisioned server-side via `npm run set-admin -- <email>` | Everything an editor has, plus users, workshop approvals, AI admin helpers, platform settings |
+
+Roles live in the `user_roles` table (an `app_role` enum). Every `/api/admin/*` route is enforced server-side regardless of what the UI shows.
+
+---
+
+## Features
+
+### For Learners
+- **Two pathways** - Digital Skills and Civic Education, each a set of short courses.
+- **Lesson types** - read, quiz, practice, and interactive scenario (choose-an-option with feedback).
+- **Plain-language content** - written for low reading levels and first-time phone users, with Zambian context (Airtel, MTN, Zamtel, kwacha, NRC).
+- **Offline course packs** - download a whole course (lessons, quizzes, scenarios, media) for offline use; the current language is pre-warmed too.
+- **Progress and streaks** - lesson completion tracked, day-streak computed, resume where you left off.
+- **Certificates** - a printable certificate is issued when a course is completed.
+- **Multilingual** - switch between English, Bemba, and Nyanja anywhere; the catalogue and interface follow.
+- **Help assistant** - an optional AI chatbot (see below) scoped to digital-literacy help, open to everyone.
+- **Installable PWA** - add to home screen, launches like an app.
+
+### For Trainers
+- **Trainer materials** - facilitator guides and downloadable resources.
+- **Cohorts** - create learner cohorts, run sessions, record attendance.
+- **Workshop requests** - request to run a community workshop; staff approve or decline (with email notification).
+
+### For Staff (Editors and Admins)
+- **Course CMS** - create and edit pathways, courses, lessons, quiz questions, and scenarios, with publish control.
+- **AI quiz drafting** - generate draft quiz questions from a lesson's body text (optional, uses the configured AI provider).
+- **Translations editor** - fill Bemba and Nyanja for any course or lesson field, including long lesson bodies; blank fields fall back to English; edits go live immediately.
+- **Site content** - edit site pages, testimonials, partners, FAQs, and platform settings.
+- **Media** - upload images to Cloudinary when configured, or paste a URL.
+- **Admin dashboard** - live counts of courses, lessons, users, pending workshops, and unread messages.
+
+### Public (no login)
+- Home, Courses, course and lesson browsing, About, For Trainers, Contact, and the legal pages (Privacy, Terms, Accessibility).
+- Site search over courses.
+- The help assistant, when an AI provider is configured.
+
+---
+
+## Tech Stack
+
+### Frontend
+| Technology | Purpose |
+|-----------|---------|
+| React 19 | UI framework |
+| TanStack Router | File-based client routing (`routeTree.gen.ts` is generated by the build) |
+| TanStack Query | Server-state, caching, and refetching |
+| Vite 7 + vite-plugin-pwa (Workbox) | Build, dev server, service worker, offline caching |
+| Tailwind CSS v4 + shadcn/ui | Styling and components |
+| lucide-react | Icons |
+| Zod | Shared validation |
+
+### Backend
+| Technology | Purpose |
+|-----------|---------|
+| Node 20 | Runtime (local and VPS) |
+| Express 5 | HTTP API |
+| node-postgres (`pg`) | PostgreSQL access via a pooled client |
+| jsonwebtoken + bcryptjs | JWT auth and password hashing |
+| Zod | Request validation and env parsing |
+| nodemailer | Transactional email (optional) |
+| helmet + cors | Security headers and CORS |
+
+### Infrastructure
+| Service | Purpose |
+|---------|---------|
+| PostgreSQL | Primary database |
+| Hostinger VPS | Production host (nginx + Node API + Postgres) |
+| nginx | Serves the built PWA and reverse-proxies `/api` to the Node server |
+| Cloudinary | Image hosting (optional) |
+| Google Gemini + Groq | AI assistant providers (optional, Gemini primary, Groq fallback) |
+| SMTP (any provider) | Welcome, password-reset, and workshop-decision emails (optional) |
+
+---
+
+## Multilingual System
+
+- Interface strings live in the `i18n_strings` table, keyed by `(key, lang)`. The client reads them through `GET /api/i18n`; `t(key, fallback)` resolves current language, then English, then the hardcoded fallback. Languages: `en`, `bem`, `nya`.
+- **Course content** (titles, taglines, descriptions, outcomes, lesson titles and bodies, key points, quizzes, scenarios, categories, pathways) is translated through a `content_translations` overlay table keyed by `(entity_type, entity_id, lang, field)`. The English base rows are the source of truth; a missing translation simply falls back to English.
+- Content endpoints accept `?lang=bem|nya` and overlay translations at read time. The client sends the active language and keys its cache by it, so switching language refetches translated content.
+- Staff fill and edit translations from the **CMS Translations editor** (`/admin/translations`).
+
+## Offline System
+
+- A "pack" pre-warms the two service-worker runtime caches: `db-api` (NetworkFirst for `/api` GETs) and `db-media` (CacheFirst for images and audio).
+- Downloading a course fetches its detail, each lesson's quiz and scenario, and all media, in the current language, and stores them so the course opens with no connection.
+- Lesson completions made offline are queued in `localStorage` and replayed when the connection returns; the server upsert is idempotent, so replays are safe.
+
+## AI Help Assistant
+
+- Optional. Open to everyone (no sign-in) so first-time users who need help most can reach it.
+- **Provider order:** Google Gemini first, Groq (OpenAI-compatible) as fallback if Gemini is unset or fails. If neither key is set, the assistant is disabled and the UI shows a plain "Get help" link instead of the chat window.
+- **Guardrails:** per-IP rate limits (burst and daily), short input and history caps, and a tightly scoped system prompt (digital-literacy help only, never asks for PINs or passwords, no medical/legal/investment advice, grounded in the platform's own courses).
+- Models are configurable via `GEMINI_MODEL` and `GROQ_MODEL`. Defaults track current models; override in `.env` if a provider retires a model or you hit free-tier limits.
+
+---
+
+## Database Schema
+
+Migrations live in `server/migrations/` and run in filename order. The runner wraps each file in a transaction and records it in `schema_migrations`, so each file must not contain its own `begin/commit`.
+
+### Core content
+| Table | Purpose |
+|-------|---------|
+| `pathways` | Top-level tracks (Digital Skills, Civic Education) |
+| `categories` | Course categories (Safety, Money, Work, Citizenship, etc.) |
+| `courses` | Course metadata: slug, title, tagline, description, outcomes (jsonb), icon, difficulty, estimated hours, publish flag |
+| `lessons` | Lessons: slug, title, type (`read`/`quiz`/`practice`/`scenario`), `body_richtext`, `key_points` (jsonb), media, publish flag |
+| `quiz_questions` | Question, `options` (jsonb), `correct_index`, explanation |
+| `scenario_steps` | Prompt, `options` (jsonb), `feedback` (jsonb), `best_index` |
+| `content_translations` | Per-field Bemba/Nyanja overrides for the above |
+| `i18n_strings` | Interface string translations keyed by `(key, lang)` |
+
+### Learners and progress
+| Table | Purpose |
+|-------|---------|
+| `users` | Email and password hash |
+| `profiles` | Full name, phone, district, language preference |
+| `user_roles` | Role assignments (`app_role` enum) |
+| `lesson_progress` | Completion records (natural key, idempotent) |
+| `quiz_attempts` | Recorded with progress; client-generated id for idempotent offline replay |
+| `badges` / `user_badges` | Achievements |
+| `certificates` | Issued on course completion |
+| `password_reset_tokens` | SHA-256 hash only, single-use, 1-hour expiry |
+
+### Trainers and community
+| Table | Purpose |
+|-------|---------|
+| `cohorts` / `cohort_members` / `cohort_sessions` | Learner groups and sessions |
+| `attendance` | Session attendance |
+| `workshop_requests` | Trainer workshop requests with approve/decline status |
+| `resources` | Trainer materials |
+| `community_groups` | Community group directory |
+
+### Site and compliance
+| Table | Purpose |
+|-------|---------|
+| `site_pages` | CMS-managed pages (hero + body blocks) |
+| `site_settings` | Key/value platform settings (e.g. policy version) |
+| `stats` / `testimonials` / `partners` / `faqs` | Home and marketing content |
+| `contact_messages` | Contact form submissions |
+| `consent_records` / `data_requests` / `newsletter_subscribers` | Consent, data requests, newsletter |
+
+---
+
+## API Overview
+
+All routes are under `/api`. Public content is read-only and returns only published rows.
+
+| Group | Base path | Auth | Purpose |
+|-------|-----------|------|---------|
+| Auth | `/api/auth` | public | signup, login, me, password change, forgot/reset password, request-trainer |
+| Content | `/api` | public | pathways, courses, lessons, quizzes, scenarios, categories, pages, settings, i18n (all accept `?lang=`) |
+| Public | `/api` | public | contact form, newsletter, consent |
+| Learner | `/api/me` | learner | progress, certificates, cohorts |
+| Trainer | `/api/trainer` | trainer | materials, cohorts, workshop requests |
+| Assistant | `/api/assistant` | public | help chatbot config and chat (rate-limited) |
+| Admin | `/api/admin` | staff | full CMS, users, workshops, stats |
+| Admin AI | `/api/admin/ai` | staff | AI quiz drafting |
+| Admin translations | `/api/admin/translations` | staff | translation editor targets, read, and upsert |
+| Media | `/api/admin/media` | staff | Cloudinary uploads |
+
+---
+
+## Project Structure
 
 ```
 digital-bridges/
-├── client/              React PWA (Vite)
+├── client/                     # React + Vite PWA
 │   ├── src/
-│   │   ├── routes/       file-based routes (TanStack Router)
-│   │   ├── components/   UI + shadcn/ui
-│   │   └── lib/          api client, auth, content hooks, i18n, consent
-│   ├── nginx.conf        production static serving + API proxy
-│   └── Dockerfile
-├── server/              Express + Postgres API
-│   ├── src/
-│   │   ├── routes/       auth, content, learner, profile, trainer, public
-│   │   ├── db.ts         pooled pg + withTransaction()
-│   │   ├── migrate.ts    minimal SQL migration runner
-│   │   └── middleware.ts JWT auth + role guards
-│   ├── migrations/       001_schema.sql, 002_seed.sql
-│   └── Dockerfile
-├── docker-compose.yml    db + api + web
-└── .env.example
+│   │   ├── routes/             # TanStack file-based routes
+│   │   │   ├── index.tsx       # Home
+│   │   │   ├── courses.*.tsx   # Course list and detail
+│   │   │   ├── learn.*.tsx     # Lesson player
+│   │   │   ├── auth.tsx        # Combined sign in / register
+│   │   │   ├── _authenticated/ # Dashboard, settings (auth-gated)
+│   │   │   └── admin/          # CMS (staff), incl. translations.tsx
+│   │   ├── components/
+│   │   │   ├── site.tsx        # Header, footer, cards, motifs, layout
+│   │   │   ├── admin.tsx       # AdminShell + CrudManager
+│   │   │   └── assistant-widget.tsx
+│   │   ├── lib/                # api, auth, content, i18n, offline, consent
+│   │   └── styles.css          # Tailwind v4 theme + animations
+│   └── vite.config.ts          # PWA + Workbox config
+└── server/                     # Express API
+    ├── src/
+    │   ├── index.ts            # App bootstrap, middleware, route mounts
+    │   ├── env.ts              # Validated environment config
+    │   ├── db.ts               # pg pool
+    │   ├── middleware.ts       # auth, requireAuth, requireStaff
+    │   ├── routes/             # auth, content, learner, trainer, public,
+    │   │                       #   admin, admin-translations, ai-admin,
+    │   │                       #   assistant, media
+    │   ├── lib/                # auth, http, ai, translate, ratelimit, mailer
+    │   ├── migrate.ts          # migration runner
+    │   └── scripts/set-admin.ts
+    └── migrations/             # 001_schema.sql ... NNN_*.sql
 ```
 
-## Run with Docker (simplest)
+---
+
+## Environment Variables
+
+Create `server/.env`. Only the first three are required; everything else is optional and degrades gracefully.
+
+| Variable | Required | Default | Purpose |
+|----------|----------|---------|---------|
+| `DATABASE_URL` | yes | - | PostgreSQL connection string |
+| `JWT_SECRET` | yes | - | At least 16 characters |
+| `APP_URL` | recommended | `http://localhost:5173` | Public app URL, used in email links |
+| `PORT` | no | `4000` | API port |
+| `NODE_ENV` | no | `development` | `development` / `production` / `test` |
+| `JWT_EXPIRES_IN` | no | `30d` | Token lifetime |
+| `CORS_ORIGIN` | no | `http://localhost:5173` | Comma-separated allowed origins |
+| `GEMINI_API_KEY` | no | - | Enables the assistant (primary provider) |
+| `GEMINI_MODEL` | no | `gemini-flash-latest` | Tracks the latest Flash; pin a version if preferred |
+| `GROQ_API_KEY` | no | - | Enables the Groq fallback |
+| `GROQ_MODEL` | no | `openai/gpt-oss-20b` | Any chat model your Groq account can access |
+| `CLOUDINARY_CLOUD_NAME` / `CLOUDINARY_API_KEY` / `CLOUDINARY_API_SECRET` | no | - | Enables image uploads |
+| `CLOUDINARY_FOLDER` | no | `digital-bridges` | Upload folder |
+| `SMTP_HOST` / `SMTP_USER` / `SMTP_PASS` | no | - | Enables email (any provider) |
+| `SMTP_PORT` | no | `587` | 465 -> set `SMTP_SECURE=true`; 587/25 -> false |
+| `SMTP_SECURE` | no | `false` | TLS mode |
+| `SMTP_FROM` | no | `SMTP_USER` | From header |
+
+The client reads the API through nginx in production, so it needs no build-time API URL. For local dev, Vite proxies `/api` to the server.
+
+---
+
+## Local Development
+
+Requires Node 20 and a local PostgreSQL.
 
 ```bash
-cp .env.example .env          # then edit secrets
-docker compose up --build
-```
+# 1. Clone
+git clone https://github.com/Harris-Jr/digital-bridges.git
+cd digital-bridges
 
-The web app is served at http://localhost:8080 and proxies `/api` to the API.
-Migrations run automatically on API start.
-
-## Run locally (for development)
-
-Requires Node 22+ and a running PostgreSQL 17.
-
-```bash
-# 1. Database
-createdb digitalbridges
-
-# 2. API
+# 2. Server
 cd server
-cp .env.example .env          # point DATABASE_URL at your database
 npm install
-npm run migrate               # create schema + seed content
-npm run dev                   # http://localhost:4000
+cp .env.example .env         # then edit DATABASE_URL and JWT_SECRET
+createdb digital_bridges     # or create the DB however you prefer
+npm run migrate              # creates tables and seeds content
+npm run dev                  # API on http://localhost:4000
 
-# 3. Client (second terminal)
-cd client
+# 3. Client (new terminal)
+cd ../client
 npm install
-npm run dev                   # http://localhost:5173  (proxies /api to :4000)
+npm run dev                  # app on http://localhost:5173
 ```
 
-First account: sign up, then open **Settings → Make me the admin** to claim the
-first admin role (only works while no admin exists).
+Make yourself an admin:
+```bash
+cd server
+npm run set-admin -- your@email.com
+```
 
-## Scripts
+### Server scripts
+| Script | Purpose |
+|--------|---------|
+| `npm run dev` | API with watch + tsx |
+| `npm run build` | Type-check and compile to `dist/` |
+| `npm start` | Run compiled `dist/index.js` |
+| `npm run migrate` | Apply pending migrations |
+| `npm run set-admin -- <email>` | Grant admin role |
 
-Server: `npm run dev`, `npm run build`, `npm start`, `npm run migrate`, `npm run typecheck`
-Client: `npm run dev`, `npm run build`, `npm run preview`, `npm test`, `npm run typecheck`
+---
 
-## Media
+## Deployment (Hostinger VPS)
 
-Course and lesson images are managed in the admin. With Cloudinary configured
-(set `CLOUDINARY_*` in the server `.env`), staff upload images directly from the
-edit dialog — the browser uploads straight to Cloudinary using a short-lived
-signature from `/api/admin/media/sign`, so large files never pass through the
-API. Without Cloudinary keys, uploads are disabled and admins paste an image URL
-instead; nothing else changes.
+High-level shape; the build serves a static PWA and proxies the API.
 
-Images are stored as URLs in the content tables, so they can equally come from
-object storage. For offline packs, bundle low-bitrate media; stream-only
-(e.g. YouTube) links are for online supplementary content.
+1. **System:** Node 20, nginx, and PostgreSQL on the VPS.
+2. **Database:** create a dedicated database and user; put the connection string in `server/.env`.
+3. **Server:** `cd server && npm ci && npm run build && npm run migrate`, then run `dist/index.js` under a process manager (PM2 or a systemd unit) so it restarts on boot and on crash.
+4. **Client:** `cd client && npm ci && npm run build` to produce `client/dist/`.
+5. **nginx:** a site file (with a `.conf` extension in `sites-enabled`) that serves `client/dist` with SPA fallback to `index.html`, reverse-proxies `/api` to the Node server on `PORT`, and sets the correct headers so the service worker and PWA manifest are served fresh.
+6. **TLS:** issue a certificate (Certbot) for the domain.
+7. **Env:** set `NODE_ENV=production`, `APP_URL=https://yourdomain`, `CORS_ORIGIN=https://yourdomain`, and any optional keys (Gemini/Groq, SMTP, Cloudinary).
 
-## Learning pathways
+The API sets `trust proxy` so it sees real client IPs behind nginx (used by the assistant rate limiter).
 
-Courses are grouped under **pathways** (top-level tracks) — e.g. Digital Skills
-and Civic Education. The home page shows a "Choose your path" selector; each card
-opens that pathway's courses at `/paths/<slug>`. Pathways are managed in the
-admin (Pathways), and each course is assigned a pathway on its edit form. Adding
-a new track (e.g. Health) is content-only — no code change.
+---
 
-## AI features (optional)
+## Key Technical Notes
 
-With a Google Gemini key (`GEMINI_API_KEY` in the server `.env`; free tier from
-aistudio.google.com), two AI helpers turn on automatically:
+- **Migration runner** wraps each file in a transaction; SQL files must not include their own `begin/commit`.
+- **Boolean env parsing** uses an explicit preprocessor because `z.coerce.boolean()` treats the string `"false"` as `true` (this once broke STARTTLS on port 587).
+- **Content overlay** applies to nested data too: a course's embedded category and its lessons are translated alongside the course.
+- **AI fallback** logs a warning and falls through to Groq when Gemini errors; if both fail, the client shows a friendly retry message and the raw provider error is available from the endpoint for debugging.
+- **Service worker caches** are keyed by full URL including `?lang=`, so each language is cached independently.
 
-- **Learner chatbot** — a floating "ask for help" assistant for signed-in
-  learners, grounded in the platform's own courses, answering in plain language
-  (EN/Bemba/Nyanja) and kept to digital-literacy help with basic safety rules.
-- **Admin quiz generation** — on a lesson's quiz page, "Generate with AI" drafts
-  multiple-choice questions (options, correct answer, explanation) from the
-  lesson text; staff review, pick, and save them.
+---
 
-Both call Gemini server-side, are rate-limited by Google's free tier, and are
-hidden entirely when no key is set. `GEMINI_MODEL` is overridable if Google
-renames the current free Flash model.
+## License and Attribution
 
-## Data protection
-
-The platform follows Zambia's Data Protection Act No. 3 of 2021: consent is
-recorded, and learners can export or delete their data from Settings. A
-meaningful share of learners are minors (15–35 target), so age confirmation is
-captured at sign-up.
+Developed as a [Zambia Cyber Security Foundation](https://zcsi-foundation.org) initiative. See the repository for license details.

@@ -1,22 +1,21 @@
 import { useEffect, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { MessageCircle, X, Send, Loader2, Sparkles } from "lucide-react";
+import { Link } from "@tanstack/react-router";
+import { MessageCircle, X, Send, Loader2, Sparkles, LifeBuoy } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { apiGet, apiPost } from "@/lib/api";
-import { useAuth } from "@/lib/auth";
 import { useI18n } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
 type Msg = { role: "user" | "assistant"; content: string };
 
-/* Floating help assistant for signed-in learners. Hidden when AI is disabled. */
+/* Floating help assistant, open to everyone. When no AI provider is configured
+   it falls back to a plain help link so the entry point never just disappears. */
 export function AssistantWidget() {
-  const { user } = useAuth();
   const { lang, t } = useI18n();
   const cfg = useQuery({
-    queryKey: ["assistant-config", user?.id],
-    enabled: !!user,
-    queryFn: () => apiGet<{ enabled: boolean }>("/assistant/config"),
+    queryKey: ["assistant-config"],
+    queryFn: () => apiGet<{ enabled: boolean }>("/assistant/config", false),
     staleTime: 5 * 60_000,
   });
 
@@ -30,7 +29,22 @@ export function AssistantWidget() {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
   }, [messages, busy]);
 
-  if (!user || !cfg.data?.enabled) return null;
+  // Still checking, or request failed: show nothing rather than flashing.
+  if (cfg.isLoading || cfg.isError) return null;
+
+  // No AI provider configured: offer a plain help link instead of the chatbot.
+  if (!cfg.data?.enabled) {
+    return (
+      <Link
+        to="/contact"
+        aria-label={t("assistant.help", "Get help")}
+        className="fixed bottom-5 right-5 z-40 inline-flex items-center gap-2 rounded-full bg-primary px-4 py-3 text-sm font-semibold text-primary-foreground shadow-lg transition-transform duration-200 hover:shadow-xl motion-safe:hover:scale-105"
+      >
+        <LifeBuoy className="size-5" />
+        {t("assistant.help", "Get help")}
+      </Link>
+    );
+  }
 
   const send = async () => {
     const text = input.trim();
@@ -71,7 +85,7 @@ export function AssistantWidget() {
           <div ref={scrollRef} className="flex-1 space-y-3 overflow-y-auto p-4">
             {messages.length === 0 && (
               <div className="rounded-xl bg-secondary/60 p-3 text-sm text-muted-foreground">
-                {t("assistant.greeting", "Hi! Ask me anything about using your phone safely — mobile money, scams, WhatsApp, or which course to start with.")}
+                {t("assistant.greeting", "Hi! Ask me anything about using your phone safely: mobile money, scams, WhatsApp, or which course to start with.")}
               </div>
             )}
             {messages.map((m, i) => (

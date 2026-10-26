@@ -4,7 +4,7 @@ import { z } from "zod";
 import { query } from "../db.js";
 import { asyncHandler, badRequest, notFound } from "../lib/http.js";
 import { requireAuth, requireStaff } from "../middleware.js";
-import { aiEnabled, geminiGenerate, parseJsonArray } from "../lib/ai.js";
+import { aiEnabled, chatGenerate, parseJsonArray } from "../lib/ai.js";
 
 export const aiAdminRouter = Router();
 aiAdminRouter.use(requireAuth, requireStaff);
@@ -48,7 +48,7 @@ ${lesson.body_richtext || "(no body text — write general questions on the titl
 
 Write ${input.data.count} quiz questions as a JSON array.`;
 
-    const raw = await geminiGenerate({ system: SYSTEM, messages: [{ role: "user", text: prompt }], json: true, temperature: 0.5 });
+    const raw = await chatGenerate({ system: SYSTEM, messages: [{ role: "user", text: prompt }], json: true, temperature: 0.5 });
     const drafts = parseJsonArray<DraftQuestion>(raw)
       .filter((q) => q && typeof q.question === "string" && Array.isArray(q.options) && q.options.length >= 2)
       .map((q) => ({

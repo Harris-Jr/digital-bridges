@@ -18,6 +18,9 @@ import { assistantRouter } from "./routes/assistant.js";
 
 const app = express();
 
+// Behind nginx on the VPS: trust the first proxy hop so req.ip reflects the
+// real client address (X-Forwarded-For) for rate limiting.
+app.set("trust proxy", 1);
 app.disable("x-powered-by");
 app.use(helmet());
 app.use(

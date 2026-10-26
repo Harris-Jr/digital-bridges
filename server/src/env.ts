@@ -17,11 +17,16 @@ const schema = z.object({
   CLOUDINARY_API_KEY: z.string().optional(),
   CLOUDINARY_API_SECRET: z.string().optional(),
   CLOUDINARY_FOLDER: z.string().default("digital-bridges"),
-  // AI (optional, Google Gemini). When GEMINI_API_KEY is unset, AI features are
-  // disabled and the UI hides them. GEMINI_MODEL defaults to a free Flash model;
-  // override it if Google renames the current free tier.
+  // AI (optional). The learner assistant uses Gemini first and falls back to
+  // Groq if Gemini is unset or fails. When BOTH key sets are unset, AI features
+  // are disabled and the UI shows a plain help link instead.
+  // GEMINI_MODEL defaults to a free Flash model; override if Google renames it.
   GEMINI_API_KEY: z.string().optional(),
   GEMINI_MODEL: z.string().default("gemini-2.0-flash"),
+  // Groq fallback (optional, OpenAI-compatible). GROQ_MODEL defaults to a fast
+  // Llama model; override if Groq retires it.
+  GROQ_API_KEY: z.string().optional(),
+  GROQ_MODEL: z.string().default("llama-3.3-70b-versatile"),
   // SMTP email (optional). When SMTP_HOST/USER/PASS are unset, email is disabled
   // and the app runs normally (sends are skipped). Works with any provider —
   // Brevo, Gmail, Outlook, Hostinger, SendGrid, etc. — via these variables.

@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "@tanstack/react-router";
 import {
   Menu, X, LogOut, LayoutDashboard, Settings, ShieldCheck, Clock, BookOpen, WifiOff,
-  Search, ArrowRight, GraduationCap,
+  Search, ArrowRight, GraduationCap, ChevronDown, Check,
   // Icons referenced by name from CMS data (category/course/pathway/badge icon_name)
   // and by EmptyState. Imported individually so lucide tree-shakes to just these
   // instead of bundling its whole ~1,000-icon registry on every page.
@@ -12,7 +12,7 @@ import {
   Eye, Lightbulb, HelpCircle, CheckCircle2, AlertTriangle, MapPin, Mic, UserCheck, FileCheck,
   Handshake, Map, Scroll, Building, type LucideIcon,
 } from "lucide-react";
-import { useState, type ReactNode } from "react";
+import { useState, useRef, useEffect, type ReactNode } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -257,6 +257,56 @@ function LangToggle() {
   );
 }
 
+/** Compact language dropdown: shows the current code + chevron, opens a menu. */
+function LangMenu() {
+  const { lang, setLang } = useI18n();
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!open) return;
+    const onDoc = (e: MouseEvent) => { if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false); };
+    const onEsc = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false); };
+    document.addEventListener("mousedown", onDoc);
+    document.addEventListener("keydown", onEsc);
+    return () => { document.removeEventListener("mousedown", onDoc); document.removeEventListener("keydown", onEsc); };
+  }, [open]);
+  const current = LANGS.find((l) => l.code === lang) ?? LANGS[0]!;
+  return (
+    <div ref={ref} className="relative">
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        aria-haspopup="menu"
+        aria-expanded={open}
+        aria-label="Change language"
+        className="inline-flex h-10 items-center gap-1 rounded-full border border-border bg-card px-3 text-sm font-semibold text-foreground transition-colors hover:border-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+      >
+        {current.label}
+        <ChevronDown className={cn("size-4 text-muted-foreground transition-transform duration-200", open && "rotate-180")} aria-hidden="true" />
+      </button>
+      {open && (
+        <div role="menu" className="absolute right-0 top-full z-50 mt-2 w-40 overflow-hidden rounded-xl border border-border bg-card p-1 shadow-lg">
+          {LANGS.map((l) => (
+            <button
+              key={l.code}
+              role="menuitemradio"
+              aria-checked={l.code === lang}
+              onClick={() => { setLang(l.code); setOpen(false); }}
+              className={cn(
+                "flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm transition-colors hover:bg-secondary",
+                l.code === lang ? "font-semibold text-primary" : "text-foreground",
+              )}
+            >
+              {l.name}
+              {l.code === lang && <Check className="size-4" aria-hidden="true" />}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export function SiteHeader() {
   const { t } = useI18n();
   const { user, isStaff, signOut } = useAuth();
@@ -286,12 +336,12 @@ export function SiteHeader() {
     navigate({ to: "/courses", search: term ? { q: term } : {} });
   };
   const linkBase =
-    "relative px-1 py-5 text-sm font-medium text-foreground/80 transition-colors duration-200 hover:text-primary after:absolute after:inset-x-0 after:bottom-3 after:h-0.5 after:scale-x-0 after:bg-primary after:transition-transform after:duration-200";
+    "relative flex h-full items-center px-1 text-[15px] font-medium text-foreground/80 transition-colors duration-200 hover:text-primary focus-visible:outline-none focus-visible:text-primary after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 after:scale-x-0 after:bg-primary after:transition-transform after:duration-200";
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-background">
-      <div className="container-page flex h-16 items-center justify-between gap-4">
+      <div className="container-page flex h-20 items-center justify-between gap-6">
         <Logo />
-        <nav aria-label="Main" className="hidden items-center gap-7 md:flex">
+        <nav aria-label="Main" className="hidden h-full items-center gap-8 md:flex">
           {links.map((l) => (
             <Link
               key={l.to}
@@ -304,20 +354,26 @@ export function SiteHeader() {
             </Link>
           ))}
         </nav>
-        <div className="hidden items-center gap-1.5 md:flex">
-          <form onSubmit={submitSearch} className="relative">
-            <label htmlFor="site-search" className="sr-only">{t("search.label", "Search courses")}</label>
-            <Search className="pointer-events-none absolute left-2.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" aria-hidden="true" />
+        <div className="hidden items-center gap-2.5 md:flex">
+          <form onSubmit={submitSearch} className="relative flex items-center">
+            <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" aria-hidden="true" />
             <input
-              id="site-search"
               type="search"
               value={q}
               onChange={(e) => setQ(e.target.value)}
-              placeholder={t("search.placeholder", "Search…")}
-              className="h-9 w-40 rounded-full border border-border bg-secondary/50 pl-8 pr-3 text-sm outline-none transition-[width,border-color] duration-200 focus:w-56 focus:border-primary focus:bg-background"
+              onFocus={() => setSearchOpen(true)}
+              onBlur={() => { if (!q.trim()) setSearchOpen(false); }}
+              aria-label={t("search.label", "Search courses")}
+              placeholder={searchOpen ? t("search.placeholder", "Search…") : ""}
+              className={cn(
+                "h-10 rounded-full border bg-secondary/60 pl-9 text-sm outline-none transition-[width,background-color,border-color] duration-300 ease-out",
+                searchOpen
+                  ? "w-56 cursor-text border-border pr-3 focus:border-primary focus:bg-background"
+                  : "w-10 cursor-pointer border-transparent pr-0 hover:bg-secondary",
+              )}
             />
           </form>
-          <LangToggle />
+          <LangMenu />
           {user ? (
             <>
               {isStaff && <Button asChild variant="ghost" size="sm"><Link to="/admin"><ShieldCheck />Admin</Link></Button>}
@@ -326,7 +382,7 @@ export function SiteHeader() {
               <Button variant="ghost" size="icon" onClick={doSignOut} aria-label={t("nav.signout", "Sign out")}><LogOut /></Button>
             </>
           ) : (
-            <Button asChild variant="accent"><Link to="/signin">{t("nav.signin", "Sign in")}</Link></Button>
+            <Button asChild variant="accent" className="h-12 rounded-full px-6 text-[15px]"><Link to="/signin">{t("nav.signin", "Sign in")}</Link></Button>
           )}
         </div>
         <div className="flex items-center gap-1 md:hidden">

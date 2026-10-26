@@ -15,9 +15,13 @@ export function verifyPassword(plain: string, hash: string): Promise<boolean> {
 
 export type TokenPayload = { sub: string; email: string };
 
-export function signToken(payload: TokenPayload): string {
-  return jwt.sign(payload, env.JWT_SECRET, { expiresIn: env.JWT_EXPIRES_IN } as jwt.SignOptions);
+/** Sign a short-lived access token (the client refreshes it when it expires). */
+export function signAccessToken(payload: TokenPayload): string {
+  return jwt.sign(payload, env.JWT_SECRET, { expiresIn: env.ACCESS_TOKEN_TTL } as jwt.SignOptions);
 }
+
+/** @deprecated use signAccessToken. Kept so older imports still compile. */
+export const signToken = signAccessToken;
 
 export function verifyToken(token: string): TokenPayload | null {
   try {

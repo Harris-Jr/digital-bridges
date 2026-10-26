@@ -8,7 +8,11 @@ const schema = z.object({
   PORT: z.coerce.number().int().positive().default(4000),
   DATABASE_URL: z.string().min(1, "DATABASE_URL is required"),
   JWT_SECRET: z.string().min(16, "JWT_SECRET must be at least 16 characters"),
+  // Access tokens are short-lived; the client silently refreshes them using a
+  // long-lived, revocable refresh token (see ACCESS_TOKEN_TTL / REFRESH_TOKEN_TTL_DAYS).
   JWT_EXPIRES_IN: z.string().default("30d"),
+  ACCESS_TOKEN_TTL: z.string().default("15m"),
+  REFRESH_TOKEN_TTL_DAYS: z.coerce.number().int().positive().default(30),
   // Comma-separated list of allowed browser origins for CORS.
   CORS_ORIGIN: z.string().default("http://localhost:5173"),
   // Cloudinary (optional). When unset, media uploads are disabled and the admin

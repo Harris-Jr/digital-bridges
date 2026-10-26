@@ -2,7 +2,8 @@ import crypto from "node:crypto";
 import { Router } from "express";
 import { z } from "zod";
 import { query, withTransaction } from "../db.js";
-import { hashPassword, signToken, verifyPassword } from "../lib/auth.js";
+import { hashPassword, verifyPassword } from "../lib/auth.js";
+import { issueSession, rotateRefreshToken, revokeRefreshToken, revokeAllForUser } from "../lib/tokens.js";
 import { asyncHandler, badRequest, conflict, unauthorized } from "../lib/http.js";
 import { requireAuth, type Role } from "../middleware.js";
 import { sendMail, welcomeEmail, passwordResetEmail } from "../lib/mailer.js";
@@ -61,14 +62,14 @@ authRouter.post(
       return u;
     });
 
-    const token = signToken({ sub: user.id, email: user.email });
+    const { accessToken, refreshToken } = await issueSession(user.id, user.email);
     const { profile, roles } = await profileAndRoles(user.id);
 
     // Fire-and-forget welcome email — never blocks or fails signup.
     const welcome = welcomeEmail(full_name ?? "");
     void sendMail({ to: user.email, subject: welcome.subject, html: welcome.html });
 
-    res.status(201).json({ token, user, profile, roles });
+    res.status(201).json({ accessToken, refreshToken, user, profile, roles });
   }),
 );
 
@@ -93,9 +94,9 @@ authRouter.post(
       throw unauthorized("That email and password do not match.");
     }
 
-    const token = signToken({ sub: found.id, email: found.email });
+    const { accessToken, refreshToken } = await issueSession(found.id, found.email);
     const { profile, roles } = await profileAndRoles(found.id);
-    res.json({ token, user: { id: found.id, email: found.email }, profile, roles });
+    res.json({ accessToken, refreshToken, user: { id: found.id, email: found.email }, profile, roles });
   }),
 );
 
@@ -117,8 +118,37 @@ authRouter.patch(
     const input = schema.safeParse(req.body);
     if (!input.success) throw badRequest("Use at least 8 characters.");
     const hash = await hashPassword(input.data.password);
-    await query("update users set password_hash = $1 where id = $2", [hash, req.auth!.id]);
+    // Atomic: change the password and revoke all refresh tokens together, so a
+    // password change signs the account out everywhere.
+    await withTransaction(async (client) => {
+      await client.query("update users set password_hash = $1 where id = $2", [hash, req.auth!.id]);
+      await revokeAllForUser(req.auth!.id, (t, p) => client.query(t, p as unknown[]));
+    });
     res.json({ ok: true });
+  }),
+);
+
+// Exchange a refresh token for a new access token (and a rotated refresh token).
+authRouter.post(
+  "/refresh",
+  asyncHandler(async (req, res) => {
+    const schema = z.object({ refreshToken: z.string().min(10) });
+    const input = schema.safeParse(req.body);
+    if (!input.success) throw badRequest("A refresh token is required.");
+    const tokens = await rotateRefreshToken(input.data.refreshToken);
+    res.json(tokens);
+  }),
+);
+
+// Revoke a refresh token (logout). Always 204, even for an unknown token, so it
+// never reveals whether a token was valid.
+authRouter.post(
+  "/logout",
+  asyncHandler(async (req, res) => {
+    const schema = z.object({ refreshToken: z.string().min(1) });
+    const input = schema.safeParse(req.body);
+    if (input.success) await revokeRefreshToken(input.data.refreshToken);
+    res.status(204).end();
   }),
 );
 
@@ -169,6 +199,8 @@ authRouter.post(
       await client.query("update users set password_hash = $1 where id = $2", [hash, row.user_id]);
       // Mark this token used and invalidate any other outstanding ones.
       await client.query("update password_reset_tokens set used_at = now() where user_id = $1 and used_at is null", [row.user_id]);
+      // Sign the account out everywhere after a reset.
+      await revokeAllForUser(row.user_id, (t, p) => client.query(t, p as unknown[]));
     });
     res.json({ ok: true });
   }),

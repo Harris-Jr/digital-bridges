@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState, useCallback, type ReactNode } from "react";
-import { api, apiPost, clearToken, getToken, setToken } from "@/lib/api";
+import { api, apiPost, clearTokens, getRefresh, getToken, setTokens } from "@/lib/api";
 
 export type Role = "learner" | "trainer" | "editor" | "admin";
 
@@ -12,7 +12,7 @@ export type Profile = {
   language_pref: string;
 };
 
-type Session = { token: string; user: User; profile: Profile | null; roles: Role[] };
+type Session = { accessToken: string; refreshToken: string; user: User; profile: Profile | null; roles: Role[] };
 type MeResponse = { user: User; profile: Profile | null; roles: Role[] };
 
 type AuthCtx = {
@@ -54,7 +54,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const me = await api<MeResponse>("/auth/me");
       apply(me);
     } catch {
-      clearToken();
+      clearTokens();
       setUser(null);
       setProfile(null);
       setRoles([]);
@@ -67,19 +67,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const signIn = async (email: string, password: string) => {
     const s = await apiPost<Session>("/auth/login", { email, password }, false);
-    setToken(s.token);
+    setTokens(s);
     apply(s);
   };
 
   const signUp = async (input: { email: string; password: string; full_name: string; district?: string }) => {
     const s = await apiPost<Session>("/auth/signup", input, false);
-    setToken(s.token);
+    setTokens(s);
     apply(s);
     return s;
   };
 
   const signOut = async () => {
-    clearToken();
+    // Revoke the refresh token server-side so it can never be reused.
+    const refreshToken = getRefresh();
+    if (refreshToken) { try { await apiPost("/auth/logout", { refreshToken }, false); } catch { /* best effort */ } }
+    clearTokens();
     setUser(null);
     setProfile(null);
     setRoles([]);

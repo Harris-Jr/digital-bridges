@@ -88,6 +88,7 @@ export type Lesson = {
   svg_motif: string | null;
   image_url: string | null;
   audio_url: string | null;
+  video_url: string | null;
   sort_order: number;
   is_published: boolean;
 };

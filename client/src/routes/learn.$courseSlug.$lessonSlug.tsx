@@ -1,7 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { ArrowLeft, ArrowRight, CheckCircle2, Lightbulb, Hand, X, XCircle, Volume2, Compass, ThumbsUp } from "lucide-react";
+import { ArrowLeft, ArrowRight, CheckCircle2, Lightbulb, Hand, X, XCircle, Volume2, Compass, ThumbsUp, Play } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -128,7 +128,11 @@ function LessonPlayer() {
 
         {tab === "lesson" ? (
           <div className="mt-6 space-y-6">
-            <div className="h-44 overflow-hidden rounded-2xl border border-border"><ContentImage src={lesson.image_url} motif={lesson.svg_motif ?? course.data.categories?.slug} alt="" /></div>
+            {lesson.video_url ? (
+              <LessonVideo url={lesson.video_url} />
+            ) : (
+              <div className="h-44 overflow-hidden rounded-2xl border border-border"><ContentImage src={lesson.image_url} motif={lesson.svg_motif ?? course.data.categories?.slug} alt="" /></div>
+            )}
             {lesson.audio_url && (
               <div className="rounded-2xl border border-accent bg-accent-soft p-4">
                 <p className="mb-2 flex items-center gap-2 text-sm font-semibold"><Volume2 className="size-4 text-primary" aria-hidden="true" />{t("lesson.listen", "Listen to this lesson")}</p>
@@ -298,5 +302,57 @@ function Scenario({ steps, onFinish }: { steps: ScenarioStep[]; onFinish: () => 
         </div>
       )}
     </div>
+  );
+}
+
+/** Pull the 11-char video id out of common YouTube URL shapes. */
+function youtubeId(url: string): string | null {
+  const m = url.match(/(?:youtube\.com\/(?:watch\?(?:.*&)?v=|embed\/|shorts\/)|youtu\.be\/)([A-Za-z0-9_-]{11})/);
+  return m ? m[1]! : null;
+}
+
+/** Low-data video: shows a thumbnail + play button; the YouTube iframe is only
+    loaded once the learner taps play. Keeps the page light until then. */
+function LessonVideo({ url }: { url: string }) {
+  const { t } = useI18n();
+  const [playing, setPlaying] = useState(false);
+  const id = youtubeId(url);
+  if (!id) {
+    return (
+      <a href={url} target="_blank" rel="noreferrer" className="flex items-center gap-2 rounded-2xl border border-border bg-card p-4 text-sm font-semibold text-primary hover:underline">
+        <Play className="size-4" aria-hidden="true" />{t("lesson.watch", "Watch the video")}
+      </a>
+    );
+  }
+  if (playing) {
+    return (
+      <div className="aspect-video overflow-hidden rounded-2xl border border-border bg-black">
+        <iframe
+          className="size-full"
+          src={`https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`}
+          title={t("lesson.video", "Lesson video")}
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+        />
+      </div>
+    );
+  }
+  return (
+    <button
+      type="button"
+      onClick={() => setPlaying(true)}
+      aria-label={t("lesson.watch", "Watch the video")}
+      className="group relative block aspect-video w-full overflow-hidden rounded-2xl border border-border bg-black"
+    >
+      <img src={`https://i.ytimg.com/vi/${id}/hqdefault.jpg`} alt="" loading="lazy" className="size-full object-cover opacity-90 transition-opacity group-hover:opacity-100" />
+      <span className="absolute inset-0 grid place-items-center">
+        <span className="grid size-16 place-items-center rounded-full bg-primary/90 text-primary-foreground shadow-lg transition-transform duration-200 group-hover:scale-105">
+          <Play className="size-7 translate-x-0.5" fill="currentColor" aria-hidden="true" />
+        </span>
+      </span>
+      <span className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-3 text-left text-xs font-semibold text-white">
+        {t("lesson.watchData", "Tap to play (uses data)")}
+      </span>
+    </button>
   );
 }

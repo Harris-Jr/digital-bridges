@@ -244,6 +244,42 @@
   .db-draw { transform: none !important; transition: none !important; }
 }
 
+/* ------------------------------------------------- primary CTA bloom glow */
+/* A rotating conic-gradient stroke blooms around the button: subtle at rest,
+   brighter on hover, with an inset "pressed" shadow on hover. */
+@property --db-glow-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+.db-glow-cta {
+  position: relative;
+  isolation: isolate;
+  box-shadow: 0 8px 20px -6px color-mix(in srgb, var(--accent) 55%, transparent);
+  transition: transform 0.2s ease-out, box-shadow 0.25s ease-out;
+}
+.db-glow-cta::before {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  z-index: -1;
+  border-radius: inherit;
+  background: conic-gradient(from var(--db-glow-angle), var(--accent), var(--primary), color-mix(in srgb, var(--accent) 80%, white), var(--accent));
+  filter: blur(9px);
+  opacity: 0.45;
+  transition: opacity 0.3s ease-out;
+}
+.db-glow-cta:hover {
+  transform: translateY(-1px);
+  box-shadow: inset 0 2px 9px rgba(0, 0, 0, 0.28), 0 10px 24px -6px color-mix(in srgb, var(--accent) 65%, transparent);
+}
+.db-glow-cta:hover::before { opacity: 0.95; }
+.db-glow-cta:active { transform: translateY(0); }
+@media (prefers-reduced-motion: no-preference) {
+  .db-glow-cta::before { animation: db-glow-spin 5s linear infinite; }
+  @keyframes db-glow-spin { to { --db-glow-angle: 360deg; } }
+}
+
 /* ------------------------------------------------------------------ /auth */
 /* Sliding-panel auth page. Two absolutely-positioned halves (illustration +
    form) that swap places via translate3d when the container gets .active. */

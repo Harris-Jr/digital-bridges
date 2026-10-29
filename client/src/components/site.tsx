@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "@tanstack/react-router";
 import {
   Menu, X, LogOut, LayoutDashboard, Settings, ShieldCheck, Clock, BookOpen, WifiOff,
-  Search, ArrowRight, GraduationCap, ChevronDown, Check,
+  ArrowRight, GraduationCap, ChevronDown, Check,
   // Icons referenced by name from CMS data (category/course/pathway/badge icon_name)
   // and by EmptyState. Imported individually so lucide tree-shakes to just these
   // instead of bundling its whole ~1,000-icon registry on every page.
@@ -19,7 +19,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useAuth } from "@/lib/auth";
 import { useI18n, LANGS } from "@/lib/i18n";
 import { useConsent } from "@/lib/consent";
-import { type Course, usePublishedCourses, usePathways } from "@/lib/content";
+import { type Course } from "@/lib/content";
 import { AssistantWidget } from "@/components/assistant-widget";
 import { OfflineBar } from "@/components/offline-sync";
 import { cn } from "@/lib/utils";
@@ -330,228 +330,114 @@ function LangMenu() {
   );
 }
 
-/** Full-width mega menu panel for Courses: pathway columns plus a visual
-    supporter column that previews the course the pointer is on. */
-function CoursesMega({ onNavigate, setHi, hi }: { onNavigate: () => void; setHi: (c: Course | null) => void; hi: Course | null }) {
-  const { t } = useI18n();
-  const courses = usePublishedCourses();
-  const pathways = usePathways();
-  const byPath: Record<string, Course[]> = {};
-  for (const c of courses.data ?? []) {
-    const s = c.pathway?.slug ?? "other";
-    (byPath[s] ??= []).push(c);
-  }
-  const ordered = (pathways.data ?? [])
-    .filter((p) => byPath[p.slug])
-    .map((p) => ({ slug: p.slug, title: p.title, courses: byPath[p.slug]!.slice(0, 4) }));
-  const featured = hi ?? courses.data?.find((c) => c.difficulty === "start_here") ?? courses.data?.[0] ?? null;
-  return (
-    <div className="grid grid-cols-4 gap-6 rounded-2xl border border-border/60 bg-background/95 p-6 shadow-xl backdrop-blur-xl">
-      {ordered.map((p) => (
-        <div key={p.slug}>
-          <p className="mb-3 text-xs font-bold uppercase tracking-wide text-primary">{p.title}</p>
-          <ul className="space-y-0.5">
-            {p.courses.map((c) => (
-              <li key={c.id}>
-                <Link to="/courses/$slug" params={{ slug: c.slug }} onClick={onNavigate} onMouseEnter={() => setHi(c)} onFocus={() => setHi(c)}
-                  className="block rounded-lg px-3 py-2 text-sm text-foreground/80 transition-colors hover:bg-secondary hover:text-primary">
-                  {c.title}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-      ))}
-      <div>
-        <p className="mb-3 text-xs font-bold uppercase tracking-wide text-primary">{t("mega.browse", "Browse")}</p>
-        <ul className="space-y-0.5">
-          <li><Link to="/courses" onClick={onNavigate} className="block rounded-lg px-3 py-2 text-sm font-semibold text-primary hover:bg-secondary">{t("home.courses.all", "All courses")}</Link></li>
-          <li><Link to="/for-trainers" onClick={onNavigate} className="block rounded-lg px-3 py-2 text-sm text-foreground/80 hover:bg-secondary hover:text-primary">{t("nav.trainers", "For Trainers")}</Link></li>
-          <li><Link to="/about" onClick={onNavigate} className="block rounded-lg px-3 py-2 text-sm text-foreground/80 hover:bg-secondary hover:text-primary">{t("nav.about", "About")}</Link></li>
-        </ul>
-      </div>
-      {featured && (
-        <Link to="/courses/$slug" params={{ slug: featured.slug }} onClick={onNavigate}
-          className="group overflow-hidden rounded-xl border border-border bg-card shadow-sm transition-shadow hover:shadow-md">
-          <div className="h-24 overflow-hidden bg-primary-soft/50"><Motif kind={featured.icon_name} className="h-full w-full" /></div>
-          <div className="p-3">
-            <p className="font-display text-sm font-bold leading-snug text-primary">{featured.title}</p>
-            <p className="mt-1 line-clamp-2 text-xs text-muted-foreground">{featured.tagline}</p>
-            <span className="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-primary">{t("mega.open", "Open course")}<ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" /></span>
-          </div>
-        </Link>
-      )}
-    </div>
-  );
-}
-
 export function SiteHeader() {
   const { t } = useI18n();
-  const { user, isStaff, signOut } = useAuth();
+  const { user, isStaff, isTrainer, signOut } = useAuth();
   const qc = useQueryClient();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
-  const [searchOpen, setSearchOpen] = useState(false);
-  const [mega, setMega] = useState(false);
-  const [hi, setHi] = useState<Course | null>(null);
-  const [q, setQ] = useState("");
-  const megaTimer = useRef<number | null>(null);
-  const openMega = () => { if (megaTimer.current) { clearTimeout(megaTimer.current); megaTimer.current = null; } setMega(true); };
-  const closeMega = () => { megaTimer.current = window.setTimeout(() => setMega(false), 130); };
+  const headerRef = useRef<HTMLElement>(null);
+
+  // Close the mobile panel on outside click or Escape.
   useEffect(() => {
-    if (!mega) return;
-    const onEsc = (e: KeyboardEvent) => { if (e.key === "Escape") setMega(false); };
+    if (!open) return;
+    const onDoc = (e: MouseEvent) => { if (headerRef.current && !headerRef.current.contains(e.target as Node)) setOpen(false); };
+    const onEsc = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false); };
+    document.addEventListener("mousedown", onDoc);
     document.addEventListener("keydown", onEsc);
-    return () => document.removeEventListener("keydown", onEsc);
-  }, [mega]);
-  const rest = [
-    { to: "/about", label: t("nav.about", "About") },
-    { to: "/for-trainers", label: t("nav.trainers", "For Trainers") },
-    { to: "/contact", label: t("footer.contact", "Contact") },
-  ] as const;
-  const mobileLinks = [
-    { to: "/", label: t("nav.home", "Home") },
-    { to: "/courses", label: t("nav.courses", "Courses") },
-    ...rest,
-  ] as const;
+    return () => { document.removeEventListener("mousedown", onDoc); document.removeEventListener("keydown", onEsc); };
+  }, [open]);
+
   const doSignOut = async () => {
+    setOpen(false);
     await qc.cancelQueries();
     qc.clear();
     await signOut();
     navigate({ to: "/signin", replace: true });
   };
-  const submitSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    const term = q.trim();
-    setSearchOpen(false);
-    setOpen(false);
-    navigate({ to: "/courses", search: term ? { q: term } : {} });
-  };
+
+  const navLinks = [
+    { to: "/courses", label: t("nav.courses", "Courses") },
+    { to: "/about", label: t("nav.about", "About") },
+  ] as const;
+
   const linkBase =
-    "relative flex items-center gap-1 py-2 text-[15px] font-medium text-foreground/80 transition-colors duration-200 hover:text-primary focus-visible:outline-none focus-visible:text-primary after:absolute after:inset-x-0 after:-bottom-0.5 after:h-0.5 after:scale-x-0 after:bg-primary after:transition-transform after:duration-200";
+    "relative flex items-center py-2 text-[15px] font-medium text-foreground/80 transition-colors duration-200 hover:text-primary focus-visible:outline-none focus-visible:text-primary after:absolute after:inset-x-0 after:-bottom-0.5 after:h-0.5 after:scale-x-0 after:bg-primary after:transition-transform after:duration-200";
   const activeLink = "text-primary after:scale-x-100";
+  const mobileLink =
+    "flex min-h-11 items-center rounded-xl px-3 text-[15px] font-medium text-foreground transition-colors hover:bg-secondary focus-visible:outline-none focus-visible:bg-secondary";
+
   return (
-    <header className="sticky top-0 z-40 px-3 pt-3">
-      <div className="container-page">
-        <div
-          className="relative flex items-center justify-between gap-6 rounded-2xl border border-border/60 bg-background/70 p-2 pl-4 shadow-lg backdrop-blur-xl supports-[backdrop-filter]:bg-background/55"
-          onMouseLeave={closeMega}
-        >
-          <Logo />
-          <nav aria-label="Main" className="hidden items-center gap-7 md:flex">
-            <Link to="/" className={linkBase} activeProps={{ className: activeLink }} activeOptions={{ exact: true }} onMouseEnter={() => setMega(false)}>
-              {t("nav.home", "Home")}
+    <header ref={headerRef} className="sticky top-0 z-40 border-b border-border bg-background shadow-sm">
+      <div className="container-page flex h-16 items-center justify-between gap-4">
+        <Logo />
+
+        {/* Desktop navigation + actions */}
+        <nav aria-label="Main" className="hidden items-center gap-7 md:flex">
+          {navLinks.map((l) => (
+            <Link key={l.to} to={l.to} className={linkBase} activeProps={{ className: activeLink }}>
+              {l.label}
             </Link>
-            <button
-              type="button"
-              className={cn(linkBase, mega && activeLink)}
-              aria-haspopup="true"
-              aria-expanded={mega}
-              onMouseEnter={openMega}
-              onFocus={openMega}
-              onClick={() => (mega ? setMega(false) : setMega(true))}
-            >
-              {t("nav.courses", "Courses")}
-              <ChevronDown className={cn("size-4 transition-transform duration-200", mega && "rotate-180")} aria-hidden="true" />
-            </button>
-            {rest.map((l) => (
-              <Link key={l.to} to={l.to} className={linkBase} activeProps={{ className: activeLink }} onMouseEnter={() => setMega(false)}>
-                {l.label}
-              </Link>
-            ))}
-          </nav>
-          <div className="hidden items-center gap-2 md:flex">
-            <form onSubmit={submitSearch} className="relative flex items-center">
-              <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" aria-hidden="true" />
-              <input
-                type="search"
-                value={q}
-                onChange={(e) => setQ(e.target.value)}
-                onFocus={() => { setSearchOpen(true); setMega(false); }}
-                onBlur={() => { if (!q.trim()) setSearchOpen(false); }}
-                aria-label={t("search.label", "Search courses")}
-                placeholder={searchOpen ? t("search.placeholder", "Search…") : ""}
-                className={cn(
-                  "h-10 rounded-full border bg-secondary/60 pl-9 text-sm outline-none transition-[width,background-color,border-color] duration-300 ease-out",
-                  searchOpen ? "w-52 cursor-text border-border pr-3 focus:border-primary focus:bg-background" : "w-10 cursor-pointer border-transparent pr-0 hover:bg-secondary",
-                )}
-              />
-            </form>
+          ))}
+          <div className="flex items-center gap-2 pl-1">
             <LangMenu />
             {user ? (
               <>
                 {isStaff && <Button asChild variant="ghost" size="sm"><Link to="/admin"><ShieldCheck />Admin</Link></Button>}
+                {isTrainer && <Button asChild variant="ghost" size="sm"><Link to="/trainer"><Users />{t("nav.trainers", "For Trainers")}</Link></Button>}
                 <Button asChild variant="ghost" size="sm"><Link to="/dashboard"><LayoutDashboard />{t("nav.dashboard", "My learning")}</Link></Button>
                 <Button asChild variant="ghost" size="icon" aria-label={t("nav.settings", "Settings")}><Link to="/settings"><Settings /></Link></Button>
                 <Button variant="ghost" size="icon" onClick={doSignOut} aria-label={t("nav.signout", "Sign out")}><LogOut /></Button>
               </>
             ) : (
-              <>
-                {/* Bare login: no border, motivates returning users. */}
-                <Link to="/signin" className="rounded-full px-4 py-2.5 text-[15px] font-semibold text-foreground/80 transition-colors hover:text-primary">
-                  {t("nav.signin", "Sign in")}
-                </Link>
-                {/* Primary CTA: elevated, with a rotating conic-gradient bloom. */}
-                <Link to="/signup" className="db-glow-cta inline-flex h-12 items-center gap-1.5 rounded-full bg-accent px-6 text-[15px] font-semibold text-accent-foreground">
-                  {t("nav.start", "Get started")}<ArrowRight className="size-4" />
-                </Link>
-              </>
+              <Button asChild><Link to="/signin">{t("nav.signin", "Sign in")}</Link></Button>
             )}
           </div>
-          <div className="flex items-center gap-1 md:hidden">
-            <Button variant="ghost" size="icon" onClick={() => setSearchOpen((v) => !v)} aria-label={t("search.label", "Search courses")} aria-expanded={searchOpen}>
-              <Search />
-            </Button>
-            <Button variant="ghost" size="icon" onClick={() => setOpen(!open)} aria-label={open ? "Close menu" : "Open menu"} aria-expanded={open}>
-              {open ? <X /> : <Menu />}
-            </Button>
-          </div>
+        </nav>
 
-          {/* Mega menu panel: flush to the full width of the floating bar. */}
-          {mega && (
-            <div className="absolute inset-x-0 top-full z-50 hidden pt-3 md:block" onMouseEnter={openMega} onMouseLeave={closeMega}>
-              <CoursesMega onNavigate={() => setMega(false)} setHi={setHi} hi={hi} />
-            </div>
-          )}
-        </div>
+        {/* Mobile: hamburger only */}
+        <Button
+          variant="ghost"
+          size="icon"
+          className="md:hidden"
+          onClick={() => setOpen((v) => !v)}
+          aria-label={open ? t("nav.closemenu", "Close menu") : t("nav.openmenu", "Open menu")}
+          aria-expanded={open}
+          aria-controls="mobile-menu"
+        >
+          {open ? <X /> : <Menu />}
+        </Button>
       </div>
-      {searchOpen && (
-        <div className="container-page mt-2 md:hidden">
-          <form onSubmit={submitSearch} className="relative rounded-2xl border border-border/60 bg-background/90 p-2 shadow-lg backdrop-blur-xl">
-            <Search className="pointer-events-none absolute left-5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" aria-hidden="true" />
-            <input
-              type="search"
-              value={q}
-              onChange={(e) => setQ(e.target.value)}
-              autoFocus
-              placeholder={t("search.placeholder", "Search…")}
-              className="h-11 w-full rounded-xl border border-border bg-secondary/50 pl-9 pr-4 text-sm outline-none focus:border-primary focus:bg-background"
-            />
-          </form>
-        </div>
-      )}
+
+      {/* Mobile panel: compact, solid, immediately below the header */}
       {open && (
-        <div className="container-page mt-2 md:hidden">
-          <div className="rounded-2xl border border-border/60 bg-background/90 p-2 shadow-lg backdrop-blur-xl">
-            <nav aria-label="Mobile" className="flex flex-col gap-1" onClick={() => setOpen(false)}>
-              {mobileLinks.map((l) => (
-                <Link key={l.to} to={l.to} className="rounded-xl px-4 py-3 font-medium hover:bg-secondary">{l.label}</Link>
-              ))}
+        <div id="mobile-menu" className="border-t border-border bg-background md:hidden">
+          <nav aria-label="Mobile" className="container-page flex flex-col gap-0.5 py-2">
+            {navLinks.map((l) => (
+              <Link key={l.to} to={l.to} onClick={() => setOpen(false)} className={mobileLink} activeProps={{ className: "text-primary" }}>
+                {l.label}
+              </Link>
+            ))}
+            {user && (
+              <>
+                {isStaff && <Link to="/admin" onClick={() => setOpen(false)} className={mobileLink}>Admin</Link>}
+                {isTrainer && <Link to="/trainer" onClick={() => setOpen(false)} className={mobileLink}>{t("nav.trainers", "For Trainers")}</Link>}
+                <Link to="/dashboard" onClick={() => setOpen(false)} className={mobileLink}>{t("nav.dashboard", "My learning")}</Link>
+                <Link to="/settings" onClick={() => setOpen(false)} className={mobileLink}>{t("nav.settings", "Settings")}</Link>
+              </>
+            )}
+            <div className="my-2 h-px bg-border" />
+            <div className="flex items-center justify-between gap-3 px-1 pb-1">
+              <LangToggle />
               {user ? (
-                <>
-                  <Link to="/dashboard" className="rounded-xl px-4 py-3 font-medium hover:bg-secondary">{t("nav.dashboard", "My learning")}</Link>
-                  <Link to="/settings" className="rounded-xl px-4 py-3 font-medium hover:bg-secondary">{t("nav.settings", "Settings")}</Link>
-                  <button onClick={doSignOut} className="rounded-xl px-4 py-3 text-left font-medium hover:bg-secondary">{t("nav.signout", "Sign out")}</button>
-                </>
+                <button onClick={doSignOut} className="inline-flex min-h-11 items-center rounded-full px-4 text-[15px] font-semibold text-foreground/80 transition-colors hover:text-primary">
+                  {t("nav.signout", "Sign out")}
+                </button>
               ) : (
-                <div className="flex flex-col gap-2 px-2 pb-1 pt-2">
-                  <Button asChild variant="accent" className="w-full"><Link to="/signup">{t("nav.start", "Get started")}</Link></Button>
-                  <Link to="/signin" className="rounded-xl px-4 py-2 text-center font-semibold text-foreground/80 hover:text-primary">{t("nav.signin", "Sign in")}</Link>
-                </div>
+                <Button asChild><Link to="/signin" onClick={() => setOpen(false)}>{t("nav.signin", "Sign in")}</Link></Button>
               )}
-            </nav>
-            <div className="px-2 pb-1 pt-2" onClick={(e) => e.stopPropagation()}><LangToggle /></div>
-          </div>
+            </div>
+          </nav>
         </div>
       )}
     </header>

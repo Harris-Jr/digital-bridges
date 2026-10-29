@@ -35,7 +35,7 @@ async function systemPrompt(lang: string): Promise<string> {
 
 How to answer:
 - Reply in ${language}. Use very short, simple sentences and plain words. No jargon.
-- Keep answers brief — a few sentences. Give one clear step at a time.
+- Keep answers brief, a few sentences. Give one clear step at a time.
 - Use the Zambian context (Airtel, MTN, Zamtel, kwacha, NRC) when it fits.
 - When useful, point the person to the right course from this list:
 ${courses}

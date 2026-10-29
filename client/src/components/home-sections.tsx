@@ -1,6 +1,6 @@
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { Quote, GraduationCap, Radio, HeartHandshake, Cpu, Landmark, Signal, ArrowRight, type LucideIcon } from "lucide-react";
+import { Quote, GraduationCap, Radio, HeartHandshake, Cpu, Landmark, Signal, ArrowRight, ChevronLeft, ChevronRight, type LucideIcon } from "lucide-react";
 import { Icon } from "@/components/site";
 import { useI18n } from "@/lib/i18n";
 import type { Pathway } from "@/lib/content";
@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 type Testimonial = { id: string; quote: string; name: string; role_location: string };
 type Partner = { id: string; name: string; category: string };
 
-/* Home "choose your path" selector — one card per pathway (e.g. Digital Skills,
+/* Home "choose your path" selector, one card per pathway (e.g. Digital Skills,
    Civic Education). Each card opens that pathway's courses. */
 export function PathwaySelector({ items }: { items: Pathway[] }) {
   const { t } = useI18n();
@@ -97,38 +97,78 @@ function initials(name: string): string {
     .toUpperCase();
 }
 
+/* Testimonials carousel: switches through the real learner quotes in the
+   database, one at a time, auto-advancing and pausing on hover. No invented
+   quotes, add more in admin and they join the rotation. */
 export function Testimonials({ items }: { items: Testimonial[] }) {
   const { t } = useI18n();
   const { ref, shown } = useReveal<HTMLDivElement>();
-  if (items.length === 0) return null;
+  const [i, setI] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const n = items.length;
+
+  useEffect(() => { if (i >= n && n > 0) setI(0); }, [n, i]);
+  useEffect(() => {
+    if (n <= 1 || paused) return;
+    if (typeof window !== "undefined" && window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
+    const id = window.setInterval(() => setI((p) => (p + 1) % n), 6000);
+    return () => clearInterval(id);
+  }, [n, paused]);
+
+  if (n === 0) return null;
+  const q = items[i] ?? items[0]!;
+  const go = (d: number) => setI((p) => (p + d + n) % n);
 
   return (
     <section className="border-y border-border bg-primary-soft/40">
       <div className="container-page py-16">
         <p className="eyebrow">{t("home.testimonials.eyebrow", "From learners")}</p>
-        <h2 className="mt-2 max-w-xl text-3xl md:text-4xl">{t("home.testimonials.title", "Small wins people felt in their own words")}</h2>
+        <h2 className="mt-2 max-w-xl text-3xl md:text-4xl">{t("home.testimonials.title", "Small wins people felt, in their own words")}</h2>
 
-        <div ref={ref} className="mt-10 grid gap-5 md:grid-cols-3">
-          {items.slice(0, 3).map((q, i) => (
-            <figure
-              key={q.id}
-              style={{ ["--db-reveal-delay" as string]: `${i * 120}ms` }}
-              className={`db-reveal${shown ? " is-in" : ""} group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card p-6 shadow-sm transition-shadow duration-300 hover:shadow-md`}
-            >
-              <span className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-primary via-accent to-success" aria-hidden="true" />
-              <Quote className="size-8 shrink-0 text-accent/80" aria-hidden="true" />
-              <blockquote className="mt-4 flex-1 text-lg leading-relaxed text-foreground">{q.quote}</blockquote>
-              <figcaption className="mt-6 flex items-center gap-3 border-t border-border/70 pt-4">
-                <span className={`grid size-10 shrink-0 place-items-center rounded-full font-display text-sm font-extrabold ${AVATAR_TONES[i % AVATAR_TONES.length]}`} aria-hidden="true">
-                  {initials(q.name)}
-                </span>
-                <span className="min-w-0">
-                  <span className="block truncate font-semibold">{q.name}</span>
-                  <span className="block truncate text-sm text-muted-foreground">{q.role_location}</span>
-                </span>
-              </figcaption>
-            </figure>
-          ))}
+        <div
+          ref={ref}
+          className={`db-reveal${shown ? " is-in" : ""} mt-10`}
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
+        >
+          <figure key={q.id} className="db-fade relative mx-auto flex max-w-2xl flex-col overflow-hidden rounded-2xl border border-border bg-card p-8 shadow-sm">
+            <span className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-primary via-accent to-success" aria-hidden="true" />
+            <Quote className="size-9 shrink-0 text-accent/80" aria-hidden="true" />
+            <blockquote className="mt-4 text-xl leading-relaxed text-foreground">{q.quote}</blockquote>
+            <figcaption className="mt-6 flex items-center gap-3 border-t border-border/70 pt-4">
+              <span className={`grid size-11 shrink-0 place-items-center rounded-full font-display text-sm font-extrabold ${AVATAR_TONES[i % AVATAR_TONES.length]}`} aria-hidden="true">
+                {initials(q.name)}
+              </span>
+              <span className="min-w-0">
+                <span className="block truncate font-semibold">{q.name}</span>
+                <span className="block truncate text-sm text-muted-foreground">{q.role_location}</span>
+              </span>
+            </figcaption>
+          </figure>
+
+          {n > 1 && (
+            <div className="mt-6 flex items-center justify-center gap-4">
+              <button type="button" onClick={() => go(-1)} aria-label={t("testimonials.prev", "Previous")} className="grid size-10 place-items-center rounded-full border border-border bg-card text-foreground/70 transition-colors hover:border-primary hover:text-primary">
+                <ChevronLeft className="size-5" aria-hidden="true" />
+              </button>
+              <div className="flex gap-2" role="tablist" aria-label={t("testimonials.choose", "Choose a testimonial")}>
+                {items.map((it, idx) => (
+                  <button
+                    key={it.id}
+                    type="button"
+                    role="tab"
+                    aria-selected={idx === i}
+                    aria-label={`${idx + 1}`}
+                    onClick={() => setI(idx)}
+                    className={cn("h-2.5 rounded-full transition-all duration-300", idx === i ? "w-6 bg-primary" : "w-2.5 bg-border hover:bg-primary/40")}
+                  />
+                ))}
+              </div>
+              <button type="button" onClick={() => go(1)} aria-label={t("testimonials.next", "Next")} className="grid size-10 place-items-center rounded-full border border-border bg-card text-foreground/70 transition-colors hover:border-primary hover:text-primary">
+                <ChevronRight className="size-5" aria-hidden="true" />
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </section>

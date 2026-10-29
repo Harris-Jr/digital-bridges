@@ -293,7 +293,7 @@ function FieldInput({ field, value, onChange }: { field: Field; value: string | 
         <Textarea id={field.name} rows={field.type === "textarea" ? 6 : 4} className="mt-1 font-mono text-sm" value={String(value ?? "")} onChange={(e) => onChange(e.target.value)} />
       ) : field.type === "select" ? (
         <select id={field.name} className="mt-1 h-11 w-full rounded-md border border-input bg-background px-3 text-sm" value={String(value ?? "")} onChange={(e) => onChange(e.target.value)}>
-          <option value="">—</option>
+          <option value="">, </option>
           {field.options.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
         </select>
       ) : (
@@ -363,7 +363,7 @@ export function MediaUpload({ value, onChange, kind = "image" }: { value: string
       </div>
       <Input value={value} onChange={(e) => onChange(e.target.value)} placeholder={`https://… ${noun} URL`} className="h-11" />
       {cfg.data && !cfg.data.enabled && (
-        <p className="text-xs text-muted-foreground">Uploads aren't set up yet — paste a {noun} URL above. (Add Cloudinary keys to the server .env to enable uploads.)</p>
+        <p className="text-xs text-muted-foreground">Uploads aren't set up yet, paste a {noun} URL above. (Add Cloudinary keys to the server .env to enable uploads.)</p>
       )}
     </div>
   );

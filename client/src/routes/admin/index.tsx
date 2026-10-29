@@ -36,7 +36,7 @@ function Dashboard() {
               <div className="flex items-start justify-between gap-4 rounded-xl border border-border bg-card p-5 transition-shadow hover:shadow-sm">
                 <div>
                   <p className="text-sm text-muted-foreground">{c.label}</p>
-                  <p className="mt-1 font-display text-2xl font-extrabold">{c.value ?? "—"}</p>
+                  <p className="mt-1 font-display text-2xl font-extrabold">{c.value ?? ", "}</p>
                 </div>
                 <c.icon className="size-6 text-primary" aria-hidden="true" />
               </div>

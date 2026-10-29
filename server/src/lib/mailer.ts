@@ -28,7 +28,7 @@ function fromAddress(): string {
 
 /**
  * Send an email. Resolves true on success, false when email is disabled or the
- * send fails — never throws, so callers (e.g. signup) are never blocked or
+ * send fails, never throws, so callers (e.g. signup) are never blocked or
  * broken by email problems. Fire-and-forget is safe.
  */
 export async function sendMail(opts: { to: string; subject: string; html: string; text?: string }): Promise<boolean> {
@@ -73,7 +73,7 @@ function layout(title: string, bodyHtml: string): string {
       ${bodyHtml}
     </div>
     <p style="color:#78716c;font-size:12px;margin-top:20px;line-height:1.6;">
-      Civic Wise — free digital and civic skills for communities in Zambia.<br/>
+      Civic Wise, free digital and civic skills for communities in Zambia.<br/>
       A Zambia Cyber Security Foundation initiative.
     </p>
   </div></body></html>`;
@@ -90,7 +90,7 @@ export function welcomeEmail(name: string): { subject: string; html: string } {
   return {
     subject: "Welcome to Civic Wise",
     html: layout("Welcome, " + escapeHtml(first) + "!", `
-      <p style="line-height:1.7;margin:0 0 14px;">Your free account is ready. Civic Wise has short, simple lessons on using your phone safely, mobile money, finding work, and taking part in your community — in English, Bemba and Nyanja.</p>
+      <p style="line-height:1.7;margin:0 0 14px;">Your free account is ready. Civic Wise has short, simple lessons on using your phone safely, mobile money, finding work, and taking part in your community, in English, Bemba and Nyanja.</p>
       <p style="line-height:1.7;margin:0 0 18px;">Pick a course and start whenever you like. You can even download courses to use offline.</p>
       ${button("Start learning", url + "/dashboard")}
     `),
@@ -104,7 +104,7 @@ export function passwordResetEmail(resetUrl: string): { subject: string; html: s
     html: layout("Reset your password", `
       <p style="line-height:1.7;margin:0 0 14px;">We received a request to reset the password for your Civic Wise account. Click below to choose a new one. This link expires in one hour.</p>
       ${button("Reset my password", resetUrl)}
-      <p style="line-height:1.7;margin:18px 0 0;color:#78716c;font-size:13px;">If you did not ask for this, you can safely ignore this email — your password will not change.</p>
+      <p style="line-height:1.7;margin:18px 0 0;color:#78716c;font-size:13px;">If you did not ask for this, you can safely ignore this email, your password will not change.</p>
     `),
   };
 }

@@ -50,9 +50,13 @@ export function Logo({ className, imgClassName }: { className?: string; imgClass
       {logo.data ? (
         <img src={logo.data} alt="Civic Wise" className={cn("h-10 w-auto md:h-11", imgClassName)} />
       ) : (
-        <span className="font-display text-xl font-extrabold leading-none tracking-tight md:text-2xl">
-          <span className="text-primary">Civic</span>{" "}<span className="text-accent">Wise</span>
-        </span>
+        // No CMS logo: fall back to the brand mark + the Civic Wise wordmark.
+        <>
+          <img src="/images/brand-icon.png" alt="" className={cn("h-10 w-auto md:h-11", imgClassName)} width={44} height={44} />
+          <span className="font-display text-xl font-extrabold leading-none tracking-tight md:text-2xl">
+            <span className="text-primary">Civic</span>{" "}<span className="text-accent">Wise</span>
+          </span>
+        </>
       )}
     </Link>
   );
@@ -376,7 +380,6 @@ function CoursesMega({ onNavigate, setHi, hi }: { onNavigate: () => void; setHi:
         <ul className="space-y-0.5">
           <li><Link to="/courses" onClick={onNavigate} className="block rounded-lg px-3 py-2 text-sm font-semibold text-primary hover:bg-secondary">{t("home.courses.all", "All courses")}</Link></li>
           <li><Link to="/for-trainers" onClick={onNavigate} className="block rounded-lg px-3 py-2 text-sm text-foreground/80 hover:bg-secondary hover:text-primary">{t("nav.trainers", "For Trainers")}</Link></li>
-          <li><Link to="/about" onClick={onNavigate} className="block rounded-lg px-3 py-2 text-sm text-foreground/80 hover:bg-secondary hover:text-primary">{t("nav.about", "About")}</Link></li>
         </ul>
       </div>
       {featured && (
@@ -595,7 +598,7 @@ export function SiteFooter() {
 export function FeatureStrip() {
   const { t } = useI18n();
   const items = [
-    { icon: Clock, title: t("feat.pace.title", "Learn at your own pace"), body: t("feat.pace.body", "Short lessons you can finish between other things — no deadlines.") },
+    { icon: Clock, title: t("feat.pace.title", "Learn at your own pace"), body: t("feat.pace.body", "Short lessons you can finish between other things, no deadlines.") },
     { icon: Smartphone, title: t("feat.device.title", "Works on any device"), body: t("feat.device.body", "Built for the phone in your pocket, from the oldest handset up.") },
     { icon: WifiOff, title: t("feat.data.title", "Low data friendly"), body: t("feat.data.body", "Light pages and offline packs so you spend less on bundles.") },
     { icon: GraduationCap, title: t("feat.skills.title", "Build real skills"), body: t("feat.skills.body", "Practical digital and civic know-how you can use the same day.") },

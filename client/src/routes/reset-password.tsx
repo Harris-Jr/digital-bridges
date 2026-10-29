@@ -10,7 +10,7 @@ export const Route = createFileRoute("/reset-password")({
   validateSearch: (s: Record<string, unknown>): { token?: string } => ({
     token: typeof s.token === "string" ? s.token : undefined,
   }),
-  head: () => ({ meta: [{ title: "Reset password — Civic Wise" }] }),
+  head: () => ({ meta: [{ title: "Reset password, Civic Wise" }] }),
   component: ResetPassword,
 });
 

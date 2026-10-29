@@ -17,7 +17,7 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/_authenticated/settings")({
   head: () => ({
     meta: [
-      { title: "Settings — Civic Wise" },
+      { title: "Settings, Civic Wise" },
       { name: "description", content: "Manage your profile, language, cookies and personal data." },
     ],
   }),

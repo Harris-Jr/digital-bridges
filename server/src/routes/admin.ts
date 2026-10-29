@@ -16,7 +16,7 @@ type ResourceDef = {
   table: string;
   idColumn: string; // "id" (uuid) or "slug" (text) for site_pages
   columns: string[]; // writable columns (create + update)
-  jsonbColumns?: string[]; // columns stored as jsonb — stringified before binding
+  jsonbColumns?: string[]; // columns stored as jsonb, stringified before binding
   orderBy: string;
   schema: ZodType; // validates create bodies; update uses .partial() when possible
   allowCreate?: boolean;

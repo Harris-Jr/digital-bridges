@@ -65,7 +65,7 @@ authRouter.post(
     const { accessToken, refreshToken } = await issueSession(user.id, user.email);
     const { profile, roles } = await profileAndRoles(user.id);
 
-    // Fire-and-forget welcome email — never blocks or fails signup.
+    // Fire-and-forget welcome email, never blocks or fails signup.
     const welcome = welcomeEmail(full_name ?? "");
     void sendMail({ to: user.email, subject: welcome.subject, html: welcome.html });
 

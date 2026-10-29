@@ -10,9 +10,9 @@ import { useI18n } from "@/lib/i18n";
 export const Route = createFileRoute("/for-trainers")({
   head: () => ({
     meta: [
-      { title: "For Trainers — Civic Wise" },
+      { title: "For Trainers, Civic Wise" },
       { name: "description", content: "Lead practical digital skills sessions with simple tools and ready-to-use teaching materials." },
-      { property: "og:title", content: "For Trainers — Civic Wise" },
+      { property: "og:title", content: "For Trainers, Civic Wise" },
       { property: "og:description", content: "Help your community grow with free facilitator tools." },
     ],
   }),

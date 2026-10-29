@@ -11,7 +11,7 @@ function Pages() {
   const fields: Field[] = [
     { name: "hero_title", label: "Hero title", type: "text" },
     { name: "hero_subline", label: "Hero subline", type: "textarea" },
-    { name: "body", label: "Body content (JSON)", type: "json", help: "Structured page content. Edit carefully — must be valid JSON." },
+    { name: "body", label: "Body content (JSON)", type: "json", help: "Structured page content. Edit carefully, must be valid JSON." },
     { name: "is_published", label: "Published", type: "boolean" },
   ];
 

@@ -134,7 +134,7 @@ function CohortDetail() {
             className="mt-4 flex flex-wrap items-end gap-3 rounded-2xl border border-border bg-card p-4 shadow-sm"
             onSubmit={(e) => { e.preventDefault(); if (sess.title.trim() && sess.session_date) addSession.mutate(); }}
           >
-            <div className="flex-1 min-w-56"><Label htmlFor="stitle">Session title</Label><Input id="stitle" className="mt-1 h-11" value={sess.title} onChange={(e) => setSess({ ...sess, title: e.target.value })} placeholder="For example: Week 1 — Passwords" /></div>
+            <div className="flex-1 min-w-56"><Label htmlFor="stitle">Session title</Label><Input id="stitle" className="mt-1 h-11" value={sess.title} onChange={(e) => setSess({ ...sess, title: e.target.value })} placeholder="For example: Week 1, Passwords" /></div>
             <div><Label htmlFor="sdate">Date</Label><Input id="sdate" type="date" className="mt-1 h-11" value={sess.session_date} onChange={(e) => setSess({ ...sess, session_date: e.target.value })} /></div>
             <Button type="submit" disabled={addSession.isPending}><CalendarPlus className="size-4" />Add session</Button>
           </form>

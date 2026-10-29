@@ -14,9 +14,9 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
-      { title: "Contact — Civic Wise" },
+      { title: "Contact, Civic Wise" },
       { name: "description", content: "Have a question about learning or running a community workshop? Send the Civic Wise team a message." },
-      { property: "og:title", content: "Contact — Civic Wise" },
+      { property: "og:title", content: "Contact, Civic Wise" },
       { property: "og:description", content: "Let's talk. Send us a message." },
     ],
   }),

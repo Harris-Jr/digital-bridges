@@ -45,7 +45,7 @@ function Lessons() {
     { label: "Scenario", render: (l) => (
       l.type === "scenario"
         ? <Button asChild variant="outline" size="sm"><Link to="/admin/lessons/$lessonId/scenario" params={{ lessonId: l.id }}>Steps</Link></Button>
-        : <span className="text-xs text-muted-foreground">—</span>
+        : <span className="text-xs text-muted-foreground">, </span>
     ) },
   ];
 

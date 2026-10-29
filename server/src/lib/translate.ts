@@ -2,7 +2,7 @@
 // `content_translations` holds per-field overrides per language. At read time
 // we fetch the overrides for the rows in hand and apply them in place. A
 // missing field (e.g. a long lesson body not yet translated) simply keeps its
-// English value — graceful fallback, no special-casing per field.
+// English value, graceful fallback, no special-casing per field.
 import { query } from "../db.js";
 
 const SUPPORTED = new Set(["bem", "nya"]);

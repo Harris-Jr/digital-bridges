@@ -2,8 +2,8 @@
 //
 // A "pack" pre-warms the two runtime caches the service worker already reads
 // from (see vite.config.ts): "db-api" for the content API and "db-media" for
-// images and audio. Downloading a course fetches everything a learner needs —
-// the course detail, each lesson's quiz, and all media — and stores it in
+// images and audio. Downloading a course fetches everything a learner needs , 
+// the course detail, each lesson's quiz, and all media, and stores it in
 // those caches, so the course and its lessons open with no connection.
 //
 // Lesson completions made while offline are queued in localStorage and

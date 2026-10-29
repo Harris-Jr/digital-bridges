@@ -36,7 +36,7 @@ export function CookieConsentManager() {
             <div>
               <p className="font-semibold">A few cookies?</p>
               <p className="mt-1 text-sm text-muted-foreground">
-                We use a few to keep you signed in and count visitors — you choose.{" "}
+                We use a few to keep you signed in and count visitors, you choose.{" "}
                 <Link to="/privacy" className="font-semibold text-primary underline">Read more</Link>
               </p>
             </div>
@@ -115,7 +115,7 @@ export function PolicyVersionGate() {
   );
 }
 
-/** Consent-gated analytics stub — only mounted after analytics opt-in. */
+/** Consent-gated analytics stub, only mounted after analytics opt-in. */
 function AnalyticsTracker() {
   const path = useRouterState({ select: (s) => s.location.pathname });
   useEffect(() => {

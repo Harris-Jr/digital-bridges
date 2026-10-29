@@ -103,20 +103,31 @@ type FieldProps = InputHTMLAttributes<HTMLInputElement> & {
 export function UnderlineField({ label, icon: Icon, error, rightSlot, id, className, ...props }: FieldProps) {
   return (
     <div>
-      <div className="group relative">
+      <div className="relative">
+        {/* placeholder=" " drives :placeholder-shown so the label can float up on focus/fill */}
         <input
           id={id}
-          placeholder={label}
-          aria-label={label}
+          placeholder=" "
           aria-invalid={!!error}
           aria-describedby={error ? `${id}-err` : undefined}
           className={cn(
-            "peer min-h-12 w-full border-b-2 border-foreground/25 bg-transparent pr-8 text-base text-foreground placeholder:text-muted-foreground transition-colors duration-[250ms] focus:border-primary focus:outline-none",
+            "peer min-h-14 w-full border-b-2 border-foreground/25 bg-transparent px-0 pb-1.5 pr-8 pt-6 text-base text-foreground placeholder:text-transparent transition-colors duration-200 focus:border-primary focus:outline-none",
+            error && "border-destructive",
             className,
           )}
           {...props}
         />
-        {rightSlot ?? (Icon && <Icon className="pointer-events-none absolute right-0 top-1/2 size-5 -translate-y-1/2 text-muted-foreground peer-focus:text-primary" aria-hidden="true" />)}
+        <label
+          htmlFor={id}
+          className={cn(
+            "pointer-events-none absolute left-0 top-1/2 origin-left -translate-y-1/2 text-base text-muted-foreground transition-all duration-200 ease-out",
+            "peer-focus:top-1 peer-focus:translate-y-0 peer-focus:text-xs peer-focus:font-semibold peer-focus:text-primary",
+            "peer-[:not(:placeholder-shown)]:top-1 peer-[:not(:placeholder-shown)]:translate-y-0 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:font-semibold",
+          )}
+        >
+          {label}
+        </label>
+        {rightSlot ?? (Icon && <Icon className="pointer-events-none absolute right-0 top-1/2 size-5 -translate-y-1/2 text-muted-foreground transition-colors peer-focus:text-primary" aria-hidden="true" />)}
       </div>
       {error && <p id={`${id}-err`} className="mt-1 text-sm font-semibold text-destructive">{error}</p>}
     </div>

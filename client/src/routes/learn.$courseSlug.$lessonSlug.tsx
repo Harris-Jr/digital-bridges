@@ -16,9 +16,9 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/learn/$courseSlug/$lessonSlug")({
   head: () => ({
     meta: [
-      { title: "Lesson — Civic Wise" },
+      { title: "Lesson, Civic Wise" },
       { name: "description", content: "A short Civic Wise lesson in simple language." },
-      { property: "og:title", content: "Lesson — Civic Wise" },
+      { property: "og:title", content: "Lesson, Civic Wise" },
       { property: "og:description", content: "A short Civic Wise lesson in simple language." },
     ],
   }),
@@ -59,7 +59,7 @@ function LessonPlayer() {
       if (res.certificate) {
         toast.success(`Course complete! You earned a certificate for “${res.certificate.title}”.`, { duration: 6000 });
       } else {
-        toast.success(res.badges_earned ? "Lesson done — you earned a new badge!" : "Lesson marked as done");
+        toast.success(res.badges_earned ? "Lesson done, you earned a new badge!" : "Lesson marked as done");
       }
       qc.invalidateQueries({ queryKey: ["progress"] });
       qc.invalidateQueries({ queryKey: ["my-badges"] });
@@ -258,7 +258,7 @@ function Scenario({ steps, onFinish }: { steps: ScenarioStep[]; onFinish: () => 
     return (
       <div className="rounded-2xl border border-primary/30 bg-primary-soft p-6">
         <h2 className="flex items-center gap-2 text-xl"><ThumbsUp className="size-5 text-success" aria-hidden="true" />{t("scenario.doneTitle", "You worked through it")}</h2>
-        <p className="mt-2 text-muted-foreground">{t("scenario.doneBody", "Well done. Every choice teaches something — try it again to explore the other options.")}</p>
+        <p className="mt-2 text-muted-foreground">{t("scenario.doneBody", "Well done. Every choice teaches something, try it again to explore the other options.")}</p>
         <Button className="mt-4" variant="outline" onClick={() => { setI(0); setPicked(null); setDone(false); }}>{t("scenario.startover", "Start over")}</Button>
       </div>
     );

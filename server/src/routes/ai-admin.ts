@@ -44,7 +44,7 @@ aiAdminRouter.post(
     const prompt = `Lesson title: ${lesson.title}
 
 Lesson text:
-${lesson.body_richtext || "(no body text — write general questions on the title topic)"}
+${lesson.body_richtext || "(no body text, write general questions on the title topic)"}
 
 Write ${input.data.count} quiz questions as a JSON array.`;
 

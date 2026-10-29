@@ -17,7 +17,7 @@ export const Route = createFileRoute("/auth")({
   }),
   head: () => ({
     meta: [
-      { title: "Sign in — Civic Wise" },
+      { title: "Sign in, Civic Wise" },
       { name: "description", content: "Sign in or create your free Civic Wise account." },
     ],
   }),

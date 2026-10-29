@@ -27,7 +27,7 @@ export async function query<T extends pg.QueryResultRow = pg.QueryResultRow>(
 
 /**
  * Run `fn` inside a single transaction (ACID). Commits on success, rolls back
- * on any thrown error. Use for every write that must be all-or-nothing —
+ * on any thrown error. Use for every write that must be all-or-nothing , 
  * e.g. recording progress and awarding badges together.
  */
 export async function withTransaction<T>(

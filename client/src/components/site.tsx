@@ -390,7 +390,10 @@ export function SiteHeader() {
                 <Button variant="ghost" size="icon" onClick={doSignOut} aria-label={t("nav.signout", "Sign out")}><LogOut /></Button>
               </>
             ) : (
-              <Button asChild><Link to="/signin">{t("nav.signin", "Sign in")}</Link></Button>
+              /* Elevated CTA: gold fill with a rotating conic-gradient bloom. */
+              <Link to="/signin" className="db-glow-cta inline-flex h-11 items-center gap-1.5 rounded-full bg-accent px-6 text-[15px] font-semibold text-accent-foreground">
+                {t("nav.signin", "Sign in")}<ArrowRight className="size-4" />
+              </Link>
             )}
           </div>
         </nav>
@@ -434,7 +437,7 @@ export function SiteHeader() {
                   {t("nav.signout", "Sign out")}
                 </button>
               ) : (
-                <Button asChild><Link to="/signin" onClick={() => setOpen(false)}>{t("nav.signin", "Sign in")}</Link></Button>
+                <Link to="/signin" onClick={() => setOpen(false)} className="db-glow-cta inline-flex h-11 items-center gap-1.5 rounded-full bg-accent px-5 text-[15px] font-semibold text-accent-foreground">{t("nav.signin", "Sign in")}<ArrowRight className="size-4" /></Link>
               )}
             </div>
           </nav>

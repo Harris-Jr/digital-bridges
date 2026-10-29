@@ -43,8 +43,11 @@ function CertificatePage() {
 
       <div className="mx-auto max-w-3xl rounded-2xl bg-card p-2 shadow-lg print:max-w-none print:rounded-none print:shadow-none">
         <div className="rounded-xl border-[3px] border-primary/70 p-8 text-center sm:p-14">
-          <div className="flex items-center justify-center gap-2">
-            <img src="/images/logo.png" alt="Digital Bridges" className="h-9 w-auto" />
+          <div className="flex items-center justify-center gap-2.5">
+            <img src="/images/brand-icon.png" alt="" className="h-9 w-auto" />
+            <span className="font-display text-2xl font-extrabold tracking-tight">
+              <span className="text-primary">Civic</span> <span className="text-accent">Wise</span>
+            </span>
           </div>
           <p className="mt-10 font-display text-sm font-bold uppercase tracking-[0.2em] text-primary">{t("cert.title", "Certificate of Completion")}</p>
           <p className="mt-8 text-muted-foreground">{t("cert.certifies", "This certifies that")}</p>
@@ -56,7 +59,7 @@ function CertificatePage() {
 
           <div className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-border pt-6 text-sm text-muted-foreground sm:flex-row">
             <span>{t("cert.issued", "Issued")} {date}</span>
-            <span>Digital Bridges · Zambia</span>
+            <span>Civic Wise · Zambia</span>
             <span>No. {c.serial}</span>
           </div>
         </div>

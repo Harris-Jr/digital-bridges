@@ -8,9 +8,9 @@ import { usePage } from "@/lib/content";
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
-      { title: "About — Digital Bridges" },
+      { title: "About — Civic Wise" },
       { name: "description", content: "Helping people across Zambia use phones and the internet with confidence." },
-      { property: "og:title", content: "About — Digital Bridges" },
+      { property: "og:title", content: "About — Civic Wise" },
       { property: "og:description", content: "Built with communities, for communities." },
     ],
   }),

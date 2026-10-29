@@ -15,9 +15,9 @@ import { apiGet, apiPost } from "@/lib/api";
 export const Route = createFileRoute("/_authenticated/dashboard")({
   head: () => ({
     meta: [
-      { title: "My learning — Digital Bridges" },
-      { name: "description", content: "Your progress, streak and badges on Digital Bridges." },
-      { property: "og:title", content: "My learning — Digital Bridges" },
+      { title: "My learning — Civic Wise" },
+      { name: "description", content: "Your progress, streak and badges on Civic Wise." },
+      { property: "og:title", content: "My learning — Civic Wise" },
       { property: "og:description", content: "Your progress, streak and badges." },
     ],
   }),

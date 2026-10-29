@@ -17,8 +17,8 @@ export const Route = createFileRoute("/auth")({
   }),
   head: () => ({
     meta: [
-      { title: "Sign in — Digital Bridges" },
-      { name: "description", content: "Sign in or create your free Digital Bridges account." },
+      { title: "Sign in — Civic Wise" },
+      { name: "description", content: "Sign in or create your free Civic Wise account." },
     ],
   }),
   component: AuthPage,

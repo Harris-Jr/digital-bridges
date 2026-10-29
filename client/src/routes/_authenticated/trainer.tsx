@@ -15,9 +15,9 @@ import { apiGet, apiPost } from "@/lib/api";
 export const Route = createFileRoute("/_authenticated/trainer")({
   head: () => ({
     meta: [
-      { title: "For Trainers — Digital Bridges" },
+      { title: "For Trainers — Civic Wise" },
       { name: "description", content: "Guides, posters and workshop planning for community facilitators in Zambia." },
-      { property: "og:title", content: "For Trainers — Digital Bridges" },
+      { property: "og:title", content: "For Trainers — Civic Wise" },
       { property: "og:description", content: "Run digital skills workshops in your community." },
     ],
   }),

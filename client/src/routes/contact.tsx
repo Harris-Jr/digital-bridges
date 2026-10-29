@@ -14,9 +14,9 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
-      { title: "Contact — Digital Bridges" },
-      { name: "description", content: "Have a question about learning or running a community workshop? Send the Digital Bridges team a message." },
-      { property: "og:title", content: "Contact — Digital Bridges" },
+      { title: "Contact — Civic Wise" },
+      { name: "description", content: "Have a question about learning or running a community workshop? Send the Civic Wise team a message." },
+      { property: "og:title", content: "Contact — Civic Wise" },
       { property: "og:description", content: "Let's talk. Send us a message." },
     ],
   }),
@@ -47,7 +47,7 @@ function Contact() {
   const helps = [
     { icon: BookOpen, title: t("contact.topic.learning", "Learning support"), body: t("contact.help.learning", "Questions about courses or your account.") },
     { icon: Users, title: t("contact.topic.workshops", "Community workshops"), body: t("contact.help.workshops", "Help bringing digital skills to your community.") },
-    { icon: Handshake, title: t("contact.topic.partnerships", "Partnerships"), body: t("contact.help.partnerships", "Explore ways to work with Digital Bridges.") },
+    { icon: Handshake, title: t("contact.topic.partnerships", "Partnerships"), body: t("contact.help.partnerships", "Explore ways to work with Civic Wise.") },
   ];
 
   const submit = async (e: React.FormEvent) => {

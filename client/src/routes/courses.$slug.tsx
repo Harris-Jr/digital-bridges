@@ -15,9 +15,9 @@ export const Route = createFileRoute("/courses/$slug")({
     const name = params.slug.split("-").map((w) => w[0]?.toUpperCase() + w.slice(1)).join(" ");
     return {
       meta: [
-        { title: `${name} — Digital Bridges` },
+        { title: `${name} — Civic Wise` },
         { name: "description", content: `Free course: ${name}. Short lessons in simple language.` },
-        { property: "og:title", content: `${name} — Digital Bridges` },
+        { property: "og:title", content: `${name} — Civic Wise` },
         { property: "og:description", content: `Free course: ${name}. Short lessons in simple language.` },
       ],
     };

@@ -66,14 +66,14 @@ function layout(title: string, bodyHtml: string): string {
   return `<!doctype html><html><body style="margin:0;background:#faf7f0;font-family:Arial,Helvetica,sans-serif;color:#1c1917;">
   <div style="max-width:560px;margin:0 auto;padding:24px;">
     <div style="padding:8px 0 16px;border-bottom:3px solid ${BRAND};">
-      <span style="color:${BRAND};font-weight:800;font-size:18px;letter-spacing:.02em;">Digital Bridges</span>
+      <span style="color:${BRAND};font-weight:800;font-size:18px;letter-spacing:.02em;">Civic Wise</span>
     </div>
     <div style="background:#ffffff;border:1px solid #e7e2d6;border-radius:14px;padding:28px;margin-top:20px;">
       <h1 style="margin:0 0 14px;font-size:22px;color:${BRAND};">${title}</h1>
       ${bodyHtml}
     </div>
     <p style="color:#78716c;font-size:12px;margin-top:20px;line-height:1.6;">
-      Digital Bridges — free digital and civic skills for communities in Zambia.<br/>
+      Civic Wise — free digital and civic skills for communities in Zambia.<br/>
       A Zambia Cyber Security Foundation initiative.
     </p>
   </div></body></html>`;
@@ -88,9 +88,9 @@ export function welcomeEmail(name: string): { subject: string; html: string } {
   const first = (name || "").trim().split(" ")[0] || "there";
   const url = env.APP_URL.replace(/\/$/, "");
   return {
-    subject: "Welcome to Digital Bridges",
+    subject: "Welcome to Civic Wise",
     html: layout("Welcome, " + escapeHtml(first) + "!", `
-      <p style="line-height:1.7;margin:0 0 14px;">Your free account is ready. Digital Bridges has short, simple lessons on using your phone safely, mobile money, finding work, and taking part in your community — in English, Bemba and Nyanja.</p>
+      <p style="line-height:1.7;margin:0 0 14px;">Your free account is ready. Civic Wise has short, simple lessons on using your phone safely, mobile money, finding work, and taking part in your community — in English, Bemba and Nyanja.</p>
       <p style="line-height:1.7;margin:0 0 18px;">Pick a course and start whenever you like. You can even download courses to use offline.</p>
       ${button("Start learning", url + "/dashboard")}
     `),
@@ -100,9 +100,9 @@ export function welcomeEmail(name: string): { subject: string; html: string } {
 /** Password reset email with a time-limited link. */
 export function passwordResetEmail(resetUrl: string): { subject: string; html: string } {
   return {
-    subject: "Reset your Digital Bridges password",
+    subject: "Reset your Civic Wise password",
     html: layout("Reset your password", `
-      <p style="line-height:1.7;margin:0 0 14px;">We received a request to reset the password for your Digital Bridges account. Click below to choose a new one. This link expires in one hour.</p>
+      <p style="line-height:1.7;margin:0 0 14px;">We received a request to reset the password for your Civic Wise account. Click below to choose a new one. This link expires in one hour.</p>
       ${button("Reset my password", resetUrl)}
       <p style="line-height:1.7;margin:18px 0 0;color:#78716c;font-size:13px;">If you did not ask for this, you can safely ignore this email — your password will not change.</p>
     `),

@@ -17,9 +17,9 @@ export const Route = createFileRoute("/courses/")({
   }),
   head: () => ({
     meta: [
-      { title: "Courses — Digital Bridges" },
+      { title: "Courses — Civic Wise" },
       { name: "description", content: "Eight free courses: phone basics, online safety, mobile money, spotting false news, work skills and selling online." },
-      { property: "og:title", content: "Courses — Digital Bridges" },
+      { property: "og:title", content: "Courses — Civic Wise" },
       { property: "og:description", content: "Eight free digital skills courses in simple language." },
     ],
   }),

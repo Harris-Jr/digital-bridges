@@ -59,9 +59,9 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   head: () => ({
     meta: [
-      { title: "Digital Bridges — Free digital skills for Zambia" },
+      { title: "Civic Wise — Free digital skills for Zambia" },
       { name: "description", content: "Free, simple lessons on phones, mobile money, online safety and work for communities in Zambia." },
-      { property: "og:site_name", content: "Digital Bridges" },
+      { property: "og:site_name", content: "Civic Wise" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],

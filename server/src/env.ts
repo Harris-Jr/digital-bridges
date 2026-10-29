@@ -43,7 +43,7 @@ const schema = z.object({
   SMTP_SECURE: z.preprocess((v) => v === "true" || v === "1" || v === true, z.boolean()),
   SMTP_USER: z.string().optional(),
   SMTP_PASS: z.string().optional(),
-  // The From header, e.g. "Digital Bridges <no-reply@yourdomain.org>".
+  // The From header, e.g. "Civic Wise <no-reply@yourdomain.org>".
   // Falls back to SMTP_USER when unset.
   SMTP_FROM: z.string().optional(),
   // Public base URL of the app, used to build links inside emails.

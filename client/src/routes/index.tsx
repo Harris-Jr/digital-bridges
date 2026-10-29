@@ -30,10 +30,10 @@ const WHY_TONE = [
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Digital Bridges — Learn to use your phone safely" },
-      { name: "description", content: "Free, simple digital skills lessons for communities in Zambia: mobile money, online safety, finding work and more." },
-      { property: "og:title", content: "Digital Bridges — Learn to use your phone safely" },
-      { property: "og:description", content: "Free, simple digital skills lessons for communities in Zambia." },
+      { title: "Civic Wise — Digital and civic skills for Zambia" },
+      { name: "description", content: "Free, simple lessons for communities in Zambia: using your phone safely, mobile money, finding work, your rights and taking part in your community." },
+      { property: "og:title", content: "Civic Wise — Digital and civic skills for Zambia" },
+      { property: "og:description", content: "Free, simple lessons for communities in Zambia: digital skills and civic know-how." },
     ],
   }),
   component: Home,

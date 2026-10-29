@@ -26,7 +26,7 @@ function Dashboard() {
 
   return (
     <>
-      <AdminHeader title="Dashboard" description="Manage Digital Bridges content and see activity at a glance." />
+      <AdminHeader title="Dashboard" description="Manage Civic Wise content and see activity at a glance." />
       {stats.isLoading ? (
         <Loader2 className="size-6 animate-spin text-muted-foreground" />
       ) : (

@@ -43,8 +43,11 @@ export function Icon({ name, className }: { name?: string | null | undefined; cl
 
 export function Logo({ className, imgClassName }: { className?: string; imgClassName?: string }) {
   return (
-    <Link to="/" className={cn("flex items-center", className)} aria-label="Digital Bridges home">
-      <img src="/images/logo.png" alt="Digital Bridges" className={cn("h-12 w-auto md:h-14", imgClassName)} width={188} height={40} />
+    <Link to="/" className={cn("flex items-center gap-2.5", className)} aria-label="Civic Wise home">
+      <img src="/images/brand-icon.png" alt="" className={cn("h-10 w-auto md:h-11", imgClassName)} width={44} height={44} />
+      <span className="font-display text-xl font-extrabold leading-none tracking-tight md:text-2xl">
+        <span className="text-primary">Civic</span>{" "}<span className="text-accent">Wise</span>
+      </span>
     </Link>
   );
 }
@@ -346,7 +349,7 @@ function CoursesMega({ onNavigate, setHi, hi }: { onNavigate: () => void; setHi:
     .map((p) => ({ slug: p.slug, title: p.title, courses: byPath[p.slug]!.slice(0, 4) }));
   const featured = hi ?? courses.data?.find((c) => c.difficulty === "start_here") ?? courses.data?.[0] ?? null;
   return (
-    <div className="grid grid-cols-4 gap-6 rounded-2xl border border-border bg-card p-6 shadow-xl">
+    <div className="grid grid-cols-4 gap-6 rounded-2xl border border-border/60 bg-background/95 p-6 shadow-xl backdrop-blur-xl">
       {ordered.map((p) => (
         <div key={p.slug}>
           <p className="mb-3 text-xs font-bold uppercase tracking-wide text-primary">{p.title}</p>
@@ -427,28 +430,37 @@ export function SiteHeader() {
     "flex min-h-11 items-center rounded-xl px-3 text-[15px] font-medium text-foreground transition-colors hover:bg-secondary focus-visible:outline-none focus-visible:bg-secondary";
 
   return (
-    <header ref={headerRef} className="sticky top-0 z-40 border-b border-border bg-background shadow-sm" onMouseLeave={closeMega}>
-      <div className="container-page flex h-16 items-center justify-between gap-4">
-        <Logo />
+    <header ref={headerRef} className="sticky top-0 z-40 px-3 pt-3">
+      <div className="container-page">
+        {/* Floating bar: rounded, 8px padding, translucent with background blur
+            so page content blurs behind it while staying readable. */}
+        <div
+          className="relative flex items-center justify-between gap-6 rounded-2xl border border-border/60 bg-background/70 p-2 pl-4 shadow-lg backdrop-blur-xl supports-[backdrop-filter]:bg-background/55"
+          onMouseLeave={closeMega}
+        >
+          <Logo />
 
-        {/* Desktop navigation + actions */}
-        <nav aria-label="Main" className="hidden items-center gap-7 md:flex">
-          <button
-            type="button"
-            className={cn(linkBase, "gap-1", mega && activeLink)}
-            aria-haspopup="true"
-            aria-expanded={mega}
-            onMouseEnter={openMega}
-            onFocus={openMega}
-            onClick={() => setMega((v) => !v)}
-          >
-            {t("nav.courses", "Courses")}
-            <ChevronDown className={cn("size-4 transition-transform duration-200", mega && "rotate-180")} aria-hidden="true" />
-          </button>
-          <Link to="/about" className={linkBase} activeProps={{ className: activeLink }} onMouseEnter={() => setMega(false)}>
-            {t("nav.about", "About")}
-          </Link>
-          <div className="flex items-center gap-2 pl-1">
+          {/* Desktop navigation */}
+          <nav aria-label="Main" className="hidden items-center gap-7 md:flex">
+            <button
+              type="button"
+              className={cn(linkBase, "gap-1", mega && activeLink)}
+              aria-haspopup="true"
+              aria-expanded={mega}
+              onMouseEnter={openMega}
+              onFocus={openMega}
+              onClick={() => setMega((v) => !v)}
+            >
+              {t("nav.courses", "Courses")}
+              <ChevronDown className={cn("size-4 transition-transform duration-200", mega && "rotate-180")} aria-hidden="true" />
+            </button>
+            <Link to="/about" className={linkBase} activeProps={{ className: activeLink }} onMouseEnter={() => setMega(false)}>
+              {t("nav.about", "About")}
+            </Link>
+          </nav>
+
+          {/* Desktop actions */}
+          <div className="hidden items-center gap-2 md:flex">
             <LangMenu />
             {user ? (
               <>
@@ -459,66 +471,80 @@ export function SiteHeader() {
                 <Button variant="ghost" size="icon" onClick={doSignOut} aria-label={t("nav.signout", "Sign out")}><LogOut /></Button>
               </>
             ) : (
-              /* Elevated CTA: gold fill with a rotating conic-gradient bloom. */
-              <Link to="/signin" className="db-glow-cta inline-flex h-11 items-center gap-1.5 rounded-full bg-accent px-6 text-[15px] font-semibold text-accent-foreground">
-                {t("nav.signin", "Sign in")}<ArrowRight className="size-4" />
-              </Link>
-            )}
-          </div>
-        </nav>
-
-        {/* Mobile: hamburger only */}
-        <Button
-          variant="ghost"
-          size="icon"
-          className="md:hidden"
-          onClick={() => setOpen((v) => !v)}
-          aria-label={open ? t("nav.closemenu", "Close menu") : t("nav.openmenu", "Open menu")}
-          aria-expanded={open}
-          aria-controls="mobile-menu"
-        >
-          {open ? <X /> : <Menu />}
-        </Button>
-      </div>
-
-      {/* Desktop Courses mega menu: full container width, below the bar */}
-      {mega && (
-        <div className="absolute inset-x-0 top-full z-50 hidden md:block" onMouseEnter={openMega} onMouseLeave={closeMega}>
-          <div className="container-page pt-2">
-            <CoursesMega onNavigate={() => setMega(false)} setHi={setHi} hi={hi} />
-          </div>
-        </div>
-      )}
-
-      {/* Mobile panel: compact, solid, immediately below the header */}
-      {open && (
-        <div id="mobile-menu" className="border-t border-border bg-background md:hidden">
-          <nav aria-label="Mobile" className="container-page flex flex-col gap-0.5 py-2">
-            {navLinks.map((l) => (
-              <Link key={l.to} to={l.to} onClick={() => setOpen(false)} className={mobileLink} activeProps={{ className: "text-primary" }}>
-                {l.label}
-              </Link>
-            ))}
-            {user && (
               <>
-                {isStaff && <Link to="/admin" onClick={() => setOpen(false)} className={mobileLink}>Admin</Link>}
-                {isTrainer && <Link to="/trainer" onClick={() => setOpen(false)} className={mobileLink}>{t("nav.trainers", "For Trainers")}</Link>}
-                <Link to="/dashboard" onClick={() => setOpen(false)} className={mobileLink}>{t("nav.dashboard", "My learning")}</Link>
-                <Link to="/settings" onClick={() => setOpen(false)} className={mobileLink}>{t("nav.settings", "Settings")}</Link>
+                {/* Bare login: no border/fill, motivates returning users. */}
+                <Link to="/signin" className="rounded-full px-4 py-2.5 text-[15px] font-semibold text-foreground/80 transition-colors hover:text-primary">
+                  {t("nav.signin", "Sign in")}
+                </Link>
+                {/* Primary CTA: elevated gold fill with a rotating conic-gradient bloom. */}
+                <Link to="/signup" className="db-glow-cta inline-flex h-11 items-center gap-1.5 rounded-full bg-accent px-6 text-[15px] font-semibold text-accent-foreground">
+                  {t("nav.start", "Get started")}<ArrowRight className="size-4" />
+                </Link>
               </>
             )}
-            <div className="my-2 h-px bg-border" />
-            <div className="flex items-center justify-between gap-3 px-1 pb-1">
-              <LangToggle />
-              {user ? (
-                <button onClick={doSignOut} className="inline-flex min-h-11 items-center rounded-full px-4 text-[15px] font-semibold text-foreground/80 transition-colors hover:text-primary">
-                  {t("nav.signout", "Sign out")}
-                </button>
-              ) : (
-                <Link to="/signin" onClick={() => setOpen(false)} className="db-glow-cta inline-flex h-11 items-center gap-1.5 rounded-full bg-accent px-5 text-[15px] font-semibold text-accent-foreground">{t("nav.signin", "Sign in")}<ArrowRight className="size-4" /></Link>
-              )}
+          </div>
+
+          {/* Mobile: hamburger only */}
+          <Button
+            variant="ghost"
+            size="icon"
+            className="md:hidden"
+            onClick={() => setOpen((v) => !v)}
+            aria-label={open ? t("nav.closemenu", "Close menu") : t("nav.openmenu", "Open menu")}
+            aria-expanded={open}
+            aria-controls="mobile-menu"
+          >
+            {open ? <X /> : <Menu />}
+          </Button>
+
+          {/* Courses mega menu: flush to the full width of the floating bar */}
+          {mega && (
+            <div className="absolute inset-x-0 top-full z-50 hidden pt-3 md:block" onMouseEnter={openMega} onMouseLeave={closeMega}>
+              <CoursesMega onNavigate={() => setMega(false)} setHi={setHi} hi={hi} />
             </div>
-          </nav>
+          )}
+        </div>
+      </div>
+
+      {/* Mobile panel: floating rounded card below the bar */}
+      {open && (
+        <div id="mobile-menu" className="container-page mt-2 md:hidden">
+          <div className="rounded-2xl border border-border/60 bg-background/90 p-2 shadow-lg backdrop-blur-xl">
+            <nav aria-label="Mobile" className="flex flex-col gap-0.5">
+              {navLinks.map((l) => (
+                <Link key={l.to} to={l.to} onClick={() => setOpen(false)} className={mobileLink} activeProps={{ className: "text-primary" }}>
+                  {l.label}
+                </Link>
+              ))}
+              {user && (
+                <>
+                  {isStaff && <Link to="/admin" onClick={() => setOpen(false)} className={mobileLink}>Admin</Link>}
+                  {isTrainer && <Link to="/trainer" onClick={() => setOpen(false)} className={mobileLink}>{t("nav.trainers", "For Trainers")}</Link>}
+                  <Link to="/dashboard" onClick={() => setOpen(false)} className={mobileLink}>{t("nav.dashboard", "My learning")}</Link>
+                  <Link to="/settings" onClick={() => setOpen(false)} className={mobileLink}>{t("nav.settings", "Settings")}</Link>
+                </>
+              )}
+              <div className="my-2 h-px bg-border" />
+              {user ? (
+                <div className="flex items-center justify-between gap-3 px-1 pb-1">
+                  <LangToggle />
+                  <button onClick={doSignOut} className="inline-flex min-h-11 items-center rounded-full px-4 text-[15px] font-semibold text-foreground/80 transition-colors hover:text-primary">
+                    {t("nav.signout", "Sign out")}
+                  </button>
+                </div>
+              ) : (
+                <div className="flex flex-col gap-2 px-1 pb-1">
+                  <Link to="/signup" onClick={() => setOpen(false)} className="db-glow-cta inline-flex h-11 w-full items-center justify-center gap-1.5 rounded-full bg-accent px-5 text-[15px] font-semibold text-accent-foreground">
+                    {t("nav.start", "Get started")}<ArrowRight className="size-4" />
+                  </Link>
+                  <Link to="/signin" onClick={() => setOpen(false)} className="inline-flex min-h-11 items-center justify-center rounded-full px-4 text-[15px] font-semibold text-foreground/80 transition-colors hover:text-primary">
+                    {t("nav.signin", "Sign in")}
+                  </Link>
+                  <div className="pt-1"><LangToggle /></div>
+                </div>
+              )}
+            </nav>
+          </div>
         </div>
       )}
     </header>
@@ -555,7 +581,7 @@ export function SiteFooter() {
       </div>
       <div className="border-t border-primary-foreground/15">
         <div className="container-page flex flex-col items-center justify-between gap-2 py-5 text-xs text-primary-foreground/70 sm:flex-row">
-          <p>© {new Date().getFullYear()} Digital Bridges. {t("footer.rights", "All rights reserved.")}</p>
+          <p>© {new Date().getFullYear()} Civic Wise. {t("footer.rights", "All rights reserved.")}</p>
           <p>
             {t("footer.developedby", "Developed by")}{" "}
             <a href="https://zcsi-foundation.org" target="_blank" rel="noreferrer" className="font-semibold text-accent hover:underline">

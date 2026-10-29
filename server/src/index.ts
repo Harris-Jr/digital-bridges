@@ -57,7 +57,7 @@ app.use("/api/assistant", assistantRouter);
 app.use(errorMiddleware);
 
 const server = app.listen(env.PORT, () => {
-  console.log(`[server] Digital Bridges API listening on :${env.PORT} (${env.NODE_ENV})`);
+  console.log(`[server] Civic Wise API listening on :${env.PORT} (${env.NODE_ENV})`);
 });
 
 function shutdown(signal: string) {

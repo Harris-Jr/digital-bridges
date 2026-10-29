@@ -16,10 +16,10 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/learn/$courseSlug/$lessonSlug")({
   head: () => ({
     meta: [
-      { title: "Lesson — Digital Bridges" },
-      { name: "description", content: "A short Digital Bridges lesson in simple language." },
-      { property: "og:title", content: "Lesson — Digital Bridges" },
-      { property: "og:description", content: "A short Digital Bridges lesson in simple language." },
+      { title: "Lesson — Civic Wise" },
+      { name: "description", content: "A short Civic Wise lesson in simple language." },
+      { property: "og:title", content: "Lesson — Civic Wise" },
+      { property: "og:description", content: "A short Civic Wise lesson in simple language." },
     ],
   }),
   component: LessonPlayer,

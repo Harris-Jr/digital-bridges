@@ -1,4 +1,4 @@
-// Thin REST client for the Digital Bridges API. Same-origin in production;
+// Thin REST client for the Civic Wise API. Same-origin in production;
 // Vite proxies /api to the Express server in development.
 //
 // Auth: a short-lived access token plus a long-lived refresh token, both in

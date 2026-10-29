@@ -4,6 +4,7 @@ import { ArrowLeft, Printer, Loader2, Award } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { apiGet, getToken } from "@/lib/api";
 import { useI18n } from "@/lib/i18n";
+import { useSetting } from "@/lib/content";
 
 export const Route = createFileRoute("/certificates/$slug")({
   beforeLoad: () => {
@@ -17,6 +18,7 @@ type Cert = { learner_name: string; course_title: string; issued_at: string; ser
 function CertificatePage() {
   const { slug } = Route.useParams();
   const { t } = useI18n();
+  const logo = useSetting<string>("brand_logo_url");
   const q = useQuery({ queryKey: ["certificate", slug], queryFn: () => apiGet<Cert>(`/me/certificates/${slug}`) });
 
   if (q.isLoading) return <div className="grid min-h-screen place-items-center"><Loader2 className="size-6 animate-spin text-muted-foreground" /></div>;
@@ -44,10 +46,13 @@ function CertificatePage() {
       <div className="mx-auto max-w-3xl rounded-2xl bg-card p-2 shadow-lg print:max-w-none print:rounded-none print:shadow-none">
         <div className="rounded-xl border-[3px] border-primary/70 p-8 text-center sm:p-14">
           <div className="flex items-center justify-center gap-2.5">
-            <img src="/images/brand-icon.png" alt="" className="h-9 w-auto" />
-            <span className="font-display text-2xl font-extrabold tracking-tight">
-              <span className="text-primary">Civic</span> <span className="text-accent">Wise</span>
-            </span>
+            {logo.data ? (
+              <img src={logo.data} alt="Civic Wise" className="h-10 w-auto" />
+            ) : (
+              <span className="font-display text-2xl font-extrabold tracking-tight">
+                <span className="text-primary">Civic</span> <span className="text-accent">Wise</span>
+              </span>
+            )}
           </div>
           <p className="mt-10 font-display text-sm font-bold uppercase tracking-[0.2em] text-primary">{t("cert.title", "Certificate of Completion")}</p>
           <p className="mt-8 text-muted-foreground">{t("cert.certifies", "This certifies that")}</p>

@@ -278,6 +278,35 @@ registerResource("faqs", {
   columns: ["question", "answer", "sort_order", "is_published"], schema: faqSchema,
 });
 
+// Branding / media settings: key-value rows in site_settings holding Cloudinary
+// URLs, so the logo and page images are editable from the CMS instead of being
+// baked into the build. Whitelisted keys only.
+const BRANDING_KEYS = new Set(["brand_logo_url", "about_image_url", "trainers_image_url"]);
+
+adminRouter.get(
+  "/settings",
+  asyncHandler(async (_req, res) => {
+    const { rows } = await query<{ key: string; value: unknown }>("select key, value from site_settings");
+    res.json(Object.fromEntries(rows.map((r) => [r.key, r.value])));
+  }),
+);
+
+adminRouter.put(
+  "/settings/:key",
+  asyncHandler(async (req, res) => {
+    const key = String(req.params.key ?? "");
+    if (!BRANDING_KEYS.has(key)) throw badRequest("Unknown setting.");
+    const parsed = z.object({ value: z.string().trim().max(2000).nullable() }).safeParse(req.body);
+    if (!parsed.success) throw badRequest("Invalid value.");
+    const value = parsed.data.value && parsed.data.value.length > 0 ? parsed.data.value : null;
+    await query(
+      "insert into site_settings (key, value) values ($1, $2::jsonb) on conflict (key) do update set value = excluded.value, updated_at = now()",
+      [key, JSON.stringify(value)],
+    );
+    res.json({ ok: true });
+  }),
+);
+
 // Workshop requests from facilitators, newest first, with the requester's name.
 adminRouter.get(
   "/workshop-requests",

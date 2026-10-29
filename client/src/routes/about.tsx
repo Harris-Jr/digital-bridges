@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { SiteLayout, ErrorNote, Motif } from "@/components/site";
 import { useI18n } from "@/lib/i18n";
-import { usePage } from "@/lib/content";
+import { usePage, useSetting } from "@/lib/content";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -17,24 +17,22 @@ export const Route = createFileRoute("/about")({
   component: About,
 });
 
-// Drop a real community-learning photo at client/public/images/about-page-image.png.
-// Until then this falls back to the on-brand illustration below.
-const ABOUT_IMAGE = "/images/about-page-image.png";
-
-function AboutImage({ alt }: { alt: string }) {
+// The About photo comes from the CMS (Cloudinary URL in site settings, set under
+// admin Branding). Falls back to the on-brand illustration when none is set.
+function AboutImage({ src, alt }: { src?: string | null; alt: string }) {
   const [failed, setFailed] = useState(false);
   return (
     <div className="relative aspect-[4/3] overflow-hidden rounded-3xl border border-border bg-primary-soft/40 shadow-sm">
-      {failed ? (
-        <Motif kind="users" className="h-full w-full" />
-      ) : (
+      {src && !failed ? (
         <img
-          src={ABOUT_IMAGE}
+          src={src}
           alt={alt}
           loading="lazy"
           onError={() => setFailed(true)}
           className="h-full w-full object-cover"
         />
+      ) : (
+        <Motif kind="users" className="h-full w-full" />
       )}
     </div>
   );
@@ -43,6 +41,7 @@ function AboutImage({ alt }: { alt: string }) {
 function About() {
   const { t } = useI18n();
   const page = usePage("about");
+  const photo = useSetting<string>("about_image_url");
 
   if (page.isLoading) {
     return (
@@ -79,7 +78,7 @@ function About() {
           <h1 className="mt-3 text-4xl font-extrabold leading-[1.05] text-primary md:text-5xl">{heading}</h1>
           <p className="mt-5 max-w-md text-lg leading-relaxed text-muted-foreground">{intro}</p>
         </div>
-        <AboutImage alt={t("about.photo.alt", "Community members learning together on a phone")} />
+        <AboutImage src={photo.data} alt={t("about.photo.alt", "Community members learning together on a phone")} />
       </section>
 
       {/* Mission: compact two-column on desktop, stacked on mobile */}

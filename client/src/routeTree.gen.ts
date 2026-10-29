@@ -28,6 +28,7 @@ import { Route as AuthenticatedDashboardRouteImport } from './routes/_authentica
 import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
 import { Route as AuthenticatedTrainerRouteImport } from './routes/_authenticated/trainer'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
+import { Route as AdminBrandingRouteImport } from './routes/admin/branding'
 import { Route as AdminCoursesRouteImport } from './routes/admin/courses'
 import { Route as AdminFaqsRouteImport } from './routes/admin/faqs'
 import { Route as AdminPagesRouteImport } from './routes/admin/pages'
@@ -140,6 +141,11 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AdminRouteRoute,
 } as any)
+const AdminBrandingRoute = AdminBrandingRouteImport.update({
+  id: '/branding',
+  path: '/branding',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
 const AdminCoursesRoute = AdminCoursesRouteImport.update({
   id: '/courses',
   path: '/courses',
@@ -248,6 +254,7 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/trainer': typeof AuthenticatedTrainerRoute
+  '/admin/branding': typeof AdminBrandingRoute
   '/admin/courses': typeof AdminCoursesRouteWithChildren
   '/admin/faqs': typeof AdminFaqsRoute
   '/admin/pages': typeof AdminPagesRoute
@@ -284,6 +291,7 @@ export interface FileRoutesByTo {
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/trainer': typeof AuthenticatedTrainerRoute
+  '/admin/branding': typeof AdminBrandingRoute
   '/admin/courses': typeof AdminCoursesRouteWithChildren
   '/admin/faqs': typeof AdminFaqsRoute
   '/admin/pages': typeof AdminPagesRoute
@@ -323,6 +331,7 @@ export interface FileRoutesById {
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/_authenticated/trainer': typeof AuthenticatedTrainerRoute
+  '/admin/branding': typeof AdminBrandingRoute
   '/admin/courses': typeof AdminCoursesRouteWithChildren
   '/admin/faqs': typeof AdminFaqsRoute
   '/admin/pages': typeof AdminPagesRoute
@@ -362,6 +371,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/settings'
     | '/trainer'
+    | '/admin/branding'
     | '/admin/courses'
     | '/admin/faqs'
     | '/admin/pages'
@@ -398,6 +408,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/settings'
     | '/trainer'
+    | '/admin/branding'
     | '/admin/courses'
     | '/admin/faqs'
     | '/admin/pages'
@@ -436,6 +447,7 @@ export interface FileRouteTypes {
     | '/_authenticated/dashboard'
     | '/_authenticated/settings'
     | '/_authenticated/trainer'
+    | '/admin/branding'
     | '/admin/courses'
     | '/admin/faqs'
     | '/admin/pages'
@@ -614,6 +626,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRouteRoute
     }
+    '/admin/branding': {
+      id: '/admin/branding'
+      path: '/branding'
+      fullPath: '/admin/branding'
+      preLoaderRoute: typeof AdminBrandingRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
     '/admin/courses': {
       id: '/admin/courses'
       path: '/courses'
@@ -766,6 +785,7 @@ const AdminCoursesRouteWithChildren = AdminCoursesRoute._addFileChildren(
 )
 
 interface AdminRouteRouteChildren {
+  AdminBrandingRoute: typeof AdminBrandingRoute
   AdminCoursesRoute: typeof AdminCoursesRouteWithChildren
   AdminFaqsRoute: typeof AdminFaqsRoute
   AdminPagesRoute: typeof AdminPagesRoute
@@ -780,6 +800,7 @@ interface AdminRouteRouteChildren {
 }
 
 const AdminRouteRouteChildren: AdminRouteRouteChildren = {
+  AdminBrandingRoute: AdminBrandingRoute,
   AdminCoursesRoute: AdminCoursesRouteWithChildren,
   AdminFaqsRoute: AdminFaqsRoute,
   AdminPagesRoute: AdminPagesRoute,

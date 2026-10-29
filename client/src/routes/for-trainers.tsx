@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Users, FileText, CalendarCheck, BarChart3, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SiteLayout, Motif } from "@/components/site";
-import { usePage } from "@/lib/content";
+import { usePage, useSetting } from "@/lib/content";
 import { useAuth } from "@/lib/auth";
 import { useI18n } from "@/lib/i18n";
 
@@ -19,24 +19,22 @@ export const Route = createFileRoute("/for-trainers")({
   component: ForTrainers,
 });
 
-// Drop a real facilitator photo at client/public/images/for-trainers-image.png.
-// Until then this falls back to the on-brand illustration below.
-const TRAINER_IMAGE = "/images/for-trainers-image.png";
-
-function TrainerImage({ alt }: { alt: string }) {
+// The facilitator photo comes from the CMS (Cloudinary URL in site settings, set
+// under admin Branding). Falls back to the on-brand illustration when none is set.
+function TrainerImage({ src, alt }: { src?: string | null; alt: string }) {
   const [failed, setFailed] = useState(false);
   return (
     <div className="relative aspect-[4/3] overflow-hidden rounded-3xl border border-border bg-primary-soft/40 shadow-sm">
-      {failed ? (
-        <Motif kind="users" className="h-full w-full" />
-      ) : (
+      {src && !failed ? (
         <img
-          src={TRAINER_IMAGE}
+          src={src}
           alt={alt}
           loading="lazy"
           onError={() => setFailed(true)}
           className="h-full w-full object-cover"
         />
+      ) : (
+        <Motif kind="users" className="h-full w-full" />
       )}
     </div>
   );
@@ -46,6 +44,7 @@ function ForTrainers() {
   const { t } = useI18n();
   const { user } = useAuth();
   const page = usePage("trainers");
+  const photo = useSetting<string>("trainers_image_url");
 
   const heading = page.data?.hero_title || t("trainer.hero.title", "Help your community grow.");
   const intro = page.data?.hero_subline || t("trainer.hero.sub", "Lead practical digital skills sessions with simple tools and ready-to-use teaching materials.");
@@ -87,7 +86,7 @@ function ForTrainers() {
             </>
           )}
         </div>
-        <TrainerImage alt={t("trainer.photo.alt", "A community facilitator helping adult learners use their phones")} />
+        <TrainerImage src={photo.data} alt={t("trainer.photo.alt", "A community facilitator helping adult learners use their phones")} />
       </section>
 
       {/* Features: compact, unboxed icon-and-text items */}

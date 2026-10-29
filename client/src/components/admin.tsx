@@ -3,7 +3,7 @@ import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   LayoutDashboard, BookOpen, FileText, MessageSquareQuote, Handshake, HelpCircle,
-  Plus, Pencil, Trash2, ArrowLeft, Loader2, LogOut, Eye, EyeOff, Sparkles, Route as RouteIcon, CalendarCheck, Languages,
+  Plus, Pencil, Trash2, ArrowLeft, Loader2, LogOut, Eye, EyeOff, Sparkles, Route as RouteIcon, CalendarCheck, Languages, Image as ImageIcon,
 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -19,7 +19,7 @@ import { cn } from "@/lib/utils";
 
 /* ------------------------------------------------------------------ shell */
 
-type AdminPath = "/admin" | "/admin/pathways" | "/admin/courses" | "/admin/pages" | "/admin/testimonials" | "/admin/partners" | "/admin/faqs" | "/admin/workshops" | "/admin/translations";
+type AdminPath = "/admin" | "/admin/pathways" | "/admin/courses" | "/admin/pages" | "/admin/testimonials" | "/admin/partners" | "/admin/faqs" | "/admin/workshops" | "/admin/translations" | "/admin/branding";
 type NavItem = { to: AdminPath; label: string; icon: typeof LayoutDashboard; exact?: boolean };
 
 const NAV: NavItem[] = [
@@ -29,6 +29,7 @@ const NAV: NavItem[] = [
   { to: "/admin/translations", label: "Translations", icon: Languages },
   { to: "/admin/workshops", label: "Workshops", icon: CalendarCheck },
   { to: "/admin/pages", label: "Site pages", icon: FileText },
+  { to: "/admin/branding", label: "Branding", icon: ImageIcon },
   { to: "/admin/testimonials", label: "Testimonials", icon: MessageSquareQuote },
   { to: "/admin/partners", label: "Partners", icon: Handshake },
   { to: "/admin/faqs", label: "FAQs", icon: HelpCircle },
@@ -55,8 +56,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
     <div className="min-h-screen bg-muted/30 md:grid md:grid-cols-[240px_1fr]">
       <aside className="sticky top-0 z-20 flex h-auto flex-col gap-1 border-b border-border bg-card p-3 md:h-screen md:border-b-0 md:border-r">
         <Link to="/" className="mb-3 flex items-center gap-2 px-2 py-1">
-          <img src="/images/brand-icon.png" alt="" className="size-8" width={32} height={32} />
-          <span className="font-display text-lg font-extrabold">Admin</span>
+          <span className="font-display text-lg font-extrabold"><span className="text-primary">Civic Wise</span> Admin</span>
         </Link>
         <nav className="flex flex-row flex-wrap gap-1 md:flex-col">
           {NAV.map((n) => {
@@ -323,7 +323,7 @@ async function uploadToCloudinary(file: File, resourceType: "image" | "video"): 
   return data.secure_url;
 }
 
-function MediaUpload({ value, onChange, kind = "image" }: { value: string; onChange: (v: string) => void; kind?: "image" | "audio" }) {
+export function MediaUpload({ value, onChange, kind = "image" }: { value: string; onChange: (v: string) => void; kind?: "image" | "audio" }) {
   const cfg = useQuery({ queryKey: ["media-config"], queryFn: () => apiGet<MediaConfig>("/admin/media/config"), staleTime: 5 * 60_000 });
   const [busy, setBusy] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);

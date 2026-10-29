@@ -477,16 +477,10 @@ export function SiteHeader() {
                 <Button variant="ghost" size="icon" onClick={doSignOut} aria-label={t("nav.signout", "Sign out")}><LogOut /></Button>
               </>
             ) : (
-              <>
-                {/* Bare login: no border/fill, motivates returning users. */}
-                <Link to="/signin" className="rounded-full px-4 py-2.5 text-[15px] font-semibold text-foreground/80 transition-colors hover:text-primary">
-                  {t("nav.signin", "Sign in")}
-                </Link>
-                {/* Primary CTA: elevated gold fill with a rotating conic-gradient bloom. */}
-                <Link to="/signup" className="db-glow-cta inline-flex h-11 items-center gap-1.5 rounded-full bg-accent px-6 text-[15px] font-semibold text-accent-foreground">
-                  {t("nav.start", "Get started")}<ArrowRight className="size-4" />
-                </Link>
-              </>
+              /* Single CTA: elevated gold fill with a rotating conic-gradient bloom. */
+              <Link to="/signin" className="db-glow-cta inline-flex h-11 items-center gap-1.5 rounded-full bg-accent px-6 text-[15px] font-semibold text-accent-foreground">
+                {t("nav.signin", "Sign in")}<ArrowRight className="size-4" />
+              </Link>
             )}
           </div>
 
@@ -540,11 +534,8 @@ export function SiteHeader() {
                 </div>
               ) : (
                 <div className="flex flex-col gap-2 px-1 pb-1">
-                  <Link to="/signup" onClick={() => setOpen(false)} className="db-glow-cta inline-flex h-11 w-full items-center justify-center gap-1.5 rounded-full bg-accent px-5 text-[15px] font-semibold text-accent-foreground">
-                    {t("nav.start", "Get started")}<ArrowRight className="size-4" />
-                  </Link>
-                  <Link to="/signin" onClick={() => setOpen(false)} className="inline-flex min-h-11 items-center justify-center rounded-full px-4 text-[15px] font-semibold text-foreground/80 transition-colors hover:text-primary">
-                    {t("nav.signin", "Sign in")}
+                  <Link to="/signin" onClick={() => setOpen(false)} className="db-glow-cta inline-flex h-11 w-full items-center justify-center gap-1.5 rounded-full bg-accent px-5 text-[15px] font-semibold text-accent-foreground">
+                    {t("nav.signin", "Sign in")}<ArrowRight className="size-4" />
                   </Link>
                   <div className="pt-1"><LangToggle /></div>
                 </div>

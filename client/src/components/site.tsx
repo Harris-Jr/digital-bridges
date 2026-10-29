@@ -19,7 +19,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useAuth } from "@/lib/auth";
 import { useI18n, LANGS } from "@/lib/i18n";
 import { useConsent } from "@/lib/consent";
-import { type Course } from "@/lib/content";
+import { type Course, usePublishedCourses, usePathways } from "@/lib/content";
 import { AssistantWidget } from "@/components/assistant-widget";
 import { OfflineBar } from "@/components/offline-sync";
 import { cn } from "@/lib/utils";
@@ -330,19 +330,78 @@ function LangMenu() {
   );
 }
 
+/** Full-width mega menu panel for Courses: pathway columns plus a visual
+    supporter column that previews the course the pointer is on. */
+function CoursesMega({ onNavigate, setHi, hi }: { onNavigate: () => void; setHi: (c: Course | null) => void; hi: Course | null }) {
+  const { t } = useI18n();
+  const courses = usePublishedCourses();
+  const pathways = usePathways();
+  const byPath: Record<string, Course[]> = {};
+  for (const c of courses.data ?? []) {
+    const s = c.pathway?.slug ?? "other";
+    (byPath[s] ??= []).push(c);
+  }
+  const ordered = (pathways.data ?? [])
+    .filter((p) => byPath[p.slug])
+    .map((p) => ({ slug: p.slug, title: p.title, courses: byPath[p.slug]!.slice(0, 4) }));
+  const featured = hi ?? courses.data?.find((c) => c.difficulty === "start_here") ?? courses.data?.[0] ?? null;
+  return (
+    <div className="grid grid-cols-4 gap-6 rounded-2xl border border-border bg-card p-6 shadow-xl">
+      {ordered.map((p) => (
+        <div key={p.slug}>
+          <p className="mb-3 text-xs font-bold uppercase tracking-wide text-primary">{p.title}</p>
+          <ul className="space-y-0.5">
+            {p.courses.map((c) => (
+              <li key={c.id}>
+                <Link to="/courses/$slug" params={{ slug: c.slug }} onClick={onNavigate} onMouseEnter={() => setHi(c)} onFocus={() => setHi(c)}
+                  className="block rounded-lg px-3 py-2 text-sm text-foreground/80 transition-colors hover:bg-secondary hover:text-primary">
+                  {c.title}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+      <div>
+        <p className="mb-3 text-xs font-bold uppercase tracking-wide text-primary">{t("mega.browse", "Browse")}</p>
+        <ul className="space-y-0.5">
+          <li><Link to="/courses" onClick={onNavigate} className="block rounded-lg px-3 py-2 text-sm font-semibold text-primary hover:bg-secondary">{t("home.courses.all", "All courses")}</Link></li>
+          <li><Link to="/for-trainers" onClick={onNavigate} className="block rounded-lg px-3 py-2 text-sm text-foreground/80 hover:bg-secondary hover:text-primary">{t("nav.trainers", "For Trainers")}</Link></li>
+          <li><Link to="/about" onClick={onNavigate} className="block rounded-lg px-3 py-2 text-sm text-foreground/80 hover:bg-secondary hover:text-primary">{t("nav.about", "About")}</Link></li>
+        </ul>
+      </div>
+      {featured && (
+        <Link to="/courses/$slug" params={{ slug: featured.slug }} onClick={onNavigate}
+          className="group overflow-hidden rounded-xl border border-border bg-card shadow-sm transition-shadow hover:shadow-md">
+          <div className="h-24 overflow-hidden bg-primary-soft/50"><Motif kind={featured.icon_name} className="h-full w-full" /></div>
+          <div className="p-3">
+            <p className="font-display text-sm font-bold leading-snug text-primary">{featured.title}</p>
+            <p className="mt-1 line-clamp-2 text-xs text-muted-foreground">{featured.tagline}</p>
+            <span className="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-primary">{t("mega.open", "Open course")}<ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" /></span>
+          </div>
+        </Link>
+      )}
+    </div>
+  );
+}
+
 export function SiteHeader() {
   const { t } = useI18n();
   const { user, isStaff, isTrainer, signOut } = useAuth();
   const qc = useQueryClient();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
+  const [mega, setMega] = useState(false);
+  const [hi, setHi] = useState<Course | null>(null);
   const headerRef = useRef<HTMLElement>(null);
+  const megaTimer = useRef<number | null>(null);
+  const openMega = () => { if (megaTimer.current) { clearTimeout(megaTimer.current); megaTimer.current = null; } setMega(true); };
+  const closeMega = () => { megaTimer.current = window.setTimeout(() => setMega(false), 130); };
 
-  // Close the mobile panel on outside click or Escape.
+  // Close the mobile panel on outside click or Escape; Escape also closes the mega menu.
   useEffect(() => {
-    if (!open) return;
-    const onDoc = (e: MouseEvent) => { if (headerRef.current && !headerRef.current.contains(e.target as Node)) setOpen(false); };
-    const onEsc = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false); };
+    const onDoc = (e: MouseEvent) => { if (open && headerRef.current && !headerRef.current.contains(e.target as Node)) setOpen(false); };
+    const onEsc = (e: KeyboardEvent) => { if (e.key === "Escape") { setOpen(false); setMega(false); } };
     document.addEventListener("mousedown", onDoc);
     document.addEventListener("keydown", onEsc);
     return () => { document.removeEventListener("mousedown", onDoc); document.removeEventListener("keydown", onEsc); };
@@ -368,17 +427,27 @@ export function SiteHeader() {
     "flex min-h-11 items-center rounded-xl px-3 text-[15px] font-medium text-foreground transition-colors hover:bg-secondary focus-visible:outline-none focus-visible:bg-secondary";
 
   return (
-    <header ref={headerRef} className="sticky top-0 z-40 border-b border-border bg-background shadow-sm">
+    <header ref={headerRef} className="sticky top-0 z-40 border-b border-border bg-background shadow-sm" onMouseLeave={closeMega}>
       <div className="container-page flex h-16 items-center justify-between gap-4">
         <Logo />
 
         {/* Desktop navigation + actions */}
         <nav aria-label="Main" className="hidden items-center gap-7 md:flex">
-          {navLinks.map((l) => (
-            <Link key={l.to} to={l.to} className={linkBase} activeProps={{ className: activeLink }}>
-              {l.label}
-            </Link>
-          ))}
+          <button
+            type="button"
+            className={cn(linkBase, "gap-1", mega && activeLink)}
+            aria-haspopup="true"
+            aria-expanded={mega}
+            onMouseEnter={openMega}
+            onFocus={openMega}
+            onClick={() => setMega((v) => !v)}
+          >
+            {t("nav.courses", "Courses")}
+            <ChevronDown className={cn("size-4 transition-transform duration-200", mega && "rotate-180")} aria-hidden="true" />
+          </button>
+          <Link to="/about" className={linkBase} activeProps={{ className: activeLink }} onMouseEnter={() => setMega(false)}>
+            {t("nav.about", "About")}
+          </Link>
           <div className="flex items-center gap-2 pl-1">
             <LangMenu />
             {user ? (
@@ -411,6 +480,15 @@ export function SiteHeader() {
           {open ? <X /> : <Menu />}
         </Button>
       </div>
+
+      {/* Desktop Courses mega menu: full container width, below the bar */}
+      {mega && (
+        <div className="absolute inset-x-0 top-full z-50 hidden md:block" onMouseEnter={openMega} onMouseLeave={closeMega}>
+          <div className="container-page pt-2">
+            <CoursesMega onNavigate={() => setMega(false)} setHi={setHi} hi={hi} />
+          </div>
+        </div>
+      )}
 
       {/* Mobile panel: compact, solid, immediately below the header */}
       {open && (

@@ -7,9 +7,21 @@ import { issueSession, rotateRefreshToken, revokeRefreshToken, revokeAllForUser 
 import { asyncHandler, badRequest, conflict, unauthorized } from "../lib/http.js";
 import { requireAuth, type Role } from "../middleware.js";
 import { sendMail, welcomeEmail, passwordResetEmail } from "../lib/mailer.js";
+import { rateLimit } from "../lib/ratelimit.js";
 import { env } from "../env.js";
 
 export const authRouter = Router();
+
+// Abuse protection on credential endpoints (per client IP). The limiter is
+// in-memory per process; front the API with a single process or a shared store
+// (see lib/ratelimit.ts) so these hold.
+const FIFTEEN_MIN = 15 * 60_000;
+const ONE_HOUR = 60 * 60_000;
+const loginLimit = rateLimit({ name: "auth-login", max: 10, windowMs: FIFTEEN_MIN, message: "Too many sign-in attempts. Please wait a few minutes and try again." });
+const signupLimit = rateLimit({ name: "auth-signup", max: 6, windowMs: ONE_HOUR, message: "Too many sign-ups from this connection. Please try again later." });
+const forgotLimit = rateLimit({ name: "auth-forgot", max: 5, windowMs: ONE_HOUR, message: "Too many reset requests. Please wait a while and try again." });
+const resetLimit = rateLimit({ name: "auth-reset", max: 10, windowMs: FIFTEEN_MIN, message: "Too many attempts. Please request a new reset link." });
+const refreshLimit = rateLimit({ name: "auth-refresh", max: 60, windowMs: FIFTEEN_MIN, message: "Too many requests. Please slow down." });
 
 type ProfileRow = {
   id: string;
@@ -39,6 +51,7 @@ const signupSchema = z.object({
 
 authRouter.post(
   "/signup",
+  signupLimit,
   asyncHandler(async (req, res) => {
     const input = signupSchema.safeParse(req.body);
     if (!input.success) throw badRequest("Please check the details you entered.");
@@ -80,6 +93,7 @@ const loginSchema = z.object({
 
 authRouter.post(
   "/login",
+  loginLimit,
   asyncHandler(async (req, res) => {
     const input = loginSchema.safeParse(req.body);
     if (!input.success) throw badRequest("Please enter your email and password.");
@@ -131,6 +145,7 @@ authRouter.patch(
 // Exchange a refresh token for a new access token (and a rotated refresh token).
 authRouter.post(
   "/refresh",
+  refreshLimit,
   asyncHandler(async (req, res) => {
     const schema = z.object({ refreshToken: z.string().min(10) });
     const input = schema.safeParse(req.body);
@@ -156,6 +171,7 @@ authRouter.post(
 // never reveals whether an email is registered.
 authRouter.post(
   "/forgot-password",
+  forgotLimit,
   asyncHandler(async (req, res) => {
     const schema = z.object({ email: z.string().trim().toLowerCase().email() });
     const input = schema.safeParse(req.body);
@@ -181,6 +197,7 @@ authRouter.post(
 // Complete a password reset with the emailed token.
 authRouter.post(
   "/reset-password",
+  resetLimit,
   asyncHandler(async (req, res) => {
     const schema = z.object({ token: z.string().min(10), password: z.string().min(8).max(200) });
     const input = schema.safeParse(req.body);

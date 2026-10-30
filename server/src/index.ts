@@ -24,10 +24,16 @@ const app = express();
 app.set("trust proxy", 1);
 app.disable("x-powered-by");
 app.use(helmet());
+// Auth uses Bearer tokens in the Authorization header, not cookies, so CORS
+// credentials are not needed. Never combine a wildcard origin with credentials.
+const allowAnyOrigin = corsOrigins.length === 1 && corsOrigins[0] === "*";
+if (env.NODE_ENV === "production" && allowAnyOrigin) {
+  console.warn("[security] CORS_ORIGIN is '*' in production. Set it to your site origin(s), e.g. https://civicwise.online");
+}
 app.use(
   cors({
-    origin: corsOrigins.length === 1 && corsOrigins[0] === "*" ? true : corsOrigins,
-    credentials: true,
+    origin: allowAnyOrigin ? true : corsOrigins,
+    credentials: !allowAnyOrigin,
   }),
 );
 app.use(express.json({ limit: "1mb" }));

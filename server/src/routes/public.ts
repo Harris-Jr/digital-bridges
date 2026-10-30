@@ -3,11 +3,17 @@ import { Router } from "express";
 import { z } from "zod";
 import { query } from "../db.js";
 import { asyncHandler, badRequest } from "../lib/http.js";
+import { rateLimit } from "../lib/ratelimit.js";
 
 export const publicRouter = Router();
 
+// Unauthenticated write endpoints: cap submissions per IP to curb spam/abuse.
+const contactLimit = rateLimit({ name: "public-contact", max: 5, windowMs: 60 * 60_000, message: "Too many messages from this connection. Please try again later." });
+const newsletterLimit = rateLimit({ name: "public-newsletter", max: 5, windowMs: 60 * 60_000, message: "Too many requests. Please try again later." });
+
 publicRouter.post(
   "/contact",
+  contactLimit,
   asyncHandler(async (req, res) => {
     const schema = z.object({
       name: z.string().trim().min(2).max(100),
@@ -27,6 +33,7 @@ publicRouter.post(
 
 publicRouter.post(
   "/newsletter",
+  newsletterLimit,
   asyncHandler(async (req, res) => {
     const schema = z.object({ email: z.string().trim().email().max(255) });
     const input = schema.safeParse(req.body);

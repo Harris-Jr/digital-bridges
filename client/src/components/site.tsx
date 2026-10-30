@@ -42,22 +42,13 @@ export function Icon({ name, className }: { name?: string | null | undefined; cl
 }
 
 export function Logo({ className, imgClassName }: { className?: string; imgClassName?: string }) {
-  // Logo comes from the CMS (Cloudinary URL in site settings); falls back to the
-  // Civic Wise text wordmark when none is set, so no logo image lives in the build.
+  // A logo set in the CMS (Cloudinary URL) overrides; otherwise the bundled
+  // Civic Wise lockup is used.
   const logo = useSetting<string>("brand_logo_url");
+  const src = logo.data || "/images/civic-wise-logo.png";
   return (
-    <Link to="/" className={cn("flex items-center gap-2.5", className)} aria-label="Civic Wise home">
-      {logo.data ? (
-        <img src={logo.data} alt="Civic Wise" className={cn("h-10 w-auto md:h-11", imgClassName)} />
-      ) : (
-        // No CMS logo: fall back to the brand mark + the Civic Wise wordmark.
-        <>
-          <img src="/images/brand-icon.png" alt="" className={cn("h-10 w-auto md:h-11", imgClassName)} width={44} height={44} />
-          <span className="font-display text-xl font-extrabold leading-none tracking-tight md:text-2xl">
-            <span className="text-primary">Civic</span>{" "}<span className="text-accent">Wise</span>
-          </span>
-        </>
-      )}
+    <Link to="/" className={cn("flex items-center", className)} aria-label="Civic Wise home">
+      <img src={src} alt="Civic Wise" className={cn("h-9 w-auto md:h-10", imgClassName)} />
     </Link>
   );
 }

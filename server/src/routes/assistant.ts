@@ -26,25 +26,45 @@ const dailyLimit = rateLimit({ name: "assistant-daily", max: 80, windowMs: 24 * 
 const LANG_NAME: Record<string, string> = { en: "English", bem: "Bemba", nya: "Nyanja" };
 
 async function systemPrompt(lang: string): Promise<string> {
-  const { rows } = await query<{ title: string; tagline: string; slug: string }>(
-    "select title, tagline, slug from courses where is_published = true order by sort_order",
+  // Courses grouped under their two paths (Digital Skills, Civic Education).
+  const { rows } = await query<{ title: string; tagline: string; pathway: string }>(
+    `select c.title, c.tagline, coalesce(p.title, 'Other') as pathway
+       from courses c
+       left join pathways p on p.id = c.pathway_id
+      where c.is_published = true
+      order by p.sort_order nulls last, c.sort_order`,
   );
-  const courses = rows.map((c) => `- ${c.title}: ${c.tagline}`).join("\n");
+  const byPath: Record<string, string[]> = {};
+  const order: string[] = [];
+  for (const c of rows) {
+    if (!byPath[c.pathway]) { byPath[c.pathway] = []; order.push(c.pathway); }
+    byPath[c.pathway]!.push(`  - ${c.title}: ${c.tagline}`);
+  }
+  const courseList = order.map((p) => `${p}:\n${byPath[p]!.join("\n")}`).join("\n\n");
   const language = LANG_NAME[lang] ?? "English";
-  return `You are the friendly help assistant for Civic Wise, a free digital-literacy platform for communities in Zambia. You help people learn to use phones safely: mobile money, online safety, scams, WhatsApp, finding work, and basic phone skills.
 
-How to answer:
+  return `You are the Civic Wise help assistant. Civic Wise is a free platform in Zambia that teaches digital skills and civic education through short courses. You are a help assistant for this app only. You are NOT a general chatbot or a search engine.
+
+STRICT SCOPE, follow exactly:
+- You ONLY help with two things: (1) how to use the Civic Wise website and app, and (2) the topics taught in the Civic Wise courses listed below, such as using a phone safely, mobile money, online safety and scams, WhatsApp, finding work, running a small business online, digital citizenship, your rights, public services, taking part in your community, public budgets, and making a complaint.
+- You MUST politely refuse anything outside this scope. For example, refuse: who is the president or any politics, news, current events, sport, weather, celebrities, general knowledge or trivia, directions to a place, phone numbers or addresses of any organisation, and medical, legal or financial or investment advice.
+- To refuse, say in one short sentence that you can only help with Civic Wise and digital or civic skills, then suggest a course or ask what they want to learn. Do NOT answer the off-topic question, not even partly.
+
+NEVER MAKE THINGS UP:
+- Never invent or guess phone numbers, addresses, names, offices, prices, dates, or statistics. If you do not have the information, say you do not have it and point them to the right course or tell them to ask the official office or a trusted person directly.
+- Do not give specific contact details, locations, or facts about real people, places, or institutions. You are not a directory. It is always better to say you do not know than to give a detail that might be wrong.
+
+How to answer when the question is in scope:
 - Reply in ${language}. Use very short, simple sentences and plain words. No jargon.
-- Keep answers brief, a few sentences. Give one clear step at a time.
-- Use the Zambian context (Airtel, MTN, Zamtel, kwacha, NRC) when it fits.
-- When useful, point the person to the right course from this list:
-${courses}
-- Be warm and encouraging. Never make the person feel foolish.
+- Give one clear step at a time. Be warm and encouraging. Never make the person feel foolish.
+- You may use the Zambian context (Airtel, MTN, Zamtel, kwacha, NRC) as general examples only, never as specific contacts.
+- When someone asks what they can learn or which course to take, show the courses grouped under their two paths exactly as below, then invite them to pick one.
 
 Safety:
 - Never ask for or accept passwords, PINs, or one-time codes. Tell people never to share these.
-- Do not give medical, legal, or money-investment advice. For those, suggest talking to a trusted professional or local service.
-- If asked something unrelated or harmful, gently bring the conversation back to digital skills and safety.`;
+
+The Civic Wise courses, by path:
+${courseList}`;
 }
 
 assistantRouter.post(
@@ -70,7 +90,8 @@ assistantRouter.post(
     const reply = await chatGenerate({
       system: await systemPrompt(input.data.lang),
       messages,
-      temperature: 0.7,
+      // Lower temperature keeps the assistant on-script and reduces made-up details.
+      temperature: 0.3,
     });
     res.json({ reply });
   }),

@@ -547,27 +547,27 @@ export function SiteFooter() {
   const { t } = useI18n();
   return (
     <footer className="bg-primary text-primary-foreground">
-      <div className="container-page grid gap-8 py-12 md:grid-cols-4">
-        <div className="md:col-span-2">
+      <div className="container-page grid gap-8 py-12 text-center md:grid-cols-4 md:text-left">
+        <div className="flex flex-col items-center md:col-span-2 md:items-start">
           <Logo className="w-fit rounded-xl bg-white px-3 py-2 shadow-sm" />
           <p className="mt-3 max-w-sm text-sm text-primary-foreground/70">
             {t("footer.tagline", "Free digital skills lessons for communities across Zambia.")}
           </p>
-          <p className="mt-2 text-xs text-primary-foreground/60">{t("note.translations", "Lesson translations are rolling out. Menus are translated now.")}</p>
+          <p className="mt-2 max-w-sm text-xs text-primary-foreground/60">{t("note.translations", "Lesson translations are rolling out. Menus are translated now.")}</p>
         </div>
-        <nav aria-label="Learn" className="flex flex-col gap-2 text-sm">
+        <nav aria-label="Learn" className="flex flex-col items-center gap-2 text-sm md:items-start">
           <span className="font-semibold text-accent">{t("footer.learn", "Learn")}</span>
           <Link to="/courses" className="text-primary-foreground/70 transition-colors duration-200 hover:text-primary-foreground">{t("nav.courses", "Courses")}</Link>
           <Link to="/about" className="text-primary-foreground/70 transition-colors duration-200 hover:text-primary-foreground">{t("nav.about", "About")}</Link>
           <Link to="/for-trainers" className="text-primary-foreground/70 transition-colors duration-200 hover:text-primary-foreground">{t("nav.trainers", "For Trainers")}</Link>
           <Link to="/contact" className="text-primary-foreground/70 transition-colors duration-200 hover:text-primary-foreground">{t("footer.contact", "Contact")}</Link>
         </nav>
-        <nav aria-label="Legal" className="flex flex-col gap-2 text-sm">
+        <nav aria-label="Legal" className="flex flex-col items-center gap-2 text-sm md:items-start">
           <span className="font-semibold text-accent">{t("footer.yourdata", "Your data")}</span>
           <Link to="/privacy" className="text-primary-foreground/70 transition-colors duration-200 hover:text-primary-foreground">{t("footer.privacy", "Privacy")}</Link>
           <Link to="/terms" className="text-primary-foreground/70 transition-colors duration-200 hover:text-primary-foreground">{t("footer.terms", "Terms")}</Link>
           <Link to="/accessibility" className="text-primary-foreground/70 transition-colors duration-200 hover:text-primary-foreground">{t("footer.accessibility", "Accessibility")}</Link>
-          <button onClick={openManager} className="text-left text-primary-foreground/70 transition-colors duration-200 hover:text-primary-foreground">{t("footer.cookies", "Cookie settings")}</button>
+          <button onClick={openManager} className="text-primary-foreground/70 transition-colors duration-200 hover:text-primary-foreground">{t("footer.cookies", "Cookie settings")}</button>
         </nav>
       </div>
       <div className="border-t border-primary-foreground/15">
@@ -598,7 +598,7 @@ export function FeatureStrip() {
     <section aria-label={t("feat.aria", "Why learn with us")} className="border-y border-border bg-secondary/30">
       <div className="container-page grid gap-8 py-14 sm:grid-cols-2 lg:grid-cols-4">
         {items.map((it) => (
-          <div key={it.title} className="flex flex-col items-start">
+          <div key={it.title} className="flex flex-col items-center text-center sm:items-start sm:text-left">
             <span className="grid size-12 place-items-center rounded-2xl bg-primary-soft text-primary">
               <it.icon className="size-6" aria-hidden="true" />
             </span>

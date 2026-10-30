@@ -3,7 +3,7 @@ import { useEffect } from "react";
 // Production origin for canonical and social URLs. The client build is static,
 // so this is fixed to the live domain.
 export const SITE_URL = "https://civicwise.online";
-export const DEFAULT_OG_IMAGE = `${SITE_URL}/images/logo.png`;
+export const DEFAULT_OG_IMAGE = `${SITE_URL}/images/og-image.png`;
 
 type SeoInput = {
   path: string; // absolute path, e.g. "/about" or "/courses/phone-basics"

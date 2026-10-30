@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "@tanstack/react-router";
 import {
   Menu, X, LogOut, LayoutDashboard, Settings, ShieldCheck, Clock, BookOpen, WifiOff,
-  ArrowRight, GraduationCap, ChevronDown, Check,
+  ArrowRight, GraduationCap, ChevronDown, ChevronRight, Check,
   // Icons referenced by name from CMS data (category/course/pathway/badge icon_name)
   // and by EmptyState. Imported individually so lucide tree-shakes to just these
   // instead of bundling its whole ~1,000-icon registry on every page.
@@ -48,7 +48,7 @@ export function Logo({ className, imgClassName }: { className?: string; imgClass
   const src = logo.data || "/images/civic-wise-logo.png";
   return (
     <Link to="/" className={cn("flex items-center", className)} aria-label="Civic Wise home">
-      <img src={src} alt="Civic Wise" className={cn("h-9 w-auto md:h-10", imgClassName)} />
+      <img src={src} alt="Civic Wise" className={cn("h-11 w-auto md:h-14", imgClassName)} />
     </Link>
   );
 }
@@ -262,28 +262,6 @@ export function ContentImage({ src, motif, icon, alt, className }: { src?: strin
   return <Motif kind={icon || motif} className={cn("h-full w-full", className)} />;
 }
 
-function LangToggle() {
-  const { lang, setLang } = useI18n();
-  return (
-    <div role="group" aria-label="Language" className="flex rounded-full border border-border bg-card p-1">
-      {LANGS.map((l) => (
-        <button
-          key={l.code}
-          onClick={() => setLang(l.code)}
-          aria-pressed={lang === l.code}
-          aria-label={l.name}
-          className={cn(
-            "min-h-9 min-w-11 rounded-full px-2 text-xs font-semibold transition-colors",
-            lang === l.code ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground",
-          )}
-        >
-          {l.label}
-        </button>
-      ))}
-    </div>
-  );
-}
-
 /** Compact language dropdown: shows the current code + chevron, opens a menu. */
 function LangMenu() {
   const { lang, setLang } = useI18n();
@@ -426,8 +404,8 @@ export function SiteHeader() {
   const linkBase =
     "relative flex items-center py-2 text-[15px] font-medium text-foreground/80 transition-colors duration-200 hover:text-primary focus-visible:outline-none focus-visible:text-primary after:absolute after:inset-x-0 after:-bottom-0.5 after:h-0.5 after:scale-x-0 after:bg-primary after:transition-transform after:duration-200";
   const activeLink = "text-primary after:scale-x-100";
-  const mobileLink =
-    "flex min-h-11 items-center rounded-xl px-3 text-[15px] font-medium text-foreground transition-colors hover:bg-secondary focus-visible:outline-none focus-visible:bg-secondary";
+  const mobileRow =
+    "flex min-h-12 items-center justify-between rounded-lg px-3 text-base font-semibold text-foreground transition-colors hover:bg-secondary focus-visible:outline-none focus-visible:bg-secondary";
 
   return (
     <header ref={headerRef} className="sticky top-0 z-40 px-3 pt-3">
@@ -500,40 +478,38 @@ export function SiteHeader() {
         </div>
       </div>
 
-      {/* Mobile panel: floating rounded card below the bar */}
+      {/* Mobile panel: floating rounded card below the bar. Rows with dividers;
+          the last row keeps Sign in on the left and the language dropdown on the right. */}
       {open && (
         <div id="mobile-menu" className="container-page mt-2 md:hidden">
-          <div className="rounded-2xl border border-border/60 bg-background/90 p-2 shadow-lg backdrop-blur-xl">
-            <nav aria-label="Mobile" className="flex flex-col gap-0.5">
+          <div className="overflow-hidden rounded-2xl border border-border/60 bg-background/95 p-2 shadow-lg backdrop-blur-xl">
+            <nav aria-label="Mobile" className="flex flex-col divide-y divide-border/60">
               {navLinks.map((l) => (
-                <Link key={l.to} to={l.to} onClick={() => setOpen(false)} className={mobileLink} activeProps={{ className: "text-primary" }}>
+                <Link key={l.to} to={l.to} onClick={() => setOpen(false)} className={mobileRow} activeProps={{ className: "text-primary" }}>
                   {l.label}
+                  <ChevronRight className="size-5 text-muted-foreground" aria-hidden="true" />
                 </Link>
               ))}
               {user && (
                 <>
-                  {isStaff && <Link to="/admin" onClick={() => setOpen(false)} className={mobileLink}>Admin</Link>}
-                  {isTrainer && <Link to="/trainer" onClick={() => setOpen(false)} className={mobileLink}>{t("nav.trainers", "For Trainers")}</Link>}
-                  <Link to="/dashboard" onClick={() => setOpen(false)} className={mobileLink}>{t("nav.dashboard", "My learning")}</Link>
-                  <Link to="/settings" onClick={() => setOpen(false)} className={mobileLink}>{t("nav.settings", "Settings")}</Link>
+                  {isStaff && <Link to="/admin" onClick={() => setOpen(false)} className={mobileRow}>Admin<ChevronRight className="size-5 text-muted-foreground" aria-hidden="true" /></Link>}
+                  {isTrainer && <Link to="/trainer" onClick={() => setOpen(false)} className={mobileRow}>{t("nav.trainers", "For Trainers")}<ChevronRight className="size-5 text-muted-foreground" aria-hidden="true" /></Link>}
+                  <Link to="/dashboard" onClick={() => setOpen(false)} className={mobileRow}>{t("nav.dashboard", "My learning")}<ChevronRight className="size-5 text-muted-foreground" aria-hidden="true" /></Link>
+                  <Link to="/settings" onClick={() => setOpen(false)} className={mobileRow}>{t("nav.settings", "Settings")}<ChevronRight className="size-5 text-muted-foreground" aria-hidden="true" /></Link>
                 </>
               )}
-              <div className="my-2 h-px bg-border" />
-              {user ? (
-                <div className="flex items-center justify-between gap-3 px-1 pb-1">
-                  <LangToggle />
+              <div className="flex items-center justify-between gap-3 px-1 pb-1 pt-3">
+                {user ? (
                   <button onClick={doSignOut} className="inline-flex min-h-11 items-center rounded-full px-4 text-[15px] font-semibold text-foreground/80 transition-colors hover:text-primary">
                     {t("nav.signout", "Sign out")}
                   </button>
-                </div>
-              ) : (
-                <div className="flex flex-col gap-2 px-1 pb-1">
-                  <Link to="/signin" onClick={() => setOpen(false)} className="db-glow-cta inline-flex h-11 w-full items-center justify-center gap-1.5 rounded-full bg-accent px-5 text-[15px] font-semibold text-accent-foreground">
+                ) : (
+                  <Link to="/signin" onClick={() => setOpen(false)} className="db-glow-cta inline-flex h-11 items-center gap-1.5 rounded-full bg-accent px-6 text-[15px] font-semibold text-accent-foreground">
                     {t("nav.signin", "Sign in")}<ArrowRight className="size-4" />
                   </Link>
-                  <div className="pt-1"><LangToggle /></div>
-                </div>
-              )}
+                )}
+                <LangMenu />
+              </div>
             </nav>
           </div>
         </div>

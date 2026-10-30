@@ -1,9 +1,9 @@
 import { createContext, useContext, useEffect, useState, useCallback, type ReactNode } from "react";
-import { api, apiPost, clearTokens, getRefresh, getToken, setTokens } from "@/lib/api";
+import { api, apiPost, clearTokens, getToken, setTokens } from "@/lib/api";
 
 export type Role = "learner" | "trainer" | "editor" | "admin";
 
-export type User = { id: string; email: string };
+export type User = { id: string; email: string; email_verified?: boolean };
 export type Profile = {
   id: string;
   full_name: string;
@@ -12,7 +12,7 @@ export type Profile = {
   language_pref: string;
 };
 
-type Session = { accessToken: string; refreshToken: string; user: User; profile: Profile | null; roles: Role[] };
+type Session = { accessToken: string; user: User; profile: Profile | null; roles: Role[] };
 type MeResponse = { user: User; profile: Profile | null; roles: Role[] };
 
 type AuthCtx = {
@@ -79,9 +79,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const signOut = async () => {
-    // Revoke the refresh token server-side so it can never be reused.
-    const refreshToken = getRefresh();
-    if (refreshToken) { try { await apiPost("/auth/logout", { refreshToken }, false); } catch { /* best effort */ } }
+    // Revoke the refresh token server-side (it reads the HttpOnly cookie) and
+    // clear the cookie, so it can never be reused.
+    try { await apiPost("/auth/logout", undefined, false); } catch { /* best effort */ }
     clearTokens();
     setUser(null);
     setProfile(null);

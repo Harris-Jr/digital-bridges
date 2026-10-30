@@ -98,6 +98,17 @@ export function welcomeEmail(name: string): { subject: string; html: string } {
 }
 
 /** Password reset email with a time-limited link. */
+export function verifyEmailEmail(verifyUrl: string): { subject: string; html: string } {
+  return {
+    subject: "Confirm your Civic Wise email",
+    html: layout("Confirm your email", `
+      <p style="line-height:1.7;margin:0 0 14px;">Thanks for joining Civic Wise. Please confirm this email address so we can keep your account secure. This link expires in 24 hours.</p>
+      ${button("Confirm my email", verifyUrl)}
+      <p style="line-height:1.7;margin:18px 0 0;color:#78716c;font-size:13px;">You can keep learning in the meantime. If you did not create this account, you can ignore this email.</p>
+    `),
+  };
+}
+
 export function passwordResetEmail(resetUrl: string): { subject: string; html: string } {
   return {
     subject: "Reset your Civic Wise password",

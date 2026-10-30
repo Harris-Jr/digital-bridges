@@ -12,7 +12,9 @@
     "start": "node --env-file=.env dist/index.js",
     "migrate": "node --env-file=.env --import tsx src/migrate.ts",
     "set-admin": "node --env-file=.env --import tsx src/scripts/set-admin.ts",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",
@@ -32,6 +34,7 @@
     "@types/nodemailer": "^6.4.17",
     "@types/pg": "^8.15.5",
     "tsx": "^4.23.15",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "vitest": "^3.2.7"
   }
 }

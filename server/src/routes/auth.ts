@@ -1,12 +1,12 @@
 import crypto from "node:crypto";
-import { Router } from "express";
+import { Router, type Request, type Response } from "express";
 import { z } from "zod";
 import { query, withTransaction } from "../db.js";
 import { hashPassword, verifyPassword } from "../lib/auth.js";
 import { issueSession, rotateRefreshToken, revokeRefreshToken, revokeAllForUser } from "../lib/tokens.js";
 import { asyncHandler, badRequest, conflict, unauthorized } from "../lib/http.js";
 import { requireAuth, type Role } from "../middleware.js";
-import { sendMail, welcomeEmail, passwordResetEmail } from "../lib/mailer.js";
+import { sendMail, welcomeEmail, passwordResetEmail, verifyEmailEmail } from "../lib/mailer.js";
 import { rateLimit } from "../lib/ratelimit.js";
 import { env } from "../env.js";
 
@@ -22,6 +22,34 @@ const signupLimit = rateLimit({ name: "auth-signup", max: 6, windowMs: ONE_HOUR,
 const forgotLimit = rateLimit({ name: "auth-forgot", max: 5, windowMs: ONE_HOUR, message: "Too many reset requests. Please wait a while and try again." });
 const resetLimit = rateLimit({ name: "auth-reset", max: 10, windowMs: FIFTEEN_MIN, message: "Too many attempts. Please request a new reset link." });
 const refreshLimit = rateLimit({ name: "auth-refresh", max: 60, windowMs: FIFTEEN_MIN, message: "Too many requests. Please slow down." });
+
+// The refresh token lives in an HttpOnly cookie so JavaScript (and therefore any
+// XSS) cannot read it. Scoped to the auth path so it is only sent where needed.
+// The short-lived access token is still returned in the body for the Authorization header.
+const REFRESH_COOKIE = "db_refresh";
+const REFRESH_COOKIE_PATH = "/api/auth";
+function setRefreshCookie(res: Response, token: string): void {
+  res.cookie(REFRESH_COOKIE, token, {
+    httpOnly: true,
+    secure: env.NODE_ENV === "production",
+    sameSite: "lax",
+    path: REFRESH_COOKIE_PATH,
+    maxAge: env.REFRESH_TOKEN_TTL_DAYS * 24 * 60 * 60 * 1000,
+  });
+}
+function clearRefreshCookie(res: Response): void {
+  res.clearCookie(REFRESH_COOKIE, { path: REFRESH_COOKIE_PATH });
+}
+function readRefreshCookie(req: Request): string | null {
+  const raw = req.headers.cookie;
+  if (!raw) return null;
+  for (const part of raw.split(";")) {
+    const i = part.indexOf("=");
+    if (i === -1) continue;
+    if (part.slice(0, i).trim() === REFRESH_COOKIE) return decodeURIComponent(part.slice(i + 1).trim());
+  }
+  return null;
+}
 
 type ProfileRow = {
   id: string;
@@ -40,6 +68,20 @@ async function profileAndRoles(userId: string): Promise<{ profile: ProfileRow | 
     query<{ role: Role }>("select role from user_roles where user_id = $1", [userId]),
   ]);
   return { profile: p[0] ?? null, roles: r.map((x) => x.role) };
+}
+
+// Issue a one-time email-verification token and send the confirmation email.
+async function sendVerificationEmail(userId: string, email: string): Promise<void> {
+  const token = crypto.randomBytes(32).toString("hex");
+  const tokenHash = crypto.createHash("sha256").update(token).digest("hex");
+  const expires = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
+  await query(
+    "insert into email_verification_tokens (user_id, token_hash, expires_at) values ($1, $2, $3)",
+    [userId, tokenHash, expires],
+  );
+  const url = `${env.APP_URL.replace(/\/$/, "")}/verify-email?token=${token}`;
+  const mail = verifyEmailEmail(url);
+  void sendMail({ to: email, subject: mail.subject, html: mail.html });
 }
 
 const signupSchema = z.object({
@@ -77,12 +119,14 @@ authRouter.post(
 
     const { accessToken, refreshToken } = await issueSession(user.id, user.email);
     const { profile, roles } = await profileAndRoles(user.id);
+    setRefreshCookie(res, refreshToken);
 
-    // Fire-and-forget welcome email, never blocks or fails signup.
+    // Fire-and-forget emails, never block or fail signup.
     const welcome = welcomeEmail(full_name ?? "");
     void sendMail({ to: user.email, subject: welcome.subject, html: welcome.html });
+    void sendVerificationEmail(user.id, user.email);
 
-    res.status(201).json({ accessToken, refreshToken, user, profile, roles });
+    res.status(201).json({ accessToken, user: { ...user, email_verified: false }, profile, roles });
   }),
 );
 
@@ -99,8 +143,8 @@ authRouter.post(
     if (!input.success) throw badRequest("Please enter your email and password.");
     const { email, password } = input.data;
 
-    const { rows } = await query<{ id: string; email: string; password_hash: string }>(
-      "select id, email, password_hash from users where email = $1",
+    const { rows } = await query<{ id: string; email: string; password_hash: string; email_verified: boolean }>(
+      "select id, email, password_hash, email_verified from users where email = $1",
       [email],
     );
     const found = rows[0];
@@ -110,7 +154,8 @@ authRouter.post(
 
     const { accessToken, refreshToken } = await issueSession(found.id, found.email);
     const { profile, roles } = await profileAndRoles(found.id);
-    res.json({ accessToken, refreshToken, user: { id: found.id, email: found.email }, profile, roles });
+    setRefreshCookie(res, refreshToken);
+    res.json({ accessToken, user: { id: found.id, email: found.email, email_verified: found.email_verified }, profile, roles });
   }),
 );
 
@@ -120,7 +165,46 @@ authRouter.get(
   asyncHandler(async (req, res) => {
     const { id, email } = req.auth!;
     const { profile, roles } = await profileAndRoles(id);
-    res.json({ user: { id, email }, profile, roles });
+    const { rows } = await query<{ email_verified: boolean }>("select email_verified from users where id = $1", [id]);
+    res.json({ user: { id, email, email_verified: rows[0]?.email_verified ?? false }, profile, roles });
+  }),
+);
+
+// Confirm an email address with the token from the verification email.
+authRouter.post(
+  "/verify-email",
+  resetLimit,
+  asyncHandler(async (req, res) => {
+    const schema = z.object({ token: z.string().min(10) });
+    const input = schema.safeParse(req.body);
+    if (!input.success) throw badRequest("This confirmation link is invalid.");
+    const tokenHash = crypto.createHash("sha256").update(input.data.token).digest("hex");
+    const { rows } = await query<{ id: string; user_id: string; expires_at: string; used_at: string | null }>(
+      "select id, user_id, expires_at, used_at from email_verification_tokens where token_hash = $1",
+      [tokenHash],
+    );
+    const row = rows[0];
+    if (!row || row.used_at || new Date(row.expires_at) < new Date()) {
+      throw badRequest("This confirmation link is invalid or has expired. Please request a new one.");
+    }
+    await withTransaction(async (client) => {
+      await client.query("update users set email_verified = true where id = $1", [row.user_id]);
+      await client.query("update email_verification_tokens set used_at = now() where user_id = $1 and used_at is null", [row.user_id]);
+    });
+    res.json({ ok: true });
+  }),
+);
+
+// Resend the verification email to the signed-in user (if still unverified).
+authRouter.post(
+  "/resend-verification",
+  requireAuth,
+  forgotLimit,
+  asyncHandler(async (req, res) => {
+    const { rows } = await query<{ email: string; email_verified: boolean }>("select email, email_verified from users where id = $1", [req.auth!.id]);
+    const u = rows[0];
+    if (u && !u.email_verified) await sendVerificationEmail(req.auth!.id, u.email);
+    res.json({ ok: true });
   }),
 );
 
@@ -143,26 +227,27 @@ authRouter.patch(
 );
 
 // Exchange a refresh token for a new access token (and a rotated refresh token).
+// Exchange the refresh-token cookie for a new access token, rotating the cookie.
 authRouter.post(
   "/refresh",
   refreshLimit,
   asyncHandler(async (req, res) => {
-    const schema = z.object({ refreshToken: z.string().min(10) });
-    const input = schema.safeParse(req.body);
-    if (!input.success) throw badRequest("A refresh token is required.");
-    const tokens = await rotateRefreshToken(input.data.refreshToken);
-    res.json(tokens);
+    const raw = readRefreshCookie(req);
+    if (!raw) throw unauthorized("Your session has ended. Please sign in again.");
+    const tokens = await rotateRefreshToken(raw);
+    setRefreshCookie(res, tokens.refreshToken);
+    res.json({ accessToken: tokens.accessToken });
   }),
 );
 
-// Revoke a refresh token (logout). Always 204, even for an unknown token, so it
-// never reveals whether a token was valid.
+// Logout: revoke the refresh token and clear its cookie. Always 204, even for an
+// unknown/absent token, so it never reveals whether a token was valid.
 authRouter.post(
   "/logout",
   asyncHandler(async (req, res) => {
-    const schema = z.object({ refreshToken: z.string().min(1) });
-    const input = schema.safeParse(req.body);
-    if (input.success) await revokeRefreshToken(input.data.refreshToken);
+    const raw = readRefreshCookie(req);
+    if (raw) await revokeRefreshToken(raw);
+    clearRefreshCookie(res);
     res.status(204).end();
   }),
 );

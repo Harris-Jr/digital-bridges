@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import helmet from "helmet";
 import { corsOrigins, env } from "./env.js";
-import { pool } from "./db.js";
+import { pool, query } from "./db.js";
 import { errorMiddleware } from "./lib/http.js";
 import { loadAuth } from "./middleware.js";
 import { authRouter } from "./routes/auth.js";
@@ -41,6 +41,31 @@ app.get("/api/health", async (_req, res) => {
     res.status(503).json({ status: "db_unavailable" });
   }
 });
+
+// Dynamic sitemap including every published course. Served at the site root so
+// it can be referenced directly in robots.txt. On the VPS, add an nginx location
+// to proxy /sitemap.xml to this app; otherwise the static client/public/sitemap.xml
+// (stable pages only) is served. Also available at /api/sitemap.xml.
+const SITE_ORIGIN = (env.APP_URL || "https://civicwise.online").replace(/\/$/, "");
+async function sitemapHandler(_req: express.Request, res: express.Response) {
+  const staticPaths = ["/", "/courses", "/about", "/for-trainers", "/contact", "/privacy", "/terms", "/accessibility"];
+  let courseSlugs: string[] = [];
+  try {
+    const { rows } = await query<{ slug: string }>("select slug from courses where is_published = true order by slug");
+    courseSlugs = rows.map((r) => r.slug);
+  } catch { /* fall back to static paths only */ }
+  const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  const urls = [
+    ...staticPaths.map((p) => ({ loc: SITE_ORIGIN + (p === "/" ? "/" : p), priority: p === "/" ? "1.0" : "0.7" })),
+    ...courseSlugs.map((s) => ({ loc: `${SITE_ORIGIN}/courses/${esc(s)}`, priority: "0.8" })),
+  ];
+  const body = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls
+    .map((u) => `  <url><loc>${u.loc}</loc><priority>${u.priority}</priority></url>`)
+    .join("\n")}\n</urlset>\n`;
+  res.set("Content-Type", "application/xml").send(body);
+}
+app.get("/sitemap.xml", sitemapHandler);
+app.get("/api/sitemap.xml", sitemapHandler);
 
 app.use("/api/auth", authRouter);
 app.use("/api", contentRouter);

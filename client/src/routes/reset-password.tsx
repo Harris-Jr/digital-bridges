@@ -5,12 +5,13 @@ import { Button } from "@/components/ui/button";
 import { PasswordField } from "@/components/auth-shell";
 import { apiPost } from "@/lib/api";
 import { useI18n } from "@/lib/i18n";
+import { seo } from "@/lib/seo";
 
 export const Route = createFileRoute("/reset-password")({
   validateSearch: (s: Record<string, unknown>): { token?: string } => ({
     token: typeof s.token === "string" ? s.token : undefined,
   }),
-  head: () => ({ meta: [{ title: "Reset password, Civic Wise" }] }),
+  head: () => seo({ path: "/reset-password", title: "Reset password | Civic Wise", description: "Choose a new password for your Civic Wise account.", noindex: true }),
   component: ResetPassword,
 });
 

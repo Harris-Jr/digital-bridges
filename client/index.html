@@ -4,10 +4,6 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#14532D" />
-    <meta
-      name="description"
-      content="Free, simple lessons on phones, mobile money, online safety and work for communities in Zambia."
-    />
     <meta http-equiv="X-Content-Type-Options" content="nosniff" />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
     <link rel="icon" href="/favicon.ico?v=2" type="image/x-icon" />
@@ -19,7 +15,38 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Nunito:wght@700;800&display=swap"
     />
-    <title>Digital Bridges — Free digital skills for Zambia</title>
+    <!-- Fallback title; per-route titles/description/OG/canonical are managed by the router. -->
+    <title>Civic Wise: Free digital and civic skills for Zambia</title>
+    <!-- Site-wide structured data, present in the raw HTML for all crawlers -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://civicwise.online/#organization",
+          "name": "Civic Wise",
+          "url": "https://civicwise.online/",
+          "logo": "https://civicwise.online/images/logo.png",
+          "description": "An inclusive digital-literacy and civic-education platform for underserved communities in Zambia. Free, offline-friendly lessons on using phones safely, mobile money, finding work, understanding public services, knowing your rights and taking part in your community.",
+          "areaServed": { "@type": "Country", "name": "Zambia" },
+          "foundingOrganization": {
+            "@type": "Organization",
+            "name": "Zambia Cyber Security Foundation",
+            "url": "https://zcsi-foundation.org"
+          }
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://civicwise.online/#website",
+          "url": "https://civicwise.online/",
+          "name": "Civic Wise",
+          "publisher": { "@id": "https://civicwise.online/#organization" },
+          "inLanguage": ["en", "bem", "nya"]
+        }
+      ]
+    }
+    </script>
   </head>
   <body>
     <div id="root"></div>

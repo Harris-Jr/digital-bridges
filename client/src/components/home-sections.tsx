@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { Quote, GraduationCap, Radio, HeartHandshake, Cpu, Landmark, Signal, ArrowRight, ChevronLeft, ChevronRight, type LucideIcon } from "lucide-react";
+import { Quote, GraduationCap, Radio, HeartHandshake, Cpu, Landmark, Signal, ArrowRight, ChevronLeft, ChevronRight, ChevronDown, type LucideIcon } from "lucide-react";
 import { Icon } from "@/components/site";
 import { useI18n } from "@/lib/i18n";
 import type { Pathway } from "@/lib/content";
 import { cn } from "@/lib/utils";
+import { JsonLd } from "@/lib/seo";
 
 type Testimonial = { id: string; quote: string; name: string; role_location: string };
 type Partner = { id: string; name: string; category: string };
@@ -170,6 +171,45 @@ export function Testimonials({ items }: { items: Testimonial[] }) {
             </div>
           )}
         </div>
+      </div>
+    </section>
+  );
+}
+
+type Faq = { id: string; question: string; answer: string };
+
+/* FAQ section: real, admin-managed questions rendered as semantic details/summary
+   plus FAQPage structured data so answer engines can extract them. Hidden when
+   there are no FAQs. */
+export function FaqSection({ items }: { items: Faq[] }) {
+  const { t } = useI18n();
+  if (items.length === 0) return null;
+  const ld = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: items.map((f) => ({
+      "@type": "Question",
+      name: f.question,
+      acceptedAnswer: { "@type": "Answer", text: f.answer },
+    })),
+  };
+  return (
+    <section className="container-page py-16" aria-labelledby="faq-heading">
+      <JsonLd data={ld} />
+      <div className="max-w-2xl">
+        <p className="eyebrow">{t("home.faq.eyebrow", "Questions")}</p>
+        <h2 id="faq-heading" className="mt-2 text-3xl md:text-4xl">{t("home.faq.title", "Frequently asked questions")}</h2>
+      </div>
+      <div className="mt-8 max-w-3xl divide-y divide-border border-y border-border">
+        {items.map((f) => (
+          <details key={f.id} className="group py-4">
+            <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-lg font-semibold text-foreground [&::-webkit-details-marker]:hidden">
+              {f.question}
+              <ChevronDown className="size-5 shrink-0 text-muted-foreground transition-transform duration-200 group-open:rotate-180" aria-hidden="true" />
+            </summary>
+            <p className="mt-3 leading-relaxed text-muted-foreground">{f.answer}</p>
+          </details>
+        ))}
       </div>
     </section>
   );

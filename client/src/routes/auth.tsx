@@ -8,6 +8,7 @@ import { ApiError, apiPost } from "@/lib/api";
 import { useAuth } from "@/lib/auth";
 import { useI18n } from "@/lib/i18n";
 import { usePolicyVersion } from "@/lib/content";
+import { seo } from "@/lib/seo";
 
 type Mode = "login" | "register";
 
@@ -15,11 +16,11 @@ export const Route = createFileRoute("/auth")({
   validateSearch: (s: Record<string, unknown>): { mode?: Mode } => ({
     mode: s.mode === "register" ? "register" : undefined,
   }),
-  head: () => ({
-    meta: [
-      { title: "Sign in, Civic Wise" },
-      { name: "description", content: "Sign in or create your free Civic Wise account." },
-    ],
+  head: () => seo({
+    path: "/auth",
+    title: "Sign in | Civic Wise",
+    description: "Sign in or create your free Civic Wise account.",
+    noindex: true,
   }),
   component: AuthPage,
 });

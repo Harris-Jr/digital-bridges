@@ -4,15 +4,13 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { SiteLayout, ErrorNote, Motif } from "@/components/site";
 import { useI18n } from "@/lib/i18n";
 import { usePage, useSetting } from "@/lib/content";
+import { seo } from "@/lib/seo";
 
 export const Route = createFileRoute("/about")({
-  head: () => ({
-    meta: [
-      { title: "About, Civic Wise" },
-      { name: "description", content: "Helping people across Zambia use phones and the internet with confidence." },
-      { property: "og:title", content: "About, Civic Wise" },
-      { property: "og:description", content: "Built with communities, for communities." },
-    ],
+  head: () => seo({
+    path: "/about",
+    title: "About Civic Wise: built with communities, for communities",
+    description: "Civic Wise helps people across Zambia use phones and the internet with confidence. A free, offline-friendly platform by the Zambia Cyber Security Foundation, built with and for local communities.",
   }),
   component: About,
 });

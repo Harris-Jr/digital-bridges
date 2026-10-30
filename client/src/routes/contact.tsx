@@ -10,15 +10,13 @@ import { SiteLayout } from "@/components/site";
 import { apiPost } from "@/lib/api";
 import { useI18n } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
+import { seo } from "@/lib/seo";
 
 export const Route = createFileRoute("/contact")({
-  head: () => ({
-    meta: [
-      { title: "Contact, Civic Wise" },
-      { name: "description", content: "Have a question about learning or running a community workshop? Send the Civic Wise team a message." },
-      { property: "og:title", content: "Contact, Civic Wise" },
-      { property: "og:description", content: "Let's talk. Send us a message." },
-    ],
+  head: () => seo({
+    path: "/contact",
+    title: "Contact Civic Wise",
+    description: "Have a question about learning or running a community workshop? Send the Civic Wise team a message about learning support, community workshops or partnerships.",
   }),
   component: Contact,
 });

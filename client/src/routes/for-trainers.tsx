@@ -6,15 +6,13 @@ import { SiteLayout, Motif } from "@/components/site";
 import { usePage, useSetting } from "@/lib/content";
 import { useAuth } from "@/lib/auth";
 import { useI18n } from "@/lib/i18n";
+import { seo } from "@/lib/seo";
 
 export const Route = createFileRoute("/for-trainers")({
-  head: () => ({
-    meta: [
-      { title: "For Trainers, Civic Wise" },
-      { name: "description", content: "Lead practical digital skills sessions with simple tools and ready-to-use teaching materials." },
-      { property: "og:title", content: "For Trainers, Civic Wise" },
-      { property: "og:description", content: "Help your community grow with free facilitator tools." },
-    ],
+  head: () => seo({
+    path: "/for-trainers",
+    title: "For Trainers: run community digital skills sessions | Civic Wise",
+    description: "Lead practical digital skills sessions with simple tools and ready-to-use teaching materials. Create learner groups, plan workshops and track progress. Free for community facilitators in Zambia.",
   }),
   component: ForTrainers,
 });

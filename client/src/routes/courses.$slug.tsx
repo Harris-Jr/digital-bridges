@@ -8,19 +8,18 @@ import { SiteLayout, ContentImage, ErrorNote, EmptyState, Icon, CourseCard } fro
 import { difficultyLabel, useCourse, useMyProgress, usePublishedCourses, type Lesson } from "@/lib/content";
 import { useAuth } from "@/lib/auth";
 import { useI18n } from "@/lib/i18n";
+import { seo, JsonLd, canonical } from "@/lib/seo";
 import { downloadPack, removePack, isDownloaded, offlineSupported } from "@/lib/offline";
 
 export const Route = createFileRoute("/courses/$slug")({
   head: ({ params }) => {
-    const name = params.slug.split("-").map((w) => w[0]?.toUpperCase() + w.slice(1)).join(" ");
-    return {
-      meta: [
-        { title: `${name}, Civic Wise` },
-        { name: "description", content: `Free course: ${name}. Short lessons in simple language.` },
-        { property: "og:title", content: `${name}, Civic Wise` },
-        { property: "og:description", content: `Free course: ${name}. Short lessons in simple language.` },
-      ],
-    };
+    const name = params.slug.split("-").map((w) => (w[0]?.toUpperCase() ?? "") + w.slice(1)).join(" ");
+    return seo({
+      path: `/courses/${params.slug}`,
+      title: `${name} | Civic Wise`,
+      description: `Free Civic Wise course: ${name}. Short, practical lessons in simple language that work on any phone, even with little data.`,
+      type: "article",
+    });
   },
   component: CourseDetail,
 });
@@ -53,8 +52,34 @@ function CourseDetail() {
   const relatedIdx = related ? (all.data ?? []).findIndex((x) => x.id === related.id) : 0;
   const completed = c.lessons.filter((l) => done.has(l.id)).length;
 
+  const courseLd = {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    name: c.title,
+    description: c.tagline ?? `Free Civic Wise course: ${c.title}.`,
+    url: canonical(`/courses/${c.slug}`),
+    inLanguage: "en",
+    isAccessibleForFree: true,
+    provider: { "@type": "Organization", name: "Civic Wise", url: canonical("/") },
+    hasCourseInstance: {
+      "@type": "CourseInstance",
+      courseMode: "online",
+      courseWorkload: `PT${Math.max(1, c.estimated_hours ?? 1)}H`,
+    },
+  };
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: canonical("/") },
+      { "@type": "ListItem", position: 2, name: "Courses", item: canonical("/courses") },
+      { "@type": "ListItem", position: 3, name: c.title, item: canonical(`/courses/${c.slug}`) },
+    ],
+  };
+
   return (
     <SiteLayout>
+      <JsonLd data={[courseLd, breadcrumbLd]} />
       <div className="container-page pt-8">
         <nav aria-label="Breadcrumb" className="flex items-center gap-1 text-sm text-muted-foreground">
           <Link to="/" className="hover:text-foreground">{t("nav.home", "Home")}</Link><ChevronRight className="size-4" aria-hidden="true" />

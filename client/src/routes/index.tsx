@@ -4,9 +4,10 @@ import { ArrowRight, BookOpen, GraduationCap, Globe, Gift } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { SiteLayout, Icon, CourseCard, CardsSkeleton, ErrorNote, Motif, FeatureStrip, useReveal } from "@/components/site";
-import { Testimonials, Partners, PathwaySelector } from "@/components/home-sections";
+import { Testimonials, Partners, PathwaySelector, FaqSection } from "@/components/home-sections";
 import { usePage, usePublished, usePublishedCourses, usePathways } from "@/lib/content";
 import { useI18n, LANGS } from "@/lib/i18n";
+import { seo } from "@/lib/seo";
 
 // Interleave courses from the two pathways (digital + civic) so the home
 // shortlist always shows a mix, not just the first-loaded pathway.
@@ -29,13 +30,10 @@ const WHY_TONE = [
 ];
 
 export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: "Civic Wise, Digital and civic skills for Zambia" },
-      { name: "description", content: "Free, simple lessons for communities in Zambia: using your phone safely, mobile money, finding work, your rights and taking part in your community." },
-      { property: "og:title", content: "Civic Wise, Digital and civic skills for Zambia" },
-      { property: "og:description", content: "Free, simple lessons for communities in Zambia: digital skills and civic know-how." },
-    ],
+  head: () => seo({
+    path: "/",
+    title: "Civic Wise: Free digital and civic skills for Zambia",
+    description: "Build confidence online and in your community. Free, simple lessons on using your phone safely, mobile money, finding work, your rights and taking part in your community. Works on any phone, even with little data.",
   }),
   component: Home,
 });
@@ -102,6 +100,7 @@ function Home() {
   const courses = usePublishedCourses();
   const testimonials = usePublished<{ id: string; quote: string; name: string; role_location: string }>("testimonials");
   const partners = usePublished<{ id: string; name: string; category: string }>("partners");
+  const faqs = usePublished<{ id: string; question: string; answer: string }>("faqs");
   const body = page.data?.body ?? {};
   const statsReveal = useReveal<HTMLDListElement>();
   const coursesReveal = useReveal<HTMLDivElement>();
@@ -217,6 +216,8 @@ function Home() {
       )}
 
       <Testimonials items={testimonials.data ?? []} />
+
+      <FaqSection items={faqs.data ?? []} />
 
       <Partners items={partners.data ?? []} />
 

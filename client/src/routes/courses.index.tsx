@@ -8,6 +8,7 @@ import { useI18n } from "@/lib/i18n";
 import { useCategories, useMyProgress, usePublishedCourses, usePathways, type Course } from "@/lib/content";
 import { useAuth } from "@/lib/auth";
 import { cn } from "@/lib/utils";
+import { seo } from "@/lib/seo";
 
 const SAMPLE_PER_PATHWAY = 3;
 
@@ -15,13 +16,10 @@ export const Route = createFileRoute("/courses/")({
   validateSearch: (s: Record<string, unknown>): { q?: string } => ({
     q: typeof s.q === "string" && s.q.trim() ? s.q.trim() : undefined,
   }),
-  head: () => ({
-    meta: [
-      { title: "Courses, Civic Wise" },
-      { name: "description", content: "Eight free courses: phone basics, online safety, mobile money, spotting false news, work skills and selling online." },
-      { property: "og:title", content: "Courses, Civic Wise" },
-      { property: "og:description", content: "Eight free digital skills courses in simple language." },
-    ],
+  head: () => seo({
+    path: "/courses",
+    title: "Free digital and civic courses | Civic Wise",
+    description: "Browse free Civic Wise courses in simple language: phone basics, online safety, mobile money, spotting false news, finding work, your rights and taking part in your community. Works on any phone.",
   }),
   component: CoursesPage,
 });

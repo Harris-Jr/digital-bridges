@@ -59,11 +59,16 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   head: () => ({
     meta: [
-      { title: "Civic Wise, Free digital skills for Zambia" },
-      { name: "description", content: "Free, simple lessons on phones, mobile money, online safety and work for communities in Zambia." },
+      { title: "Civic Wise: Free digital and civic skills for Zambia" },
+      { name: "description", content: "Free, simple lessons on phones, mobile money, online safety, finding work, your rights and taking part in your community, for communities across Zambia." },
+      { name: "robots", content: "index, follow" },
       { property: "og:site_name", content: "Civic Wise" },
       { property: "og:type", content: "website" },
+      { property: "og:title", content: "Civic Wise: Free digital and civic skills for Zambia" },
+      { property: "og:description", content: "Free, simple lessons for communities across Zambia, on any phone, even with little data." },
+      { property: "og:image", content: "https://civicwise.online/images/logo.png" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: "https://civicwise.online/images/logo.png" },
     ],
   }),
   component: RootComponent,

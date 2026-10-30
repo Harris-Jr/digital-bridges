@@ -1,14 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PolicyPage } from "@/components/policy-page";
+import { seo } from "@/lib/seo";
 
 export const Route = createFileRoute("/accessibility")({
-  head: () => ({
-    meta: [
-      { title: "Accessibility Statement, Civic Wise" },
-      { name: "description", content: "Our commitment to WCAG 2.1 AA and how to tell us about a barrier." },
-      { property: "og:title", content: "Accessibility Statement, Civic Wise" },
-      { property: "og:description", content: "We want everyone to be able to learn on Civic Wise." },
-    ],
+  head: () => seo({
+    path: "/accessibility",
+    title: "Accessibility Statement | Civic Wise",
+    description: "Our commitment to WCAG 2.1 AA, how Civic Wise supports low-data and older devices, and how to tell us about a barrier.",
   }),
   component: () => <PolicyPage slug="accessibility" />,
 });

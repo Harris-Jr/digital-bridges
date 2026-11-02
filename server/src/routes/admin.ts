@@ -4,7 +4,7 @@
 // can never write to an arbitrary column.
 import { Router, type Request, type Response } from "express";
 import { z, type ZodType } from "zod";
-import { query } from "../db.js";
+import { query, withTransaction } from "../db.js";
 import { asyncHandler, badRequest, notFound } from "../lib/http.js";
 import { requireAuth, requireStaff } from "../middleware.js";
 import { sendMail, workshopDecisionEmail } from "../lib/mailer.js";
@@ -166,10 +166,21 @@ const courseSchema = z.object({
   image_url: z.string().trim().max(1000).nullish(),
   is_published: z.boolean().default(false),
   sort_order: z.coerce.number().int().default(0),
+  pass_mark: z.coerce.number().int().min(0).max(100).default(70),
+});
+
+const moduleSchema = z.object({
+  course_id: z.string().uuid(),
+  title: nonEmpty(200),
+  summary: z.string().trim().max(1000).default(""),
+  sort_order: z.coerce.number().int().default(0),
+  is_published: z.boolean().default(true),
 });
 
 const lessonSchema = z.object({
   course_id: z.string().uuid(),
+  module_id: z.string().uuid().nullish(),
+  est_minutes: z.coerce.number().int().min(1).max(60).default(5),
   slug: nonEmpty(120),
   title: nonEmpty(200),
   type: z.enum(["read", "quiz", "practice", "scenario"]).default("read"),
@@ -242,13 +253,18 @@ registerResource("pathways", {
 });
 registerResource("courses", {
   table: "courses", idColumn: "id", orderBy: "sort_order",
-  columns: ["slug", "title", "tagline", "description", "category_id", "pathway_id", "icon_name", "difficulty", "estimated_hours", "outcomes", "image_url", "is_published", "sort_order"],
+  columns: ["slug", "title", "tagline", "description", "category_id", "pathway_id", "icon_name", "difficulty", "estimated_hours", "outcomes", "image_url", "is_published", "sort_order", "pass_mark"],
   jsonbColumns: ["outcomes"], schema: courseSchema,
 });
 registerResource("lessons", {
   table: "lessons", idColumn: "id", orderBy: "sort_order",
-  columns: ["course_id", "slug", "title", "type", "body_richtext", "key_points", "try_it_action", "svg_motif", "image_url", "audio_url", "video_url", "sort_order", "is_published"],
+  columns: ["course_id", "module_id", "est_minutes", "slug", "title", "type", "body_richtext", "key_points", "try_it_action", "svg_motif", "image_url", "audio_url", "video_url", "sort_order", "is_published"],
   jsonbColumns: ["key_points"], schema: lessonSchema, filters: ["course_id"],
+});
+registerResource("modules", {
+  table: "modules", idColumn: "id", orderBy: "sort_order",
+  columns: ["course_id", "title", "summary", "sort_order", "is_published"],
+  schema: moduleSchema, filters: ["course_id"],
 });
 registerResource("quiz-questions", {
   table: "quiz_questions", idColumn: "id", orderBy: "sort_order",
@@ -366,5 +382,64 @@ adminRouter.get(
         (select count(*) from contact_messages where read = false) as unread_messages
     `);
     res.json(rows[0]);
+  }),
+);
+
+// ---- Course builder ---------------------------------------------------------
+// The whole curriculum of one course in a single call: modules in order, each
+// with its lessons (plus word count and quiz size, for the beginner checklist).
+// Lessons with no module are returned under `unassigned`.
+adminRouter.get(
+  "/courses/:id/curriculum",
+  asyncHandler(async (req, res) => {
+    const id = z.string().uuid().safeParse(req.params.id);
+    if (!id.success) throw notFound();
+    const { rows: course } = await query("select * from courses where id = $1", [id.data]);
+    if (!course[0]) throw notFound("Course not found");
+    const { rows: modules } = await query(
+      "select * from modules where course_id = $1 order by sort_order, created_at",
+      [id.data],
+    );
+    const { rows: lessons } = await query(
+      `select l.id, l.module_id, l.slug, l.title, l.type, l.is_published, l.sort_order, l.est_minutes,
+              coalesce(array_length(regexp_split_to_array(nullif(trim(l.body_richtext), ''), '\\s+'), 1), 0) as words,
+              (select count(*) from quiz_questions q where q.lesson_id = l.id)::int as quiz_count,
+              (select count(*) from scenario_steps s where s.lesson_id = l.id)::int as scenario_count
+         from lessons l where l.course_id = $1 order by l.sort_order, l.created_at`,
+      [id.data],
+    );
+    res.json({
+      course: course[0],
+      modules: modules.map((m) => ({ ...m, lessons: lessons.filter((l) => l.module_id === m.id) })),
+      unassigned: lessons.filter((l) => !l.module_id || !modules.some((m) => m.id === l.module_id)),
+    });
+  }),
+);
+
+// Save a new order: module order, and which lessons sit in which module in what
+// order. One transaction, and every id must belong to this course.
+adminRouter.put(
+  "/courses/:id/curriculum",
+  asyncHandler(async (req, res) => {
+    const schema = z.object({
+      modules: z.array(z.object({ id: z.string().uuid(), lessons: z.array(z.string().uuid()) })).max(100),
+    });
+    const id = z.string().uuid().safeParse(req.params.id);
+    const input = schema.safeParse(req.body);
+    if (!id.success || !input.success) throw badRequest("Invalid course structure.");
+    await withTransaction(async (client) => {
+      for (const [mi, m] of input.data.modules.entries()) {
+        const r = await client.query("update modules set sort_order = $3 where id = $1 and course_id = $2", [m.id, id.data, mi]);
+        if (!r.rowCount) throw badRequest("A module does not belong to this course.");
+        for (const [li, lessonId] of m.lessons.entries()) {
+          const lr = await client.query(
+            "update lessons set module_id = $3, sort_order = $4 where id = $1 and course_id = $2",
+            [lessonId, id.data, m.id, (mi + 1) * 1000 + li],
+          );
+          if (!lr.rowCount) throw badRequest("A lesson does not belong to this course.");
+        }
+      }
+    });
+    res.json({ ok: true });
   }),
 );

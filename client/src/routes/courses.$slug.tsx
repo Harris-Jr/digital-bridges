@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ContentImage, ErrorNote, EmptyState, Icon, CourseCard } from "@/components/site";
-import { difficultyLabel, useCourse, useMyProgress, usePublishedCourses, type Lesson } from "@/lib/content";
+import { difficultyLabel, groupByModule, useCourse, useMyProgress, usePublishedCourses, type Lesson } from "@/lib/content";
 import { useAuth } from "@/lib/auth";
 import { useI18n } from "@/lib/i18n";
 import { seo, JsonLd, canonical } from "@/lib/seo";
@@ -118,21 +118,41 @@ function CourseDetail() {
             {c.lessons.length === 0 ? (
               <p className="mt-4 text-muted-foreground">{t("course.lessonsEmpty", "Lessons for this course are being written. Check back soon.")}</p>
             ) : (
-              <ol className="mt-4 divide-y divide-border overflow-hidden rounded-2xl border border-border bg-card">
-                {c.lessons.map((l, i) => {
-                  const T = typeIcon[l.type];
-                  const isDone = done.has(l.id);
+              <div className="mt-4 space-y-4">
+                {groupByModule(c.modules, c.lessons).map((g, gi, all) => {
+                  const startAt = all.slice(0, gi).reduce((n, x) => n + x.lessons.length, 0);
+                  const gDone = g.lessons.filter((l) => done.has(l.id)).length;
+                  const mins = g.lessons.reduce((n, l) => n + (l.est_minutes ?? 5), 0);
                   return (
-                    <li key={l.id}>
-                      <Link to="/learn/$courseSlug/$lessonSlug" params={{ courseSlug: c.slug, lessonSlug: l.slug }} className="flex min-h-14 items-center gap-4 px-5 py-3 hover:bg-secondary">
-                        {isDone ? <CheckCircle2 className="size-5 text-success" aria-label="Done" /> : <Circle className="size-5 text-muted-foreground" aria-label="Not done" />}
-                        <span className="flex-1"><span className="text-muted-foreground">{i + 1}. </span>{l.title}</span>
-                        <span className="inline-flex items-center gap-1 text-xs capitalize text-muted-foreground"><T className="size-4" aria-hidden="true" />{l.type}</span>
-                      </Link>
-                    </li>
+                    <div key={g.module?.id ?? "rest"} className="overflow-hidden rounded-2xl border border-border bg-card">
+                      {(all.length > 1 || g.module) && (
+                        <div className="flex items-start justify-between gap-3 border-b border-border bg-muted/40 px-5 py-3">
+                          <div>
+                            <p className="font-display font-bold">{all.length > 1 ? `${t("course.module", "Module")} ${gi + 1}: ` : ""}{g.module?.title ?? t("course.more", "More lessons")}</p>
+                            {g.module?.summary && <p className="text-sm text-muted-foreground">{g.module.summary}</p>}
+                          </div>
+                          <span className="shrink-0 text-xs text-muted-foreground">{user ? `${gDone}/${g.lessons.length} · ` : ""}{mins} min</span>
+                        </div>
+                      )}
+                      <ol className="divide-y divide-border">
+                        {g.lessons.map((l, i) => {
+                          const T = typeIcon[l.type];
+                          const isDone = done.has(l.id);
+                          return (
+                            <li key={l.id}>
+                              <Link to="/learn/$courseSlug/$lessonSlug" params={{ courseSlug: c.slug, lessonSlug: l.slug }} className="flex min-h-14 items-center gap-4 px-5 py-3 hover:bg-secondary">
+                                {isDone ? <CheckCircle2 className="size-5 text-success" aria-label="Done" /> : <Circle className="size-5 text-muted-foreground" aria-label="Not done" />}
+                                <span className="flex-1"><span className="text-muted-foreground">{startAt + i + 1}. </span>{l.title}</span>
+                                <span className="inline-flex items-center gap-1 text-xs capitalize text-muted-foreground"><T className="size-4" aria-hidden="true" />{l.type === "quiz" ? t("course.check", "Check") : l.type}</span>
+                              </Link>
+                            </li>
+                          );
+                        })}
+                      </ol>
+                    </div>
                   );
                 })}
-              </ol>
+              </div>
             )}
           </div>
         </div>

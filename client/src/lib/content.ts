@@ -79,6 +79,8 @@ export const usePathways = () => {
 export type Lesson = {
   id: string;
   course_id: string;
+  module_id?: string | null;
+  est_minutes?: number;
   slug: string;
   title: string;
   type: "read" | "quiz" | "practice" | "scenario";
@@ -171,8 +173,8 @@ export const useCourse = (slug: string) => {
   return useQuery({
     queryKey: ["course", slug, lang],
     queryFn: async () => {
-      const { category, ...c } = await apiGet<ApiCourse & { lessons: Lesson[] }>(`/courses/${slug}${langQs(lang)}`, false);
-      return { ...c, categories: category } as Omit<Course, "lessons"> & { lessons: Lesson[] };
+      const { category, ...c } = await apiGet<ApiCourse & { lessons: Lesson[]; modules?: CourseModule[] }>(`/courses/${slug}${langQs(lang)}`, false);
+      return { ...c, modules: c.modules ?? [], categories: category } as Omit<Course, "lessons"> & { lessons: Lesson[]; modules: CourseModule[] };
     },
     retry: (count, err) => !(err instanceof Error && err.message.toLowerCase().includes("not found")) && count < 1,
   });
@@ -263,4 +265,15 @@ export function pickContinue<C extends Course>(courses: C[], progress: { lesson_
   if (!course) return null;
   const nextLesson = course.lessons?.find((l) => !done.has(l.id));
   return { course, started: !!inProgress[0], pct: coursePct(course, done), lessonSlug: nextLesson?.slug ?? null };
+}
+
+export type CourseModule = { id: string; title: string; summary: string; sort_order: number };
+
+/** Group a course's lessons under its modules, in order. Lessons without a known
+    module go into a trailing untitled group. With no modules, one group. */
+export function groupByModule<L extends { module_id?: string | null }>(modules: CourseModule[], lessons: L[]) {
+  const groups = modules.map((m) => ({ module: m as CourseModule | null, lessons: lessons.filter((l) => l.module_id === m.id) })).filter((g) => g.lessons.length);
+  const rest = lessons.filter((l) => !modules.some((m) => m.id === l.module_id));
+  if (rest.length) groups.push({ module: null, lessons: rest });
+  return groups;
 }

@@ -7,7 +7,7 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ContentImage, EmptyState, ErrorNote, RichText } from "@/components/site";
-import { useCourse, useMyProgress, useQuiz, useScenario, type QuizQuestion, type ScenarioStep } from "@/lib/content";
+import { groupByModule, useCourse, useMyProgress, type CourseModule, useQuiz, useScenario, type QuizQuestion, type ScenarioStep } from "@/lib/content";
 import { useAuth } from "@/lib/auth";
 import { useI18n } from "@/lib/i18n";
 import { apiPost } from "@/lib/api";
@@ -104,7 +104,7 @@ function LessonPlayer() {
   const doneIds = new Set(progress.data?.map((p) => p.lesson_id));
   const doneCount = lessons.filter((l) => doneIds.has(l.id)).length;
   const outline = (
-    <CourseOutline courseTitle={course.data.title} courseSlug={courseSlug} lessons={lessons} current={lesson.id} done={doneIds} doneCount={doneCount} />
+    <CourseOutline courseTitle={course.data.title} courseSlug={courseSlug} modules={course.data.modules} lessons={lessons} current={lesson.id} done={doneIds} doneCount={doneCount} />
   );
 
   return (
@@ -444,8 +444,8 @@ function LessonVideo({ url }: { url: string }) {
 
 const outlineIcon = { read: BookOpen, quiz: HelpCircle, practice: Hand, scenario: Compass } as const;
 
-function CourseOutline({ courseTitle, courseSlug, lessons, current, done, doneCount }: {
-  courseTitle: string; courseSlug: string; lessons: { id: string; slug: string; title: string; type: string }[];
+function CourseOutline({ courseTitle, courseSlug, modules, lessons, current, done, doneCount }: {
+  courseTitle: string; courseSlug: string; modules: CourseModule[]; lessons: { id: string; slug: string; title: string; type: string; module_id?: string | null }[];
   current: string; done: Set<string>; doneCount: number;
 }) {
   const { t } = useI18n();
@@ -459,25 +459,39 @@ function CourseOutline({ courseTitle, courseSlug, lessons, current, done, doneCo
           <span className="text-xs font-semibold text-muted-foreground">{doneCount}/{lessons.length}</span>
         </div>
       </div>
-      <ol className="flex-1 overflow-y-auto p-2">
-        {lessons.map((l, i) => {
-          const isCurrent = l.id === current;
-          const isDone = done.has(l.id);
-          const T = outlineIcon[l.type as keyof typeof outlineIcon] ?? BookOpen;
+      <div className="flex-1 overflow-y-auto p-2">
+        {groupByModule(modules, lessons).map((g, gi, all) => {
+          const startAt = all.slice(0, gi).reduce((n, x) => n + x.lessons.length, 0);
           return (
-            <li key={l.id}>
-              <Link to="/learn/$courseSlug/$lessonSlug" params={{ courseSlug, lessonSlug: l.slug }} aria-current={isCurrent ? "page" : undefined}
-                className={cn("flex min-h-12 items-start gap-3 rounded-lg px-3 py-2.5 text-sm transition-colors", isCurrent ? "bg-primary-soft font-semibold text-primary" : "hover:bg-secondary")}>
-                {isDone
-                  ? <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-success" aria-label={t("lesson.done", "Done")} />
-                  : <Circle className={cn("mt-0.5 size-4 shrink-0", isCurrent ? "text-primary" : "text-muted-foreground")} aria-label="Not done" />}
-                <span className="flex-1"><span className="text-muted-foreground">{i + 1}. </span>{l.title}</span>
-                <T className="mt-0.5 size-4 shrink-0 text-muted-foreground" aria-hidden="true" />
-              </Link>
-            </li>
+            <div key={g.module?.id ?? "rest"} className="mb-2">
+              {all.length > 1 && (
+                <p className="px-3 pb-1 pt-3 text-xs font-bold uppercase tracking-wide text-muted-foreground">
+                  {t("course.module", "Module")} {gi + 1}{g.module ? `: ${g.module.title}` : ""}
+                </p>
+              )}
+              <ol>
+                {g.lessons.map((l, i) => {
+                  const isCurrent = l.id === current;
+                  const isDone = done.has(l.id);
+                  const T = outlineIcon[l.type as keyof typeof outlineIcon] ?? BookOpen;
+                  return (
+                    <li key={l.id}>
+                      <Link to="/learn/$courseSlug/$lessonSlug" params={{ courseSlug, lessonSlug: l.slug }} aria-current={isCurrent ? "page" : undefined}
+                        className={cn("flex min-h-12 items-start gap-3 rounded-lg px-3 py-2.5 text-sm transition-colors", isCurrent ? "bg-primary-soft font-semibold text-primary" : "hover:bg-secondary")}>
+                        {isDone
+                          ? <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-success" aria-label={t("lesson.done", "Done")} />
+                          : <Circle className={cn("mt-0.5 size-4 shrink-0", isCurrent ? "text-primary" : "text-muted-foreground")} aria-label="Not done" />}
+                        <span className="flex-1"><span className="text-muted-foreground">{startAt + i + 1}. </span>{l.title}</span>
+                        <T className="mt-0.5 size-4 shrink-0 text-muted-foreground" aria-hidden="true" />
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ol>
+            </div>
           );
         })}
-      </ol>
+      </div>
     </div>
   );
 }

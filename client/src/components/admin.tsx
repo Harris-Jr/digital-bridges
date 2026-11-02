@@ -162,7 +162,7 @@ export type Column<T> = { label: string; render: (row: T) => ReactNode; classNam
 
 type Row = Record<string, unknown> & { id?: string; slug?: string };
 
-function toForm(fields: Field[], row: Record<string, unknown>): Record<string, string | boolean> {
+export function toForm(fields: Field[], row: Record<string, unknown>): Record<string, string | boolean> {
   const out: Record<string, string | boolean> = {};
   for (const f of fields) {
     const v = row[f.name];
@@ -175,7 +175,7 @@ function toForm(fields: Field[], row: Record<string, unknown>): Record<string, s
   return out;
 }
 
-function toPayload(fields: Field[], form: Record<string, string | boolean>): Record<string, unknown> {
+export function toPayload(fields: Field[], form: Record<string, string | boolean>): Record<string, unknown> {
   const out: Record<string, unknown> = {};
   for (const f of fields) {
     const v = form[f.name];
@@ -189,8 +189,9 @@ function toPayload(fields: Field[], form: Record<string, string | boolean>): Rec
 }
 
 export function CrudManager<T extends Row>({
-  resource, title, description, columns, fields, defaults, idKey = "id", filter, backLink, canCreate = true, canDelete = true, headerExtra,
+  resource, title, description, columns, fields, defaults, idKey = "id", filter, backLink, canCreate = true, canDelete = true, headerExtra, onCreated,
 }: {
+  onCreated?: (row: T) => void;
   resource: string;
   title: string;
   description?: string;
@@ -230,7 +231,12 @@ export function CrudManager<T extends Row>({
       if (editing) return apiPatch(`/admin/${resource}/${editing[idKey]}`, payload);
       return apiPost(`/admin/${resource}`, payload);
     },
-    onSuccess: () => { toast.success(editing ? "Saved" : "Created"); setOpen(false); qc.invalidateQueries({ queryKey: key }); },
+    onSuccess: (row) => {
+      toast.success(editing ? "Saved" : "Created");
+      setOpen(false);
+      qc.invalidateQueries({ queryKey: key });
+      if (!editing && onCreated && row) onCreated(row as T);
+    },
     onError: (e) => toast.error(e instanceof Error ? e.message : "Could not save. Check the fields."),
   });
 
@@ -348,7 +354,7 @@ export function CrudManager<T extends Row>({
   );
 }
 
-function FieldInput({ field, value, onChange }: { field: Field; value: string | boolean | undefined; onChange: (v: string | boolean) => void }) {
+export function FieldInput({ field, value, onChange }: { field: Field; value: string | boolean | undefined; onChange: (v: string | boolean) => void }) {
   if (field.type === "boolean") {
     return (
       <div className="flex items-center justify-between rounded-lg border border-border px-4 py-3">
@@ -479,7 +485,14 @@ export function AiQuizGenerator({ lessonId }: { lessonId: string }) {
     onError: () => toast.error("Could not save the questions."),
   });
 
-  if (!cfg.data?.enabled) return null;
+  if (cfg.data && !cfg.data.enabled) {
+    return (
+      <Button type="button" variant="outline" disabled title="AI is off. Add GEMINI_API_KEY or GROQ_API_KEY to server/.env and restart the API.">
+        <Sparkles className="size-4" />Generate with AI (off)
+      </Button>
+    );
+  }
+  if (!cfg.data) return null;
   const toggle = (i: number) => setSel((s) => { const n = new Set(s); n.has(i) ? n.delete(i) : n.add(i); return n; });
 
   return (

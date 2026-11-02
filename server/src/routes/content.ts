@@ -120,6 +120,12 @@ contentRouter.get(
       [req.params.slug],
     );
     if (!rows[0]) throw notFound("Course not found");
+    // Published modules (outline headings). Lessons carry module_id.
+    const { rows: modules } = await query(
+      "select id, title, summary, sort_order from modules where course_id = $1 and is_published order by sort_order",
+      [rows[0].id],
+    );
+    rows[0].modules = modules;
     const lang = overlayLang(req.query.lang);
     await overlay("course", lang, rows);
     await overlay("category", lang, [rows[0].category as Record<string, unknown>].filter(Boolean));

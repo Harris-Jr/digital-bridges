@@ -34,7 +34,7 @@ function Scenario() {
       columns={columns}
       fields={fields}
       filter={{ key: "lesson_id", value: lessonId }}
-      backLink={{ to: "/admin/courses", label: "Back to courses" }}
+      backLink={{ to: `/admin/lessons/${lessonId}`, label: "Back to lesson" }}
       defaults={{ best_index: 0, sort_order: 0, options: [], feedback: [] }}
     />
   );

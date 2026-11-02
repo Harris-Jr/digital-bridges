@@ -190,59 +190,107 @@ function LessonPlayer() {
 function Quiz({ questions, onFinish }: { questions: QuizQuestion[]; onFinish: () => void }) {
   const { t } = useI18n();
   const [i, setI] = useState(0);
+  const [answers, setAnswers] = useState<number[]>([]);
   const [picked, setPicked] = useState<number | null>(null);
-  const [score, setScore] = useState(0);
   const [finished, setFinished] = useState(false);
+
+  function restart() {
+    setI(0);
+    setAnswers([]);
+    setPicked(null);
+    setFinished(false);
+  }
+
   if (questions.length === 0) return <p className="mt-6 text-muted-foreground">{t("quiz.none", "No quiz questions for this lesson yet.")}</p>;
-  if (finished)
+
+  // End of quiz: score, then a full review of every question with the learner's
+  // answer, the correct answer, and the explanation of what went wrong.
+  if (finished) {
+    const score = answers.reduce((n, a, k) => n + (a === questions[k]!.correct_index ? 1 : 0), 0);
     return (
-      <div className="mt-6 rounded-2xl border border-border bg-card p-6 shadow-sm">
-        <h2 className="text-2xl">{t("quiz.got", "You got")} {score} {t("course.of", "of")} {questions.length} {t("quiz.right", "right")}</h2>
-        <p className="mt-2 text-muted-foreground">{score === questions.length ? t("quiz.perfect", "Well done! You know this well.") : t("quiz.tryagainMsg", "Good effort. Read the lesson again and try once more.")}</p>
-        <Button className="mt-4" variant="outline" onClick={() => { setI(0); setPicked(null); setScore(0); setFinished(false); }}>{t("quiz.tryagain", "Try again")}</Button>
+      <div className="mt-6 space-y-4">
+        <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+          <h2 className="text-2xl">{t("quiz.got", "You got")} {score} {t("course.of", "of")} {questions.length} {t("quiz.right", "right")}</h2>
+          <p className="mt-2 text-muted-foreground">{score === questions.length ? t("quiz.perfect", "Well done! You know this well.") : t("quiz.tryagainMsg", "Good effort. Look at the answers below, then read the lesson again and try once more.")}</p>
+          <Button className="mt-4" variant="outline" onClick={restart}>{t("quiz.tryagain", "Try again")}</Button>
+        </div>
+
+        <h3 className="px-1 text-sm font-semibold uppercase tracking-wide text-muted-foreground">{t("quiz.review", "Review your answers")}</h3>
+        {questions.map((q, k) => {
+          const yours = answers[k];
+          const right = yours === q.correct_index;
+          return (
+            <div key={q.id} className={cn("rounded-2xl border bg-card p-6 shadow-sm", right ? "border-success/40" : "border-destructive/40")}>
+              <p className="text-sm text-muted-foreground">{t("quiz.question", "Question")} {k + 1}</p>
+              <h4 className="mt-1 text-lg font-semibold">{q.question}</h4>
+              <div className="mt-3 grid gap-2">
+                {q.options.map((o, j) => {
+                  const isCorrect = j === q.correct_index;
+                  const isYours = j === yours;
+                  return (
+                    <div
+                      key={j}
+                      className={cn(
+                        "flex min-h-11 items-center justify-between rounded-xl border px-4 py-2.5 text-left font-medium",
+                        isCorrect && "border-success bg-primary-soft",
+                        isYours && !isCorrect && "border-destructive",
+                        !isCorrect && !isYours && "border-border opacity-60",
+                      )}
+                    >
+                      <span>
+                        {o}
+                        {isYours && <span className="ml-2 text-xs font-normal text-muted-foreground">({t("quiz.youranswer", "your answer")})</span>}
+                      </span>
+                      {isCorrect && <CheckCircle2 className="size-5 shrink-0 text-success" aria-label="Correct answer" />}
+                      {isYours && !isCorrect && <XCircle className="size-5 shrink-0 text-destructive" aria-label="Your answer, not correct" />}
+                    </div>
+                  );
+                })}
+              </div>
+              <div className="mt-3 rounded-xl bg-secondary p-4">
+                <p className="font-semibold">{right ? t("quiz.correct", "Correct!") : t("quiz.wrong", "Not quite.")}</p>
+                <p className="mt-1 text-sm">{q.explanation}</p>
+              </div>
+            </div>
+          );
+        })}
       </div>
     );
+  }
+
   const q = questions[i]!;
-  const answered = picked !== null;
   return (
     <div className="mt-6 rounded-2xl border border-border bg-card p-6 shadow-sm">
       <p className="text-sm text-muted-foreground">{t("quiz.question", "Question")} {i + 1} {t("course.of", "of")} {questions.length}</p>
       <h2 className="mt-2 text-xl">{q.question}</h2>
       <div className="mt-4 grid gap-2" role="radiogroup" aria-label="Answers">
-        {q.options.map((o, j) => {
-          const correct = j === q.correct_index;
-          return (
-            <button
-              key={j}
-              role="radio"
-              aria-checked={picked === j}
-              disabled={answered}
-              onClick={() => { setPicked(j); if (correct) setScore((s) => s + 1); }}
-              className={cn(
-                "flex min-h-12 items-center justify-between rounded-xl border px-4 py-3 text-left font-medium transition-colors",
-                !answered && "border-border hover:border-primary",
-                answered && correct && "border-success bg-primary-soft",
-                answered && picked === j && !correct && "border-destructive",
-                answered && picked !== j && !correct && "border-border opacity-60",
-              )}
-            >
-              {o}
-              {answered && correct && <CheckCircle2 className="size-5 text-success" aria-label="Correct answer" />}
-              {answered && picked === j && !correct && <XCircle className="size-5 text-destructive" aria-label="Your answer, not correct" />}
-            </button>
-          );
-        })}
+        {q.options.map((o, j) => (
+          <button
+            key={j}
+            role="radio"
+            aria-checked={picked === j}
+            onClick={() => setPicked(j)}
+            className={cn(
+              "flex min-h-12 items-center rounded-xl border px-4 py-3 text-left font-medium transition-colors",
+              picked === j ? "border-primary bg-primary-soft" : "border-border hover:border-primary",
+            )}
+          >
+            {o}
+          </button>
+        ))}
       </div>
-      {answered && (
-        <div aria-live="polite" className="mt-4 rounded-xl bg-secondary p-4">
-          <p className="font-semibold">{picked === q.correct_index ? t("quiz.correct", "Correct!") : t("quiz.wrong", "Not quite.")}</p>
-          <p className="mt-1 text-sm">{q.explanation}</p>
-          <Button className="mt-3" onClick={() => {
-            if (i + 1 < questions.length) { setI(i + 1); setPicked(null); }
-            else { setFinished(true); onFinish(); }
-          }}>{i + 1 < questions.length ? t("quiz.nextq", "Next question") : t("quiz.result", "See my result")}</Button>
-        </div>
-      )}
+      <Button
+        className="mt-4"
+        disabled={picked === null}
+        onClick={() => {
+          const next = [...answers, picked!];
+          setAnswers(next);
+          if (i + 1 < questions.length) { setI(i + 1); setPicked(null); }
+          else { setFinished(true); onFinish(); }
+        }}
+      >
+        {i + 1 < questions.length ? t("quiz.nextq", "Next question") : t("quiz.result", "See my result")}
+      </Button>
     </div>
   );
 }

@@ -4,11 +4,12 @@ import { CheckCircle2, Circle, ChevronRight, Clock, BookOpen, HelpCircle, Hand, 
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { SiteLayout, ContentImage, ErrorNote, EmptyState, Icon, CourseCard } from "@/components/site";
+import { ContentImage, ErrorNote, EmptyState, Icon, CourseCard } from "@/components/site";
 import { difficultyLabel, useCourse, useMyProgress, usePublishedCourses, type Lesson } from "@/lib/content";
 import { useAuth } from "@/lib/auth";
 import { useI18n } from "@/lib/i18n";
 import { seo, JsonLd, canonical } from "@/lib/seo";
+import { AdaptiveLayout as SiteLayout } from "@/components/app-shell";
 import { downloadPack, removePack, isDownloaded, offlineSupported } from "@/lib/offline";
 
 export const Route = createFileRoute("/courses/$slug")({

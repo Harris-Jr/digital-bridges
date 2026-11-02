@@ -69,7 +69,7 @@ export type Course = {
   sort_order: number;
   categories?: Category | null;
   pathway?: { slug: string; title: string } | null;
-  lessons?: { id: string; is_published?: boolean }[];
+  lessons?: { id: string; slug?: string; is_published?: boolean }[];
 };
 
 export const usePathways = () => {
@@ -93,7 +93,19 @@ export type Lesson = {
   is_published: boolean;
 };
 
-export type Certificate = { id: string; course_slug: string; course_title: string; issued_at: string };
+export type Certificate = { id: string; course_slug: string; course_title: string; issued_at: string; is_public: boolean };
+
+export type MyBadge = {
+  id: string; slug: string; name: string; description: string; icon_name: string;
+  earned: boolean; earned_at: string | null; share_id: string | null; is_public: boolean;
+};
+
+export const useMyBadges = (userId: string | undefined) =>
+  useQuery({
+    queryKey: ["my-badges", userId],
+    enabled: !!userId,
+    queryFn: () => apiGet<MyBadge[]>("/me/badges"),
+  });
 
 export const useMyCertificates = (userId: string | undefined) =>
   useQuery({
@@ -224,4 +236,31 @@ export function computeStreak(dates: string[]) {
     cur.setDate(cur.getDate() - 1);
   }
   return streak;
+}
+
+/** Percentage of a course's published lessons the learner has finished. */
+export function coursePct(c: Course, done: Set<string>): number {
+  const n = c.lessons?.length ?? 0;
+  return n ? Math.round(((c.lessons?.filter((l) => done.has(l.id)).length ?? 0) / n) * 100) : 0;
+}
+
+/** "Continue where you left off": the unfinished course the learner touched most
+    recently, and the first lesson in it they have not done. Falls back to the
+    first course they have not started. */
+export function pickContinue<C extends Course>(courses: C[], progress: { lesson_id: string; completed_at: string }[]) {
+  const done = new Set(progress.map((p) => p.lesson_id));
+  const lastTouched = new Map<string, number>();
+  for (const p of progress) {
+    const c = courses.find((x) => x.lessons?.some((l) => l.id === p.lesson_id));
+    if (!c) continue;
+    const ts = new Date(p.completed_at).getTime();
+    if (ts > (lastTouched.get(c.id) ?? 0)) lastTouched.set(c.id, ts);
+  }
+  const inProgress = courses
+    .filter((c) => { const pct = coursePct(c, done); return pct > 0 && pct < 100; })
+    .sort((a, b) => (lastTouched.get(b.id) ?? 0) - (lastTouched.get(a.id) ?? 0));
+  const course = inProgress[0] ?? courses.find((c) => coursePct(c, done) === 0);
+  if (!course) return null;
+  const nextLesson = course.lessons?.find((l) => !done.has(l.id));
+  return { course, started: !!inProgress[0], pct: coursePct(course, done), lessonSlug: nextLesson?.slug ?? null };
 }

@@ -1,6 +1,8 @@
 import { createFileRoute, Link, redirect } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { ArrowLeft, Printer, Loader2, Award } from "lucide-react";
+import { useState } from "react";
+import { ArrowLeft, Printer, Loader2, Award, Share2 } from "lucide-react";
+import { ShareDialog } from "@/components/share";
 import { Button } from "@/components/ui/button";
 import { apiGet, getToken } from "@/lib/api";
 import { useI18n } from "@/lib/i18n";
@@ -13,13 +15,14 @@ export const Route = createFileRoute("/certificates/$slug")({
   component: CertificatePage,
 });
 
-type Cert = { learner_name: string; course_title: string; issued_at: string; serial: string };
+type Cert = { id: string; is_public: boolean; learner_name: string; course_title: string; issued_at: string; serial: string };
 
 function CertificatePage() {
   const { slug } = Route.useParams();
   const { t } = useI18n();
   const logo = useSetting<string>("brand_logo_url");
   const q = useQuery({ queryKey: ["certificate", slug], queryFn: () => apiGet<Cert>(`/me/certificates/${slug}`) });
+  const [share, setShare] = useState(false);
 
   if (q.isLoading) return <div className="grid min-h-screen place-items-center"><Loader2 className="size-6 animate-spin text-muted-foreground" /></div>;
   if (q.isError || !q.data)
@@ -40,8 +43,13 @@ function CertificatePage() {
     <div className="min-h-screen bg-muted/40 px-4 py-8 print:bg-white print:p-0">
       <div className="mx-auto mb-5 flex max-w-3xl items-center justify-between print:hidden">
         <Button asChild variant="ghost" size="sm"><Link to="/dashboard"><ArrowLeft />{t("cert.back", "Back to my learning")}</Link></Button>
-        <Button size="sm" onClick={() => window.print()}><Printer className="size-4" />{t("cert.print", "Print / Save as PDF")}</Button>
+        <div className="flex gap-2">
+          <Button size="sm" variant="outline" onClick={() => setShare(true)}><Share2 className="size-4" />{t("share.native", "Share")}</Button>
+          <Button size="sm" onClick={() => window.print()}><Printer className="size-4" />{t("cert.print", "Print / Save as PDF")}</Button>
+        </div>
       </div>
+      <ShareDialog open={share} onOpenChange={setShare}
+        item={{ kind: "certificate", key: slug, title: c.course_title, learnerName: c.learner_name, issuedAt: c.issued_at, isPublic: c.is_public, publicId: c.id }} />
 
       <div className="mx-auto max-w-3xl rounded-2xl bg-card p-2 shadow-lg print:max-w-none print:rounded-none print:shadow-none">
         <div className="rounded-xl border-[3px] border-primary/70 p-8 text-center sm:p-14">

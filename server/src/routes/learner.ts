@@ -140,7 +140,7 @@ learnerRouter.get(
   "/certificates",
   asyncHandler(async (req, res) => {
     const { rows } = await query(
-      `select ct.id, ct.issued_at, c.slug as course_slug, c.title as course_title
+      `select ct.id, ct.issued_at, ct.is_public, c.slug as course_slug, c.title as course_title
          from certificates ct join courses c on c.id = ct.course_id
         where ct.user_id = $1 order by ct.issued_at desc`,
       [req.auth!.id],
@@ -153,8 +153,8 @@ learnerRouter.get(
 learnerRouter.get(
   "/certificates/:slug",
   asyncHandler(async (req, res) => {
-    const { rows } = await query<{ id: string; issued_at: string; course_title: string; full_name: string }>(
-      `select ct.id, ct.issued_at, c.title as course_title, coalesce(p.full_name, '') as full_name
+    const { rows } = await query<{ id: string; issued_at: string; is_public: boolean; course_title: string; full_name: string }>(
+      `select ct.id, ct.issued_at, ct.is_public, c.title as course_title, coalesce(p.full_name, '') as full_name
          from certificates ct
          join courses c on c.id = ct.course_id
          left join profiles p on p.id = ct.user_id
@@ -164,11 +164,50 @@ learnerRouter.get(
     const row = rows[0];
     if (!row) throw notFound("Certificate not found");
     res.json({
+      id: row.id,
+      is_public: row.is_public,
       learner_name: row.full_name || "Learner",
       course_title: row.course_title,
       issued_at: row.issued_at,
       serial: `DB-${row.id.slice(0, 8).toUpperCase()}`,
     });
+  }),
+);
+
+// Turn public sharing of a certificate on or off. Off by default: nothing about
+// a learner is visible publicly until they choose to share it.
+learnerRouter.post(
+  "/certificates/:slug/share",
+  asyncHandler(async (req, res) => {
+    const input = z.object({ public: z.boolean() }).safeParse(req.body);
+    if (!input.success) throw badRequest("Choose whether to share.");
+    const { rows } = await query<{ id: string; is_public: boolean }>(
+      `update certificates ct set is_public = $3
+         from courses c
+        where c.id = ct.course_id and ct.user_id = $1 and c.slug = $2
+        returning ct.id, ct.is_public`,
+      [req.auth!.id, req.params.slug, input.data.public],
+    );
+    if (!rows[0]) throw notFound("Certificate not found");
+    res.json(rows[0]);
+  }),
+);
+
+// Turn public sharing of an earned badge on or off.
+learnerRouter.post(
+  "/badges/:badgeId/share",
+  asyncHandler(async (req, res) => {
+    const input = z.object({ public: z.boolean() }).safeParse(req.body);
+    const id = z.string().uuid().safeParse(req.params.badgeId);
+    if (!input.success || !id.success) throw badRequest("Choose whether to share.");
+    const { rows } = await query<{ share_id: string; is_public: boolean }>(
+      `update user_badges set is_public = $3
+        where user_id = $1 and badge_id = $2
+        returning share_id, is_public`,
+      [req.auth!.id, id.data, input.data.public],
+    );
+    if (!rows[0]) throw notFound("You have not earned this badge yet.");
+    res.json(rows[0]);
   }),
 );
 
@@ -235,7 +274,8 @@ learnerRouter.get(
   "/badges",
   asyncHandler(async (req, res) => {
     const { rows } = await query(
-      `select b.*, (ub.user_id is not null) as earned
+      `select b.*, (ub.user_id is not null) as earned,
+              ub.earned_at, ub.share_id, coalesce(ub.is_public, false) as is_public
          from badges b
          left join user_badges ub on ub.badge_id = b.id and ub.user_id = $1
         order by b.name`,

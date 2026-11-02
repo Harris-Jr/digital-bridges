@@ -44,6 +44,7 @@ import { Route as PathsSlugRouteImport } from './routes/paths.$slug'
 import { Route as AuthenticatedCohortsIdRouteImport } from './routes/_authenticated/cohorts.$id'
 import { Route as AdminCoursesIndexRouteImport } from './routes/admin/courses.index'
 import { Route as LearnCourseSlugLessonSlugRouteImport } from './routes/learn.$courseSlug.$lessonSlug'
+import { Route as VerifyKindIdRouteImport } from './routes/verify.$kind.$id'
 import { Route as AdminCoursesCourseIdLessonsRouteImport } from './routes/admin/courses.$courseId.lessons'
 import { Route as AdminLessonsLessonIdQuizRouteImport } from './routes/admin/lessons.$lessonId.quiz'
 import { Route as AdminLessonsLessonIdScenarioRouteImport } from './routes/admin/lessons.$lessonId.scenario'
@@ -223,6 +224,11 @@ const LearnCourseSlugLessonSlugRoute =
     path: '/learn/$courseSlug/$lessonSlug',
     getParentRoute: () => rootRouteImport,
   } as any)
+const VerifyKindIdRoute = VerifyKindIdRouteImport.update({
+  id: '/verify/$kind/$id',
+  path: '/verify/$kind/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminCoursesCourseIdLessonsRoute =
   AdminCoursesCourseIdLessonsRouteImport.update({
     id: '/courses/$courseId/lessons',
@@ -276,6 +282,7 @@ export interface FileRoutesByFullPath {
   '/courses/': typeof CoursesIndexRoute
   '/cohorts/$id': typeof AuthenticatedCohortsIdRoute
   '/learn/$courseSlug/$lessonSlug': typeof LearnCourseSlugLessonSlugRoute
+  '/verify/$kind/$id': typeof VerifyKindIdRoute
   '/admin/courses/': typeof AdminCoursesIndexRoute
   '/admin/courses/$courseId/lessons': typeof AdminCoursesCourseIdLessonsRoute
   '/admin/lessons/$lessonId/quiz': typeof AdminLessonsLessonIdQuizRoute
@@ -314,6 +321,7 @@ export interface FileRoutesByTo {
   '/courses': typeof CoursesIndexRoute
   '/cohorts/$id': typeof AuthenticatedCohortsIdRoute
   '/learn/$courseSlug/$lessonSlug': typeof LearnCourseSlugLessonSlugRoute
+  '/verify/$kind/$id': typeof VerifyKindIdRoute
   '/admin/courses': typeof AdminCoursesIndexRoute
   '/admin/courses/$courseId/lessons': typeof AdminCoursesCourseIdLessonsRoute
   '/admin/lessons/$lessonId/quiz': typeof AdminLessonsLessonIdQuizRoute
@@ -355,6 +363,7 @@ export interface FileRoutesById {
   '/courses/': typeof CoursesIndexRoute
   '/_authenticated/cohorts/$id': typeof AuthenticatedCohortsIdRoute
   '/learn/$courseSlug/$lessonSlug': typeof LearnCourseSlugLessonSlugRoute
+  '/verify/$kind/$id': typeof VerifyKindIdRoute
   '/admin/courses/': typeof AdminCoursesIndexRoute
   '/admin/courses/$courseId/lessons': typeof AdminCoursesCourseIdLessonsRoute
   '/admin/lessons/$lessonId/quiz': typeof AdminLessonsLessonIdQuizRoute
@@ -396,6 +405,7 @@ export interface FileRouteTypes {
     | '/courses/'
     | '/cohorts/$id'
     | '/learn/$courseSlug/$lessonSlug'
+    | '/verify/$kind/$id'
     | '/admin/courses/'
     | '/admin/courses/$courseId/lessons'
     | '/admin/lessons/$lessonId/quiz'
@@ -434,6 +444,7 @@ export interface FileRouteTypes {
     | '/courses'
     | '/cohorts/$id'
     | '/learn/$courseSlug/$lessonSlug'
+    | '/verify/$kind/$id'
     | '/admin/courses'
     | '/admin/courses/$courseId/lessons'
     | '/admin/lessons/$lessonId/quiz'
@@ -474,6 +485,7 @@ export interface FileRouteTypes {
     | '/courses/'
     | '/_authenticated/cohorts/$id'
     | '/learn/$courseSlug/$lessonSlug'
+    | '/verify/$kind/$id'
     | '/admin/courses/'
     | '/admin/courses/$courseId/lessons'
     | '/admin/lessons/$lessonId/quiz'
@@ -502,6 +514,7 @@ export interface RootRouteChildren {
   PathsSlugRoute: typeof PathsSlugRoute
   CoursesIndexRoute: typeof CoursesIndexRoute
   LearnCourseSlugLessonSlugRoute: typeof LearnCourseSlugLessonSlugRoute
+  VerifyKindIdRoute: typeof VerifyKindIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -751,6 +764,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LearnCourseSlugLessonSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/verify/$kind/$id': {
+      id: '/verify/$kind/$id'
+      path: '/verify/$kind/$id'
+      fullPath: '/verify/$kind/$id'
+      preLoaderRoute: typeof VerifyKindIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/courses/$courseId/lessons': {
       id: '/admin/courses/$courseId/lessons'
       path: '/courses/$courseId/lessons'
@@ -850,6 +870,7 @@ const rootRouteChildren: RootRouteChildren = {
   PathsSlugRoute: PathsSlugRoute,
   CoursesIndexRoute: CoursesIndexRoute,
   LearnCourseSlugLessonSlugRoute: LearnCourseSlugLessonSlugRoute,
+  VerifyKindIdRoute: VerifyKindIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

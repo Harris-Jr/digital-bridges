@@ -1,7 +1,8 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { ArrowLeft, ArrowRight, CheckCircle2, Lightbulb, Hand, X, XCircle, Volume2, Compass, ThumbsUp, Play } from "lucide-react";
+import { ArrowLeft, ArrowRight, CheckCircle2, Circle, Lightbulb, Hand, X, XCircle, Volume2, Compass, ThumbsUp, Play, ListOrdered, PanelLeftClose, BookOpen, HelpCircle } from "lucide-react";
+import { useCollapsed } from "@/components/app-shell";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -38,6 +39,9 @@ function LessonPlayer() {
   const lesson = idx >= 0 ? lessons[idx] : undefined;
   const isDone = !!lesson && !!progress.data?.some((p) => p.lesson_id === lesson.id);
   const [tab, setTab] = useState<"lesson" | "quiz">("lesson");
+  const [outlineOpen, setOutlineOpen] = useState(false);
+  const [outlineHidden, toggleOutline] = useCollapsed("cw_outline_hidden");
+  useEffect(() => setOutlineOpen(false), [lessonSlug]);
   useEffect(() => setTab(lesson?.type === "quiz" ? "quiz" : "lesson"), [lesson?.id, lesson?.type]);
 
   const quiz = useQuiz(lesson?.id);
@@ -97,11 +101,43 @@ function LessonPlayer() {
     else navigate({ to: "/courses/$slug", params: { slug: courseSlug } });
   };
 
+  const doneIds = new Set(progress.data?.map((p) => p.lesson_id));
+  const doneCount = lessons.filter((l) => doneIds.has(l.id)).length;
+  const outline = (
+    <CourseOutline courseTitle={course.data.title} courseSlug={courseSlug} lessons={lessons} current={lesson.id} done={doneIds} doneCount={doneCount} />
+  );
+
   return (
     <div className="min-h-screen bg-background">
+      {/* Course outline: always visible on large screens (collapsible), a drawer on phones. */}
+      {!outlineHidden && (
+        <aside aria-label={t("lesson.outline", "Course outline")} className="fixed bottom-0 left-0 top-0 z-40 hidden w-72 flex-col border-r border-border bg-card lg:flex">
+          <div className="flex h-14 items-center justify-between border-b border-border px-4">
+            <span className="text-sm font-semibold">{t("lesson.outline", "Course outline")}</span>
+            <button onClick={toggleOutline} aria-label={t("lesson.hideOutline", "Hide outline")} className="grid size-9 place-items-center rounded-lg text-muted-foreground hover:bg-secondary"><PanelLeftClose className="size-5" /></button>
+          </div>
+          {outline}
+        </aside>
+      )}
+      {outlineOpen && (
+        <div className="fixed inset-0 z-50 lg:hidden" role="dialog" aria-modal="true" aria-label={t("lesson.outline", "Course outline")}>
+          <div className="absolute inset-0 bg-black/40" onClick={() => setOutlineOpen(false)} />
+          <div className="absolute inset-y-0 left-0 flex w-80 max-w-[88%] flex-col bg-card shadow-xl">
+            <div className="flex h-14 items-center justify-between border-b border-border px-4">
+              <span className="text-sm font-semibold">{t("lesson.outline", "Course outline")}</span>
+              <button onClick={() => setOutlineOpen(false)} aria-label="Close" className="grid size-9 place-items-center rounded-full hover:bg-secondary"><X className="size-5" /></button>
+            </div>
+            {outline}
+          </div>
+        </div>
+      )}
+
+      <div className={cn(!outlineHidden && "lg:pl-72")}>
       <header className="sticky top-0 z-30 border-b border-border bg-background">
         <div className="container-page flex h-14 max-w-3xl items-center gap-3">
           <Button asChild variant="ghost" size="icon" aria-label="Close lesson"><Link to="/courses/$slug" params={{ slug: courseSlug }}><X /></Link></Button>
+          <Button variant="ghost" size="icon" aria-label={t("lesson.outline", "Course outline")} onClick={() => (window.matchMedia("(min-width: 1024px)").matches ? toggleOutline() : setOutlineOpen(true))}
+            className={cn(!outlineHidden && "lg:hidden")}><ListOrdered /></Button>
           <div className="flex-1">
             <div className="h-2 rounded-full bg-secondary" role="progressbar" aria-valuenow={pct} aria-valuemin={0} aria-valuemax={100} aria-label="Course progress">
               <div className="h-2 rounded-full bg-primary transition-all" style={{ width: `${pct}%` }} />
@@ -170,7 +206,7 @@ function LessonPlayer() {
         )}
       </main>
 
-      <nav aria-label="Lesson navigation" className="fixed inset-x-0 bottom-0 z-30 border-t border-border bg-background">
+      <nav aria-label="Lesson navigation" className={cn("fixed bottom-0 right-0 z-30 border-t border-border bg-background", outlineHidden ? "left-0" : "left-0 lg:left-72")}>
         <div className="container-page flex max-w-3xl items-center justify-between gap-2 py-3">
           {prev ? (
             <Button asChild variant="outline"><Link to="/learn/$courseSlug/$lessonSlug" params={{ courseSlug, lessonSlug: prev.slug }}><ArrowLeft />{t("lesson.prev", "Back")}</Link></Button>
@@ -183,6 +219,7 @@ function LessonPlayer() {
           </div>
         </div>
       </nav>
+      </div>
     </div>
   );
 }
@@ -402,5 +439,45 @@ function LessonVideo({ url }: { url: string }) {
         {t("lesson.watchData", "Tap to play (uses data)")}
       </span>
     </button>
+  );
+}
+
+const outlineIcon = { read: BookOpen, quiz: HelpCircle, practice: Hand, scenario: Compass } as const;
+
+function CourseOutline({ courseTitle, courseSlug, lessons, current, done, doneCount }: {
+  courseTitle: string; courseSlug: string; lessons: { id: string; slug: string; title: string; type: string }[];
+  current: string; done: Set<string>; doneCount: number;
+}) {
+  const { t } = useI18n();
+  const pct = lessons.length ? Math.round((doneCount / lessons.length) * 100) : 0;
+  return (
+    <div className="flex min-h-0 flex-1 flex-col">
+      <div className="border-b border-border p-4">
+        <Link to="/courses/$slug" params={{ slug: courseSlug }} className="font-display font-bold leading-snug hover:text-primary">{courseTitle}</Link>
+        <div className="mt-3 flex items-center gap-2">
+          <div className="h-1.5 flex-1 rounded-full bg-secondary"><div className="h-1.5 rounded-full bg-success" style={{ width: `${pct}%` }} /></div>
+          <span className="text-xs font-semibold text-muted-foreground">{doneCount}/{lessons.length}</span>
+        </div>
+      </div>
+      <ol className="flex-1 overflow-y-auto p-2">
+        {lessons.map((l, i) => {
+          const isCurrent = l.id === current;
+          const isDone = done.has(l.id);
+          const T = outlineIcon[l.type as keyof typeof outlineIcon] ?? BookOpen;
+          return (
+            <li key={l.id}>
+              <Link to="/learn/$courseSlug/$lessonSlug" params={{ courseSlug, lessonSlug: l.slug }} aria-current={isCurrent ? "page" : undefined}
+                className={cn("flex min-h-12 items-start gap-3 rounded-lg px-3 py-2.5 text-sm transition-colors", isCurrent ? "bg-primary-soft font-semibold text-primary" : "hover:bg-secondary")}>
+                {isDone
+                  ? <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-success" aria-label={t("lesson.done", "Done")} />
+                  : <Circle className={cn("mt-0.5 size-4 shrink-0", isCurrent ? "text-primary" : "text-muted-foreground")} aria-label="Not done" />}
+                <span className="flex-1"><span className="text-muted-foreground">{i + 1}. </span>{l.title}</span>
+                <T className="mt-0.5 size-4 shrink-0 text-muted-foreground" aria-hidden="true" />
+              </Link>
+            </li>
+          );
+        })}
+      </ol>
+    </div>
   );
 }

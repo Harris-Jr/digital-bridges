@@ -1,7 +1,8 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { GraduationCap, BookOpen, Users, Settings, ShieldCheck, LogOut, Menu, X, Loader2, PanelLeftClose, PanelLeftOpen } from "lucide-react";
-import { Logo } from "@/components/site";
+import { Logo, SiteLayout } from "@/components/site";
+import { getToken } from "@/lib/api";
 import { AssistantWidget } from "@/components/assistant-widget";
 import { OfflineBar } from "@/components/offline-sync";
 import { useAuth } from "@/lib/auth";
@@ -174,4 +175,12 @@ function SidebarInner({ onNavigate, collapsed = false, onToggle }: { onNavigate?
       )}
     </div>
   );
+}
+
+/** Public pages that also live inside the app when signed in (course pages):
+    the app shell for a signed-in learner, the public site layout otherwise. */
+export function AdaptiveLayout({ children }: { children: ReactNode }) {
+  const { user, loading } = useAuth();
+  if (user || (loading && getToken())) return <AppShell>{children}</AppShell>;
+  return <SiteLayout>{children}</SiteLayout>;
 }

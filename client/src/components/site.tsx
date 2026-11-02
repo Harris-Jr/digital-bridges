@@ -715,9 +715,9 @@ export function ProgressRing({ value, size = 120 }: { value: number; size?: numb
   );
 }
 
-export function BadgeMedal({ icon, earned, label }: { icon: string; earned: boolean; label: string }) {
-  return (
-    <div className="flex w-24 flex-col items-center gap-2 text-center">
+export function BadgeMedal({ icon, earned, label, onClick }: { icon: string; earned: boolean; label: string; onClick?: () => void }) {
+  const inner = (
+    <>
       <svg viewBox="0 0 64 64" className={cn("size-16", !earned && "opacity-30 grayscale")} aria-hidden="true">
         <polygon points="32,2 58,17 58,47 32,62 6,47 6,17" className={earned ? "fill-accent" : "fill-secondary"} />
         <polygon points="32,10 51,21 51,43 32,54 13,43 13,21" className="fill-primary" />
@@ -725,8 +725,18 @@ export function BadgeMedal({ icon, earned, label }: { icon: string; earned: bool
       <Icon name={icon} className={cn("-mt-[3.25rem] mb-6 size-6", earned ? "text-accent" : "text-muted-foreground")} />
       <span className="text-xs font-semibold">{label}</span>
       <span className="sr-only">{earned ? "Earned" : "Not earned yet"}</span>
-    </div>
+    </>
   );
+  if (onClick && earned) {
+    return (
+      <button type="button" onClick={onClick} title={`Share ${label}`}
+        className="group flex w-24 flex-col items-center gap-2 rounded-xl p-1 text-center transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary">
+        {inner}
+        <span className="-mt-1 text-[11px] font-semibold text-primary opacity-80 group-hover:opacity-100">Share</span>
+      </button>
+    );
+  }
+  return <div className="flex w-24 flex-col items-center gap-2 text-center">{inner}</div>;
 }
 
 export function PageHero({ eyebrow, title, sub }: { eyebrow?: string | undefined; title: string; sub?: string | undefined }) {

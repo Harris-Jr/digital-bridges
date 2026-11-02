@@ -86,7 +86,7 @@ contentRouter.get(
               to_jsonb(cat.*) as category,
               jsonb_build_object('slug', p.slug, 'title', p.title) as pathway,
               coalesce(
-                (select jsonb_agg(jsonb_build_object('id', l.id, 'is_published', l.is_published) order by l.sort_order)
+                (select jsonb_agg(jsonb_build_object('id', l.id, 'slug', l.slug, 'is_published', l.is_published) order by l.sort_order)
                    from lessons l where l.course_id = c.id and l.is_published = true),
                 '[]'::jsonb) as lessons
          from courses c

@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Flame, BookOpenCheck, ArrowRight, Award, Users, MapPin } from "lucide-react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Flame, BookOpenCheck, ArrowRight, Award, Users, MapPin, Share2 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,8 +9,9 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { ProgressRing, BadgeMedal, CourseCard, EmptyState, ContentImage } from "@/components/site";
 import { useAuth } from "@/lib/auth";
 import { useI18n } from "@/lib/i18n";
-import { computeStreak, useMyProgress, usePublishedCourses, useMyCertificates, useMyLearnerCohorts } from "@/lib/content";
-import { apiGet, apiPost } from "@/lib/api";
+import { computeStreak, coursePct, pickContinue, useMyBadges, useMyProgress, usePublishedCourses, useMyCertificates, useMyLearnerCohorts } from "@/lib/content";
+import { ShareDialog, type Shareable } from "@/components/share";
+import { apiPost } from "@/lib/api";
 
 export const Route = createFileRoute("/_authenticated/dashboard")({
   head: () => ({
@@ -38,12 +39,9 @@ function Dashboard() {
     onSuccess: (r) => { toast.success(`You joined ${r.name}.`); setJoinCode(""); qc.invalidateQueries({ queryKey: ["my-cohorts"] }); },
     onError: (e: Error) => toast.error(e.message || "That code did not match a cohort."),
   });
-  const badges = useQuery({
-    queryKey: ["my-badges", user?.id],
-    enabled: !!user?.id,
-    queryFn: () =>
-      apiGet<{ id: string; name: string; icon_name: string; earned: boolean }[]>("/me/badges"),
-  });
+  const badges = useMyBadges(user?.id);
+  const [sharing, setSharing] = useState<Shareable | null>(null);
+  const learnerName = profile?.full_name?.trim() || "Civic Wise learner";
 
   if (courses.isLoading || progress.isLoading)
     return <><div className="container-page space-y-4 py-12"><Skeleton className="h-10 w-1/3" /><Skeleton className="h-40 w-full rounded-2xl" /></div></>;
@@ -54,13 +52,11 @@ function Dashboard() {
   const doneCount = list.reduce((n, c) => n + (c.lessons?.filter((l) => done.has(l.id)).length ?? 0), 0);
   const pct = totalLessons ? Math.round((doneCount / totalLessons) * 100) : 0;
   const streak = computeStreak((progress.data ?? []).map((p) => p.completed_at));
-  const pctOf = (c: (typeof list)[number]) => {
-    const n = c.lessons?.length ?? 0;
-    return n ? Math.round(((c.lessons?.filter((l) => done.has(l.id)).length ?? 0) / n) * 100) : 0;
-  };
-  const inProgress = list.find((c) => pctOf(c) > 0 && pctOf(c) < 100);
+  const pctOf = (c: (typeof list)[number]) => coursePct(c, done);
   const notStarted = list.filter((c) => pctOf(c) === 0);
-  const continueCourse = inProgress ?? notStarted[0];
+  const cont = pickContinue(list, progress.data ?? []);
+  const continueCourse = cont?.course;
+  const inProgress = cont?.started;
   const firstName = profile?.full_name?.split(" ")[0];
 
   return (
@@ -94,7 +90,11 @@ function Dashboard() {
               <h2 className="mt-1 text-2xl">{continueCourse.title}</h2>
               <p className="mt-1 text-muted-foreground">{continueCourse.tagline}</p>
               <div className="mt-3 h-2 max-w-sm rounded-full bg-secondary"><div className="h-2 rounded-full bg-success" style={{ width: `${pctOf(continueCourse)}%` }} /></div>
-              <Button asChild variant="accent" className="mt-4"><Link to="/courses/$slug" params={{ slug: continueCourse.slug }}>{inProgress ? "Continue" : "Start course"}<ArrowRight /></Link></Button>
+              <Button asChild variant="accent" className="mt-4">
+                {cont?.lessonSlug
+                  ? <Link to="/learn/$courseSlug/$lessonSlug" params={{ courseSlug: continueCourse.slug, lessonSlug: cont.lessonSlug }}>{inProgress ? t("cta.continue", "Continue learning") : t("course.start", "Start course")}<ArrowRight /></Link>
+                  : <Link to="/courses/$slug" params={{ slug: continueCourse.slug }}>{inProgress ? t("cta.continue", "Continue learning") : t("course.start", "Start course")}<ArrowRight /></Link>}
+              </Button>
             </div>
           </div>
         )}
@@ -103,7 +103,10 @@ function Dashboard() {
           <h2 className="text-2xl">{t("dash.badges", "Your badges")}</h2>
           {badges.data && badges.data.length > 0 ? (
             <div className="mt-4 flex flex-wrap gap-6 rounded-2xl border border-border bg-card p-6 shadow-sm">
-              {badges.data.map((b) => <BadgeMedal key={b.id} icon={b.icon_name} earned={b.earned} label={b.name} />)}
+              {badges.data.map((b) => (
+                <BadgeMedal key={b.id} icon={b.icon_name} earned={b.earned} label={b.name}
+                  onClick={() => setSharing({ kind: "badge", key: b.id, title: b.name, learnerName, issuedAt: b.earned_at, isPublic: b.is_public, publicId: b.share_id })} />
+              ))}
             </div>
           ) : (
             <div className="mt-4"><EmptyState icon="Award" title="No badges yet" body="Finish your first lesson to earn the First Lesson badge." /></div>
@@ -120,7 +123,13 @@ function Dashboard() {
                     <p className="inline-flex items-center gap-1.5 text-xs font-semibold text-success"><Award className="size-4" />{t("dash.completedBadge", "Completed")}</p>
                     <p className="mt-1 truncate font-semibold">{cert.course_title}</p>
                   </div>
-                  <Button asChild variant="outline" size="sm"><Link to="/certificates/$slug" params={{ slug: cert.course_slug }}>{t("dash.view", "View")}</Link></Button>
+                  <div className="flex shrink-0 gap-1.5">
+                    <Button variant="ghost" size="icon" aria-label={t("share.title", "Share")}
+                      onClick={() => setSharing({ kind: "certificate", key: cert.course_slug, title: cert.course_title, learnerName, issuedAt: cert.issued_at, isPublic: cert.is_public, publicId: cert.id })}>
+                      <Share2 className="size-4" />
+                    </Button>
+                    <Button asChild variant="outline" size="sm"><Link to="/certificates/$slug" params={{ slug: cert.course_slug }}>{t("dash.view", "View")}</Link></Button>
+                  </div>
                 </div>
               ))}
             </div>
@@ -164,6 +173,7 @@ function Dashboard() {
           </div>
         )}
       </section>
+      <ShareDialog item={sharing} open={!!sharing} onOpenChange={(o) => !o && setSharing(null)} />
     </>
   );
 }

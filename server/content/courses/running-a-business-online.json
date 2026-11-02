@@ -1,105 +1,337 @@
 {
   "slug": "running-a-business-online",
   "title": "Running a Business Online",
-  "tagline": "Social media marketing and selling online.",
-  "description": "Whether you sell tomatoes, chitenge or phone repairs, learn to show your products online, talk to customers, and take payments safely.",
+  "tagline": "Reach more customers, sell safely and keep simple records.",
+  "description": "Whether you sell vegetables, tailor clothes or run a salon, your phone can bring you more customers. This course shows you how to set up a business profile, take good product photos, talk to customers, take payments safely and keep simple records that show if you are making a profit.",
   "pathway": "digital-skills",
   "category": "business",
   "icon_name": "Store",
   "difficulty": "intermediate",
-  "estimated_hours": 3,
+  "estimated_hours": 1.5,
   "pass_mark": 70,
-  "outcomes": [
-    "Set up a business profile",
-    "Take clear photos of your products",
-    "Write posts customers understand",
-    "Take mobile money payments safely",
-    "Keep simple records of sales"
-  ],
   "sort_order": 7,
   "published": true,
+  "outcomes": [
+    "Set up a WhatsApp Business profile and catalogue",
+    "Create a Facebook page for your business",
+    "Know the basics of registering a business in Zambia",
+    "Take clear product photos and write good posts",
+    "Take payments and deliver safely",
+    "Keep simple records and know your profit"
+  ],
   "modules": [
     {
-      "title": "Module 1",
-      "summary": "",
+      "title": "Getting set up",
+      "summary": "Your business profile, a Facebook page and registration basics.",
       "lessons": [
         {
           "slug": "business-profile",
-          "title": "Setting up a business profile",
+          "title": "Setting up a WhatsApp Business profile",
           "type": "read",
           "est_minutes": 5,
-          "body": "WhatsApp Business and a Facebook page let customers find you and see your products.\n\n## What to add\nYour business name, what you sell, where you are, opening hours and your phone number. Use a clear photo as your profile picture.",
+          "body": "**WhatsApp Business** is a free app made for small businesses. It looks like normal WhatsApp but adds tools that make you look professional and save time.\n\n## Getting started\n1. Install **WhatsApp Business** from the Play Store.\n2. Register with the number you want customers to use. Many owners use a separate SIM for business, so family chats stay apart.\n3. Enter your **business name** exactly as customers know it.\n\n## Fill in your profile\nTap the three dots, **Settings**, then **Business tools**, then **Business profile**:\n\n- **Category:** for example *Clothing store* or *Beauty salon*.\n- **Description:** one or two lines, like *Fresh vegetables from our farm. Delivery in Kabwe town.*\n- **Address** or area, and **opening hours**.\n- A clear **profile photo**: your logo, shop front or best product.\n\n## Time-saving tools\n- **Greeting message:** sent automatically to new customers. *\"Thank you for contacting Mama Bwalya Tailoring. How can we help?\"*\n- **Away message:** sent when you are closed.\n- **Quick replies:** save answers you type often, like prices or directions. Type / to use them.\n- **Labels:** mark chats as *New order*, *Paid*, *Delivered*.\n\n## Catalogue\nUnder **Catalogue**, add your products with a photo, price and short description. Customers can browse without asking you for every price.",
           "key_points": [
-            "Customers need your name, location and hours",
-            "Use a clear profile photo",
-            "Use WhatsApp Business for your shop"
+            "WhatsApp Business is free and made for small businesses",
+            "Fill in category, description, hours and photo",
+            "Use greeting messages, quick replies and a catalogue"
           ],
-          "try_it": "Write down the five details you would put on your business profile.",
-          "motif": "community",
-          "published": true
+          "try_it": "Install WhatsApp Business and write your business description.",
+          "motif": "community"
         },
+        {
+          "slug": "facebook-page",
+          "title": "Creating a Facebook page",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "A **Facebook page** is separate from your personal profile. It lets people find and follow your business without seeing your private life.\n\n## Creating the page\n1. In the Facebook app, tap the menu, then **Pages**, then **Create**.\n2. Enter your business name and choose a category.\n3. Add a short description with what you sell and where.\n4. Add a **profile picture** (logo or best product) and a **cover photo** (your shop, products or team).\n5. Add your phone number, WhatsApp and location.\n\n## Invite your first followers\nInvite your friends to like the page, and ask happy customers to follow it. Share the page link on your WhatsApp status.\n\n## What to post\n- New stock and prices.\n- Photos of your best work.\n- Customer reviews, with their permission.\n- Opening hours, holidays and special offers.\n\nPost regularly, two or three times a week, so people remember you. Posting at times when people are free, like lunchtime and evening, gets more views.\n\n## Messages and reviews\nReply to messages quickly and politely, even just to say you will get back to them. Answer questions in comments in public, so others see the answer too. If someone complains, reply calmly and offer to sort it out by message.\n\n## Marketplace\nFacebook **Marketplace** lets you list items for people nearby to see. It is useful for one-off items and second-hand goods.",
+          "key_points": [
+            "A page keeps business separate from your personal profile",
+            "Post two or three times a week",
+            "Reply to messages and comments quickly and politely"
+          ],
+          "try_it": "Write the description you would use for your business page.",
+          "motif": "community"
+        },
+        {
+          "slug": "registering-your-business",
+          "title": "Registering your business: the basics",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "You can sell without registering when you are very small. But registering makes your business official. It helps you open a business bank account, get contracts with bigger companies, apply for loans and grants, and protect your business name.\n\n## Business name registration\nIn Zambia, business names and companies are registered with **PACRA** (the Patents and Companies Registration Agency). A small business owned by one person is often registered as a **business name**.\n\nThe usual steps are:\n1. **Name clearance:** check that the name you want is available.\n2. **Registration:** fill in the form and pay the fee.\n\nYou can do this at a PACRA office or online through the government's **e-services portal** (eservices.gov.zm, linked from ZamPortal), where you fill in forms, pay and receive results.\n\n## Tax\nThe **Zambia Revenue Authority (ZRA)** handles tax. Businesses need a **TPIN** (Taxpayer Identification Number). Small businesses may be able to use simpler tax arrangements, such as turnover tax. Rules, rates and limits change, so ask ZRA directly or visit their official website for the current rules.\n\n## Local permits\nYour **local council** may require a trading licence or permit, depending on your business and where you trade. Ask at the council offices.\n\n## Get advice\nFees and rules change. Check the official PACRA, ZRA and council information, or ask a business support organisation or ICT hub to help you through it. Be careful of people online who offer to \"register you quickly\" for a fee, and only deal with official offices.",
+          "key_points": [
+            "PACRA registers business names and companies",
+            "ZRA issues the TPIN and explains tax rules",
+            "Check official sources, as fees and rules change"
+          ],
+          "try_it": "Think of a name for your business and check it is not already used by searching online.",
+          "motif": "community"
+        },
+        {
+          "slug": "getting-set-up-check",
+          "title": "Check: Getting set up",
+          "type": "quiz",
+          "est_minutes": 3,
+          "body": "A few short questions on this module. There is no time limit, and you can try again.",
+          "motif": "circle",
+          "quiz": [
+            {
+              "question": "Which free app is made for small businesses to chat with customers?",
+              "options": [
+                "WhatsApp Business",
+                "Calculator",
+                "Google Maps",
+                "Camera"
+              ],
+              "correct": 0,
+              "explanation": "WhatsApp Business adds a profile, catalogue and quick replies."
+            },
+            {
+              "question": "Why use a Facebook page instead of your personal profile?",
+              "options": [
+                "It keeps business separate from your private life",
+                "It is the only way to post photos",
+                "It hides your prices",
+                "It costs less data"
+              ],
+              "correct": 0,
+              "explanation": "A page lets customers follow your business, not your personal life."
+            },
+            {
+              "question": "In Zambia, which agency registers business names and companies?",
+              "options": [
+                "ZRA",
+                "PACRA",
+                "ZESCO",
+                "ECZ"
+              ],
+              "correct": 1,
+              "explanation": "PACRA handles business name and company registration."
+            },
+            {
+              "question": "Who should you ask about the current tax rules for your business?",
+              "options": [
+                "A stranger on Facebook",
+                "The Zambia Revenue Authority",
+                "Your customers",
+                "Nobody"
+              ],
+              "correct": 1,
+              "explanation": "ZRA gives the official, current tax rules."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Showing and selling",
+      "summary": "Photos, posts and talking to customers.",
+      "lessons": [
         {
           "slug": "product-photos",
           "title": "Taking good product photos",
           "type": "practice",
           "est_minutes": 5,
-          "body": "Good photos sell more. You do not need an expensive phone.\n\n## Tips\nTake photos in daylight near a window or outside. Use a plain background like a wall or cloth. Clean the camera lens with a soft cloth. Show the price clearly in your post.",
+          "body": "Customers decide in a second whether to look closer. A clear photo sells better than a long description.\n\n## Light\n- Use **daylight**. Stand near a window or work outside in the shade.\n- Avoid harsh midday sun, which makes dark shadows.\n- Turn off the flash. It makes products look flat and shiny.\n\n## Background\n- Use a **plain background**: a clean wall, a white sheet or a piece of chitenge with a simple pattern.\n- Remove clutter, like bags, cups and other items.\n\n## Showing the product\n- Fill most of the picture with the product.\n- Take several photos: the front, the back, a close-up of detail, and the product in use. A dress worn by a person, a cake on a plate.\n- Show the **size**. Put a common object next to it, or write the measurements.\n- Show the **real colour**. Do not use filters that change it, or customers will be disappointed.\n\n## Steady and sharp\n- Hold the phone with two hands, or rest it on something.\n- Tap the screen on the product to focus before you take the picture.\n- Clean the camera lens with a soft cloth. A dirty lens makes everything blurry.\n\n## Keep it honest\nOnly show photos of what you are really selling. Using pictures from the internet loses customers' trust when the real item looks different.",
           "key_points": [
-            "Use daylight",
-            "Plain background",
-            "Clean your lens"
+            "Daylight and a plain background",
+            "Take several angles and show the size",
+            "Tap to focus and clean your lens"
           ],
-          "try_it": "Take three photos of one product using these tips.",
-          "motif": "phone",
-          "published": true
+          "try_it": "Take three photos of one product using daylight and a plain background. Pick the best one.",
+          "motif": "community"
         },
+        {
+          "slug": "writing-good-posts",
+          "title": "Writing posts customers understand",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "A good post tells customers what you sell, what it costs and how to buy it, quickly and clearly.\n\n## The four things every post needs\n1. **What it is:** *Ladies' chitenge dresses, sizes 10 to 18.*\n2. **The price:** *K250 each.* Posts with prices get more serious enquiries.\n3. **Why it is good:** *Made to measure in 3 days. Strong stitching.*\n4. **How to buy:** *WhatsApp 097... or visit us at stand 12, Chisokone Market.*\n\n## Keep it short\nMost people read posts on small screens while busy. Use short sentences and put the most important thing first.\n\n## Use the right language\nWrite in the language your customers use. A mix of English and a local language is fine if that is how your customers speak.\n\n## Status updates\nYour **WhatsApp status** is seen by everyone who has saved your number. Post new stock, offers and finished work there every day or two. It is free advertising.\n\n## Honest offers\nIf you announce a discount, keep to it. Write when it ends: *Offer ends Saturday.* Do not make claims you cannot prove, like *best in Zambia*.\n\n## Hashtags and location\nOn Facebook and Instagram, adding your town and simple hashtags like #Kitwe or #ZambianFashion helps nearby people find you.\n\n## Ask happy customers\nA short message from a happy customer, shared with their permission, is more convincing than anything you write yourself.",
+          "key_points": [
+            "What it is, the price, why it is good, how to buy",
+            "Short sentences, most important first",
+            "Use your WhatsApp status as free advertising"
+          ],
+          "try_it": "Write one post for a product with all four parts.",
+          "motif": "community"
+        },
+        {
+          "slug": "talking-to-customers",
+          "title": "Talking to customers online",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "Good service online brings customers back and makes them recommend you.\n\n## Reply quickly\nCustomers often ask several sellers at once. The first good reply usually wins. If you are busy, send a quick reply: *\"Thank you! I will send the prices in 30 minutes.\"* Your WhatsApp Business **quick replies** help here.\n\n## Be clear\n- Confirm the **item, size or colour, quantity, price and delivery** in one message before the customer pays.\n- Give a realistic time: *Ready on Thursday after 2 pm.*\n- If something changes, tell the customer early.\n\n## Be polite, even when it is hard\n- Greet customers and thank them.\n- Do not argue in public comments. Move difficult conversations to private messages.\n- If you made a mistake, say sorry and offer a fair fix: a replacement, a repair or a refund.\n\n## Handling complaints\n1. Listen to the full complaint.\n2. Thank them for telling you.\n3. Ask for a photo if it helps.\n4. Offer a solution and do what you promise.\n\nA complaint handled well can turn an unhappy customer into a loyal one.\n\n## Respect privacy\nDo not share customers' numbers, addresses or photos without permission. Do not add them to groups without asking. Customer information is a responsibility, and Zambia has a data protection law about it.\n\n## Follow up\nA short message a few days later, *\"Is the dress fitting well?\"*, shows you care and invites repeat orders.",
+          "key_points": [
+            "Reply quickly, even just to say you will answer soon",
+            "Confirm item, price and delivery before payment",
+            "Handle complaints calmly and keep your promises"
+          ],
+          "try_it": "Save three quick replies in WhatsApp Business: a greeting, your prices and your location.",
+          "motif": "community"
+        },
+        {
+          "slug": "showing-and-selling-check",
+          "title": "Check: Showing and selling",
+          "type": "quiz",
+          "est_minutes": 3,
+          "body": "A few short questions on this module. There is no time limit, and you can try again.",
+          "motif": "circle",
+          "quiz": [
+            {
+              "question": "What makes the best product photo?",
+              "options": [
+                "Flash at night",
+                "Daylight and a plain background",
+                "A busy background",
+                "A picture from the internet"
+              ],
+              "correct": 1,
+              "explanation": "Daylight and a plain background show the real product clearly."
+            },
+            {
+              "question": "Which four things should a selling post include?",
+              "options": [
+                "What it is, the price, why it is good, how to buy",
+                "Only a photo",
+                "Your NRC number",
+                "A long story about your family"
+              ],
+              "correct": 0,
+              "explanation": "These four help customers decide and act."
+            },
+            {
+              "question": "A customer complains in public comments. What is best?",
+              "options": [
+                "Argue back in public",
+                "Reply calmly and offer to sort it out in private messages",
+                "Delete your page",
+                "Block everyone"
+              ],
+              "correct": 1,
+              "explanation": "Calm replies and private solutions protect your reputation."
+            },
+            {
+              "question": "Can you add customers to a promotions group without asking?",
+              "options": [
+                "Yes, always",
+                "No, ask first and respect their privacy",
+                "Only on weekends",
+                "Only if they paid"
+              ],
+              "correct": 1,
+              "explanation": "Customer details must be handled with respect and permission."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Payments and records",
+      "summary": "Safe payments, delivery and knowing your profit.",
+      "lessons": [
         {
           "slug": "safe-payments",
           "title": "Taking payments safely",
           "type": "read",
           "est_minutes": 5,
-          "body": "Customers will want to pay with mobile money.\n\n## Protect yourself\nOnly release goods after you check your real balance, not after seeing an SMS. Keep a simple record of each sale: date, item, amount, customer.",
+          "body": "Mobile money makes it easy for customers to pay you. A few habits protect you from tricks.\n\n## Use a merchant or till number if you can\nNetworks offer **merchant accounts** or till numbers for businesses. They show your business name to customers, and keep business money separate from your personal wallet. Ask your network about the options and fees.\n\n## Check payments in your menu, not just the SMS\nBefore you hand over goods:\n1. Open your mobile money menu and check your **balance** or **mini statement**.\n2. Confirm the amount and the sender's name.\n\nScammers send **fake payment SMS messages** from normal phone numbers that look like real ones. Your balance is the truth.\n\n## The overpayment trick\nA \"customer\" pays more than the price, then asks you to send back the difference. Often the first payment was fake or will be reversed. Do not send money back. Say they should contact their network to reverse it.\n\n## Deposits for custom orders\nFor made-to-order work, like a tailored outfit or a cake, ask for a **deposit** before you buy materials. Write down what was agreed and send it to the customer.\n\n## Cash\n- Count cash in front of the customer.\n- Learn to recognise genuine kwacha notes.\n- Do not keep large amounts of cash in your stall. Deposit it into mobile money or the bank regularly.\n\n## Receipts\nSend a simple receipt by WhatsApp: date, item, amount, and *Paid, thank you.* It builds trust and helps your records.",
           "key_points": [
             "Check your balance before handing over goods",
-            "Keep a record of every sale"
+            "Do not send back 'overpayments'",
+            "Take deposits for custom orders"
           ],
-          "try_it": "Start a simple sales notebook or phone note today.",
-          "motif": "phone",
-          "published": true
+          "try_it": "Ask your network what merchant or till options they have for small businesses.",
+          "motif": "community"
+        },
+        {
+          "slug": "delivery-and-trust",
+          "title": "Delivery and building trust",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "Selling online means customers cannot touch the product before they pay, and you cannot see the customer. Trust works both ways.\n\n## Delivery options\n- **Pick-up:** the customer collects from your shop or stall.\n- **Your own delivery:** you or a helper delivers within your area. Agree the delivery fee before.\n- **Bus or courier parcels** for other towns. Keep the receipt and tracking details, and send a photo of the parcel and receipt to the customer.\n\n## Meeting safely\nIf you meet customers to hand over goods:\n\n- Meet in a **busy public place**, like a shopping centre or outside a bank, in daylight.\n- Tell someone where you are going.\n- Do not hand over goods until payment is confirmed in your mobile money menu.\n\n## Payment on delivery\nCash on delivery reduces the customer's risk, but increases yours. For new customers, ask for a small deposit first, or use payment on collection at a public place.\n\n## Building trust\n- Use your **real business name**, the same on WhatsApp, Facebook and your stall.\n- Share **reviews** and photos from happy customers, with permission.\n- Have a clear **return or exchange rule**, like *exchange within 3 days if unused*. Write it in your profile.\n- Keep your promises on time and quality.\n\n## When things go wrong\nIf an item is damaged in delivery, talk to the customer calmly and fix it fairly. How you handle problems is what people remember.",
+          "key_points": [
+            "Meet in busy public places in daylight",
+            "Confirm payment before handing over goods",
+            "A clear return rule and real reviews build trust"
+          ],
+          "try_it": "Write a short return or exchange rule for your business.",
+          "motif": "community"
+        },
+        {
+          "slug": "simple-records",
+          "title": "Keeping simple records and knowing your profit",
+          "type": "practice",
+          "est_minutes": 5,
+          "body": "Many businesses look busy but do not make money. **Records** show you the truth.\n\n## Sales minus costs\n**Profit = money from sales minus all your costs.**\n\nCosts include stock, materials, transport, airtime and data, rent or market levy, packaging, mobile money fees and wages. Small costs add up.\n\n*Example: you sell 20 dresses at K250 = K5,000. Fabric and thread cost K2,600, transport K300, data K100, levy K200. Total costs K3,200. Profit K1,800.*\n\n## A simple daily record\nIn a notebook or a phone spreadsheet, keep two lists:\n\n- **Money in:** date, what you sold, amount, cash or mobile money.\n- **Money out:** date, what you bought or paid, amount.\n\nAt the end of each week, add up both and subtract.\n\n## Keep business and personal money apart\nPay yourself a fixed amount instead of taking money from the business whenever you need it. Using a separate business SIM or merchant account makes this easier.\n\n## Stock\nWrite down what you have and what sells fastest. Buy more of what sells, and less of what does not.\n\n## Use your mobile money statement\nYour transaction messages and mini statement already record many payments. Check them against your book.\n\n## Why it matters\nGood records help you set the right prices, plan for slow months, apply for a loan and stay on the right side of tax rules.",
+          "key_points": [
+            "Profit is sales minus all costs",
+            "Record money in and money out every day",
+            "Keep business and personal money separate"
+          ],
+          "try_it": "Write down everything you spent on your business this week, including data and transport.",
+          "motif": "community"
         },
         {
           "slug": "business-quiz",
-          "title": "Check what you learned",
+          "title": "Final check: Running a business online",
           "type": "quiz",
-          "est_minutes": 5,
-          "body": "Answer these short questions.",
-          "key_points": [
-            "Take your time"
-          ],
+          "est_minutes": 4,
+          "body": "Questions covering the whole course. Score 70% or more to complete it. You can try again as many times as you like.",
           "motif": "circle",
-          "published": true,
           "quiz": [
             {
-              "question": "When should you hand over goods paid by mobile money?",
+              "question": "A customer sends a payment SMS. What should you do before handing over the goods?",
               "options": [
-                "When you see an SMS",
-                "After checking your real balance",
-                "Before payment",
-                "When the customer says they paid"
+                "Hand them over at once",
+                "Check your balance or mini statement in the mobile money menu",
+                "Ask for their PIN",
+                "Forward the SMS"
               ],
               "correct": 1,
-              "explanation": "SMS can be faked. Your real balance is the only proof."
+              "explanation": "Fake payment SMS messages are common. Your balance is the truth."
             },
             {
-              "question": "What makes a good product photo?",
+              "question": "A customer 'overpays' by K300 and asks you to send back the difference. What should you do?",
               "options": [
-                "Dark room",
-                "Busy background",
-                "Daylight and plain background",
-                "Blurry lens"
+                "Send it back quickly",
+                "Do not send money back; tell them to contact their network",
+                "Send half",
+                "Give them extra goods"
+              ],
+              "correct": 1,
+              "explanation": "The overpayment trick often uses fake or reversed payments."
+            },
+            {
+              "question": "You sold goods for K5,000 and spent K3,200 in total. What is your profit?",
+              "options": [
+                "K5,000",
+                "K8,200",
+                "K1,800",
+                "K3,200"
               ],
               "correct": 2,
-              "explanation": "Daylight and a plain background show your product clearly."
+              "explanation": "Profit is sales minus all costs: K5,000 minus K3,200."
+            },
+            {
+              "question": "Where is the safest place to meet a new customer?",
+              "options": [
+                "A quiet road at night",
+                "A busy public place in daylight",
+                "Their house",
+                "An empty building"
+              ],
+              "correct": 1,
+              "explanation": "Busy public places in daylight are safest."
+            },
+            {
+              "question": "Which agency gives you a TPIN for tax?",
+              "options": [
+                "PACRA",
+                "ZRA",
+                "ZICTA",
+                "Your network"
+              ],
+              "correct": 1,
+              "explanation": "The Zambia Revenue Authority issues TPINs."
             }
           ]
         }

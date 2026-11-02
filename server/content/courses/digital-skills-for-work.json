@@ -1,106 +1,337 @@
 {
   "slug": "digital-skills-for-work",
   "title": "Digital Skills for Work",
-  "tagline": "Documents, research, and online job applications.",
-  "description": "Write a CV on your phone, search for jobs safely, and send an application by email. Skills that help you find and keep work.",
+  "tagline": "Find real jobs, apply online and work with digital tools.",
+  "description": "More and more jobs are advertised and applied for online. This course shows you where to find real vacancies, how to avoid fake offers, how to write a CV and apply by email from your phone, and how to handle online interviews and simple workplace tools.",
   "pathway": "digital-skills",
   "category": "work",
   "icon_name": "Briefcase",
   "difficulty": "intermediate",
-  "estimated_hours": 3,
+  "estimated_hours": 1.5,
   "pass_mark": 70,
-  "outcomes": [
-    "Write a simple CV on your phone",
-    "Search for jobs and avoid fake offers",
-    "Send an application by email",
-    "Use a shared document",
-    "Prepare for an online interview"
-  ],
   "sort_order": 6,
   "published": true,
+  "outcomes": [
+    "Find job adverts in trusted places",
+    "Spot fake job offers",
+    "Write a CV and cover letter on your phone",
+    "Send a complete application by email",
+    "Prepare for an online interview",
+    "Use shared documents and simple spreadsheets"
+  ],
   "modules": [
     {
-      "title": "Module 1",
-      "summary": "",
+      "title": "Finding work online",
+      "summary": "Where real jobs are advertised and how to spot fake ones.",
       "lessons": [
         {
-          "slug": "cv-on-your-phone",
-          "title": "Writing a CV on your phone",
+          "slug": "where-to-find-jobs",
+          "title": "Where to find real jobs",
           "type": "read",
           "est_minutes": 5,
-          "body": "A CV is a short page that tells an employer who you are and what you can do.\n\n## What to include\nYour name, phone number and email. Your education. Work you have done, including piece work and volunteering. Skills like driving, tailoring or speaking Bemba and English.\n\n## Writing it\nUse a free app like Google Docs. Keep it to one page. Save it as a PDF to send.",
+          "body": "Jobs in Zambia are advertised in many places. Looking in several of them gives you more chances.\n\n## Good places to look\n- **Newspapers**, in print and on their official websites and Facebook pages. Many employers still advertise there.\n- **Company websites and official social media pages.** Look for a page called *Careers* or *Vacancies*.\n- **Government vacancies**, announced by the hiring ministry or public body on its official pages and in newspapers.\n- **Job websites and apps**, including LinkedIn. Create a simple profile so employers can find you.\n- **NGOs and international organisations**, which list jobs on their own websites.\n- **Community notice boards**, churches, ICT hubs and word of mouth. Many jobs are never advertised online.\n\n## Read the advert carefully\nA real advert usually says:\n\n- the job title and the employer's name,\n- what the job involves and what you need (qualifications, experience),\n- how to apply, and the **closing date**.\n\nNote the closing date and apply early.\n\n## Set up alerts\nMany job sites can send you an email when a new job matches your search. Use the words that describe the work you want, like *driver*, *accounts clerk* or *shop assistant*, and your town.\n\n## Keep a list\nWrite down each job you apply for: the employer, the date, and how you applied. When someone calls you, you will know which job it is.",
           "key_points": [
-            "Keep your CV to one page",
-            "Include all work, even informal work",
-            "Save it as a PDF"
+            "Look in several places, online and offline",
+            "A real advert names the employer and a closing date",
+            "Keep a list of the jobs you apply for"
           ],
-          "try_it": "Write the first three lines of your CV: name, phone, email.",
-          "motif": "phone",
-          "published": true
+          "try_it": "Find one real job advert today and write down its closing date.",
+          "motif": "community"
         },
         {
           "slug": "fake-job-offers",
           "title": "Spotting fake job offers",
           "type": "read",
           "est_minutes": 5,
-          "body": "Fake job adverts ask you to pay money for a job, training or a uniform before you start.\n\n## Warning signs\nThey ask for payment. The salary is very high for little work. They only talk on WhatsApp and have no office address. Real employers do not charge you to apply.",
+          "body": "Fake job adverts are one of the most common scams. They target people who need work, and can cost money you cannot afford to lose.\n\n## Warning signs\n- **You must pay** for something: an application fee, medical, training, uniform, travel or a \"processing fee\". Real employers do not charge you to get a job.\n- **Very high pay** for easy work or no experience.\n- **No interview**, or only a short chat on WhatsApp.\n- The contact is a personal Gmail or WhatsApp number, not a company address.\n- Pressure: *\"Only three places left, pay today.\"*\n- They ask for your **NRC, bank details or mobile money PIN** before any interview.\n- Jobs abroad that promise visas, flights and housing for a fee.\n\n## Check the employer\n- Search the company name online. Does it have a real website and address?\n- Call the company on a number you find yourself, not the one in the advert, and ask if the job is real.\n- Ask people who work in that field.\n\n## Jobs abroad\nWork abroad offers can lead to people being trapped or exploited. Be very careful. Check the agency with the authorities, never hand over your passport to an agent, and tell your family exactly where you are going.\n\n## If you are unsure, do not pay\nIf an offer asks for money first, stop. A real job will still be there after you check.",
           "key_points": [
-            "Real employers never charge you to apply",
-            "Very high pay is a warning",
-            "Check there is a real address"
+            "Real employers never charge you to get a job",
+            "Check the company on a number you find yourself",
+            "Be very careful with job offers abroad"
           ],
-          "try_it": "Look at one job advert and check it for warning signs.",
-          "motif": "shield",
-          "published": true
+          "try_it": "Search online for one company you would like to work for and find its official contact details.",
+          "motif": "community"
+        },
+        {
+          "slug": "research-an-employer",
+          "title": "Researching an employer",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "Before you apply, and especially before an interview, find out about the employer. It helps you decide if the job is right and impresses the interviewer.\n\n## What to look for\n- **What they do:** their products, services or mission.\n- **Where they work:** their offices, branches or projects.\n- **Recent news:** a new branch, a project, an award.\n- **Their values:** many organisations list them on an *About us* page.\n\n## Where to look\n- The organisation's **official website**, especially the About, News and Careers pages.\n- Their **Facebook or LinkedIn page**.\n- News stories. Search the organisation's name and look at the News tab.\n- People who work there, or used to.\n\n## Use what you learn\n- In your **cover letter**, mention one thing you know: *\"I admire your work training young farmers in Southern Province.\"*\n- In an **interview**, when asked *\"Why do you want to work here?\"*, you will have a real answer.\n- Prepare one or two questions to ask them, like *\"What does a normal day look like in this role?\"*\n\n## Spot problems early\nIf you cannot find anything about an employer, or what you find does not match the advert, be careful. It may be a fake job.\n\n## Save your notes\nKeep short notes on your phone for each employer you research. Read them again before the interview.",
+          "key_points": [
+            "Read the employer's About and News pages",
+            "Mention something you learned in your application",
+            "If you can find nothing about them, be careful"
+          ],
+          "try_it": "Pick one employer and write three facts about them in your phone's notes.",
+          "motif": "community"
+        },
+        {
+          "slug": "finding-work-check",
+          "title": "Check: Finding work online",
+          "type": "quiz",
+          "est_minutes": 3,
+          "body": "A few short questions on this module. There is no time limit, and you can try again.",
+          "motif": "circle",
+          "quiz": [
+            {
+              "question": "A job advert asks you to pay K300 for a 'processing fee' before the interview. What does this suggest?",
+              "options": [
+                "It is a serious employer",
+                "It is probably a scam",
+                "You should pay quickly",
+                "It is a government job"
+              ],
+              "correct": 1,
+              "explanation": "Real employers do not charge you to get a job."
+            },
+            {
+              "question": "What should a real job advert usually include?",
+              "options": [
+                "Only a WhatsApp number",
+                "The employer's name, the job details and a closing date",
+                "A request for your PIN",
+                "A promise of very high pay"
+              ],
+              "correct": 1,
+              "explanation": "Real adverts give clear details and a closing date."
+            },
+            {
+              "question": "How should you check if a job is real?",
+              "options": [
+                "Call the number in the advert",
+                "Call the company on a number you find yourself",
+                "Send your NRC first",
+                "Pay a small fee to test"
+              ],
+              "correct": 1,
+              "explanation": "Scammers control the numbers in their own adverts."
+            },
+            {
+              "question": "Why research an employer before an interview?",
+              "options": [
+                "To find their PIN",
+                "To give real answers and ask good questions",
+                "To copy their logo",
+                "It is not useful"
+              ],
+              "correct": 1,
+              "explanation": "Knowing the employer helps you stand out."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Your CV and application",
+      "summary": "CV, cover letter and sending it all by email.",
+      "lessons": [
+        {
+          "slug": "cv-on-your-phone",
+          "title": "Writing a CV on your phone",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "A **CV** (curriculum vitae) is a short document that tells an employer who you are, what you can do and how to contact you.\n\n## Use a free app\nInstall **Google Docs** from the Play Store. Tap **+**, then **Choose template**, and pick a résumé template. Replace the example text with yours.\n\n## What to include\n1. **Name and contact details:** phone, email and town. You do not need your NRC number, marital status or a photo unless asked.\n2. **Profile:** two or three sentences about you. *\"Hard-working shop assistant with three years of experience serving customers and handling cash.\"*\n3. **Work experience:** most recent first. Employer, job title, dates, and two or three things you did.\n4. **Education:** school or college, qualification, year.\n5. **Skills:** languages you speak (English, Bemba, Nyanja, Tonga...), computer skills, driving licence.\n6. **References:** two people who can speak about your work, with their permission. Or write *Available on request*.\n\n## Volunteer work and small jobs count\nSelling at the market, helping in church, volunteering or caring for family all show skills. Include them.\n\n## Keep it short and clean\nOne or two pages. Clear headings. No spelling mistakes. Ask someone to read it.\n\n## Save as PDF\nIn Google Docs, tap the three dots, **Share and export**, **Save as**, and choose **PDF**. Name it *Firstname_Lastname_CV.pdf*.",
+          "key_points": [
+            "Use a Google Docs template",
+            "Put your most recent work first",
+            "Save and send your CV as a PDF"
+          ],
+          "try_it": "Open Google Docs and start your CV from a template.",
+          "motif": "community"
+        },
+        {
+          "slug": "cover-letter",
+          "title": "Writing a short cover letter",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "A **cover letter** is a short letter that goes with your CV. It explains why you want this job and why you are a good fit. Some employers read it first.\n\n## A simple shape\n**Greeting:** *Dear Hiring Manager,* or the person's name if the advert gives it.\n\n**Paragraph 1: the job.** *I am writing to apply for the post of Receptionist advertised on your website on 3 November.*\n\n**Paragraph 2: why you fit.** Choose two or three things from the advert and show you have them.\n*In my two years at Mwila Pharmacy, I welcomed customers, answered calls and kept the appointment book. I speak English, Bemba and Nyanja.*\n\n**Paragraph 3: why this employer.** *I admire your clinic's work in the community and would be proud to be part of your team.*\n\n**Closing:** *Thank you for considering my application. I am available for an interview at any time.* Then *Yours faithfully* (if you used Dear Sir/Madam) or *Yours sincerely* (if you used a name), and your name and phone number.\n\n## Tips\n- Write a new letter for each job. Copying the same letter shows.\n- Keep it under one page.\n- Match the words used in the advert.\n- Check the employer's name and the job title carefully.\n\n## In an email\nWhen applying by email, your cover letter can be the email message itself, with your CV attached. Some employers ask for it as a separate PDF. Follow what the advert says.",
+          "key_points": [
+            "Say which job, why you fit, and why this employer",
+            "Write a new letter for each job",
+            "Keep it under one page"
+          ],
+          "try_it": "Write a cover letter for a job you would like, using the shape in this lesson.",
+          "motif": "community"
         },
         {
           "slug": "send-an-application",
           "title": "Sending an application by email",
           "type": "practice",
           "est_minutes": 5,
-          "body": "When you email an application, write a short message and attach your CV.\n\n## Example\nSubject: Application for Shop Assistant. Message: Dear Sir or Madam, I would like to apply for the Shop Assistant job in Kitwe. My CV is attached. Thank you, Mwaka Banda, 097 000 0000.",
+          "body": "Many employers ask you to apply by email. A complete, tidy email makes a good first impression.\n\n## Before you send\n- Read the advert again. What exactly do they ask for? CV, cover letter, certificates, references?\n- Is there a **reference number** for the job? Include it.\n- Prepare all documents as **PDFs** with clear names.\n\n## Writing the email\n**To:** the exact address in the advert.\n\n**Subject:** the job title and reference, for example *Application: Accounts Clerk (Ref AC/24/11)*.\n\n**Message:**\n*Dear Sir/Madam,*\n\n*Please find attached my application for the post of Accounts Clerk (Ref AC/24/11), as advertised on 1 November. I have attached my CV, cover letter and certificates.*\n\n*Thank you for your time. I look forward to hearing from you.*\n\n*Yours faithfully,*\n*Mutale Banda*\n*097...*\n\n## Attach and check\n1. Tap the **paper clip** and add each file.\n2. Check every file opened and is the right one.\n3. Check the email address, subject and spelling.\n4. Tap **Send**.\n\n## After sending\n- Look in your **Sent** folder to confirm it went.\n- Note the date in your job list.\n- Check your inbox, and the **Spam** folder, every day.\n- If you hear nothing after two weeks, a short polite follow-up email is fine.",
           "key_points": [
-            "Write a clear subject",
-            "Keep the message short and polite",
-            "Attach your CV"
+            "Follow exactly what the advert asks for",
+            "Use the job title and reference in the subject",
+            "Check Sent, Inbox and Spam afterwards"
           ],
-          "try_it": "Write a practice email to yourself with your CV attached.",
-          "motif": "phone",
-          "published": true
+          "try_it": "Write an application email to yourself with your CV attached, and check it arrives.",
+          "motif": "community"
+        },
+        {
+          "slug": "cv-and-application-check",
+          "title": "Check: Your CV and application",
+          "type": "quiz",
+          "est_minutes": 3,
+          "body": "A few short questions on this module. There is no time limit, and you can try again.",
+          "motif": "circle",
+          "quiz": [
+            {
+              "question": "Which comes first in the work experience section of a CV?",
+              "options": [
+                "Your oldest job",
+                "Your most recent job",
+                "Your hobbies",
+                "Your NRC number"
+              ],
+              "correct": 1,
+              "explanation": "Employers want to see your latest experience first."
+            },
+            {
+              "question": "What file type is best for sending a CV?",
+              "options": [
+                "PDF",
+                "A screenshot",
+                "A voice note",
+                "A video"
+              ],
+              "correct": 0,
+              "explanation": "PDF keeps the layout the same on any device."
+            },
+            {
+              "question": "What is a good subject for an application email?",
+              "options": [
+                "hello",
+                "Application: Accounts Clerk (Ref AC/24/11)",
+                "URGENT!!!",
+                "(empty)"
+              ],
+              "correct": 1,
+              "explanation": "The job title and reference help the employer sort applications."
+            },
+            {
+              "question": "Should you send the same cover letter to every employer?",
+              "options": [
+                "Yes, it saves time",
+                "No, write one for each job",
+                "Only to big companies",
+                "Cover letters are never read"
+              ],
+              "correct": 1,
+              "explanation": "A letter for each job shows real interest."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Interviews and tools at work",
+      "summary": "Online interviews, shared documents and spreadsheets.",
+      "lessons": [
+        {
+          "slug": "online-interview",
+          "title": "Preparing for an online interview",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "Interviews are often held by **video call** on Zoom, Google Meet, Teams or WhatsApp. Good preparation makes you calm and confident.\n\n## The day before\n- Install the app named in the invitation and test it with a friend.\n- Check you have enough **data**, or arrange to use Wi-Fi. An hour of video uses a lot.\n- Charge your phone, and have a charger or power bank ready in case of load-shedding.\n- Read your notes about the employer and your CV again.\n\n## Your space\n- A **quiet place** where you will not be disturbed. Tell your family.\n- **Light in front of you**, like a window, not behind you.\n- A plain background.\n- Rest the phone on something steady at **eye level**. Do not hold it in your hand.\n\n## Dress and manner\nDress as you would for an in-person interview. Join **5 minutes early**. Smile, look at the camera when you speak, and speak clearly.\n\n## Common questions\nPractise short answers to:\n- *Tell us about yourself.* (Work, skills, what you want next. One minute.)\n- *Why do you want this job?*\n- *Tell us about a problem you solved.*\n- *Do you have any questions for us?* Always have one ready.\n\n## If the connection fails\nStay calm. Rejoin using the same link. If it keeps failing, turn off your video, or send a short message to the interviewer explaining and asking to continue by phone.",
+          "key_points": [
+            "Test the app and your data the day before",
+            "Quiet place, light in front of you, phone at eye level",
+            "Practise answers to common questions"
+          ],
+          "try_it": "Practise answering 'Tell us about yourself' out loud in one minute.",
+          "motif": "community"
+        },
+        {
+          "slug": "shared-documents",
+          "title": "Working on shared documents",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "At work, people often write documents together online with **Google Docs** or **Microsoft Word**. Everyone sees the same document and changes appear straight away.\n\n## Opening a shared document\nSomeone sends you a **link** by email or WhatsApp. Tap it. It opens in the Google Docs app or your browser. You may need to sign in with your Gmail account.\n\n## What you can do\nDepending on what the owner allows, you can:\n\n- **View:** read only.\n- **Comment:** add notes without changing the text.\n- **Edit:** change the text directly.\n\n## Adding a comment\n1. Press and hold on a word to select it.\n2. Tap **Comment** (a speech bubble with a +).\n3. Type your note, like *Should this say 15 learners?*, and tap send.\n\nComments are a polite way to suggest changes in someone else's work.\n\n## Suggesting changes\nIn Google Docs you can switch to **Suggesting** mode. Your changes show in colour, and the owner can accept or reject them. This is good when editing a manager's document.\n\n## Version history\nEvery change is saved automatically. If something goes wrong, the owner can open **Version history** and go back to an earlier version.\n\n## Good habits\n- Do not delete other people's work. Comment instead.\n- Write your name next to sections you are responsible for.\n- Do not share a work document link outside your team.",
+          "key_points": [
+            "Shared documents update for everyone at once",
+            "Use comments to suggest changes politely",
+            "Every change is saved automatically"
+          ],
+          "try_it": "Create a Google Doc, share it with a friend, and ask them to add a comment.",
+          "motif": "community"
+        },
+        {
+          "slug": "spreadsheets-basics",
+          "title": "Simple spreadsheets for work",
+          "type": "practice",
+          "est_minutes": 5,
+          "body": "A **spreadsheet** is a grid of boxes for lists and numbers, like stock, sales, attendance or a budget. **Google Sheets** is free on your phone.\n\n## The grid\n- **Columns** go down and have letters: A, B, C.\n- **Rows** go across and have numbers: 1, 2, 3.\n- Each box is a **cell**, named by its column and row, like **B2**.\n\n## Making a simple list\n1. Open Google Sheets and tap **+** to make a new sheet.\n2. In row 1, type headings: *Date* in A1, *Item* in B1, *Amount* in C1.\n3. Fill in one row for each entry below.\n\n## Adding up automatically\nTap the empty cell under your amounts, for example **C10**, and type:\n\n**=SUM(C2:C9)**\n\nPress enter. The sheet adds all the amounts from C2 to C9. When you change a number, the total updates itself.\n\n## Other useful formulas\n- **=AVERAGE(C2:C9)** finds the average.\n- **=C2*D2** multiplies two cells, like quantity times price.\n\n## Tips\n- Keep one kind of information per column.\n- Put dates in a consistent way, like 05/11/2026.\n- Freeze the heading row: select row 1, tap the three dots, **Freeze**.\n\nSpreadsheets are a skill many employers ask for. Even simple lists show you can work with data.",
+          "key_points": [
+            "Columns have letters, rows have numbers",
+            "=SUM(C2:C9) adds a list of numbers",
+            "One kind of information per column"
+          ],
+          "try_it": "Make a sheet of five things you bought this week and add a total with =SUM.",
+          "motif": "community"
         },
         {
           "slug": "work-quiz",
-          "title": "Check what you learned",
+          "title": "Final check: Digital skills for work",
           "type": "quiz",
-          "est_minutes": 5,
-          "body": "Answer these short questions.",
-          "key_points": [
-            "Take your time"
-          ],
+          "est_minutes": 4,
+          "body": "Questions covering the whole course. Score 70% or more to complete it. You can try again as many times as you like.",
           "motif": "circle",
-          "published": true,
           "quiz": [
             {
-              "question": "An advert asks you to pay K300 for a uniform before starting. This is:",
+              "question": "A 'job' offer from abroad asks you to pay for a visa through an agent and hand over your passport. What should you do?",
               "options": [
-                "Normal",
-                "A warning sign of a fake job",
-                "A good offer",
-                "Required by law"
+                "Pay quickly",
+                "Be very careful and check the agency with the authorities first",
+                "Send your passport by bus",
+                "Accept without asking questions"
               ],
               "correct": 1,
-              "explanation": "Real employers do not charge you money to get a job."
+              "explanation": "Overseas job scams can trap people. Check first and keep your passport."
             },
             {
-              "question": "How long should a simple CV be?",
+              "question": "What should you do with your CV before emailing it?",
               "options": [
-                "One page",
-                "Ten pages",
-                "One line",
-                "As long as possible"
+                "Save it as a PDF with a clear name",
+                "Take a blurry photo of it",
+                "Send it as 20 screenshots",
+                "Leave out your contact details"
               ],
               "correct": 0,
-              "explanation": "One clear page is easiest for employers to read."
+              "explanation": "A clearly named PDF looks professional and opens anywhere."
+            },
+            {
+              "question": "Where should your light be during a video interview?",
+              "options": [
+                "Behind you",
+                "In front of you",
+                "Off completely",
+                "Under the table"
+              ],
+              "correct": 1,
+              "explanation": "Light in front of you lets the interviewer see your face."
+            },
+            {
+              "question": "How can you suggest a change in a colleague's shared document politely?",
+              "options": [
+                "Delete their text",
+                "Add a comment",
+                "Make a copy and keep it secret",
+                "Change the title"
+              ],
+              "correct": 1,
+              "explanation": "Comments let the owner decide."
+            },
+            {
+              "question": "What does =SUM(C2:C9) do in a spreadsheet?",
+              "options": [
+                "Deletes the cells",
+                "Adds up the numbers in C2 to C9",
+                "Sorts names",
+                "Sends an email"
+              ],
+              "correct": 1,
+              "explanation": "SUM adds a range of numbers and updates automatically."
             }
           ]
         }

@@ -1,72 +1,259 @@
 {
   "slug": "digital-rights-and-responsibilities",
   "title": "Digital Rights and Responsibilities",
-  "tagline": "Protect your data, be respectful, and check before you share.",
-  "description": "Digital citizenship is about using phones and the internet safely and responsibly — protecting your personal data, treating others with respect, and checking information before you pass it on.",
+  "tagline": "Your rights online, the laws that protect you, and your part.",
+  "description": "Your rights do not stop when you go online. This course explains, in plain language, the rights you have to privacy and free expression, what Zambia's Data Protection Act lets you ask of organisations that hold your information, what the cyber laws cover, and the responsibilities that come with being online.",
   "pathway": "civic-education",
   "category": "citizenship",
   "icon_name": "Globe",
   "difficulty": "easy",
   "estimated_hours": 1.5,
   "pass_mark": 70,
-  "outcomes": [
-    "Protect your personal data and privacy",
-    "Communicate respectfully online",
-    "Check information before you share it",
-    "Recognise your responsibilities as a digital citizen"
-  ],
   "sort_order": 16,
   "published": true,
+  "outcomes": [
+    "Explain that your rights to privacy and expression apply online",
+    "Name your rights under the Data Protection Act, 2021",
+    "Ask an organisation about the information it holds on you",
+    "Describe what Zambia's 2025 cyber laws cover",
+    "Report online crime with good evidence",
+    "Take part in online debate responsibly"
+  ],
   "modules": [
     {
-      "title": "Module 1",
-      "summary": "",
+      "title": "Your rights online",
+      "summary": "Privacy, expression and your personal data.",
       "lessons": [
         {
-          "slug": "your-data-and-privacy",
-          "title": "Your data and privacy",
+          "slug": "rights-online-and-offline",
+          "title": "Your rights apply online too",
           "type": "read",
           "est_minutes": 5,
-          "body": "Your personal information has value. Protecting it keeps you safe.\n\n## What to protect\nYour NRC number, PINs and passwords, your home details and photos. Do not share these with people you do not trust, and never enter them on a link you did not expect.\n\n## Simple habits\nUse a screen lock. Do not reuse one password everywhere. Think before you allow an app to see your contacts, photos or location.",
+          "body": "The **Constitution of Zambia** includes a Bill of Rights. Among other things, it protects your **privacy** and your **freedom of expression**. These rights do not disappear when you use a phone or the internet.\n\n## Freedom of expression\nYou have the right to hold opinions, share ideas and receive information. Online, this means you can:\n\n- discuss community issues and national affairs,\n- criticise decisions and policies,\n- share news and information you believe is true.\n\n## Limits\nRights have limits so that they do not harm others. Freedom of expression does not protect:\n\n- spreading lies that damage a person's reputation (defamation),\n- threats and incitement to violence,\n- hate speech against groups of people,\n- sharing other people's private information or intimate images without consent.\n\nThe same limits apply offline and online.\n\n## Privacy\nYou have a right to privacy in your communications and personal life. Organisations that collect your information must handle it lawfully, which the next lesson explains.\n\n## Rights and responsibilities together\nYour rights are also other people's rights. When you protect your own privacy and voice, respect theirs too. Online spaces work best when everyone can speak without fear and without being attacked.\n\n## Where to learn more\nThe full Constitution and Acts of Parliament are published by the **National Assembly of Zambia** and on **ZambiaLII**, a free legal information website.",
           "key_points": [
-            "Protect your NRC number, PINs and passwords",
-            "Do not share private details with strangers",
-            "Use a screen lock and strong passwords",
-            "Think before apps access your data"
+            "The Constitution protects privacy and free expression",
+            "Rights apply online and offline",
+            "Expression has limits: no defamation, threats or hate"
           ],
-          "try_it": "Check the screen lock on your phone and change one weak password.",
-          "motif": "shield",
-          "video_url": "https://www.youtube.com/watch?v=-ZrqxAB-ABQ",
-          "published": true
+          "try_it": "Visit ZambiaLII and find the Constitution of Zambia.",
+          "motif": "shield"
         },
+        {
+          "slug": "your-data-and-privacy",
+          "title": "Your personal data and the law",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "**Personal data** is any information that can identify you: your name, NRC number, phone number, address, photo, fingerprints, health records, and more.\n\nBanks, networks, employers, schools, shops, apps and government offices all collect personal data. Zambia's **Data Protection Act, 2021** sets rules for how they must handle it.\n\n## What organisations must do\nIn simple terms, organisations should:\n\n- collect data for a **clear, lawful purpose**, and tell you what it is,\n- collect **only what they need**,\n- keep it **accurate** and **secure**,\n- not keep it longer than needed,\n- in many cases, get your **consent**.\n\n## Your rights\nThe Act gives you rights over your personal data, including the right to:\n\n- **access:** ask what information an organisation holds about you,\n- **correction:** have wrong or incomplete information fixed,\n- **erasure:** ask for data to be deleted in certain cases,\n- **object:** for example, to your data being used for marketing messages,\n- **not be judged only by a computer:** some decisions about you should not be made by automated systems alone.\n\n## Who oversees it\nThe **Office of the Data Protection Commissioner** regulates data protection in Zambia. It can receive and examine complaints.\n\n## Your part\nThink before you give your details. It is reasonable to ask: *\"Why do you need this, and how will you protect it?\"*",
+          "key_points": [
+            "Personal data is anything that identifies you",
+            "You can ask to see, correct or delete your data",
+            "The Data Protection Commissioner oversees the law"
+          ],
+          "try_it": "Think of three organisations that hold your personal data.",
+          "motif": "shield"
+        },
+        {
+          "slug": "using-your-data-rights",
+          "title": "Using your data rights",
+          "type": "practice",
+          "est_minutes": 5,
+          "body": "Knowing your rights is useful. Using them is powerful. Here is a simple way to ask an organisation about your personal data.\n\n## When you might use your rights\n- You keep getting marketing SMS messages you never agreed to.\n- Your name or details are wrong in an organisation's records.\n- You want to know what a company holds about you.\n- You closed an account and want your data removed.\n\n## Making a request\nWrite a short, polite email or letter to the organisation. Many have a customer care address or a data protection contact on their website.\n\n*Dear Sir/Madam,*\n\n*Under the Data Protection Act, 2021, I request a copy of the personal data you hold about me. My name is Mutale Banda and my phone number is 097...*\n\n*Thank you,*\n*Mutale Banda*\n\nChange the request to fit your need: *please correct my address to...* or *please stop sending me marketing messages*.\n\n## Keep records\n- Keep a copy of your request and the date you sent it.\n- Write down any reference number.\n- Organisations may ask you to prove who you are before sharing your data. That is for your protection.\n\n## Stopping marketing messages\nMany marketing SMS messages include a way to opt out, such as replying STOP. Use it only for messages from organisations you recognise. For unknown senders, do not reply; block the number.\n\n## If you are not satisfied\nIf the organisation does not respond or refuses without good reason, you can complain to the **Office of the Data Protection Commissioner**. Include copies of your request and any replies.",
+          "key_points": [
+            "Write a short, polite request",
+            "Keep a copy and the date",
+            "Complain to the Data Protection Commissioner if needed"
+          ],
+          "try_it": "Draft a request asking a company to stop sending you marketing messages.",
+          "motif": "shield"
+        },
+        {
+          "slug": "your-rights-online-check",
+          "title": "Check: Your rights online",
+          "type": "quiz",
+          "est_minutes": 3,
+          "body": "A few short questions on this module. There is no time limit, and you can try again.",
+          "motif": "circle",
+          "quiz": [
+            {
+              "question": "Does your right to freedom of expression apply online?",
+              "options": [
+                "No, only offline",
+                "Yes, with the same limits as offline",
+                "Only on Facebook",
+                "Only for journalists"
+              ],
+              "correct": 1,
+              "explanation": "Your constitutional rights apply online too, with the same limits."
+            },
+            {
+              "question": "Which is personal data?",
+              "options": [
+                "The weather",
+                "Your NRC number",
+                "A bus timetable",
+                "The price of maize"
+              ],
+              "correct": 1,
+              "explanation": "Anything that can identify you is personal data."
+            },
+            {
+              "question": "Your address is wrong in a company's records. Which right helps?",
+              "options": [
+                "Right to correction",
+                "Right to vote",
+                "Right to a passport",
+                "Right to free data"
+              ],
+              "correct": 0,
+              "explanation": "You can ask for wrong information to be corrected."
+            },
+            {
+              "question": "Who oversees data protection in Zambia?",
+              "options": [
+                "The Office of the Data Protection Commissioner",
+                "Your network",
+                "The football association",
+                "Any WhatsApp group admin"
+              ],
+              "correct": 0,
+              "explanation": "The Data Protection Commissioner regulates the law and examines complaints."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Laws that protect you online",
+      "summary": "Zambia's cyber laws, reporting crime and other people's data.",
+      "lessons": [
+        {
+          "slug": "zambias-cyber-laws",
+          "title": "Zambia's cyber laws",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "In 2025, Parliament passed two laws about the online world:\n\n- the **Cyber Security Act, 2025** (Act No. 3 of 2025), and\n- the **Cyber Crimes Act, 2025** (Act No. 4 of 2025).\n\nThey replaced an earlier combined law from 2021.\n\n## The Cyber Security Act\nThis law is mainly about protecting important computer systems, such as those used for banking, energy and government services, and about regulating cyber security service providers. It set up the **Zambia Cyber Security Agency**.\n\n## The Cyber Crimes Act\nThis law sets out crimes committed using computers and phones, and the penalties for them. They include, for example:\n\n- **unauthorised access** to computer systems and data, such as breaking into someone's account,\n- illegally obtaining other people's data,\n- crimes against children online, under its child protection provisions.\n\nPenalties under these laws can be serious, including large fines and prison sentences.\n\n## Different views\nWhen the laws were passed, the government said they were needed to fight growing online fraud and protect critical systems. Some media, digital rights and civil society organisations raised concerns that parts of the laws could affect free expression and privacy. Discussion about how the laws are applied continues.\n\n## What this means for you\n- Breaking into other people's accounts or phones, or taking their data, is a crime.\n- Harming children online is treated seriously.\n- If you are a victim of online crime, the law gives a basis for the police to act.\n\nTo read the laws yourself, look them up on **ZambiaLII** or the National Assembly website.",
+          "key_points": [
+            "Two cyber laws were passed in 2025",
+            "Unauthorised access and online crimes against children are offences",
+            "Read the full Acts on ZambiaLII"
+          ],
+          "try_it": "Look up the Cyber Crimes Act, 2025 on ZambiaLII and read its list of contents.",
+          "motif": "shield"
+        },
+        {
+          "slug": "reporting-cybercrime",
+          "title": "Reporting online crime",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "If you are a victim of online fraud, hacking, threats or abuse, reporting it helps you and protects others.\n\n## Collect evidence first\n- **Screenshots** of messages, posts and profiles, showing names, numbers and dates.\n- **Transaction messages** and IDs for any money lost.\n- **Links** and account names.\n- A short written **timeline**: what happened, and when.\n\nDo not delete chats, even if they upset you. Keep copies somewhere safe, such as your email or Google Drive.\n\n## Where to report\n- **Money lost through mobile money or a bank:** call the provider's official customer care **immediately**, then report to the police.\n- **Crimes such as fraud, hacking, threats, blackmail or abuse:** report at your nearest **police station**. Ask for a report or reference number.\n- **Children at risk:** the police **Victim Support Unit** and child protection organisations.\n- **The platform itself:** use the Report button on WhatsApp, Facebook or other apps to have accounts and content removed.\n- **Problems with SIM cards and networks**, such as a SIM registered in your name without your knowledge: contact your network and **ZICTA**, the communications regulator.\n\n## When you report\nStay calm and stick to facts. Bring your phone, your evidence and your NRC. Write down the name of the officer and the reference number.\n\n## Follow up\nKeep a record of every contact. If you hear nothing, follow up politely, using your reference number.\n\nReporting may feel like a lot of effort, but it creates a record and helps authorities see patterns and stop criminals.",
+          "key_points": [
+            "Collect screenshots and transaction IDs first",
+            "Report money loss to the provider immediately, then the police",
+            "Get a reference number and follow up"
+          ],
+          "try_it": "Make a folder in Google Drive called Evidence, ready in case you ever need it.",
+          "motif": "shield"
+        },
+        {
+          "slug": "consent-and-others-data",
+          "title": "Looking after other people's data",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "Data protection is not only about organisations. Many of us hold other people's information too: in WhatsApp groups, savings group lists, church registers, business customer lists and school records.\n\n## Treat it as you want yours treated\n- Collect only what you need. A savings group may need a phone number, but not an NRC copy.\n- Keep lists safe. Do not leave registers on open tables or share spreadsheets publicly.\n- Do not use people's numbers for things they did not agree to, such as adding them to selling groups.\n\n## Sharing lists\nBefore sharing a list with names and numbers:\n\n- ask whether everyone on it agreed,\n- share only with people who need it,\n- for a link to a spreadsheet, do not set it to **anyone with the link** if it contains personal data.\n\n## Group admins\nIf you run a WhatsApp group:\n\n- Use **announcement** settings for big groups, so members' numbers are less exposed.\n- Remove people who misuse members' contacts.\n- Do not export or sell member lists.\n\n## Small businesses and organisations\nIf you collect customers' or members' data for a business or organisation, the Data Protection Act applies to you too. Tell people why you collect their data, keep it secure, and delete it when no longer needed. Larger organisations may need to register with the Data Protection Commissioner, so check the official guidance.\n\n## Mistakes happen\nIf you share someone's information by mistake, tell them quickly, delete what you can, and change how you work so it does not happen again.",
+          "key_points": [
+            "Collect only the data you need",
+            "Ask before sharing lists of names and numbers",
+            "Businesses and organisations must follow the Data Protection Act"
+          ],
+          "try_it": "Check one group or list you manage: does it hold more personal data than it needs?",
+          "motif": "shield"
+        },
+        {
+          "slug": "laws-online-check",
+          "title": "Check: Laws that protect you online",
+          "type": "quiz",
+          "est_minutes": 3,
+          "body": "A few short questions on this module. There is no time limit, and you can try again.",
+          "motif": "circle",
+          "quiz": [
+            {
+              "question": "Breaking into someone else's Facebook account is...",
+              "options": [
+                "Allowed if you know them",
+                "A crime under the Cyber Crimes Act",
+                "Only a problem on weekends",
+                "Allowed for admins"
+              ],
+              "correct": 1,
+              "explanation": "Unauthorised access to accounts and systems is an offence."
+            },
+            {
+              "question": "What should you collect before reporting online fraud?",
+              "options": [
+                "Nothing, just go",
+                "Screenshots, transaction IDs and a short timeline",
+                "Only the scammer's photo",
+                "Your PIN"
+              ],
+              "correct": 1,
+              "explanation": "Good evidence makes reports much more useful."
+            },
+            {
+              "question": "A SIM card has been registered in your name without your knowledge. Who regulates communications and SIM registration?",
+              "options": [
+                "ZICTA",
+                "PACRA",
+                "ZRA",
+                "ECZ"
+              ],
+              "correct": 0,
+              "explanation": "ZICTA is the communications regulator; also contact your network."
+            },
+            {
+              "question": "You run a savings group. What personal data should you collect?",
+              "options": [
+                "Everything you can",
+                "Only what the group really needs",
+                "Members' PINs",
+                "Copies of every document"
+              ],
+              "correct": 1,
+              "explanation": "Collect only what you need and keep it safe."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Your responsibilities",
+      "summary": "Respect, checking before sharing, and speaking up safely.",
+      "lessons": [
         {
           "slug": "being-respectful-online",
           "title": "Being respectful online",
           "type": "read",
           "est_minutes": 5,
-          "body": "How you treat others online matters as much as in person.\n\n## Communicate well\nBe polite, even in disagreement. Do not share private messages or photos of others without permission. Words online can spread far and last a long time.\n\n## Report harm\nIf you see bullying, threats or scams, do not pass them on. Report them on the platform and talk to someone you trust.",
+          "body": "The internet works best when people can share ideas without being insulted or frightened. Every user helps decide what online spaces feel like.\n\n## Respect in practice\n- Talk about **ideas and actions**, not people's tribe, religion, looks or family.\n- Assume good intentions until you know otherwise. Many disagreements are misunderstandings.\n- Use calm language. Strong feelings are fine; insults are not.\n- Respect people's choice not to share their photo, opinions or personal details.\n\n## Disagreeing well\n1. Show you understand: *\"I see why you think the road should go there...\"*\n2. Give your view: *\"...but I worry about the market traders, because...\"*\n3. Use facts and sources where you can.\n4. Know when to stop. Not every argument needs to be won.\n\n## Words that can break the law\nSome online behaviour is not only rude but can be unlawful: threats, spreading damaging lies about a person, hate speech, and sharing private or intimate images. Being careful protects you as well as others.\n\n## Respecting public figures\nLeaders and officials can and should be questioned and criticised about their work. Do it with facts and without insults or threats. Respectful criticism is more convincing and harder to dismiss.\n\n## Respecting your own limits\nYou do not have to respond to everything. It is fine to mute a conversation, leave a group, or take a break.",
           "key_points": [
-            "Be polite, even when you disagree",
-            "Do not share others' private messages or photos",
-            "Online words spread far and last",
-            "Report bullying, threats and scams"
+            "Talk about ideas, not people",
+            "Use facts and calm language",
+            "You can question leaders without insults or threats"
           ],
-          "try_it": "Think of one way you can make a group chat you are in kinder.",
-          "motif": "community",
-          "published": true
+          "try_it": "Rewrite an angry comment you have seen into a calm, respectful one.",
+          "motif": "shield"
         },
         {
           "slug": "check-before-you-share-scenario",
           "title": "Scenario: Should you share it?",
           "type": "scenario",
-          "est_minutes": 5,
-          "body": "A dramatic message arrives on your phone and asks you to forward it to everyone. Work through what to do.",
+          "est_minutes": 4,
+          "body": "A dramatic message arrives on your phone and asks you to forward it to everyone. Work through what to do, step by step. Each choice shows feedback that explains the safest option.\n\nWhen you share something, you are lending it your name and the trust people have in you. That is a responsibility.",
           "key_points": [
             "Checking first protects you and others",
-            "The feedback explains the safest choice"
+            "Many shares do not make something true",
+            "Go to the official source to confirm"
           ],
           "motif": "circle",
-          "published": true,
           "scenario": [
             {
               "prompt": "A message says a local clinic is giving free money today and tells you to forward it to ten people. What do you do?",
@@ -77,7 +264,7 @@
               ],
               "feedback": [
                 "Forwarding fast is how false messages and scams spread.",
-                "Right — checking first protects you and the people you would send it to.",
+                "Right. Checking first protects you and the people you would send it to.",
                 "Adding your name makes others trust a message you have not checked."
               ],
               "best": 1
@@ -90,8 +277,8 @@
                 "Trust it because a friend sent it"
               ],
               "feedback": [
-                "Yes — go to the source or an official channel to confirm.",
-                "Many shares does not make something true.",
+                "Yes. Go to the source or an official channel to confirm.",
+                "Many shares do not make something true.",
                 "Even trusted friends forward things they have not checked."
               ],
               "best": 0
@@ -99,38 +286,81 @@
           ]
         },
         {
-          "slug": "digital-citizenship-quiz",
-          "title": "Check what you learned",
-          "type": "quiz",
+          "slug": "speaking-up-safely",
+          "title": "Taking part in public debate",
+          "type": "read",
           "est_minutes": 5,
-          "body": "Answer these short questions.",
+          "body": "The internet gives everyone a voice on public matters: a broken borehole, a delayed project, a new council plan, or national issues. Using that voice well helps communities and keeps leaders accountable.\n\n## Be clear and specific\n*\"The borehole at Kanyama Market has been broken since 3 October. 200 families now walk 2 km for water. Who can we contact to repair it?\"* is more useful than *\"Our leaders do nothing!\"*\n\n## Use facts and sources\nAdd dates, photos you took yourself, and links to official information. If you are not sure of a fact, say so.\n\n## Go to the right place\n- Post on the **official page** of the council, ministry or utility responsible.\n- Many public bodies have official complaint channels. Use them as well as social media, and keep a reference.\n- Join community meetings and talk to your councillor or ward development committee.\n\n## Stay within the law\n- Do not threaten anyone or call for violence.\n- Do not spread claims you cannot back up about a named person.\n- Do not share people's private information.\n\n## Protect yourself\n- Think about what you share about yourself, such as your address and daily routine.\n- If you face harassment for your views, save evidence and use the reporting steps you learned.\n- Groups of residents speaking together are often more effective, and safer, than one voice alone.\n\n## Follow up\nPublic pressure works best with patience. Follow up politely, share updates, and thank people when problems are fixed.",
           "key_points": [
-            "Take your time"
+            "Be clear, specific and factual",
+            "Use official pages and complaint channels",
+            "No threats, no unproven claims about people"
           ],
+          "try_it": "Write a short, factual post about one problem in your community, addressed to the right office.",
+          "motif": "shield"
+        },
+        {
+          "slug": "digital-citizenship-quiz",
+          "title": "Final check: Digital rights and responsibilities",
+          "type": "quiz",
+          "est_minutes": 4,
+          "body": "Questions covering the whole course. Score 70% or more to complete it. You can try again as many times as you like.",
           "motif": "circle",
-          "published": true,
           "quiz": [
             {
-              "question": "Which of these should you keep private?",
+              "question": "Which right lets you ask a company what information it holds about you?",
               "options": [
-                "Your favourite colour",
-                "Your PINs, passwords and NRC number",
-                "The weather",
-                "A public notice"
+                "The right of access",
+                "The right to free airtime",
+                "The right to a loan",
+                "There is no such right"
               ],
-              "correct": 1,
-              "explanation": "Keep PINs, passwords, your NRC number and personal details private and safe."
+              "correct": 0,
+              "explanation": "The Data Protection Act gives you a right of access."
             },
             {
-              "question": "Before forwarding a dramatic message, you should:",
+              "question": "What does the Cyber Crimes Act, 2025 deal with?",
               "options": [
-                "Send it to everyone fast",
-                "Check if it is true first",
-                "Add more drama",
-                "Never read it"
+                "Football rules",
+                "Crimes committed using computers and phones",
+                "Farming subsidies",
+                "Road tolls"
               ],
               "correct": 1,
-              "explanation": "Check whether a message is true before you share it, so you do not spread false information."
+              "explanation": "It sets out cyber-enabled crimes and penalties."
+            },
+            {
+              "question": "Which post about a public problem is most effective?",
+              "options": [
+                "'Our leaders do nothing!'",
+                "A specific post with dates, facts and a question to the right office",
+                "A threat to an official",
+                "A rumour about someone's family"
+              ],
+              "correct": 1,
+              "explanation": "Specific, factual posts to the right office get results."
+            },
+            {
+              "question": "A dramatic message says to forward it to ten people. What should you do?",
+              "options": [
+                "Forward it quickly",
+                "Check whether it is true with an official source first",
+                "Add that it must be true",
+                "Post it everywhere"
+              ],
+              "correct": 1,
+              "explanation": "Checking first protects you and the people you would send it to."
+            },
+            {
+              "question": "You lost money to an online scam. What should you do first?",
+              "options": [
+                "Wait",
+                "Call your provider's official customer care immediately, then report to the police",
+                "Send more money",
+                "Delete the messages"
+              ],
+              "correct": 1,
+              "explanation": "Speed and evidence give the best chance of stopping the money."
             }
           ]
         }

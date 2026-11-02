@@ -1,107 +1,337 @@
 {
   "slug": "being-a-good-digital-citizen",
   "title": "Being a Good Digital Citizen",
-  "tagline": "Rights, respect, and wellbeing in online spaces.",
-  "description": "The internet is a community too. Learn your rights, how to treat others with respect, how to deal with bullying, and how to look after your wellbeing.",
+  "tagline": "Respect, safety and wellbeing in online spaces.",
+  "description": "The internet is a shared space, like a market or a community hall. This course is about how we treat each other there: being respectful, dealing with bullying and harassment, protecting children, and keeping a healthy balance between screens and the rest of life.",
   "pathway": "digital-skills",
   "category": "citizenship",
   "icon_name": "Users",
   "difficulty": "easy",
   "estimated_hours": 1.5,
   "pass_mark": 70,
-  "outcomes": [
-    "Know your rights online in Zambia",
-    "Treat others with respect",
-    "Report and block bullies",
-    "Protect children online",
-    "Balance screen time with rest"
-  ],
   "sort_order": 8,
   "published": true,
+  "outcomes": [
+    "Treat others with respect online",
+    "Ask before sharing other people's photos",
+    "Refuse to spread hate and tribalism",
+    "Block, report and get help with bullying and harassment",
+    "Help keep children safe online",
+    "Balance screen time and manage your digital footprint"
+  ],
   "modules": [
     {
-      "title": "Module 1",
-      "summary": "",
+      "title": "Respect online",
+      "summary": "Kind words, consent and refusing hate.",
       "lessons": [
         {
           "slug": "your-rights-online",
-          "title": "Your rights online",
+          "title": "The same values online and offline",
           "type": "read",
           "est_minutes": 5,
-          "body": "In Zambia, the Data Protection Act of 2021 protects your personal information. Companies must tell you why they collect your data and keep it safe.\n\n## You can ask\nYou can ask a company what information they hold about you, and ask them to correct or delete it.",
+          "body": "Online, people cannot see your face or hear your tone of voice. Words can feel colder and hurt more than you meant. But the people reading are just as real as the people you meet at the market.\n\n## A simple test\nBefore you post or reply, ask: **would I say this to the person's face, in front of my family?** If not, do not post it.\n\n## Respectful habits\n- Greet people and use their names.\n- Disagree with **ideas**, not with the person. *\"I see it differently, because...\"* works better than insults.\n- Do not write in capital letters. It reads as shouting.\n- If you are angry, wait before replying. A message cannot be unsent once it has been read.\n- Admit mistakes and apologise when you get something wrong.\n\n## Your rights come with responsibilities\nYou have the right to express yourself and to privacy online, just as offline. Other people have the same rights. Insulting, threatening or spreading lies about someone can hurt them, and in some cases can break the law.\n\n## Being a positive voice\nYou can make online spaces better:\n\n- thank people who share useful information,\n- welcome new members to groups,\n- correct false information kindly,\n- stand up for someone being picked on.\n\nSmall actions by many people decide whether a group is a good place to be.",
           "key_points": [
-            "Your data is protected by law",
-            "You can ask what data is held about you",
-            "You can ask for corrections"
+            "Would you say it to their face?",
+            "Disagree with ideas, not people",
+            "Wait before replying when you are angry"
           ],
-          "try_it": "Think of one app you use. Do you know what data it collects?",
-          "motif": "community",
-          "published": true
+          "try_it": "Next time you disagree in a group, use: 'I see it differently, because...'",
+          "motif": "community"
         },
         {
-          "slug": "dealing-with-bullying",
-          "title": "Dealing with online bullying",
+          "slug": "sharing-others-photos",
+          "title": "Asking before you share",
           "type": "read",
           "est_minutes": 5,
-          "body": "Bullying online can hurt as much as bullying in person.\n\n## What to do\nDo not reply to the bully. Take a screenshot as proof. Block and report the account. Talk to someone you trust, like a parent, teacher or facilitator.",
+          "body": "Photos and videos of other people belong partly to them. Sharing them without asking can embarrass, hurt or even endanger someone.\n\n## Ask first\nBefore you post a photo with other people in it, ask: *\"Is it okay if I put this on Facebook?\"* Some people have good reasons not to want their picture online, like a difficult family situation or a job.\n\n## Children\nBe especially careful with photos of children, including your own:\n\n- Do not show their school uniform, school name or home in public posts.\n- Do not share photos of children in the bath or partly dressed, even if they look innocent. Once online, a picture can be copied and misused.\n- Ask other parents before sharing photos of their children.\n\n## Private messages stay private\nDo not screenshot and forward someone's private messages to others without their permission. It breaks trust.\n\n## Never share intimate images\nSharing intimate photos of someone without their consent is deeply harmful and can be a crime. If someone sends you such an image of another person, do not forward it. Delete it.\n\n## People in difficult moments\nDo not film and share people in accidents, fights, hospital or at funerals. They cannot agree, and their families may see it.\n\n## If someone shares your photo\nAsk them politely to remove it. If they refuse, use the app's **Report** button. Most platforms remove private images shared without consent.",
           "key_points": [
-            "Do not reply",
-            "Save proof",
-            "Block and report",
-            "Tell someone you trust"
+            "Ask before posting photos of other people",
+            "Protect children's privacy in photos",
+            "Never forward intimate images of anyone"
           ],
-          "try_it": "Find the block button in WhatsApp for a contact, without pressing it.",
-          "motif": "shield",
-          "published": true
+          "try_it": "Look at your last few posts. Did everyone in your photos agree to be shared?",
+          "motif": "community"
+        },
+        {
+          "slug": "hate-speech-and-tribalism",
+          "title": "Refusing to spread hate",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "**Hate speech** attacks people because of who they are: their tribe, region, religion, colour, sex, disability or political side. It spreads easily online and can lead to real violence.\n\n## What it can look like\n- Jokes and memes that mock a tribe or region.\n- Messages blaming a whole group for a problem.\n- Calling people animals or insulting names.\n- Calls to exclude, beat or harm people.\n\nZambia's motto is **One Zambia, One Nation**. Online hate works against that, setting neighbours against each other.\n\n## Why we share it\nIt often arrives as a \"joke\" from a friend, or during heated times like elections. People forward it without thinking about who it hurts.\n\n## What you can do\n- **Do not forward it**, even to criticise it. Forwarding helps it spread.\n- **Say something** if you feel safe to: *\"Let's not talk about people like that in this group.\"*\n- **Report it** to the platform. Facebook and WhatsApp let you report messages and accounts.\n- If it includes **threats of violence**, report it to the police.\n\n## Criticism is not hate\nYou can criticise leaders, parties, decisions and ideas. That is part of democracy. Talk about what people **do**, not what group they belong to.\n\n## Think about the person reading\nSomewhere, a person from that tribe, region or faith reads the message. Would you want your children to read the same about you?",
+          "key_points": [
+            "Hate speech attacks people for who they are",
+            "Do not forward it, even to criticise it",
+            "Criticise actions and ideas, not groups"
+          ],
+          "try_it": "If you see a tribal 'joke' this week, do not forward it.",
+          "motif": "community"
+        },
+        {
+          "slug": "respect-online-check",
+          "title": "Check: Respect online",
+          "type": "quiz",
+          "est_minutes": 3,
+          "body": "A few short questions on this module. There is no time limit, and you can try again.",
+          "motif": "circle",
+          "quiz": [
+            {
+              "question": "What is a good test before posting a reply?",
+              "options": [
+                "Will it get many likes?",
+                "Would I say this to their face, in front of my family?",
+                "Is it in capital letters?",
+                "Is it long enough?"
+              ],
+              "correct": 1,
+              "explanation": "If you would not say it in person, do not post it."
+            },
+            {
+              "question": "You took a group photo at church. What should you do before posting it publicly?",
+              "options": [
+                "Post it straight away",
+                "Ask the people in it if they are happy for it to be shared",
+                "Add funny captions",
+                "Tag everyone without asking"
+              ],
+              "correct": 1,
+              "explanation": "People have a right to decide where their image goes."
+            },
+            {
+              "question": "A friend forwards a 'joke' mocking another tribe. What is best?",
+              "options": [
+                "Forward it to more groups",
+                "Do not forward it, and say something if you feel safe",
+                "Add your own joke",
+                "Post it on your status"
+              ],
+              "correct": 1,
+              "explanation": "Not forwarding stops the spread. Speaking up helps change the group."
+            },
+            {
+              "question": "Which is acceptable criticism?",
+              "options": [
+                "Insulting a whole tribe",
+                "Disagreeing with a leader's decision and explaining why",
+                "Calling people animals",
+                "Threatening someone"
+              ],
+              "correct": 1,
+              "explanation": "Criticising decisions and ideas is part of democracy."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Bullying and harassment",
+      "summary": "Recognising it, blocking and reporting, and getting help.",
+      "lessons": [
+        {
+          "slug": "dealing-with-bullying",
+          "title": "Recognising online bullying",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "**Online bullying** (cyberbullying) is when someone uses phones or the internet to hurt, frighten or embarrass another person again and again. It can happen to children and adults.\n\n## What it can look like\n- Repeated insulting or threatening messages.\n- Spreading rumours or lies about someone.\n- Sharing embarrassing photos or private messages.\n- Making a fake account to pretend to be someone.\n- Leaving someone out of a group on purpose and mocking them.\n- Sending messages late at night to frighten someone.\n\n## Why it hurts so much\nOnline bullying can follow a person everywhere, at any time, through their phone. Many people may see it. It can lead to fear, sadness, missing school or work, and in serious cases harm to the person's health.\n\n## Signs someone may be bullied\n- They seem upset or afraid after using their phone.\n- They stop using their phone suddenly, or hide it.\n- They avoid school, work, church or friends.\n\n## If it is happening to you\n- **It is not your fault.**\n- **Do not reply** to the bully. Replies often make it worse.\n- **Save the evidence**: take screenshots with the date and the sender's name or number.\n- **Tell someone you trust.**\n\nThe next lesson shows exactly how to block and report.\n\n## If you see it happening\nDo not join in, laugh or forward it. Check on the person privately: *\"I saw what they posted. Are you okay?\"* That can mean a lot.",
+          "key_points": [
+            "Bullying is repeated, hurtful behaviour",
+            "Do not reply; save screenshots",
+            "Check on people who are being bullied"
+          ],
+          "try_it": "Think of one trusted person you would tell if you were bullied online.",
+          "motif": "community"
+        },
+        {
+          "slug": "block-and-report",
+          "title": "How to block and report",
+          "type": "practice",
+          "est_minutes": 5,
+          "body": "Every major app lets you **block** people so they cannot contact you, and **report** them to the company.\n\n## WhatsApp\n1. Open the chat with the person.\n2. Tap their name at the top.\n3. Scroll down and tap **Block**. You can also tap **Report**, which sends the last few messages to WhatsApp.\n\nBlocked people cannot call or message you, or see your updates. They are not told they were blocked.\n\nTo block someone from adding you to groups, go to **Settings, Privacy, Groups** and choose **My contacts**.\n\n## Facebook\n- **On a profile:** tap the three dots, then **Block** or **Find support or report**.\n- **On a post or comment:** tap the three dots, then **Report**, and choose the reason, such as harassment or hate speech.\n\nYou can also **restrict** or **unfriend** someone, or set your posts to Friends only.\n\n## Calls and SMS\nOn most Android phones, open the phone app, press and hold the number in your call list, and tap **Block**.\n\n## Before you block\n**Save evidence first**. Take screenshots of the messages with the number or name visible. If you need to go to the police later, you will need them.\n\n## When to go further\nIf messages include **threats of violence**, demands for money, or sharing intimate images, go to the **police** with your screenshots. These are serious matters, and the police take reports of online crime.",
+          "key_points": [
+            "Screenshot the evidence first",
+            "Block and report in WhatsApp from the person's name",
+            "Take threats to the police"
+          ],
+          "try_it": "Find the Block and Report buttons in WhatsApp without using them.",
+          "motif": "community"
+        },
+        {
+          "slug": "getting-help",
+          "title": "Getting help and supporting others",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "Nobody should deal with bullying, harassment or threats alone.\n\n## Who can help\n- **A trusted person:** a family member, friend, teacher, pastor or community leader.\n- **School:** teachers and guidance staff must take bullying between pupils seriously, even when it happens on phones.\n- **Your workplace:** report harassment by colleagues to a manager or human resources.\n- **The police:** for threats, blackmail, sharing intimate images, and harassment that will not stop. Bring your screenshots.\n- **Child protection services:** if a child is at risk, organisations such as **Childline Zambia** and the police **Victim Support Unit** help children and families.\n\n## Helping someone who tells you\n- **Listen** without blaming them. Do not say *\"Why did you send that photo?\"*\n- Thank them for telling you.\n- Help them save evidence and block the person.\n- Ask what they would like to do, and offer to go with them to report it.\n- Check on them again in the following days.\n\n## Look after your wellbeing\nBeing attacked online is stressful. It is okay to take a break from social media, mute groups, and spend time with people who support you. If you feel very low, talk to someone you trust or a health worker.\n\n## Remember\nAsking for help is a sign of strength. Most problems are easier to solve when they are reported early.",
+          "key_points": [
+            "You do not have to deal with it alone",
+            "Listen without blaming",
+            "Bring screenshots when you report"
+          ],
+          "try_it": "Save the number of one person you would call if someone threatened you online.",
+          "motif": "community"
+        },
+        {
+          "slug": "bullying-check",
+          "title": "Check: Bullying and harassment",
+          "type": "quiz",
+          "est_minutes": 3,
+          "body": "A few short questions on this module. There is no time limit, and you can try again.",
+          "motif": "circle",
+          "quiz": [
+            {
+              "question": "Someone keeps sending you insulting messages. What should you do first?",
+              "options": [
+                "Reply with insults",
+                "Save screenshots, then block and report",
+                "Delete everything",
+                "Post their number publicly"
+              ],
+              "correct": 1,
+              "explanation": "Evidence first, then block and report."
+            },
+            {
+              "question": "What happens when you block someone on WhatsApp?",
+              "options": [
+                "They get an alert",
+                "They can no longer call or message you",
+                "Your account is deleted",
+                "They see all your chats"
+              ],
+              "correct": 1,
+              "explanation": "Blocked people cannot contact you and are not told."
+            },
+            {
+              "question": "A friend tells you someone is threatening them online. What is the best response?",
+              "options": [
+                "'It's your own fault'",
+                "Listen, help save evidence and offer to go with them to report it",
+                "Laugh it off",
+                "Forward the threats"
+              ],
+              "correct": 1,
+              "explanation": "Support without blame, and help them act."
+            },
+            {
+              "question": "When should you go to the police?",
+              "options": [
+                "Never",
+                "For threats, blackmail or sharing intimate images",
+                "Only for spelling mistakes",
+                "When someone leaves a group"
+              ],
+              "correct": 1,
+              "explanation": "These are serious and can be crimes."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Wellbeing and children",
+      "summary": "Keeping children safe, screen time and your digital footprint.",
+      "lessons": [
+        {
+          "slug": "protect-children-online",
+          "title": "Helping children stay safe online",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "Children are growing up with phones. They learn, play and talk to friends online. They also face risks they may not understand. Your guidance matters more than any setting.\n\n## Talk early and often\n- Ask what apps and games they use, and who they talk to. Show interest, not anger.\n- Agree simple rules together: which apps, how long, and when phones are put away.\n- Tell them they can **always come to you** if something online makes them uncomfortable, and that they will not be punished for telling you.\n\n## Teach the key rules\n- Do not share your full name, school, home address or phone number with people you meet online.\n- Do not send photos to people you do not know in real life.\n- Never agree to meet someone from the internet without a parent.\n- Keep passwords private, even from friends.\n- If anyone asks you to keep a secret from your parents, tell a parent.\n\n## Warning signs\nBe alert if a child becomes secretive about their phone, receives gifts or airtime from unknown people, has a new \"friend\" who is much older, or seems upset after being online. Adults with bad intentions often start by being very kind and asking for secrecy.\n\n## Useful settings\n- **Google Family Link** lets parents manage apps and screen time on a child's Android phone.\n- **YouTube Kids** is safer for young children than normal YouTube.\n- Set the Play Store to require approval before installing apps.\n\n## If something happens\nStay calm, save evidence, and report to the platform and the police. Childline Zambia and the police Victim Support Unit can help.",
+          "key_points": [
+            "Talk early and keep the door open",
+            "Teach: no personal details, no photos, no meeting strangers",
+            "Secrecy and gifts from strangers are warning signs"
+          ],
+          "try_it": "Have a short conversation with a child in your life about who they talk to online.",
+          "motif": "community"
         },
         {
           "slug": "screen-time-balance",
           "title": "Balancing screen time",
           "type": "practice",
           "est_minutes": 5,
-          "body": "Phones are useful, but too much time on them can affect sleep and family time.\n\n## Simple habits\nPut the phone away during meals. Stop using it one hour before sleep. Turn off notifications from apps you do not need.",
+          "body": "Phones are useful, but they are designed to keep us scrolling. Too much time on screens can affect sleep, work, family time and mood.\n\n## Signs it may be too much\n- You pick up your phone without thinking, many times an hour.\n- You stay up late scrolling and feel tired the next day.\n- You feel worse about yourself after looking at other people's posts.\n- Family or friends complain you are always on your phone.\n\n## Check your time\nOn Android, open **Settings**, then **Digital Wellbeing and parental controls**. It shows how long you spend in each app every day. The number often surprises people.\n\n## Small changes that help\n- **Turn off notifications** for apps that are not important. Each buzz pulls you back.\n- **Mute busy groups.**\n- Use **Bedtime mode** to turn the screen grey at night and silence the phone.\n- Keep the phone **out of the bedroom** or face down during meals.\n- Set **app timers** in Digital Wellbeing for apps you overuse.\n- Replace some scrolling with a walk, a chat with family or a book.\n\n## Remember what is real\nSocial media shows the best moments of people's lives, often edited. It is not the whole truth. Comparing your everyday life with others' highlights can make you feel bad for no reason.\n\n## Be a good example\nChildren copy what adults do. Putting your own phone away at meals teaches more than any rule.",
           "key_points": [
-            "Phone-free meals",
-            "No screens before sleep",
-            "Turn off extra notifications"
+            "Check your screen time in Digital Wellbeing",
+            "Turn off unneeded notifications",
+            "Keep phones away at meals and bedtime"
           ],
-          "try_it": "Turn off notifications for one app you do not need.",
-          "motif": "circle",
-          "published": true
+          "try_it": "Open Digital Wellbeing and find which app you used most yesterday.",
+          "motif": "community"
+        },
+        {
+          "slug": "digital-footprint",
+          "title": "Your digital footprint",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "Everything you do online leaves a trace: posts, comments, photos, likes and even searches. Together these make your **digital footprint**.\n\n## It lasts\nEven if you delete a post, someone may already have taken a screenshot or shared it. Things posted years ago can come back.\n\n## Who might look\n- **Employers** often search candidates' names before hiring.\n- **Schools and scholarship committees.**\n- **Customers** deciding whether to trust your business.\n- **Criminals** looking for information to trick or rob you.\n\n## Check your own footprint\nSearch your full name on Google and look at what appears. Check the Images tab too. Then open your Facebook profile and view it as the public sees it: on your profile, tap the three dots and **View as**.\n\n## Clean it up\n- Delete or hide old posts you would not want an employer to see.\n- Set future posts to **Friends** rather than Public.\n- Remove tags from photos you do not like.\n- Close old accounts you no longer use.\n\n## Build a good footprint\nYour footprint can also help you. Sharing your work, skills, volunteering and helpful posts can show employers and customers who you are. A tidy LinkedIn or business page is a positive footprint.\n\n## Before you post\nAsk: *Would I be happy for this to be seen in five years, by a future employer, or by my children?*",
+          "key_points": [
+            "Everything online leaves a lasting trace",
+            "Search your name to see your footprint",
+            "Share things that show your skills and values"
+          ],
+          "try_it": "Search your full name on Google and look at what appears.",
+          "motif": "community"
         },
         {
           "slug": "citizenship-quiz",
-          "title": "Check what you learned",
+          "title": "Final check: Being a good digital citizen",
           "type": "quiz",
-          "est_minutes": 5,
-          "body": "Answer these short questions.",
-          "key_points": [
-            "Take your time"
-          ],
+          "est_minutes": 4,
+          "body": "Questions covering the whole course. Score 70% or more to complete it. You can try again as many times as you like.",
           "motif": "circle",
-          "published": true,
           "quiz": [
             {
-              "question": "Which law protects personal data in Zambia?",
+              "question": "A child tells you an online 'friend' sends them airtime and asks them to keep it secret. What does this suggest?",
               "options": [
-                "The Data Protection Act of 2021",
-                "The Roads Act",
-                "There is no law",
-                "The Mining Act"
+                "A kind friend",
+                "A warning sign that needs a calm conversation and action",
+                "Nothing important",
+                "They should send photos back"
               ],
-              "correct": 0,
-              "explanation": "The Data Protection Act No. 3 of 2021 protects your personal information."
+              "correct": 1,
+              "explanation": "Gifts and secrecy from strangers are warning signs."
             },
             {
-              "question": "Someone is bullying you online. What should you NOT do?",
+              "question": "Where can you see how much time you spend in each app on Android?",
               "options": [
-                "Save proof",
-                "Block them",
-                "Reply angrily",
-                "Tell someone you trust"
+                "Digital Wellbeing in Settings",
+                "The calculator",
+                "The camera",
+                "Google Maps"
               ],
-              "correct": 2,
-              "explanation": "Replying can make it worse. Save proof, block, report and talk to someone."
+              "correct": 0,
+              "explanation": "Digital Wellbeing shows daily app use."
+            },
+            {
+              "question": "You deleted an old post. Is it gone forever?",
+              "options": [
+                "Yes, always",
+                "Not necessarily; someone may have saved or shared it",
+                "Only on weekends",
+                "Only if it had no likes"
+              ],
+              "correct": 1,
+              "explanation": "Screenshots and shares can keep it alive."
+            },
+            {
+              "question": "What should you do before blocking someone who is harassing you?",
+              "options": [
+                "Save screenshots as evidence",
+                "Reply angrily",
+                "Share their messages in groups",
+                "Nothing"
+              ],
+              "correct": 0,
+              "explanation": "Evidence helps if you need to report it later."
+            },
+            {
+              "question": "Which is the best way to disagree online?",
+              "options": [
+                "Insult the person",
+                "Talk about the idea and explain why",
+                "Write in capital letters",
+                "Post about their tribe"
+              ],
+              "correct": 1,
+              "explanation": "Respectful disagreement focuses on ideas."
             }
           ]
         }

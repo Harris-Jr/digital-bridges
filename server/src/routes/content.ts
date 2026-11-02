@@ -10,7 +10,7 @@ contentRouter.get(
   "/pages/:slug",
   asyncHandler(async (req, res) => {
     const { rows } = await query(
-      "select slug, hero_title, hero_subline, body, updated_at from site_pages where slug = $1 and is_published = true",
+      "select slug, hero_title, hero_subline, hero_eyebrow, hero_image_url, nav_label, body, blocks, is_system, updated_at from site_pages where slug = $1 and is_published = true",
       [req.params.slug],
     );
     res.json(rows[0] ?? null);
@@ -225,5 +225,16 @@ contentRouter.get(
     );
     if (!rows[0]) throw notFound("Post not found");
     res.json(rows[0]);
+  }),
+);
+
+// Custom pages (created in the page builder) for menus and the sitemap.
+contentRouter.get(
+  "/pages",
+  asyncHandler(async (_req, res) => {
+    const { rows } = await query(
+      "select slug, hero_title, nav_label from site_pages where is_published and not is_system order by hero_title",
+    );
+    res.json(rows);
   }),
 );

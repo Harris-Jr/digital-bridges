@@ -34,7 +34,6 @@ import { Route as AdminCohortsRouteImport } from './routes/admin/cohorts'
 import { Route as AdminFaqsRouteImport } from './routes/admin/faqs'
 import { Route as AdminMaterialsRouteImport } from './routes/admin/materials'
 import { Route as AdminMediaRouteImport } from './routes/admin/media'
-import { Route as AdminPagesRouteImport } from './routes/admin/pages'
 import { Route as AdminPartnersRouteImport } from './routes/admin/partners'
 import { Route as AdminPathwaysRouteImport } from './routes/admin/pathways'
 import { Route as AdminTestimonialsRouteImport } from './routes/admin/testimonials'
@@ -45,11 +44,14 @@ import { Route as CoursesIndexRouteImport } from './routes/courses.index'
 import { Route as CoursesSlugRouteImport } from './routes/courses.$slug'
 import { Route as NewsIndexRouteImport } from './routes/news.index'
 import { Route as NewsSlugRouteImport } from './routes/news.$slug'
+import { Route as PSlugRouteImport } from './routes/p.$slug'
 import { Route as PathsSlugRouteImport } from './routes/paths.$slug'
 import { Route as AuthenticatedCohortsIdRouteImport } from './routes/_authenticated/cohorts.$id'
 import { Route as AdminCoursesIndexRouteImport } from './routes/admin/courses.index'
 import { Route as AdminNewsIndexRouteImport } from './routes/admin/news.index'
 import { Route as AdminNewsPostIdRouteImport } from './routes/admin/news.$postId'
+import { Route as AdminPagesIndexRouteImport } from './routes/admin/pages.index'
+import { Route as AdminPagesSlugRouteImport } from './routes/admin/pages.$slug'
 import { Route as LearnCourseSlugLessonSlugRouteImport } from './routes/learn.$courseSlug.$lessonSlug'
 import { Route as VerifyKindIdRouteImport } from './routes/verify.$kind.$id'
 import { Route as AdminCoursesCourseIdIndexRouteImport } from './routes/admin/courses.$courseId.index'
@@ -180,11 +182,6 @@ const AdminMediaRoute = AdminMediaRouteImport.update({
   path: '/media',
   getParentRoute: () => AdminRouteRoute,
 } as any)
-const AdminPagesRoute = AdminPagesRouteImport.update({
-  id: '/pages',
-  path: '/pages',
-  getParentRoute: () => AdminRouteRoute,
-} as any)
 const AdminPartnersRoute = AdminPartnersRouteImport.update({
   id: '/partners',
   path: '/partners',
@@ -235,6 +232,11 @@ const NewsSlugRoute = NewsSlugRouteImport.update({
   path: '/news/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PSlugRoute = PSlugRouteImport.update({
+  id: '/p/$slug',
+  path: '/p/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PathsSlugRoute = PathsSlugRouteImport.update({
   id: '/paths/$slug',
   path: '/paths/$slug',
@@ -258,6 +260,16 @@ const AdminNewsIndexRoute = AdminNewsIndexRouteImport.update({
 const AdminNewsPostIdRoute = AdminNewsPostIdRouteImport.update({
   id: '/news/$postId',
   path: '/news/$postId',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminPagesIndexRoute = AdminPagesIndexRouteImport.update({
+  id: '/pages/',
+  path: '/pages/',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminPagesSlugRoute = AdminPagesSlugRouteImport.update({
+  id: '/pages/$slug',
+  path: '/pages/$slug',
   getParentRoute: () => AdminRouteRoute,
 } as any)
 const LearnCourseSlugLessonSlugRoute =
@@ -314,7 +326,6 @@ export interface FileRoutesByFullPath {
   '/admin/faqs': typeof AdminFaqsRoute
   '/admin/materials': typeof AdminMaterialsRoute
   '/admin/media': typeof AdminMediaRoute
-  '/admin/pages': typeof AdminPagesRoute
   '/admin/partners': typeof AdminPartnersRoute
   '/admin/pathways': typeof AdminPathwaysRoute
   '/admin/testimonials': typeof AdminTestimonialsRoute
@@ -323,16 +334,19 @@ export interface FileRoutesByFullPath {
   '/certificates/$slug': typeof CertificatesSlugRoute
   '/courses/$slug': typeof CoursesSlugRoute
   '/news/$slug': typeof NewsSlugRoute
+  '/p/$slug': typeof PSlugRoute
   '/paths/$slug': typeof PathsSlugRoute
   '/admin/': typeof AdminIndexRoute
   '/courses/': typeof CoursesIndexRoute
   '/news/': typeof NewsIndexRoute
   '/cohorts/$id': typeof AuthenticatedCohortsIdRoute
   '/admin/news/$postId': typeof AdminNewsPostIdRoute
+  '/admin/pages/$slug': typeof AdminPagesSlugRoute
   '/learn/$courseSlug/$lessonSlug': typeof LearnCourseSlugLessonSlugRoute
   '/verify/$kind/$id': typeof VerifyKindIdRoute
   '/admin/courses/': typeof AdminCoursesIndexRoute
   '/admin/news/': typeof AdminNewsIndexRoute
+  '/admin/pages/': typeof AdminPagesIndexRoute
   '/admin/lessons/$lessonId/scenario': typeof AdminLessonsLessonIdScenarioRoute
   '/admin/courses/$courseId/': typeof AdminCoursesCourseIdIndexRoute
   '/admin/lessons/$lessonId/': typeof AdminLessonsLessonIdIndexRoute
@@ -360,7 +374,6 @@ export interface FileRoutesByTo {
   '/admin/faqs': typeof AdminFaqsRoute
   '/admin/materials': typeof AdminMaterialsRoute
   '/admin/media': typeof AdminMediaRoute
-  '/admin/pages': typeof AdminPagesRoute
   '/admin/partners': typeof AdminPartnersRoute
   '/admin/pathways': typeof AdminPathwaysRoute
   '/admin/testimonials': typeof AdminTestimonialsRoute
@@ -369,16 +382,19 @@ export interface FileRoutesByTo {
   '/certificates/$slug': typeof CertificatesSlugRoute
   '/courses/$slug': typeof CoursesSlugRoute
   '/news/$slug': typeof NewsSlugRoute
+  '/p/$slug': typeof PSlugRoute
   '/paths/$slug': typeof PathsSlugRoute
   '/admin': typeof AdminIndexRoute
   '/courses': typeof CoursesIndexRoute
   '/news': typeof NewsIndexRoute
   '/cohorts/$id': typeof AuthenticatedCohortsIdRoute
   '/admin/news/$postId': typeof AdminNewsPostIdRoute
+  '/admin/pages/$slug': typeof AdminPagesSlugRoute
   '/learn/$courseSlug/$lessonSlug': typeof LearnCourseSlugLessonSlugRoute
   '/verify/$kind/$id': typeof VerifyKindIdRoute
   '/admin/courses': typeof AdminCoursesIndexRoute
   '/admin/news': typeof AdminNewsIndexRoute
+  '/admin/pages': typeof AdminPagesIndexRoute
   '/admin/lessons/$lessonId/scenario': typeof AdminLessonsLessonIdScenarioRoute
   '/admin/courses/$courseId': typeof AdminCoursesCourseIdIndexRoute
   '/admin/lessons/$lessonId': typeof AdminLessonsLessonIdIndexRoute
@@ -409,7 +425,6 @@ export interface FileRoutesById {
   '/admin/faqs': typeof AdminFaqsRoute
   '/admin/materials': typeof AdminMaterialsRoute
   '/admin/media': typeof AdminMediaRoute
-  '/admin/pages': typeof AdminPagesRoute
   '/admin/partners': typeof AdminPartnersRoute
   '/admin/pathways': typeof AdminPathwaysRoute
   '/admin/testimonials': typeof AdminTestimonialsRoute
@@ -418,16 +433,19 @@ export interface FileRoutesById {
   '/certificates/$slug': typeof CertificatesSlugRoute
   '/courses/$slug': typeof CoursesSlugRoute
   '/news/$slug': typeof NewsSlugRoute
+  '/p/$slug': typeof PSlugRoute
   '/paths/$slug': typeof PathsSlugRoute
   '/admin/': typeof AdminIndexRoute
   '/courses/': typeof CoursesIndexRoute
   '/news/': typeof NewsIndexRoute
   '/_authenticated/cohorts/$id': typeof AuthenticatedCohortsIdRoute
   '/admin/news/$postId': typeof AdminNewsPostIdRoute
+  '/admin/pages/$slug': typeof AdminPagesSlugRoute
   '/learn/$courseSlug/$lessonSlug': typeof LearnCourseSlugLessonSlugRoute
   '/verify/$kind/$id': typeof VerifyKindIdRoute
   '/admin/courses/': typeof AdminCoursesIndexRoute
   '/admin/news/': typeof AdminNewsIndexRoute
+  '/admin/pages/': typeof AdminPagesIndexRoute
   '/admin/lessons/$lessonId/scenario': typeof AdminLessonsLessonIdScenarioRoute
   '/admin/courses/$courseId/': typeof AdminCoursesCourseIdIndexRoute
   '/admin/lessons/$lessonId/': typeof AdminLessonsLessonIdIndexRoute
@@ -458,7 +476,6 @@ export interface FileRouteTypes {
     | '/admin/faqs'
     | '/admin/materials'
     | '/admin/media'
-    | '/admin/pages'
     | '/admin/partners'
     | '/admin/pathways'
     | '/admin/testimonials'
@@ -467,16 +484,19 @@ export interface FileRouteTypes {
     | '/certificates/$slug'
     | '/courses/$slug'
     | '/news/$slug'
+    | '/p/$slug'
     | '/paths/$slug'
     | '/admin/'
     | '/courses/'
     | '/news/'
     | '/cohorts/$id'
     | '/admin/news/$postId'
+    | '/admin/pages/$slug'
     | '/learn/$courseSlug/$lessonSlug'
     | '/verify/$kind/$id'
     | '/admin/courses/'
     | '/admin/news/'
+    | '/admin/pages/'
     | '/admin/lessons/$lessonId/scenario'
     | '/admin/courses/$courseId/'
     | '/admin/lessons/$lessonId/'
@@ -504,7 +524,6 @@ export interface FileRouteTypes {
     | '/admin/faqs'
     | '/admin/materials'
     | '/admin/media'
-    | '/admin/pages'
     | '/admin/partners'
     | '/admin/pathways'
     | '/admin/testimonials'
@@ -513,16 +532,19 @@ export interface FileRouteTypes {
     | '/certificates/$slug'
     | '/courses/$slug'
     | '/news/$slug'
+    | '/p/$slug'
     | '/paths/$slug'
     | '/admin'
     | '/courses'
     | '/news'
     | '/cohorts/$id'
     | '/admin/news/$postId'
+    | '/admin/pages/$slug'
     | '/learn/$courseSlug/$lessonSlug'
     | '/verify/$kind/$id'
     | '/admin/courses'
     | '/admin/news'
+    | '/admin/pages'
     | '/admin/lessons/$lessonId/scenario'
     | '/admin/courses/$courseId'
     | '/admin/lessons/$lessonId'
@@ -552,7 +574,6 @@ export interface FileRouteTypes {
     | '/admin/faqs'
     | '/admin/materials'
     | '/admin/media'
-    | '/admin/pages'
     | '/admin/partners'
     | '/admin/pathways'
     | '/admin/testimonials'
@@ -561,16 +582,19 @@ export interface FileRouteTypes {
     | '/certificates/$slug'
     | '/courses/$slug'
     | '/news/$slug'
+    | '/p/$slug'
     | '/paths/$slug'
     | '/admin/'
     | '/courses/'
     | '/news/'
     | '/_authenticated/cohorts/$id'
     | '/admin/news/$postId'
+    | '/admin/pages/$slug'
     | '/learn/$courseSlug/$lessonSlug'
     | '/verify/$kind/$id'
     | '/admin/courses/'
     | '/admin/news/'
+    | '/admin/pages/'
     | '/admin/lessons/$lessonId/scenario'
     | '/admin/courses/$courseId/'
     | '/admin/lessons/$lessonId/'
@@ -596,6 +620,7 @@ export interface RootRouteChildren {
   CertificatesSlugRoute: typeof CertificatesSlugRoute
   CoursesSlugRoute: typeof CoursesSlugRoute
   NewsSlugRoute: typeof NewsSlugRoute
+  PSlugRoute: typeof PSlugRoute
   PathsSlugRoute: typeof PathsSlugRoute
   CoursesIndexRoute: typeof CoursesIndexRoute
   NewsIndexRoute: typeof NewsIndexRoute
@@ -780,13 +805,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminMediaRouteImport
       parentRoute: typeof AdminRouteRoute
     }
-    '/admin/pages': {
-      id: '/admin/pages'
-      path: '/pages'
-      fullPath: '/admin/pages'
-      preLoaderRoute: typeof AdminPagesRouteImport
-      parentRoute: typeof AdminRouteRoute
-    }
     '/admin/partners': {
       id: '/admin/partners'
       path: '/partners'
@@ -857,6 +875,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof NewsSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/p/$slug': {
+      id: '/p/$slug'
+      path: '/p/$slug'
+      fullPath: '/p/$slug'
+      preLoaderRoute: typeof PSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/paths/$slug': {
       id: '/paths/$slug'
       path: '/paths/$slug'
@@ -890,6 +915,20 @@ declare module '@tanstack/react-router' {
       path: '/news/$postId'
       fullPath: '/admin/news/$postId'
       preLoaderRoute: typeof AdminNewsPostIdRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/pages/': {
+      id: '/admin/pages/'
+      path: '/pages'
+      fullPath: '/admin/pages/'
+      preLoaderRoute: typeof AdminPagesIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/pages/$slug': {
+      id: '/admin/pages/$slug'
+      path: '/pages/$slug'
+      fullPath: '/admin/pages/$slug'
+      preLoaderRoute: typeof AdminPagesSlugRouteImport
       parentRoute: typeof AdminRouteRoute
     }
     '/learn/$courseSlug/$lessonSlug': {
@@ -953,7 +992,6 @@ interface AdminRouteRouteChildren {
   AdminFaqsRoute: typeof AdminFaqsRoute
   AdminMaterialsRoute: typeof AdminMaterialsRoute
   AdminMediaRoute: typeof AdminMediaRoute
-  AdminPagesRoute: typeof AdminPagesRoute
   AdminPartnersRoute: typeof AdminPartnersRoute
   AdminPathwaysRoute: typeof AdminPathwaysRoute
   AdminTestimonialsRoute: typeof AdminTestimonialsRoute
@@ -961,8 +999,10 @@ interface AdminRouteRouteChildren {
   AdminWorkshopsRoute: typeof AdminWorkshopsRoute
   AdminIndexRoute: typeof AdminIndexRoute
   AdminNewsPostIdRoute: typeof AdminNewsPostIdRoute
+  AdminPagesSlugRoute: typeof AdminPagesSlugRoute
   AdminCoursesIndexRoute: typeof AdminCoursesIndexRoute
   AdminNewsIndexRoute: typeof AdminNewsIndexRoute
+  AdminPagesIndexRoute: typeof AdminPagesIndexRoute
   AdminLessonsLessonIdScenarioRoute: typeof AdminLessonsLessonIdScenarioRoute
   AdminCoursesCourseIdIndexRoute: typeof AdminCoursesCourseIdIndexRoute
   AdminLessonsLessonIdIndexRoute: typeof AdminLessonsLessonIdIndexRoute
@@ -974,7 +1014,6 @@ const AdminRouteRouteChildren: AdminRouteRouteChildren = {
   AdminFaqsRoute: AdminFaqsRoute,
   AdminMaterialsRoute: AdminMaterialsRoute,
   AdminMediaRoute: AdminMediaRoute,
-  AdminPagesRoute: AdminPagesRoute,
   AdminPartnersRoute: AdminPartnersRoute,
   AdminPathwaysRoute: AdminPathwaysRoute,
   AdminTestimonialsRoute: AdminTestimonialsRoute,
@@ -982,8 +1021,10 @@ const AdminRouteRouteChildren: AdminRouteRouteChildren = {
   AdminWorkshopsRoute: AdminWorkshopsRoute,
   AdminIndexRoute: AdminIndexRoute,
   AdminNewsPostIdRoute: AdminNewsPostIdRoute,
+  AdminPagesSlugRoute: AdminPagesSlugRoute,
   AdminCoursesIndexRoute: AdminCoursesIndexRoute,
   AdminNewsIndexRoute: AdminNewsIndexRoute,
+  AdminPagesIndexRoute: AdminPagesIndexRoute,
   AdminLessonsLessonIdScenarioRoute: AdminLessonsLessonIdScenarioRoute,
   AdminCoursesCourseIdIndexRoute: AdminCoursesCourseIdIndexRoute,
   AdminLessonsLessonIdIndexRoute: AdminLessonsLessonIdIndexRoute,
@@ -1013,6 +1054,7 @@ const rootRouteChildren: RootRouteChildren = {
   CertificatesSlugRoute: CertificatesSlugRoute,
   CoursesSlugRoute: CoursesSlugRoute,
   NewsSlugRoute: NewsSlugRoute,
+  PSlugRoute: PSlugRoute,
   PathsSlugRoute: PathsSlugRoute,
   CoursesIndexRoute: CoursesIndexRoute,
   NewsIndexRoute: NewsIndexRoute,

@@ -17,6 +17,11 @@ export type SitePage = {
   slug: string;
   hero_title: string;
   hero_subline: string;
+  hero_eyebrow?: string;
+  hero_image_url?: string | null;
+  nav_label?: string;
+  is_system?: boolean;
+  blocks?: import("@/components/blocks").Block[];
   // CMS content blocks: shape varies per page, consumed defensively in the UI.
   body: Record<string, any>;
   updated_at: string;
@@ -26,6 +31,14 @@ export const usePage = (slug: string) =>
   useQuery({
     queryKey: ["page", slug],
     queryFn: () => apiGet<SitePage | null>(`/pages/${slug}`, false),
+  });
+
+/** Published custom pages (made in the page builder) that should appear in the menu. */
+export const useCustomPages = () =>
+  useQuery({
+    queryKey: ["pages", "custom"],
+    queryFn: () => apiGet<{ slug: string; hero_title: string; nav_label: string }[]>("/pages", false),
+    staleTime: 60_000,
   });
 
 export const useSetting = <T,>(key: string) =>

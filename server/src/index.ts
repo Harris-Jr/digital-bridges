@@ -62,6 +62,8 @@ async function sitemapHandler(_req: express.Request, res: express.Response) {
     courseSlugs = rows.map((r) => r.slug);
     const posts = await query<{ slug: string }>("select slug from posts where status = 'published' order by published_at desc limit 500");
     postSlugs = posts.rows.map((r) => r.slug);
+    const pages = await query<{ slug: string }>("select slug from site_pages where is_published and not is_system");
+    staticPaths.push(...pages.rows.map((r) => `/p/${r.slug}`));
   } catch { /* fall back to static paths only */ }
   const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
   const urls = [

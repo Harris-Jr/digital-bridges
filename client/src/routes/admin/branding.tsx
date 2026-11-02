@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
@@ -11,8 +11,6 @@ export const Route = createFileRoute("/admin/branding")({ component: Branding })
 
 const KEYS = [
   { key: "brand_logo_url", label: "Logo", help: "Shown in the top navigation, footer and certificates. Leave empty to use the Civic Wise text wordmark." },
-  { key: "about_image_url", label: "About page image", help: "The photograph in the About page hero. Leave empty to show the brand illustration." },
-  { key: "trainers_image_url", label: "For Trainers image", help: "The photograph in the For Trainers hero. Leave empty to show the brand illustration." },
 ] as const;
 
 function Branding() {
@@ -38,8 +36,12 @@ function Branding() {
 
   return (
     <>
-      <AdminHeader title="Branding & media" description="Logo and page images, served from Cloudinary. Upload a file or paste a URL, then Save." />
+      <AdminHeader title="Logo" description="Upload a file, choose one from the media library, or paste a link, then Save." />
       <div className="max-w-xl space-y-10">
+        <p className="rounded-xl border border-border bg-card p-4 text-sm text-muted-foreground">
+          Page photos (Home, About, For Trainers and your own pages) are now set on each page in{" "}
+          <Link to="/admin/pages" className="font-semibold text-primary hover:underline">Site pages</Link>.
+        </p>
         {KEYS.map((k) => (
           <div key={k.key}>
             <Label className="text-base">{k.label}</Label>

@@ -213,11 +213,22 @@ const scenarioSchema = z.object({
   sort_order: z.coerce.number().int().default(0),
 });
 
+const blockSchema = z.object({
+  id: z.string().min(1).max(60),
+  type: z.string().min(1).max(40).regex(/^[a-z_]+$/),
+  hidden: z.boolean().optional(),
+  data: z.record(z.string(), z.unknown()).default({}),
+});
+
 const sitePageSchema = z.object({
-  slug: nonEmpty(80),
+  slug: z.string().trim().min(1).max(80).regex(/^[a-z0-9-]+$/, "Address: lowercase words with dashes"),
   hero_title: z.string().max(300).default(""),
   hero_subline: z.string().max(600).default(""),
+  hero_eyebrow: z.string().max(120).default(""),
+  hero_image_url: z.string().trim().max(1000).nullish(),
+  nav_label: z.string().trim().max(60).default(""),
   body: z.record(z.string(), z.unknown()).default({}),
+  blocks: z.array(blockSchema).max(60).default([]),
   is_published: z.boolean().default(true),
 });
 
@@ -300,8 +311,8 @@ registerResource("scenario-steps", {
 });
 registerResource("site-pages", {
   table: "site_pages", idColumn: "slug", orderBy: "slug",
-  columns: ["slug", "hero_title", "hero_subline", "body", "is_published"],
-  jsonbColumns: ["body"], schema: sitePageSchema, allowDelete: false,
+  columns: ["slug", "hero_title", "hero_subline", "hero_eyebrow", "hero_image_url", "nav_label", "body", "blocks", "is_published"],
+  jsonbColumns: ["body", "blocks"], schema: sitePageSchema, allowDelete: false,
 });
 registerResource("testimonials", {
   table: "testimonials", idColumn: "id", orderBy: "created_at desc",
@@ -497,5 +508,15 @@ adminRouter.get(
         left join profiles p on p.id = g.trainer_id
        order by g.created_at desc`);
     res.json(rows);
+  }),
+);
+
+// Delete a custom page. Built-in pages (home, about, ...) cannot be deleted.
+adminRouter.delete(
+  "/site-pages/:slug",
+  asyncHandler(async (req, res) => {
+    const { rowCount } = await query("delete from site_pages where slug = $1 and not is_system", [req.params.slug]);
+    if (!rowCount) throw badRequest("Built-in pages cannot be deleted. You can unpublish them instead.");
+    res.json({ ok: true });
   }),
 );

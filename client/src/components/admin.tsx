@@ -3,7 +3,7 @@ import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   LayoutDashboard, BookOpen, FileText, MessageSquareQuote, Handshake, HelpCircle,
-  Plus, Pencil, Trash2, ArrowLeft, Loader2, LogOut, Menu, X, PanelLeftClose, PanelLeftOpen, Eye, EyeOff, Sparkles, Route as RouteIcon, CalendarCheck, Languages, Image as ImageIcon, Users, FolderOpen, FileText as FileIcon, Newspaper, ImagePlay,
+  Plus, Pencil, Trash2, ChevronDown, ArrowLeft, Loader2, LogOut, Menu, X, PanelLeftClose, PanelLeftOpen, Eye, EyeOff, Sparkles, Route as RouteIcon, CalendarCheck, Languages, Image as ImageIcon, Users, FolderOpen, FileText as FileIcon, Newspaper, ImagePlay,
 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -22,23 +22,49 @@ import { useCollapsed } from "@/components/app-shell";
 
 type AdminPath = "/admin/media" | "/admin/news" | "/admin" | "/admin/pathways" | "/admin/courses" | "/admin/pages" | "/admin/testimonials" | "/admin/partners" | "/admin/faqs" | "/admin/workshops" | "/admin/translations" | "/admin/branding" | "/admin/materials" | "/admin/cohorts";
 type NavItem = { to: AdminPath; label: string; icon: typeof LayoutDashboard; exact?: boolean };
+type NavGroup = { id: string; label: string; items: NavItem[] };
 
-const NAV: NavItem[] = [
-  { to: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
-  { to: "/admin/pathways", label: "Pathways", icon: RouteIcon },
-  { to: "/admin/courses", label: "Courses", icon: BookOpen },
-  { to: "/admin/translations", label: "Translations", icon: Languages },
-  { to: "/admin/cohorts", label: "Cohorts", icon: Users },
-  { to: "/admin/workshops", label: "Workshops", icon: CalendarCheck },
-  { to: "/admin/materials", label: "Materials", icon: FolderOpen },
-  { to: "/admin/pages", label: "Site pages", icon: FileText },
-  { to: "/admin/news", label: "News", icon: Newspaper },
-  { to: "/admin/media", label: "Media library", icon: ImagePlay },
-  { to: "/admin/branding", label: "Branding", icon: ImageIcon },
-  { to: "/admin/testimonials", label: "Testimonials", icon: MessageSquareQuote },
-  { to: "/admin/partners", label: "Partners", icon: Handshake },
-  { to: "/admin/faqs", label: "FAQs", icon: HelpCircle },
+// Grouped like a hosting control panel: a few labelled sections that can be
+// folded away, so the menu stays short as features grow.
+const NAV: NavGroup[] = [
+  { id: "top", label: "", items: [{ to: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true }] },
+  { id: "learning", label: "Learning", items: [
+    { to: "/admin/pathways", label: "Pathways", icon: RouteIcon },
+    { to: "/admin/courses", label: "Courses", icon: BookOpen },
+    { to: "/admin/translations", label: "Translations", icon: Languages },
+  ] },
+  { id: "people", label: "People", items: [
+    { to: "/admin/cohorts", label: "Cohorts", icon: Users },
+    { to: "/admin/workshops", label: "Workshops", icon: CalendarCheck },
+    { to: "/admin/materials", label: "Trainer materials", icon: FolderOpen },
+  ] },
+  { id: "website", label: "Website", items: [
+    { to: "/admin/pages", label: "Site pages", icon: FileText },
+    { to: "/admin/news", label: "News", icon: Newspaper },
+    { to: "/admin/testimonials", label: "Testimonials", icon: MessageSquareQuote },
+    { to: "/admin/partners", label: "Partners", icon: Handshake },
+    { to: "/admin/faqs", label: "FAQs", icon: HelpCircle },
+  ] },
+  { id: "files", label: "Files and brand", items: [
+    { to: "/admin/media", label: "Media library", icon: ImagePlay },
+    { to: "/admin/branding", label: "Logo", icon: ImageIcon },
+  ] },
 ];
+
+/** Which menu groups are folded. Remembered per browser. */
+function useFoldedGroups(): [Set<string>, (id: string) => void] {
+  const KEY = "cw_admin_nav_folded";
+  const [folded, setFolded] = useState<Set<string>>(() => {
+    try { return new Set(JSON.parse(localStorage.getItem(KEY) ?? "[]") as string[]); } catch { return new Set(); }
+  });
+  const toggle = (id: string) => setFolded((prev) => {
+    const next = new Set(prev);
+    if (next.has(id)) next.delete(id); else next.add(id);
+    try { localStorage.setItem(KEY, JSON.stringify([...next])); } catch { /* private mode */ }
+    return next;
+  });
+  return [folded, toggle];
+}
 
 export function AdminShell({ children }: { children: ReactNode }) {
   const { loading, isStaff } = useAuth();
@@ -95,6 +121,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
 
 function AdminNav({ path, collapsed = false, onToggle }: { path: string; collapsed?: boolean; onToggle?: () => void }) {
   const { signOut } = useAuth();
+  const [folded, toggleGroup] = useFoldedGroups();
   const item = "flex min-h-10 items-center rounded-lg text-sm font-semibold transition-colors";
   return (
     <div className={cn("flex h-full flex-col gap-1 overflow-y-auto", collapsed ? "items-center p-2" : "p-3")}>
@@ -109,21 +136,40 @@ function AdminNav({ path, collapsed = false, onToggle }: { path: string; collaps
           </button>
         )}
       </div>
-      <nav className={cn("flex flex-col gap-1", collapsed && "w-full")}>
-        {NAV.map((n) => {
-          const active = n.exact ? path === n.to : path.startsWith(n.to);
+      <nav className={cn("flex flex-col", collapsed && "w-full")}>
+        {NAV.map((g, gi) => {
+          const isFolded = !collapsed && g.label !== "" && folded.has(g.id) && !g.items.some((n) => path.startsWith(n.to));
           return (
-            <Link
-              key={n.to}
-              to={n.to}
-              title={collapsed ? n.label : undefined}
-              aria-label={collapsed ? n.label : undefined}
-              className={cn(item, collapsed ? "justify-center" : "gap-2 px-3",
-                active ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-secondary hover:text-foreground")}
-            >
-              <n.icon className="size-4 shrink-0" aria-hidden="true" />
-              {!collapsed && n.label}
-            </Link>
+            <div key={g.id} className={cn(gi > 0 && (collapsed ? "mt-2 border-t border-border pt-2" : "mt-3"))}>
+              {g.label && !collapsed && (
+                <button onClick={() => toggleGroup(g.id)} aria-expanded={!isFolded}
+                  className="flex w-full items-center justify-between rounded-md px-3 pb-1 pt-1 text-[11px] font-bold uppercase tracking-wider text-muted-foreground/80 hover:text-foreground">
+                  {g.label}
+                  <ChevronDown className={cn("size-3.5 transition-transform", isFolded && "-rotate-90")} aria-hidden="true" />
+                </button>
+              )}
+              {!isFolded && (
+                <div className="flex flex-col gap-0.5">
+                  {g.items.map((n) => {
+                    const active = n.exact ? path === n.to : path.startsWith(n.to);
+                    return (
+                      <Link
+                        key={n.to}
+                        to={n.to}
+                        title={collapsed ? n.label : undefined}
+                        aria-label={collapsed ? n.label : undefined}
+                        aria-current={active ? "page" : undefined}
+                        className={cn(item, collapsed ? "justify-center" : "gap-2.5 px-3",
+                          active ? "bg-primary-soft text-primary" : "text-foreground/75 hover:bg-secondary hover:text-foreground")}
+                      >
+                        <n.icon className="size-4 shrink-0" aria-hidden="true" />
+                        {!collapsed && n.label}
+                      </Link>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
           );
         })}
       </nav>

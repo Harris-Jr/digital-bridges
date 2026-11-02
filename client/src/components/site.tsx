@@ -10,7 +10,9 @@ import {
   FolderOpen, Megaphone, SearchX, SearchCheck, Footprints, Inbox, Radio, Phone, Globe, Lock,
   Scale, Gavel, Banknote, Coins, Receipt, ClipboardList, Vote, HandHeart, Heart, Newspaper,
   Eye, Lightbulb, HelpCircle, CheckCircle2, AlertTriangle, MapPin, Mic, UserCheck, FileCheck,
-  Handshake, Map, Scroll, Building, type LucideIcon,
+  Handshake, Map, Scroll, Building, MessageSquareText, Languages, HeartHandshake, FileText as FileTextIcon,
+  CalendarCheck, BarChart3, GraduationCap as GradCap, ShoppingBasket, Sprout, HandHelping, Sparkles, Wifi, Clock as ClockIcon,
+  type LucideIcon,
 } from "lucide-react";
 import { useState, useRef, useEffect, useCallback, type ReactNode } from "react";
 import { Button } from "@/components/ui/button";
@@ -18,7 +20,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useAuth } from "@/lib/auth";
 import { useI18n, LANGS } from "@/lib/i18n";
 import { useConsent } from "@/lib/consent";
-import { type Course, usePublishedCourses, usePathways, usePosts, useSetting } from "@/lib/content";
+import { type Course, usePublishedCourses, usePathways, usePosts, useSetting, useCustomPages } from "@/lib/content";
 import { AssistantWidget } from "@/components/assistant-widget";
 import { OfflineBar } from "@/components/offline-sync";
 import { cn } from "@/lib/utils";
@@ -33,7 +35,12 @@ const ICON_MAP: Record<string, LucideIcon> = {
   Radio, Phone, Globe, Lock, Scale, Gavel, Banknote, Coins, Receipt, ClipboardList, Vote,
   HandHeart, Heart, Newspaper, Eye, Lightbulb, HelpCircle, CheckCircle2, AlertTriangle, MapPin,
   Mic, UserCheck, FileCheck, Handshake, Map, Scroll, Settings,
+  MessageSquareText, Languages, HeartHandshake, FileText: FileTextIcon, CalendarCheck, BarChart3,
+  GraduationCap: GradCap, ShoppingBasket, Sprout, HandHelping, Sparkles, Wifi, Clock: ClockIcon,
 };
+
+/** Icon names editors can choose in the page builder. */
+export const ICON_NAMES = Object.keys(ICON_MAP).sort();
 
 export function Icon({ name, className }: { name?: string | null | undefined; className?: string }) {
   const C = (name && ICON_MAP[name]) || Circle;
@@ -393,6 +400,8 @@ export function SiteHeader() {
   // News appears in the menu only once there is at least one published post.
   const news = usePosts({ limit: 1 });
   const hasNews = (news.data?.total ?? 0) > 0;
+  // Pages made in Admin, Site pages, that have a menu label.
+  const menuPages = (useCustomPages().data ?? []).filter((p) => p.nav_label).slice(0, 3);
   const navLinks = [
     { to: "/courses", label: t("nav.courses", "Courses") },
     ...(hasNews ? [{ to: "/news", label: t("nav.news", "News") }] : []),
@@ -438,6 +447,11 @@ export function SiteHeader() {
             <Link to="/about" className={linkBase} activeProps={{ className: activeLink }} onMouseEnter={() => setMega(false)}>
               {t("nav.about", "About")}
             </Link>
+            {menuPages.map((p) => (
+              <Link key={p.slug} to="/p/$slug" params={{ slug: p.slug }} className={linkBase} activeProps={{ className: activeLink }} onMouseEnter={() => setMega(false)}>
+                {p.nav_label}
+              </Link>
+            ))}
           </nav>
 
           {/* Desktop actions */}
@@ -493,6 +507,12 @@ export function SiteHeader() {
                   <ChevronRight className="size-5 text-muted-foreground" aria-hidden="true" />
                 </Link>
               ))}
+              {menuPages.map((p) => (
+                <Link key={p.slug} to="/p/$slug" params={{ slug: p.slug }} onClick={() => setOpen(false)} className={mobileRow} activeProps={{ className: "text-primary" }}>
+                  {p.nav_label}
+                  <ChevronRight className="size-5 text-muted-foreground" aria-hidden="true" />
+                </Link>
+              ))}
               {user && (
                 <>
                   {isStaff && <Link to="/admin" onClick={() => setOpen(false)} className={mobileRow}>Admin<ChevronRight className="size-5 text-muted-foreground" aria-hidden="true" /></Link>}
@@ -540,6 +560,7 @@ export function SiteFooter() {
           <Link to="/about" className="text-primary-foreground/70 transition-colors duration-200 hover:text-primary-foreground">{t("nav.about", "About")}</Link>
           <Link to="/for-trainers" className="text-primary-foreground/70 transition-colors duration-200 hover:text-primary-foreground">{t("nav.trainers", "For Trainers")}</Link>
 <FooterNewsLink />
+          <FooterPageLinks />
           <Link to="/contact" className="text-primary-foreground/70 transition-colors duration-200 hover:text-primary-foreground">{t("footer.contact", "Contact")}</Link>
         </nav>
         <nav aria-label="Legal" className="flex flex-col items-center gap-2 text-sm md:items-start">
@@ -794,6 +815,11 @@ export function PageHero({ eyebrow, title, sub }: { eyebrow?: string | undefined
       {sub && <p className="mt-4 max-w-2xl text-lg text-muted-foreground">{sub}</p>}
     </section>
   );
+}
+
+function FooterPageLinks() {
+  const pages = (useCustomPages().data ?? []).filter((p) => p.nav_label);
+  return <>{pages.map((p) => <Link key={p.slug} to="/p/$slug" params={{ slug: p.slug }} className="text-primary-foreground/70 transition-colors duration-200 hover:text-primary-foreground">{p.nav_label}</Link>)}</>;
 }
 
 function FooterNewsLink() {

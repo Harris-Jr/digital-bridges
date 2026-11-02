@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { AdminShell, AdminHeader, MediaUpload } from "@/components/admin";
+import { AdminHeader, MediaUpload } from "@/components/admin";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { apiGet, apiPut } from "@/lib/api";
@@ -37,7 +37,7 @@ function Branding() {
   };
 
   return (
-    <AdminShell>
+    <>
       <AdminHeader title="Branding & media" description="Logo and page images, served from Cloudinary. Upload a file or paste a URL, then Save." />
       <div className="max-w-xl space-y-10">
         {KEYS.map((k) => (
@@ -51,6 +51,6 @@ function Branding() {
           </div>
         ))}
       </div>
-    </AdminShell>
+    </>
   );
 }

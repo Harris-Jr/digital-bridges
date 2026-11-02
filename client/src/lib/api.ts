@@ -5,7 +5,7 @@
 // token kept in an HttpOnly cookie (set by the server, not readable by JS). On
 // a 401 the client silently calls /auth/refresh (the cookie rides along) to get
 // a new access token, once and shared across concurrent requests, then retries.
-const TOKEN_KEY = "db_token";
+export const TOKEN_KEY = "db_token";
 const LEGACY_REFRESH_KEY = "db_refresh"; // removed on load/logout, from the old scheme
 
 export function getToken(): string | null {
@@ -57,7 +57,28 @@ async function doRefresh(): Promise<boolean> {
   }
 }
 
+/** Seconds until the stored access token expires (JWT `exp`), or null if unknown. */
+function tokenTtl(): number | null {
+  const t = getToken();
+  if (!t) return null;
+  try {
+    const payload = JSON.parse(atob(t.split(".")[1]!.replace(/-/g, "+").replace(/_/g, "/"))) as { exp?: number };
+    return typeof payload.exp === "number" ? payload.exp - Date.now() / 1000 : null;
+  } catch {
+    return null;
+  }
+}
+
 export async function api<T = unknown>(path: string, opts: Options = {}): Promise<T> {
+  // Refresh just before expiry instead of waiting for a 401, so the console
+  // stays clean and the first request after idle does not double-trip.
+  if (opts.auth !== false && path !== "/auth/refresh") {
+    const ttl = tokenTtl();
+    if (ttl !== null && ttl < 30) {
+      if (!refreshing) refreshing = doRefresh().finally(() => { refreshing = null; });
+      await refreshing;
+    }
+  }
   const body = opts.body !== undefined ? JSON.stringify(opts.body) : undefined;
   const send = () => {
     const headers: Record<string, string> = {};

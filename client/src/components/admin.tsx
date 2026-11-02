@@ -3,7 +3,7 @@ import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   LayoutDashboard, BookOpen, FileText, MessageSquareQuote, Handshake, HelpCircle,
-  Plus, Pencil, Trash2, ArrowLeft, Loader2, LogOut, Eye, EyeOff, Sparkles, Route as RouteIcon, CalendarCheck, Languages, Image as ImageIcon,
+  Plus, Pencil, Trash2, ArrowLeft, Loader2, LogOut, Menu, X, PanelLeftClose, PanelLeftOpen, Eye, EyeOff, Sparkles, Route as RouteIcon, CalendarCheck, Languages, Image as ImageIcon,
 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -16,6 +16,7 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { useAuth } from "@/lib/auth";
 import { apiDelete, apiGet, apiPatch, apiPost } from "@/lib/api";
 import { cn } from "@/lib/utils";
+import { useCollapsed } from "@/components/app-shell";
 
 /* ------------------------------------------------------------------ shell */
 
@@ -36,13 +37,16 @@ const NAV: NavItem[] = [
 ];
 
 export function AdminShell({ children }: { children: ReactNode }) {
-  const { loading, isStaff, signOut } = useAuth();
+  const { loading, isStaff } = useAuth();
   const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
+  const [collapsed, toggle] = useCollapsed("cw_admin_sidebar_collapsed");
   const path = useRouterState({ select: (s) => s.location.pathname });
 
   useEffect(() => {
     if (!loading && !isStaff) navigate({ to: "/dashboard", replace: true });
   }, [loading, isStaff, navigate]);
+  useEffect(() => { setOpen(false); }, [path]);
 
   if (loading || !isStaff) {
     return (
@@ -53,35 +57,80 @@ export function AdminShell({ children }: { children: ReactNode }) {
   }
 
   return (
-    <div className="min-h-screen bg-muted/30 md:grid md:grid-cols-[240px_1fr]">
-      <aside className="sticky top-0 z-20 flex h-auto flex-col gap-1 border-b border-border bg-card p-3 md:h-screen md:border-b-0 md:border-r">
-        <Link to="/" className="mb-3 flex items-center gap-2 px-2 py-1">
-          <span className="font-display text-lg font-extrabold"><span className="text-primary">Civic Wise</span> Admin</span>
-        </Link>
-        <nav className="flex flex-row flex-wrap gap-1 md:flex-col">
-          {NAV.map((n) => {
-            const active = n.exact ? path === n.to : path.startsWith(n.to);
-            return (
-              <Link
-                key={n.to}
-                to={n.to}
-                className={cn(
-                  "inline-flex min-h-10 items-center gap-2 rounded-lg px-3 text-sm font-semibold transition-colors",
-                  active ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-secondary hover:text-foreground",
-                )}
-              >
-                <n.icon className="size-4" aria-hidden="true" />
-                {n.label}
-              </Link>
-            );
-          })}
-        </nav>
-        <div className="mt-auto hidden flex-col gap-1 md:flex">
-          <Button asChild variant="ghost" size="sm" className="justify-start"><Link to="/dashboard"><ArrowLeft className="size-4" />Back to site</Link></Button>
-          <Button variant="ghost" size="sm" className="justify-start text-muted-foreground" onClick={() => void signOut().then(() => navigate({ to: "/" }))}><LogOut className="size-4" />Sign out</Button>
-        </div>
+    <div className={cn("min-h-screen bg-muted/30 lg:grid lg:transition-[grid-template-columns] lg:duration-200", collapsed ? "lg:grid-cols-[72px_1fr]" : "lg:grid-cols-[240px_1fr]")}>
+      {/* Desktop sidebar */}
+      <aside className="sticky top-0 hidden h-screen flex-col border-r border-border bg-card lg:flex">
+        <AdminNav path={path} collapsed={collapsed} onToggle={toggle} />
       </aside>
+
+      {/* Mobile top bar */}
+      <header className="sticky top-0 z-30 flex items-center justify-between border-b border-border bg-card/95 px-4 py-3 backdrop-blur lg:hidden">
+        <span className="font-display text-lg font-extrabold"><span className="text-primary">Civic Wise</span> Admin</span>
+        <button onClick={() => setOpen(true)} aria-label="Open admin menu" aria-expanded={open} className="grid size-10 place-items-center rounded-full hover:bg-secondary">
+          <Menu className="size-5" />
+        </button>
+      </header>
+
+      {/* Mobile drawer */}
+      {open && (
+        <div className="fixed inset-0 z-50 lg:hidden" role="dialog" aria-modal="true" aria-label="Admin menu">
+          <div className="absolute inset-0 bg-black/40" onClick={() => setOpen(false)} />
+          <div className="absolute inset-y-0 left-0 flex w-72 max-w-[85%] flex-col bg-card shadow-xl">
+            <button onClick={() => setOpen(false)} aria-label="Close menu" className="absolute right-3 top-3 z-10 grid size-9 place-items-center rounded-full hover:bg-secondary">
+              <X className="size-5" />
+            </button>
+            <AdminNav path={path} />
+          </div>
+        </div>
+      )}
+
       <main className="min-w-0 p-4 md:p-8">{children}</main>
+    </div>
+  );
+}
+
+function AdminNav({ path, collapsed = false, onToggle }: { path: string; collapsed?: boolean; onToggle?: () => void }) {
+  const { signOut } = useAuth();
+  const item = "flex min-h-10 items-center rounded-lg text-sm font-semibold transition-colors";
+  return (
+    <div className={cn("flex h-full flex-col gap-1 overflow-y-auto", collapsed ? "items-center p-2" : "p-3")}>
+      <div className={cn("mb-3 flex items-center", collapsed ? "flex-col gap-2 pt-1" : "justify-between px-2 py-1")}>
+        <Link to="/admin" className="font-display text-lg font-extrabold">
+          {collapsed ? <span className="text-primary">CW</span> : <><span className="text-primary">Civic Wise</span> Admin</>}
+        </Link>
+        {onToggle && (
+          <button onClick={onToggle} aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"} title={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+            className="grid size-9 place-items-center rounded-lg text-muted-foreground hover:bg-secondary hover:text-foreground">
+            {collapsed ? <PanelLeftOpen className="size-5" /> : <PanelLeftClose className="size-5" />}
+          </button>
+        )}
+      </div>
+      <nav className={cn("flex flex-col gap-1", collapsed && "w-full")}>
+        {NAV.map((n) => {
+          const active = n.exact ? path === n.to : path.startsWith(n.to);
+          return (
+            <Link
+              key={n.to}
+              to={n.to}
+              title={collapsed ? n.label : undefined}
+              aria-label={collapsed ? n.label : undefined}
+              className={cn(item, collapsed ? "justify-center" : "gap-2 px-3",
+                active ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-secondary hover:text-foreground")}
+            >
+              <n.icon className="size-4 shrink-0" aria-hidden="true" />
+              {!collapsed && n.label}
+            </Link>
+          );
+        })}
+      </nav>
+      <div className={cn("mt-auto flex flex-col gap-1 border-t border-border pt-3", collapsed && "w-full")}>
+        <Link to="/dashboard" title={collapsed ? "Back to site" : undefined} className={cn(item, "text-foreground/80 hover:bg-secondary", collapsed ? "justify-center" : "gap-2 px-3")}>
+          <ArrowLeft className="size-4 shrink-0" />{!collapsed && "Back to site"}
+        </Link>
+        <button onClick={() => void signOut()} title={collapsed ? "Sign out" : undefined} className={cn(item, "text-muted-foreground hover:bg-secondary", collapsed ? "justify-center" : "gap-2 px-3")}>
+          <LogOut className="size-4 shrink-0" />{!collapsed && "Sign out"}
+        </button>
+      </div>
     </div>
   );
 }
@@ -205,7 +254,38 @@ export function CrudManager<T extends Row>({
       />
       {backLink && <Button asChild variant="ghost" size="sm" className="mb-4"><Link to={backLink.to}><ArrowLeft className="size-4" />{backLink.label}</Link></Button>}
 
-      <div className="overflow-hidden rounded-xl border border-border bg-card">
+      {/* Mobile: one card per row so every field and action stays reachable. */}
+      <div className="space-y-3 md:hidden">
+        {list.isLoading ? (
+          <div className="py-10 text-center text-muted-foreground"><Loader2 className="mx-auto size-5 animate-spin" /></div>
+        ) : (list.data?.length ?? 0) === 0 ? (
+          <p className="rounded-xl border border-border bg-card px-4 py-10 text-center text-sm text-muted-foreground">Nothing here yet. Tap “New” to add the first one.</p>
+        ) : (
+          list.data!.map((row) => (
+            <div key={String(row[idKey])} className="rounded-xl border border-border bg-card p-4">
+              <div className="flex items-start justify-between gap-3">
+                <div className="min-w-0 text-[15px]">{columns[0]?.render(row)}</div>
+                <div className="flex shrink-0 gap-1">
+                  <Button variant="ghost" size="icon" aria-label="Edit" onClick={() => openEdit(row)}><Pencil className="size-4" /></Button>
+                  {canDelete && <Button variant="ghost" size="icon" aria-label="Delete" onClick={() => setConfirmDel(row)}><Trash2 className="size-4 text-destructive" /></Button>}
+                </div>
+              </div>
+              {columns.length > 1 && (
+                <dl className="mt-3 grid grid-cols-[auto_1fr] items-center gap-x-4 gap-y-2 text-sm">
+                  {columns.slice(1).map((c, i) => (
+                    <div key={i} className="contents">
+                      <dt className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">{c.label}</dt>
+                      <dd className="min-w-0">{c.render(row)}</dd>
+                    </div>
+                  ))}
+                </dl>
+              )}
+            </div>
+          ))
+        )}
+      </div>
+
+      <div className="hidden overflow-x-auto rounded-xl border border-border bg-card md:block">
         <table className="w-full text-sm">
           <thead className="border-b border-border bg-muted/50 text-left text-xs uppercase tracking-wide text-muted-foreground">
             <tr>

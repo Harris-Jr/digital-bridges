@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "@tanstack/react-router";
+import { Link } from "@tanstack/react-router";
 import {
   Menu, X, LogOut, LayoutDashboard, Settings, ShieldCheck, Clock, BookOpen, WifiOff,
   ArrowRight, GraduationCap, ChevronDown, ChevronRight, Check,
@@ -13,7 +13,6 @@ import {
   Handshake, Map, Scroll, Building, type LucideIcon,
 } from "lucide-react";
 import { useState, useRef, useEffect, useCallback, type ReactNode } from "react";
-import { useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useAuth } from "@/lib/auth";
@@ -263,7 +262,7 @@ export function ContentImage({ src, motif, icon, alt, className }: { src?: strin
 }
 
 /** Compact language dropdown: shows the current code + chevron, opens a menu. */
-function LangMenu() {
+function LangMenu({ up = false }: { up?: boolean }) {
   const { lang, setLang } = useI18n();
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -290,7 +289,7 @@ function LangMenu() {
         <ChevronDown className={cn("size-4 text-muted-foreground transition-transform duration-200", open && "rotate-180")} aria-hidden="true" />
       </button>
       {open && (
-        <div role="menu" className="absolute right-0 top-full z-50 mt-2 w-40 overflow-hidden rounded-xl border border-border bg-card p-1 shadow-lg">
+        <div role="menu" className={cn("absolute right-0 z-50 w-40", up ? "bottom-full mb-2" : "top-full mt-2", " overflow-hidden rounded-xl border border-border bg-card p-1 shadow-lg")}>
           {LANGS.map((l) => (
             <button
               key={l.code}
@@ -369,8 +368,6 @@ function CoursesMega({ onNavigate, setHi, hi }: { onNavigate: () => void; setHi:
 export function SiteHeader() {
   const { t } = useI18n();
   const { user, isStaff, isTrainer, signOut } = useAuth();
-  const qc = useQueryClient();
-  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [mega, setMega] = useState(false);
   const [hi, setHi] = useState<Course | null>(null);
@@ -390,10 +387,7 @@ export function SiteHeader() {
 
   const doSignOut = async () => {
     setOpen(false);
-    await qc.cancelQueries();
-    qc.clear();
-    await signOut();
-    navigate({ to: "/signin", replace: true });
+    await signOut(); // clears cached user data and redirects to /signin
   };
 
   const navLinks = [
@@ -482,7 +476,7 @@ export function SiteHeader() {
           the last row keeps Sign in on the left and the language dropdown on the right. */}
       {open && (
         <div id="mobile-menu" className="container-page mt-2 md:hidden">
-          <div className="overflow-hidden rounded-2xl border border-border/60 bg-background/95 p-2 shadow-lg backdrop-blur-xl">
+          <div className="rounded-2xl border border-border/60 bg-background/95 p-2 shadow-lg backdrop-blur-xl">
             <nav aria-label="Mobile" className="flex flex-col divide-y divide-border/60">
               {navLinks.map((l) => (
                 <Link key={l.to} to={l.to} onClick={() => setOpen(false)} className={mobileRow} activeProps={{ className: "text-primary" }}>
@@ -508,7 +502,7 @@ export function SiteHeader() {
                     {t("nav.signin", "Sign in")}<ArrowRight className="size-4" />
                   </Link>
                 )}
-                <LangMenu />
+                <LangMenu up />
               </div>
             </nav>
           </div>

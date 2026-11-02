@@ -1,6 +1,6 @@
-import { useState, type ReactNode } from "react";
-import { Link } from "@tanstack/react-router";
-import { GraduationCap, BookOpen, Users, Settings, ShieldCheck, LogOut, Menu, X, Home } from "lucide-react";
+import { useEffect, useState, type ReactNode } from "react";
+import { Link, useNavigate } from "@tanstack/react-router";
+import { GraduationCap, BookOpen, Users, Settings, ShieldCheck, LogOut, Menu, X, Loader2, PanelLeftClose, PanelLeftOpen } from "lucide-react";
 import { Logo } from "@/components/site";
 import { AssistantWidget } from "@/components/assistant-widget";
 import { OfflineBar } from "@/components/offline-sync";
@@ -8,23 +8,55 @@ import { useAuth } from "@/lib/auth";
 import { useI18n, LANGS } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
-/* App shell for signed-in pages: a left sidebar on desktop, a slide-in drawer
-   on mobile. Replaces the public top nav with an account-area navigation. */
+/** Remembered collapsed/expanded state for a desktop sidebar (per browser). */
+export function useCollapsed(key: string): [boolean, () => void] {
+  const [collapsed, setCollapsed] = useState<boolean>(() => {
+    try { return localStorage.getItem(key) === "1"; } catch { return false; }
+  });
+  const toggle = () => setCollapsed((c) => {
+    const next = !c;
+    try { localStorage.setItem(key, next ? "1" : "0"); } catch { /* storage unavailable */ }
+    return next;
+  });
+  return [collapsed, toggle];
+}
+
+/* App shell for signed-in pages: a collapsible left sidebar on desktop, a
+   slide-in drawer on mobile. Replaces the public top nav with account navigation.
+   The logo links home, so there is no separate "Home" item. */
 export function AppShell({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);
+  const [collapsed, toggle] = useCollapsed("cw_sidebar_collapsed");
+  const { loading, user } = useAuth();
+  const navigate = useNavigate();
+
+  // Never render private pages without a session (expired token, signed out in
+  // another tab, or a deleted account). The API still enforces auth regardless.
+  useEffect(() => {
+    if (!loading && !user) navigate({ to: "/signin", replace: true });
+  }, [loading, user, navigate]);
+
+  if (loading || !user) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-background">
+        <Loader2 className="size-6 animate-spin text-muted-foreground" aria-label="Loading" />
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-muted/30">
       <OfflineBar />
-      <div className="lg:grid lg:grid-cols-[256px_1fr]">
+      <div className={cn("lg:grid lg:transition-[grid-template-columns] lg:duration-200", collapsed ? "lg:grid-cols-[76px_1fr]" : "lg:grid-cols-[256px_1fr]")}>
         {/* Desktop sidebar */}
         <aside className="sticky top-0 hidden h-screen flex-col border-r border-border bg-card lg:flex">
-          <SidebarInner />
+          <SidebarInner collapsed={collapsed} onToggle={toggle} />
         </aside>
 
         {/* Mobile top bar */}
-        <header className="flex items-center justify-between border-b border-border bg-card px-4 py-3 lg:hidden">
-          <Logo className="shrink-0" />
-          <button onClick={() => setOpen(true)} aria-label="Open menu" className="grid size-10 place-items-center rounded-full hover:bg-secondary">
+        <header className="sticky top-0 z-30 flex items-center justify-between border-b border-border bg-card/95 px-4 py-3 backdrop-blur lg:hidden">
+          <Logo className="shrink-0" imgClassName="h-10" />
+          <button onClick={() => setOpen(true)} aria-label="Open menu" aria-expanded={open} className="grid size-10 place-items-center rounded-full hover:bg-secondary">
             <Menu className="size-5" />
           </button>
         </header>
@@ -49,7 +81,7 @@ export function AppShell({ children }: { children: ReactNode }) {
   );
 }
 
-function SidebarInner({ onNavigate }: { onNavigate?: () => void }) {
+function SidebarInner({ onNavigate, collapsed = false, onToggle }: { onNavigate?: () => void; collapsed?: boolean; onToggle?: () => void }) {
   const { user, profile, isTrainer, isStaff, signOut } = useAuth();
   const { t, lang, setLang } = useI18n();
 
@@ -61,55 +93,85 @@ function SidebarInner({ onNavigate }: { onNavigate?: () => void }) {
     ...(isStaff ? [{ to: "/admin", label: t("nav.admin", "Admin"), icon: ShieldCheck }] : []),
   ];
 
-  const name = profile?.full_name?.trim() || user?.email?.split("@")[0] || "Learner";
+  const name = profile?.full_name?.trim() || user?.email?.split("@")[0] || "";
   const initials = name.split(" ").map((p) => p[0]).slice(0, 2).join("").toUpperCase();
 
   return (
-    <div className="flex h-full flex-col overflow-y-auto p-4">
-      <div className="px-2 py-2"><Logo /></div>
+    <div className={cn("flex h-full flex-col overflow-y-auto", collapsed ? "items-center p-3" : "p-4")}>
+      <div className={cn("flex items-center", collapsed ? "flex-col gap-3 py-2" : "justify-between px-2 py-2")}>
+        {collapsed ? (
+          // Collapsed: show only the emblem (left part of the lockup).
+          <Link to="/" aria-label="Civic Wise home" className="block size-11 overflow-hidden">
+            <img src="/images/civic-wise-logo.png" alt="" className="h-11 w-auto max-w-none" />
+          </Link>
+        ) : <Logo />}
+        {onToggle && (
+          <button onClick={onToggle} aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"} title={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+            className="grid size-9 shrink-0 place-items-center rounded-lg text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground">
+            {collapsed ? <PanelLeftOpen className="size-5" /> : <PanelLeftClose className="size-5" />}
+          </button>
+        )}
+      </div>
 
-      <nav className="mt-4 flex-1 space-y-1">
+      <nav className={cn("mt-4 flex-1 space-y-1", collapsed && "w-full")}>
         {nav.map((n) => (
           <Link
             key={n.to}
             to={n.to}
             onClick={onNavigate}
+            title={collapsed ? n.label : undefined}
+            aria-label={collapsed ? n.label : undefined}
             activeProps={{ className: "bg-primary text-primary-foreground hover:bg-primary" }}
-            className="flex min-h-11 items-center gap-3 rounded-xl px-3 font-medium text-foreground/80 transition-colors hover:bg-secondary"
+            className={cn("flex min-h-11 items-center rounded-xl font-medium text-foreground/80 transition-colors hover:bg-secondary", collapsed ? "justify-center" : "gap-3 px-3")}
           >
             <n.icon className="size-5 shrink-0" aria-hidden="true" />
-            {n.label}
+            {!collapsed && n.label}
           </Link>
         ))}
-        <Link to="/" onClick={onNavigate} className="flex min-h-11 items-center gap-3 rounded-xl px-3 font-medium text-foreground/60 transition-colors hover:bg-secondary">
-          <Home className="size-5 shrink-0" aria-hidden="true" />
-          {t("nav.home", "Home")}
-        </Link>
       </nav>
 
       {/* Language */}
-      <div className="mt-4 flex rounded-full border border-border bg-background p-1">
-        {LANGS.map((l) => (
-          <button key={l.code} onClick={() => setLang(l.code)} aria-pressed={lang === l.code}
-            className={cn("min-h-8 flex-1 rounded-full text-xs font-semibold transition-colors", lang === l.code ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground")}>
-            {l.label}
-          </button>
-        ))}
-      </div>
+      {collapsed ? (
+        <button
+          onClick={() => { const i = LANGS.findIndex((l) => l.code === lang); setLang(LANGS[(i + 1) % LANGS.length]!.code); }}
+          title="Change language" aria-label="Change language"
+          className="mt-4 grid size-11 place-items-center rounded-full border border-border bg-background text-xs font-bold text-primary">
+          {(LANGS.find((l) => l.code === lang) ?? LANGS[0]!).label}
+        </button>
+      ) : (
+        <div className="mt-4 flex rounded-full border border-border bg-background p-1">
+          {LANGS.map((l) => (
+            <button key={l.code} onClick={() => setLang(l.code)} aria-pressed={lang === l.code}
+              className={cn("min-h-8 flex-1 rounded-full text-xs font-semibold transition-colors", lang === l.code ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground")}>
+              {l.label}
+            </button>
+          ))}
+        </div>
+      )}
 
       {/* User card */}
-      <div className="mt-3 rounded-2xl border border-border bg-background p-3">
-        <div className="flex items-center gap-3">
-          <div className="grid size-10 shrink-0 place-items-center rounded-full bg-primary font-display text-sm font-extrabold text-primary-foreground">{initials}</div>
-          <div className="min-w-0">
-            <p className="truncate text-sm font-semibold">{name}</p>
-            <p className="truncate text-xs text-muted-foreground">{user?.email}</p>
-          </div>
+      {collapsed ? (
+        <div className="mt-3 flex flex-col items-center gap-2">
+          <div title={name} className="grid size-10 place-items-center rounded-full bg-primary font-display text-sm font-extrabold text-primary-foreground">{initials}</div>
+          <button onClick={() => void signOut()} title={t("nav.signout", "Sign out")} aria-label={t("nav.signout", "Sign out")}
+            className="grid size-10 place-items-center rounded-xl border border-border text-foreground/80 hover:bg-secondary">
+            <LogOut className="size-4" aria-hidden="true" />
+          </button>
         </div>
-        <button onClick={() => { onNavigate?.(); signOut(); }} className="mt-3 flex min-h-10 w-full items-center justify-center gap-2 rounded-xl border border-border text-sm font-semibold text-foreground/80 transition-colors hover:bg-secondary">
-          <LogOut className="size-4" aria-hidden="true" />{t("nav.signout", "Sign out")}
-        </button>
-      </div>
+      ) : (
+        <div className="mt-3 rounded-2xl border border-border bg-background p-3">
+          <div className="flex items-center gap-3">
+            <div className="grid size-10 shrink-0 place-items-center rounded-full bg-primary font-display text-sm font-extrabold text-primary-foreground">{initials}</div>
+            <div className="min-w-0">
+              <p className="truncate text-sm font-semibold">{name}</p>
+              <p className="truncate text-xs text-muted-foreground">{user?.email}</p>
+            </div>
+          </div>
+          <button onClick={() => { onNavigate?.(); void signOut(); }} className="mt-3 flex min-h-10 w-full items-center justify-center gap-2 rounded-xl border border-border text-sm font-semibold text-foreground/80 transition-colors hover:bg-secondary">
+            <LogOut className="size-4" aria-hidden="true" />{t("nav.signout", "Sign out")}
+          </button>
+        </div>
+      )}
     </div>
   );
 }

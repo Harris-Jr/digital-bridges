@@ -1,5 +1,7 @@
 import { createContext, useContext, useEffect, useState, useCallback, type ReactNode } from "react";
-import { api, apiPost, clearTokens, getToken, setTokens } from "@/lib/api";
+import { useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "@tanstack/react-router";
+import { api, apiPost, clearTokens, getToken, setTokens, TOKEN_KEY } from "@/lib/api";
 
 export type Role = "learner" | "trainer" | "editor" | "admin";
 
@@ -36,6 +38,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [roles, setRoles] = useState<Role[]>([]);
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
+  const qc = useQueryClient();
+  const router = useRouter();
 
   const apply = (s: { user: User; profile: Profile | null; roles: Role[] }) => {
     setUser(s.user);
@@ -78,15 +82,38 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return s;
   };
 
+  // Wipe everything that belonged to the signed-in user from memory: the
+  // react-query cache (progress, badges, cohorts, admin lists) and auth state.
+  // Shared phones and community-centre PCs are common, so the next person must
+  // never see the previous person's data, even for a single render.
+  const wipeLocal = useCallback(async () => {
+    clearTokens();
+    await qc.cancelQueries();
+    qc.clear();
+    setUser(null);
+    setProfile(null);
+    setRoles([]);
+  }, [qc]);
+
   const signOut = async () => {
     // Revoke the refresh token server-side (it reads the HttpOnly cookie) and
     // clear the cookie, so it can never be reused.
     try { await apiPost("/auth/logout", undefined, false); } catch { /* best effort */ }
-    clearTokens();
-    setUser(null);
-    setProfile(null);
-    setRoles([]);
+    await wipeLocal();
+    // Always leave the private area; private routes are never rendered signed out.
+    await router.navigate({ to: "/signin", replace: true });
   };
+
+  // Signing out in one tab signs out every other open tab too.
+  useEffect(() => {
+    const onStorage = (e: StorageEvent) => {
+      if (e.key === TOKEN_KEY && e.newValue === null) {
+        void wipeLocal().then(() => router.navigate({ to: "/signin", replace: true }));
+      }
+    };
+    window.addEventListener("storage", onStorage);
+    return () => window.removeEventListener("storage", onStorage);
+  }, [wipeLocal, router]);
 
   const value: AuthCtx = {
     user,

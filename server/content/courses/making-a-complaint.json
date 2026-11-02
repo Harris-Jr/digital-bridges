@@ -1,0 +1,170 @@
+{
+  "slug": "making-a-complaint",
+  "title": "Making a Complaint",
+  "tagline": "Which office to use, how to complain clearly, and where to escalate.",
+  "description": "When a service fails, a clear complaint to the right office gets results. Learn who handles what, how to write a strong complaint, where to escalate, and practise with a real scenario.",
+  "pathway": "civic-education",
+  "category": "citizenship",
+  "icon_name": "Scale",
+  "difficulty": "easy",
+  "estimated_hours": 2,
+  "pass_mark": 70,
+  "outcomes": [
+    "Match a concern to the office that handles it",
+    "Write a clear, factual complaint",
+    "Know where to escalate if nothing happens",
+    "Practise handling a real situation"
+  ],
+  "sort_order": 15,
+  "published": true,
+  "modules": [
+    {
+      "title": "Module 1",
+      "summary": "",
+      "lessons": [
+        {
+          "slug": "which-office-handles-your-concern",
+          "title": "Which office handles your concern",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "A complaint only works if it reaches the office that can act on it.\n\n## Match the concern\nBroken water point or drainage, uncollected rubbish, market issues — the local council. Poor treatment at a clinic — the health facility, then the district health office. A document problem — the office that issued it. Unsure — your ward councillor can direct you.\n\n## Get the details\nFind the office name and, if you can, a contact person. A complaint sent to the right place is already half-way to being solved.",
+          "key_points": [
+            "Match the concern to the office that can act",
+            "Council handles water, rubbish, drainage, markets",
+            "Health matters go to the facility, then the district office",
+            "Your ward councillor can direct you"
+          ],
+          "try_it": "Write down one concern and the office that should handle it.",
+          "motif": "community",
+          "video_url": "https://www.youtube.com/watch?v=rsf7wb66Grs",
+          "published": true
+        },
+        {
+          "slug": "writing-a-clear-complaint",
+          "title": "Writing a clear complaint",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "A strong complaint is short, factual and specific.\n\n## What to include\nState what happened, where, and when. Give facts: dates, a location, how many people are affected. Say clearly what you would like done. Keep it polite — it is more persuasive.\n\n## Keep a record\nWrite or type it and keep a copy. If you hand it in, ask for a stamp or note that it was received. If you send it, keep the message and the date.",
+          "key_points": [
+            "Say what happened, where and when",
+            "Give facts: dates, place, people affected",
+            "Say clearly what you want done",
+            "Keep a copy and proof it was received"
+          ],
+          "try_it": "Draft a three-sentence complaint about a real issue near you.",
+          "motif": "circle",
+          "published": true
+        },
+        {
+          "slug": "if-nothing-happens",
+          "title": "If nothing happens",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "If a complaint is ignored, there are calm next steps.\n\n## Escalate in order\nFollow up first and give your reference. If there is still no response, ask for the supervisor or the next office up. Raising it at a community or ward meeting adds weight.\n\n## Keep going, stay calm\nKeep your copies and your notes of who you spoke to. A civil society organisation or legal aid service can guide you if you are stuck.",
+          "key_points": [
+            "Follow up and give your reference",
+            "Ask for a supervisor or the next office up",
+            "Raise it at a community meeting for weight",
+            "Keep records; seek help if stuck"
+          ],
+          "try_it": "Write the order of people you would contact if your complaint is ignored.",
+          "motif": "shield",
+          "published": true
+        },
+        {
+          "slug": "a-broken-service-scenario",
+          "title": "Scenario: An unresolved problem",
+          "type": "scenario",
+          "est_minutes": 5,
+          "body": "Work through a real situation: a service in your area has failed and nothing is happening. Choose what you would do at each step.",
+          "key_points": [
+            "There is often more than one reasonable choice",
+            "The feedback explains why one works best"
+          ],
+          "motif": "community",
+          "published": true,
+          "scenario": [
+            {
+              "prompt": "The water point serving your street has been broken for three weeks. What is a good first step?",
+              "options": [
+                "Post an angry message in a group chat",
+                "Report it to the local council or your ward councillor",
+                "Wait and hope someone else reports it"
+              ],
+              "feedback": [
+                "Venting is understandable, but it does not reach the office that can fix it.",
+                "Right — the council or councillor can log the fault and act on it.",
+                "If everyone waits, the fault stays unreported and unfixed."
+              ],
+              "best": 1
+            },
+            {
+              "prompt": "The office asks for details. What helps your report most?",
+              "options": [
+                "Just say the water is off",
+                "Give the exact location, how long it has been broken, and how many households rely on it",
+                "Demand it is fixed today or else"
+              ],
+              "feedback": [
+                "Too vague — they may not find the right fault.",
+                "Yes — specific facts help them act quickly and fairly.",
+                "Threats make staff defensive and rarely speed things up."
+              ],
+              "best": 1
+            },
+            {
+              "prompt": "Two weeks later nothing has changed. What now?",
+              "options": [
+                "Give up — it is hopeless",
+                "Follow up with your reference, then ask for a supervisor and raise it at the next ward meeting",
+                "Start a fight with the office"
+              ],
+              "feedback": [
+                "Giving up leaves the problem for everyone.",
+                "Right — escalate calmly and add weight by raising it publicly.",
+                "Conflict damages the relationship you need to solve this."
+              ],
+              "best": 1
+            }
+          ]
+        },
+        {
+          "slug": "complaint-quiz",
+          "title": "Check what you learned",
+          "type": "quiz",
+          "est_minutes": 5,
+          "body": "Answer these short questions.",
+          "key_points": [
+            "Take your time"
+          ],
+          "motif": "circle",
+          "published": true,
+          "quiz": [
+            {
+              "question": "A complaint works best when it is sent to:",
+              "options": [
+                "Anyone nearby",
+                "The office that can act on it",
+                "Only social media",
+                "No one"
+              ],
+              "correct": 1,
+              "explanation": "A complaint only gets results when it reaches the office that can actually act on it."
+            },
+            {
+              "question": "If your complaint is ignored, a good next step is to:",
+              "options": [
+                "Give up",
+                "Follow up, then ask for a supervisor or the next office",
+                "Shout at staff",
+                "Delete your records"
+              ],
+              "correct": 1,
+              "explanation": "Follow up with your reference, then escalate calmly to a supervisor or the next office up."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

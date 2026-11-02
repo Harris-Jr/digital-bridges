@@ -1,0 +1,111 @@
+{
+  "slug": "being-a-good-digital-citizen",
+  "title": "Being a Good Digital Citizen",
+  "tagline": "Rights, respect, and wellbeing in online spaces.",
+  "description": "The internet is a community too. Learn your rights, how to treat others with respect, how to deal with bullying, and how to look after your wellbeing.",
+  "pathway": "digital-skills",
+  "category": "citizenship",
+  "icon_name": "Users",
+  "difficulty": "easy",
+  "estimated_hours": 1.5,
+  "pass_mark": 70,
+  "outcomes": [
+    "Know your rights online in Zambia",
+    "Treat others with respect",
+    "Report and block bullies",
+    "Protect children online",
+    "Balance screen time with rest"
+  ],
+  "sort_order": 8,
+  "published": true,
+  "modules": [
+    {
+      "title": "Module 1",
+      "summary": "",
+      "lessons": [
+        {
+          "slug": "your-rights-online",
+          "title": "Your rights online",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "In Zambia, the Data Protection Act of 2021 protects your personal information. Companies must tell you why they collect your data and keep it safe.\n\n## You can ask\nYou can ask a company what information they hold about you, and ask them to correct or delete it.",
+          "key_points": [
+            "Your data is protected by law",
+            "You can ask what data is held about you",
+            "You can ask for corrections"
+          ],
+          "try_it": "Think of one app you use. Do you know what data it collects?",
+          "motif": "community",
+          "published": true
+        },
+        {
+          "slug": "dealing-with-bullying",
+          "title": "Dealing with online bullying",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "Bullying online can hurt as much as bullying in person.\n\n## What to do\nDo not reply to the bully. Take a screenshot as proof. Block and report the account. Talk to someone you trust, like a parent, teacher or facilitator.",
+          "key_points": [
+            "Do not reply",
+            "Save proof",
+            "Block and report",
+            "Tell someone you trust"
+          ],
+          "try_it": "Find the block button in WhatsApp for a contact, without pressing it.",
+          "motif": "shield",
+          "published": true
+        },
+        {
+          "slug": "screen-time-balance",
+          "title": "Balancing screen time",
+          "type": "practice",
+          "est_minutes": 5,
+          "body": "Phones are useful, but too much time on them can affect sleep and family time.\n\n## Simple habits\nPut the phone away during meals. Stop using it one hour before sleep. Turn off notifications from apps you do not need.",
+          "key_points": [
+            "Phone-free meals",
+            "No screens before sleep",
+            "Turn off extra notifications"
+          ],
+          "try_it": "Turn off notifications for one app you do not need.",
+          "motif": "circle",
+          "published": true
+        },
+        {
+          "slug": "citizenship-quiz",
+          "title": "Check what you learned",
+          "type": "quiz",
+          "est_minutes": 5,
+          "body": "Answer these short questions.",
+          "key_points": [
+            "Take your time"
+          ],
+          "motif": "circle",
+          "published": true,
+          "quiz": [
+            {
+              "question": "Which law protects personal data in Zambia?",
+              "options": [
+                "The Data Protection Act of 2021",
+                "The Roads Act",
+                "There is no law",
+                "The Mining Act"
+              ],
+              "correct": 0,
+              "explanation": "The Data Protection Act No. 3 of 2021 protects your personal information."
+            },
+            {
+              "question": "Someone is bullying you online. What should you NOT do?",
+              "options": [
+                "Save proof",
+                "Block them",
+                "Reply angrily",
+                "Tell someone you trust"
+              ],
+              "correct": 2,
+              "explanation": "Replying can make it worse. Save proof, block, report and talk to someone."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,110 @@
+{
+  "slug": "spotting-false-information",
+  "title": "Spotting False Information",
+  "tagline": "How to check if news and messages are true before you share.",
+  "description": "Not everything forwarded on WhatsApp is true. Learn quick checks to tell real news from rumours, so you protect your family and community.",
+  "pathway": "digital-skills",
+  "category": "citizenship",
+  "icon_name": "SearchCheck",
+  "difficulty": "easy",
+  "estimated_hours": 1.5,
+  "pass_mark": 70,
+  "outcomes": [
+    "Ask three questions before you share",
+    "Check who really sent a message",
+    "Spot edited photos and old videos",
+    "Find trusted news sources in Zambia",
+    "Talk to others kindly about false news"
+  ],
+  "sort_order": 4,
+  "published": true,
+  "modules": [
+    {
+      "title": "Module 1",
+      "summary": "",
+      "lessons": [
+        {
+          "slug": "three-questions",
+          "title": "Three questions before you share",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "Before you forward a message, ask three questions.\n\n## Who sent it first?\nA forward from a friend may have started with a stranger. Look for the real source.\n\n## Is it on trusted news?\nCheck ZNBC, a trusted newspaper, or a community radio station you know.\n\n## How does it make me feel?\nMessages that make you very angry or scared are often made to spread fast. Slow down.",
+          "key_points": [
+            "Who sent it first?",
+            "Is it on trusted news?",
+            "Strong feelings mean slow down"
+          ],
+          "try_it": "Take the last forwarded message you received and ask the three questions.",
+          "motif": "radio",
+          "published": true
+        },
+        {
+          "slug": "old-photos-new-stories",
+          "title": "Old photos, new stories",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "A common trick is using an old photo or video and saying it happened today.\n\n## How to check\nLook for clues: the weather, signs, clothing, phone models. Ask the sender where it came from. If no one knows, do not share.",
+          "key_points": [
+            "Photos can be old or edited",
+            "Look for clues in the picture",
+            "If unsure, do not share"
+          ],
+          "try_it": "Find a photo in a group chat and look for clues about when it was taken.",
+          "motif": "circle",
+          "published": true
+        },
+        {
+          "slug": "check-a-message",
+          "title": "Practice: check a message",
+          "type": "practice",
+          "est_minutes": 5,
+          "body": "Here is a message: \"Government is giving K2,000 to every family. Click this link and enter your NRC number before Friday!\"\n\n## Think it through\nThere is a deadline, a link, a request for your NRC number and free money. These are four warning signs. Real government programmes are announced on official channels and do not ask for your details by link.",
+          "key_points": [
+            "Free money plus a link is a warning",
+            "Never send your NRC number by link",
+            "Check official channels"
+          ],
+          "try_it": "Share what you learned with one person in your family.",
+          "motif": "shield",
+          "published": true
+        },
+        {
+          "slug": "false-info-quiz",
+          "title": "Check what you learned",
+          "type": "quiz",
+          "est_minutes": 5,
+          "body": "Answer these short questions.",
+          "key_points": [
+            "Take your time"
+          ],
+          "motif": "circle",
+          "published": true,
+          "quiz": [
+            {
+              "question": "A message makes you very angry. What is the best first step?",
+              "options": [
+                "Share it fast",
+                "Slow down and check it",
+                "Add more comments",
+                "Send it to every group"
+              ],
+              "correct": 1,
+              "explanation": "Messages that cause strong feelings are often made to spread. Slow down and check first."
+            },
+            {
+              "question": "A message offers free money if you enter your NRC number at a link. This is:",
+              "options": [
+                "A real government programme",
+                "A likely scam",
+                "Safe if a friend sent it",
+                "Fine before Friday"
+              ],
+              "correct": 1,
+              "explanation": "Free money, a deadline, a link and a request for your NRC are all warning signs."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

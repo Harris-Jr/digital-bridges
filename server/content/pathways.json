@@ -1,0 +1,22 @@
+[
+  {
+    "slug": "digital-skills",
+    "title": "Digital Skills",
+    "subtitle": "Use your phone with confidence",
+    "description": "Phones, mobile money, online safety, messaging and finding work — the everyday skills to take part in the digital world.",
+    "icon_name": "Smartphone",
+    "accent": "primary",
+    "sort_order": 1,
+    "published": true
+  },
+  {
+    "slug": "civic-education",
+    "title": "Civic Education",
+    "subtitle": "Know your rights, take part",
+    "description": "How public services work, your rights, getting information, and taking part in decisions that affect your community.",
+    "icon_name": "Landmark",
+    "accent": "accent",
+    "sort_order": 2,
+    "published": true
+  }
+]

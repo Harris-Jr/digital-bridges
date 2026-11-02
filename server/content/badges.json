@@ -1,0 +1,38 @@
+[
+  {
+    "slug": "first-lesson",
+    "name": "First Lesson",
+    "description": "You finished your first lesson.",
+    "criteria": {
+      "lessons": 1
+    },
+    "icon_name": "Footprints"
+  },
+  {
+    "slug": "money-wise",
+    "name": "Money Wise",
+    "description": "You finished Mobile Money, Made Safe.",
+    "criteria": {
+      "course": "mobile-money-made-safe"
+    },
+    "icon_name": "Wallet"
+  },
+  {
+    "slug": "safety-star",
+    "name": "Safety Star",
+    "description": "You finished Staying Safe Online.",
+    "criteria": {
+      "course": "staying-safe-online"
+    },
+    "icon_name": "ShieldCheck"
+  },
+  {
+    "slug": "seven-day-streak",
+    "name": "7-Day Streak",
+    "description": "You learned on 7 different days in a row.",
+    "criteria": {
+      "streak": 7
+    },
+    "icon_name": "Flame"
+  }
+]

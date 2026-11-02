@@ -1,0 +1,114 @@
+{
+  "slug": "taking-part-in-your-community",
+  "title": "Taking Part in Your Community",
+  "tagline": "Speak up, bring evidence, and help decisions get made.",
+  "description": "Decisions about your area are made in meetings you can take part in. Learn how to prepare, how to present a problem with evidence, and how to engage respectfully with officials and councillors.",
+  "pathway": "civic-education",
+  "category": "citizenship",
+  "icon_name": "Users",
+  "difficulty": "easy",
+  "estimated_hours": 2,
+  "pass_mark": 70,
+  "outcomes": [
+    "Know where community decisions are made",
+    "Prepare before a meeting or consultation",
+    "Present a problem clearly, with evidence",
+    "Engage officials respectfully and constructively",
+    "Report a community problem and follow it up"
+  ],
+  "sort_order": 12,
+  "published": true,
+  "modules": [
+    {
+      "title": "Module 1",
+      "summary": "",
+      "lessons": [
+        {
+          "slug": "where-decisions-are-made",
+          "title": "Where decisions are made",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "Many decisions about your area are made in meetings that are open to residents.\n\n## Places to take part\nWard development meetings, council meetings and public consultations are where plans and budgets are discussed. Community radio and notice boards often share when these happen.\n\n## Why it matters\nWhen residents take part, decisions reflect real needs. Showing up and speaking is one of the simplest ways to shape your community.",
+          "key_points": [
+            "Ward meetings and consultations are open to residents",
+            "Plans and budgets are discussed there",
+            "Radio and notice boards share the dates",
+            "Taking part helps decisions reflect real needs"
+          ],
+          "try_it": "Find out when the next community or ward meeting in your area is.",
+          "motif": "community",
+          "video_url": "https://www.youtube.com/watch?v=IQhc6s_KPgQ",
+          "published": true
+        },
+        {
+          "slug": "speak-up-with-evidence",
+          "title": "Speak up with evidence",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "A point lands better when it is clear and backed by facts.\n\n## Prepare first\nDecide the one thing you want to say. Write it in a sentence or two. Bring evidence: a photo, a date, a number of people affected, or a simple example.\n\n## Be constructive\nSpeak calmly and respectfully, even when you disagree. Offer a suggestion, not only a complaint. Thank people for listening.",
+          "key_points": [
+            "Decide the one point you want to make",
+            "Bring simple evidence: a photo, a date, a number",
+            "Stay calm and respectful",
+            "Offer a suggestion, not only a complaint"
+          ],
+          "try_it": "Pick one issue and write the single sentence you would say about it.",
+          "motif": "circle",
+          "published": true
+        },
+        {
+          "slug": "reporting-a-community-problem",
+          "title": "Reporting a community problem",
+          "type": "practice",
+          "est_minutes": 5,
+          "body": "Reporting a problem well makes it more likely to be fixed.\n\n## A real situation\nA borehole in your area has been broken for weeks. Who do you tell? Start with your ward councillor or the responsible office. Explain clearly: where it is, how long it has been broken, and how many people it affects.\n\n## Follow it up\nAsk what will happen next and when. Keep a note of who you spoke to. If nothing changes, follow up politely and, if needed, raise it at a community meeting.",
+          "key_points": [
+            "Report to your councillor or the responsible office",
+            "Say where, how long, and how many are affected",
+            "Ask what happens next and when",
+            "Follow up and raise it at a meeting if needed"
+          ],
+          "try_it": "Think of one real problem near you. Write who you would tell and what you would say.",
+          "motif": "community",
+          "published": true
+        },
+        {
+          "slug": "participation-quiz",
+          "title": "Check what you learned",
+          "type": "quiz",
+          "est_minutes": 5,
+          "body": "Answer these short questions.",
+          "key_points": [
+            "Take your time"
+          ],
+          "motif": "circle",
+          "published": true,
+          "quiz": [
+            {
+              "question": "Where are many decisions about your area discussed?",
+              "options": [
+                "Only in private",
+                "Ward meetings and public consultations",
+                "Only on television",
+                "Nowhere you can attend"
+              ],
+              "correct": 1,
+              "explanation": "Ward meetings, council meetings and public consultations are open to residents."
+            },
+            {
+              "question": "What makes a point land well at a meeting?",
+              "options": [
+                "Shouting the loudest",
+                "Being clear and bringing evidence",
+                "Speaking for a long time",
+                "Blaming one person"
+              ],
+              "correct": 1,
+              "explanation": "A clear point backed by simple evidence, offered respectfully, lands best."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

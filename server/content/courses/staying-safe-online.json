@@ -1,0 +1,112 @@
+{
+  "slug": "staying-safe-online",
+  "title": "Staying Safe Online",
+  "tagline": "Passwords, scams, and protecting your personal information.",
+  "description": "Learn the habits that keep your phone, your accounts and your money safe. We cover strong passwords, scam messages, and what not to share with strangers online.",
+  "pathway": "digital-skills",
+  "category": "safety",
+  "icon_name": "ShieldCheck",
+  "difficulty": "easy",
+  "estimated_hours": 2,
+  "pass_mark": 70,
+  "outcomes": [
+    "Make a strong password you can remember",
+    "Spot the red flags in a scam message",
+    "Lock your phone with a PIN",
+    "Keep your personal details private",
+    "Know what to do if you are tricked"
+  ],
+  "sort_order": 2,
+  "published": true,
+  "modules": [
+    {
+      "title": "Module 1",
+      "summary": "",
+      "lessons": [
+        {
+          "slug": "strong-passwords",
+          "title": "Making a strong password you can remember",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "A strong password is long and hard for others to guess, but easy for you to remember.\n\n## Use a sentence\nPick three or four words that mean something to you, like: MangoTree Kitwe 2009 Rain. Join them together: MangoTreeKitwe2009Rain. That is long, strong and memorable.\n\n## Avoid these\nDo not use your name, your birthday, 1234, or the word password. Do not use the same password for everything. If one account is stolen, the others stay safe.",
+          "key_points": [
+            "Long is stronger than short",
+            "Use three or four words together",
+            "Never use your birthday or 1234",
+            "Use a different password for each account"
+          ],
+          "try_it": "Think of four words you will remember and write a practice password on paper. Do not use it for a real account yet.",
+          "motif": "shield",
+          "published": true
+        },
+        {
+          "slug": "red-flags-of-scam-messages",
+          "title": "Red flags of scam messages",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "Scammers send messages that look real to trick you into giving money or your PIN.\n\n## Common red flags\nThe message says you have won a prize you never entered. It says your account will be closed unless you act now. It asks for your PIN or a code sent to your phone. The sender is a number you do not know, or the spelling is strange.\n\n## What to do\nStop. Do not reply, do not click links, do not send money. Call the company on its official number to check. Delete the message and warn your family.",
+          "key_points": [
+            "Real companies never ask for your PIN",
+            "Urgent pressure is a warning sign",
+            "Do not click links from strangers",
+            "Check by calling the official number"
+          ],
+          "try_it": "Look through your SMS messages. Can you find one that has a red flag?",
+          "motif": "shield",
+          "published": true
+        },
+        {
+          "slug": "lock-your-phone",
+          "title": "Lock your phone with a PIN",
+          "type": "practice",
+          "est_minutes": 5,
+          "body": "If your phone is lost or stolen, a lock stops others from reading your messages or using your mobile money.\n\n## Set a lock\nOpen Settings, tap Security or Lock screen, then choose PIN. Pick 4 to 6 numbers that are not your birthday. Type it twice to confirm.",
+          "key_points": [
+            "A PIN protects your messages and money",
+            "Do not use your birthday",
+            "Do not share your PIN, even with friends"
+          ],
+          "try_it": "Set a screen lock PIN on your phone today.",
+          "motif": "shield",
+          "published": true
+        },
+        {
+          "slug": "safety-quiz",
+          "title": "Check what you learned",
+          "type": "quiz",
+          "est_minutes": 5,
+          "body": "Answer these short questions about staying safe.",
+          "key_points": [
+            "Take your time"
+          ],
+          "motif": "circle",
+          "published": true,
+          "quiz": [
+            {
+              "question": "Which password is the strongest?",
+              "options": [
+                "1234",
+                "Chanda1990",
+                "MangoTreeKitwe2009Rain",
+                "password"
+              ],
+              "correct": 2,
+              "explanation": "Long passwords made of several words are much harder to guess, and still easy for you to remember."
+            },
+            {
+              "question": "A message says your account will close unless you send your PIN. What should you do?",
+              "options": [
+                "Send the PIN quickly",
+                "Reply asking for more time",
+                "Ignore it and call the official number",
+                "Forward it to friends"
+              ],
+              "correct": 2,
+              "explanation": "Real companies never ask for your PIN. Call the official number if you are worried."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

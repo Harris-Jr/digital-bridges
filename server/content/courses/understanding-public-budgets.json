@@ -1,0 +1,113 @@
+{
+  "slug": "understanding-public-budgets",
+  "title": "Understanding Public Budgets",
+  "tagline": "Where public money comes from and how it is spent.",
+  "description": "Public budgets decide which services get funded. Learn in plain language where the money comes from, how a budget is decided, and how to ask informed questions about spending in your area.",
+  "pathway": "civic-education",
+  "category": "citizenship",
+  "icon_name": "Coins",
+  "difficulty": "easy",
+  "estimated_hours": 1.5,
+  "pass_mark": 70,
+  "outcomes": [
+    "Understand where public money comes from",
+    "Follow the basic steps of how a budget is decided",
+    "Know where citizens can give input",
+    "Ask clear, informed questions about spending"
+  ],
+  "sort_order": 14,
+  "published": true,
+  "modules": [
+    {
+      "title": "Module 1",
+      "summary": "",
+      "lessons": [
+        {
+          "slug": "where-public-money-comes-from",
+          "title": "Where public money comes from",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "Public services are paid for with money the public provides.\n\n## The main sources\nMost public money comes from taxes (like income tax and VAT) and from fees and levies (like trading fees and licences). Some comes from grants and loans. This pooled money pays for clinics, schools, roads and more.\n\n## Why it matters\nBecause it is public money, the public has a fair interest in how it is spent and a right to ask informed questions.",
+          "key_points": [
+            "Public money comes mainly from taxes and fees",
+            "Levies and licences also contribute",
+            "Some comes from grants and loans",
+            "Public money means the public can ask how it is spent"
+          ],
+          "try_it": "List two services in your area that are paid for with public money.",
+          "motif": "circle",
+          "video_url": "https://www.youtube.com/watch?v=nTqqTEj1E2Y",
+          "published": true
+        },
+        {
+          "slug": "how-a-budget-is-decided",
+          "title": "How a budget is decided",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "A budget is a plan for spending over a year. It follows a cycle.\n\n## The basic cycle\nOffices propose what they need. Plans are reviewed and approved by the council or national level. Money is released and spent. At the end, spending is reported and checked.\n\n## Where citizens fit\nPublic consultations and ward meetings are points where residents can give input before a budget is finalised. Showing up at the right time is how your needs get heard.",
+          "key_points": [
+            "A budget is a yearly spending plan",
+            "It follows propose, approve, spend, report",
+            "Consultations are where citizens give input",
+            "Timing matters — give input before it is finalised"
+          ],
+          "try_it": "Find out when budget or ward planning meetings happen in your area.",
+          "motif": "community",
+          "published": true
+        },
+        {
+          "slug": "asking-good-questions-about-spending",
+          "title": "Asking good questions about spending",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "You do not need to be an expert to ask useful questions.\n\n## Good questions are specific\nAsk about one project: How much was budgeted? How much has been spent? What was delivered? When will it be finished? Specific questions are easier to answer and harder to dodge.\n\n## Stay factual and fair\nAsk for figures and dates, not blame. Keep a note of answers. If figures are public, you have a right to see them.",
+          "key_points": [
+            "Focus each question on one project",
+            "Ask budgeted vs spent, and what was delivered",
+            "Ask for figures and dates, not blame",
+            "Keep a note of the answers you get"
+          ],
+          "try_it": "Write two specific questions about a project you can see in your area.",
+          "motif": "shield",
+          "published": true
+        },
+        {
+          "slug": "budget-quiz",
+          "title": "Check what you learned",
+          "type": "quiz",
+          "est_minutes": 5,
+          "body": "Answer these short questions.",
+          "key_points": [
+            "Take your time"
+          ],
+          "motif": "circle",
+          "published": true,
+          "quiz": [
+            {
+              "question": "Where does most public money come from?",
+              "options": [
+                "Only foreign loans",
+                "Taxes, fees and levies",
+                "Private donations only",
+                "It is printed freely"
+              ],
+              "correct": 1,
+              "explanation": "Most public money comes from taxes, plus fees and levies, with some grants and loans."
+            },
+            {
+              "question": "A good question about a project is:",
+              "options": [
+                "Who do we blame?",
+                "How much was budgeted and spent, and what was delivered?",
+                "Why is everything bad?",
+                "Can I have the money?"
+              ],
+              "correct": 1,
+              "explanation": "Specific questions about budgeted vs spent and what was delivered are clear and fair."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

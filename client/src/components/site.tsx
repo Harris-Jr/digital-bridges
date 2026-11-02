@@ -668,27 +668,40 @@ export function CourseCard({ course, progress }: { course: Course; index?: numbe
   );
 }
 
+/** Lesson text renderer. Supports blank-line separated blocks, "## " sub-headings,
+    "- " bullet lists, "1. " numbered lists and **bold**. A heading, a paragraph
+    and a list may share one block (no blank line needed between them). */
 export function RichText({ text }: { text: string }) {
-  const blocks = text.split(/\n\s*\n/).filter((b) => b.trim());
   const inline = (s: string) =>
-    s.split(/(\*\*[^*]+\*\*)/g).map((p, i) => (p.startsWith("**") ? <strong key={i}>{p.slice(2, -2)}</strong> : <span key={i}>{p}</span>));
-  return (
-    <div className="prose-lesson">
-      {blocks.map((b, i) => {
-        const lines = b.split("\n");
-        if (lines.every((l) => l.trim().startsWith("- ")))
-          return <ul key={i}>{lines.map((l, j) => <li key={j}>{inline(l.trim().slice(2))}</li>)}</ul>;
-        if (lines[0]?.startsWith("## "))
-          return (
-            <div key={i}>
-              <h2>{lines[0].slice(3)}</h2>
-              {lines.slice(1).join(" ").trim() && <p>{inline(lines.slice(1).join(" "))}</p>}
-            </div>
-          );
-        return <p key={i}>{inline(b.replace(/\n/g, " "))}</p>;
-      })}
-    </div>
-  );
+    s.split(/(\*\*[^*]+\*\*)/g).map((p, i) => (p.startsWith("**") && p.endsWith("**") ? <strong key={i}>{p.slice(2, -2)}</strong> : <span key={i}>{p}</span>));
+  const out: ReactNode[] = [];
+  let k = 0;
+  for (const block of text.split(/\n\s*\n/)) {
+    const lines = block.split("\n").map((l) => l.trim()).filter(Boolean);
+    let para: string[] = [];
+    let list: { ordered: boolean; items: string[] } | null = null;
+    const flushPara = () => { if (para.length) { out.push(<p key={k++}>{inline(para.join(" "))}</p>); para = []; } };
+    const flushList = () => {
+      if (!list) return;
+      const items = list.items.map((it, j) => <li key={j}>{inline(it)}</li>);
+      out.push(list.ordered ? <ol key={k++} className="list-decimal">{items}</ol> : <ul key={k++}>{items}</ul>);
+      list = null;
+    };
+    for (const line of lines) {
+      const bullet = /^[-*] (.*)$/.exec(line);
+      const num = /^\d+[.)] (.*)$/.exec(line);
+      if (line.startsWith("## ")) { flushPara(); flushList(); out.push(<h2 key={k++}>{line.slice(3)}</h2>); }
+      else if (bullet || num) {
+        flushPara();
+        const ordered = !!num;
+        if (list && list.ordered !== ordered) flushList();
+        if (!list) list = { ordered, items: [] };
+        list.items.push((bullet ?? num)![1]!);
+      } else { flushList(); para.push(line); }
+    }
+    flushPara(); flushList();
+  }
+  return <div className="prose-lesson">{out}</div>;
 }
 
 export function ProgressRing({ value, size = 120 }: { value: number; size?: number }) {

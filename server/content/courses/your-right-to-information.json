@@ -1,0 +1,114 @@
+{
+  "slug": "your-right-to-information",
+  "title": "Your Right to Information",
+  "tagline": "How to ask public offices for information you need.",
+  "description": "Public offices hold information that belongs to the people. Learn what you can ask for, how to write a simple request, and what steps to take if your request is refused.",
+  "pathway": "civic-education",
+  "category": "citizenship",
+  "icon_name": "FileSearch",
+  "difficulty": "easy",
+  "estimated_hours": 1.5,
+  "pass_mark": 70,
+  "outcomes": [
+    "Understand what information you can ask for",
+    "Write a clear, simple request",
+    "Keep a copy and a record of your request",
+    "Know what to do if you are refused",
+    "Follow the right steps to appeal"
+  ],
+  "sort_order": 11,
+  "published": true,
+  "modules": [
+    {
+      "title": "Module 1",
+      "summary": "",
+      "lessons": [
+        {
+          "slug": "information-you-can-ask-for",
+          "title": "Information you can ask for",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "Public offices keep information that belongs to the people. In many cases you have a right to ask for it.\n\n## What this means\nYou can ask a public office for information such as how a service works, what a project will cost, or the steps in a process. You do not always need to give a reason.\n\n## What to expect\nThe office should help you or explain how to make a request. Some information is protected, for example personal details of other people, but much of it can be shared.",
+          "key_points": [
+            "Public information belongs to the people",
+            "You can ask how a service or project works",
+            "You often do not need to give a reason",
+            "Some private information is protected"
+          ],
+          "try_it": "Think of one thing about a public service you would like to understand better.",
+          "motif": "shield",
+          "video_url": "https://www.youtube.com/watch?v=uQzMZRH56f0",
+          "published": true
+        },
+        {
+          "slug": "writing-a-simple-request",
+          "title": "Writing a simple request",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "A clear request is easier to answer. You do not need big words.\n\n## What to include\nSay who you are, what information you want, and how you would like to receive it. Be specific: name the project, office or time period. Keep it short.\n\n## Keep a copy\nWrite or type your request and keep a copy. If you hand it in, ask for a stamp or a note that it was received. If you send it, keep the message.",
+          "key_points": [
+            "Say who you are and what you want",
+            "Be specific about the project or office",
+            "Keep a copy of your request",
+            "Ask for proof that it was received"
+          ],
+          "try_it": "Draft two sentences asking for one piece of public information you care about.",
+          "motif": "circle",
+          "published": true
+        },
+        {
+          "slug": "if-they-say-no",
+          "title": "If they say no",
+          "type": "practice",
+          "est_minutes": 5,
+          "body": "Sometimes a request is refused or ignored. There are calm steps you can take.\n\n## Ask for the reason\nIf you are refused, ask for the reason in writing. A reason helps you know what to do next.\n\n## Follow the next step\nAsk the office how to appeal or who to take it to next. Keep your copy and the reason. If you are still stuck, a civil society organisation or a legal aid service may be able to guide you.",
+          "key_points": [
+            "Ask for the reason for a refusal in writing",
+            "Ask how to appeal or who to go to next",
+            "Keep your copies and the reason",
+            "Seek help from a civil society or legal aid service"
+          ],
+          "try_it": "Write down one place or person you could ask for help if a request is refused.",
+          "motif": "shield",
+          "published": true
+        },
+        {
+          "slug": "information-quiz",
+          "title": "Check what you learned",
+          "type": "quiz",
+          "est_minutes": 5,
+          "body": "Answer these short questions.",
+          "key_points": [
+            "Take your time"
+          ],
+          "motif": "circle",
+          "published": true,
+          "quiz": [
+            {
+              "question": "When you ask a public office for information, you usually:",
+              "options": [
+                "Must pay a large fee",
+                "Do not always need to give a reason",
+                "Need a lawyer",
+                "Cannot ask at all"
+              ],
+              "correct": 1,
+              "explanation": "You often do not need to give a reason. Much public information can be shared on request."
+            },
+            {
+              "question": "If your request for information is refused, a good step is to:",
+              "options": [
+                "Forget about it",
+                "Ask for the reason and how to appeal",
+                "Argue angrily",
+                "Pay someone to force it"
+              ],
+              "correct": 1,
+              "explanation": "Ask for the reason in writing and how to appeal or who to take it to next."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

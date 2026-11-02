@@ -1,0 +1,110 @@
+{
+  "slug": "mobile-money-made-safe",
+  "title": "Mobile Money, Made Safe",
+  "tagline": "Send, receive, and protect your money on your phone.",
+  "description": "Mobile money is part of daily life in Zambia. Learn to send and receive safely, check numbers before you send, protect your PIN, and spot common mobile money scams.",
+  "pathway": "digital-skills",
+  "category": "money",
+  "icon_name": "Wallet",
+  "difficulty": "easy",
+  "estimated_hours": 2,
+  "pass_mark": 70,
+  "outcomes": [
+    "Send and receive money step by step",
+    "Check the name before you confirm",
+    "Keep your PIN secret",
+    "Spot fake reversal messages",
+    "Keep records of your transactions"
+  ],
+  "sort_order": 5,
+  "published": true,
+  "modules": [
+    {
+      "title": "Module 1",
+      "summary": "",
+      "lessons": [
+        {
+          "slug": "sending-money",
+          "title": "Sending money step by step",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "Sending money with Airtel Money, MTN MoMo or Zamtel Kwacha follows similar steps.\n\n## The steps\nDial the menu code or open the app. Choose Send Money. Enter the number. Enter the amount. Read the confirmation screen carefully. Enter your PIN only when everything is correct.",
+          "key_points": [
+            "Read the confirmation screen every time",
+            "Enter your PIN last",
+            "Keep the confirmation SMS"
+          ],
+          "try_it": "Dial your mobile money menu and find Send Money, without sending anything.",
+          "motif": "phone",
+          "published": true
+        },
+        {
+          "slug": "check-the-number",
+          "title": "Checking the number before you send",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "Most mobile money mistakes happen because one digit is wrong.\n\n## Check the name\nAfter you type the number, the screen shows the name of the person who will receive the money. If the name is not the person you expect, cancel. It is much easier to cancel than to get money back.\n\n## Save trusted numbers\nSave the numbers you send to often in your contacts, so you can pick them instead of typing.",
+          "key_points": [
+            "The confirmation screen shows the receiver's name",
+            "Cancel if the name is wrong",
+            "Save numbers you use often"
+          ],
+          "try_it": "Next time you send money, stop and read the name out loud before confirming.",
+          "motif": "phone",
+          "published": true
+        },
+        {
+          "slug": "fake-reversal-scam",
+          "title": "The fake reversal scam",
+          "type": "practice",
+          "est_minutes": 5,
+          "body": "A common scam: you get an SMS saying you received K500, then someone calls saying it was a mistake and asks you to send it back.\n\n## What to do\nCheck your real balance by dialling your mobile money menu. Fake SMS messages come from normal numbers, not from your network. If your balance did not go up, do not send anything. Real reversals are handled by the network, not by strangers.",
+          "key_points": [
+            "Always check your real balance",
+            "Fake SMS comes from normal phone numbers",
+            "Real reversals go through the network"
+          ],
+          "try_it": "Find out the official customer care number for your network and save it.",
+          "motif": "shield",
+          "published": true
+        },
+        {
+          "slug": "mobile-money-quiz",
+          "title": "Check what you learned",
+          "type": "quiz",
+          "est_minutes": 5,
+          "body": "Answer these short questions.",
+          "key_points": [
+            "Take your time"
+          ],
+          "motif": "circle",
+          "published": true,
+          "quiz": [
+            {
+              "question": "What should you check before entering your PIN to send money?",
+              "options": [
+                "The weather",
+                "The receiver's name on the screen",
+                "Your battery",
+                "The time"
+              ],
+              "correct": 1,
+              "explanation": "The confirmation screen shows who will receive the money. If the name is wrong, cancel."
+            },
+            {
+              "question": "You get an SMS saying you received K500 and a stranger asks for it back. What do you do first?",
+              "options": [
+                "Send it back",
+                "Check your real balance",
+                "Call the stranger",
+                "Delete your account"
+              ],
+              "correct": 1,
+              "explanation": "Fake SMS messages are common. Check your real balance through the official menu."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

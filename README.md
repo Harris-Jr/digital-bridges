@@ -104,6 +104,23 @@ Roles live in the `user_roles` table (an `app_role` enum). Every `/api/admin/*` 
 
 ---
 
+## Course Content
+
+All course content (pathways, categories, badges, courses, modules, lessons, quizzes, scenarios) lives as JSON in `server/content/`, versioned in git. Nothing learners read is hardcoded in the app.
+
+```bash
+cd server
+npm run seed -- --check                  # validate files + beginner-length report, no DB changes
+npm run seed                             # load everything (safe to re-run; matched by slug)
+npm run seed -- <course-slug>            # load one course
+npm run content:export -- <course-slug>  # copy CMS edits back into the JSON file
+```
+
+- Re-seeding keeps learner progress, certificates and badges. Lessons removed from a file are unpublished, not deleted (add `--prune` to delete).
+- Seeding a course overwrites CMS edits to it, so export first if editors changed it in the admin.
+- When English text changes, its Bemba/Nyanja translation for that field is removed (falls back to English) until re-translated.
+- Beginner standard: 3 to 5 modules per course, 3 to 6 lessons per module, 150 to 300 words per lesson, a 3 to 5 question check quiz ending each module.
+
 ## Multilingual System
 
 - Interface strings live in the `i18n_strings` table, keyed by `(key, lang)`. The client reads them through `GET /api/i18n`; `t(key, fallback)` resolves current language, then English, then the hardcoded fallback. Languages: `en`, `bem`, `nya`.

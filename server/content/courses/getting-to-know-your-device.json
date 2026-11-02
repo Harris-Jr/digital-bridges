@@ -1,0 +1,384 @@
+{
+  "slug": "getting-to-know-your-device",
+  "title": "Getting to Know Your Device",
+  "tagline": "Smartphone basics, explained slowly and simply.",
+  "description": "New to smartphones? Start here. Step by step, you will learn to turn your phone on, use the screen, get connected to data or Wi-Fi, and install and look after your apps. No experience needed.",
+  "pathway": "digital-skills",
+  "category": "communication",
+  "icon_name": "Smartphone",
+  "difficulty": "start_here",
+  "estimated_hours": 1.5,
+  "pass_mark": 70,
+  "outcomes": [
+    "Turn your phone on and off and unlock it",
+    "Use the touchscreen: tap, swipe, press and hold, and type",
+    "Charge your phone safely and make the battery last",
+    "Buy data and turn mobile data on and off",
+    "Join Wi-Fi safely and make your bundle last longer",
+    "Install, update and remove apps from the Play Store",
+    "Lock your phone with a PIN"
+  ],
+  "sort_order": 1,
+  "published": true,
+  "modules": [
+    {
+      "title": "Meet your phone",
+      "summary": "The buttons, the screen and finding your way around.",
+      "lessons": [
+        {
+          "slug": "your-phone-buttons-and-screen",
+          "title": "Turning your phone on, off and unlocking",
+          "type": "read",
+          "est_minutes": 4,
+          "motif": "phone",
+          "body": "Your phone has very few buttons. Most of what you do happens on the screen. In this lesson you will learn the buttons and how to open your phone.\n\n## The power button\nThe **power button** is usually on the right side of the phone. It does three jobs:\n\n- A short press turns the screen on or off.\n- Hold it for about three seconds to turn the phone on.\n- When the phone is on, hold it to see the choices Power off and Restart.\n\nTurning the screen off does not turn the phone off. Calls and messages still arrive.\n\n## The volume buttons\nThe two buttons above or below the power button make sounds louder or quieter. Press the top one for louder and the bottom one for quieter.\n\n## Unlocking the phone\nWhen the screen turns on, you see the **lock screen**. It shows the time. To open the phone, put your finger at the bottom of the screen and slide it up. If you have set a PIN, the phone asks you to type it.\n\n## When the phone is stuck\nIf the screen freezes and nothing works, hold the power button until the Restart choice shows. If nothing shows, hold the power button and the lower volume button together for about ten seconds. The phone will restart. You will not lose your photos or contacts.",
+          "key_points": [
+            "A short press of the power button turns the screen on or off",
+            "Hold the power button for about 3 seconds to turn the phone on",
+            "Slide up from the bottom to unlock"
+          ],
+          "try_it": "Turn your phone off completely. Then turn it on again and unlock it."
+        },
+        {
+          "slug": "using-the-touchscreen",
+          "title": "Tap, swipe and type",
+          "type": "practice",
+          "est_minutes": 5,
+          "motif": "phone",
+          "body": "You control a smartphone by touching the screen with your finger. There are four movements to learn. Use the soft part of your fingertip, not your nail.\n\n## Tap\nA **tap** is a quick, light touch. Touch and lift straight away. You tap to open an app or to press a button on the screen.\n\n## Swipe\nA **swipe** is sliding your finger across the screen. Swipe up or down to move a page. Swipe left or right to see the next picture or the next page of apps.\n\n## Press and hold\nTouch something and keep your finger still for about two seconds. A small menu opens with more choices. You will use this later to move or remove apps.\n\n## Pinch\nPut two fingers on a photo or a map. Move them apart to make it bigger. Move them together to make it smaller.\n\n## Typing\nWhen you tap a box where words go, a **keyboard** appears at the bottom of the screen.\n\n- Tap each letter to type it.\n- The arrow key makes the next letter a capital letter.\n- The key with a left arrow or a cross deletes the last letter.\n- The ?123 key shows numbers and signs.\n\nTyping is slow at first. That is normal. It gets faster every day you practise.",
+          "key_points": [
+            "Tap is a quick touch; swipe is a slide",
+            "Press and hold opens more choices",
+            "Move two fingers apart to make things bigger"
+          ],
+          "try_it": "Open your messages, tap the box to write, and type your own name. Then delete it."
+        },
+        {
+          "slug": "home-screen-and-apps",
+          "title": "The home screen, apps and going back",
+          "type": "read",
+          "est_minutes": 4,
+          "motif": "phone",
+          "body": "After you unlock your phone, you see the **home screen**. It is like the front room of your phone. From here you can reach everything.\n\n## Apps\nThe small pictures on the home screen are **apps**. Each app does one job. The phone app makes calls. Messages sends SMS. The camera takes photos. WhatsApp sends messages over data. Tap an app to open it.\n\n## Finding all your apps\nThe home screen shows only some apps. To see all of them, swipe up from the middle of the home screen. On some phones you tap a button with small dots instead.\n\n## Going back and going home\nAt the bottom of most Android phones there are three small buttons, or a thin line.\n\n- **Back** (an arrow or a triangle) takes you one step back.\n- **Home** (a circle or a square) takes you straight to the home screen.\n- **Recent apps** (three lines or a square) shows the apps you opened lately.\n\nIf your phone has only a thin line, swipe up from the bottom to go home. Swipe in from the left or right edge to go back.\n\n## Don't worry about getting lost\nIf you are lost in an app, press Home. Nothing is lost, and you can start again.",
+          "key_points": [
+            "The pictures on the home screen are apps",
+            "Swipe up to see all your apps",
+            "Home always brings you back to the start"
+          ],
+          "try_it": "Open the camera app. Then press Home. Then open it again from all your apps."
+        },
+        {
+          "slug": "charging-and-battery",
+          "title": "Charging safely and saving battery",
+          "type": "read",
+          "est_minutes": 4,
+          "motif": "phone",
+          "body": "A charged phone is a working phone. Here is how to charge it safely and make the battery last.\n\n## Charging safely\n- Use the charger that came with your phone, or a good one made for your phone.\n- Cheap, broken or very hot chargers can damage the battery or cause a fire.\n- Charge on a hard surface like a table, not on a bed or under a pillow.\n- If the phone gets very hot, unplug it and let it cool.\n\n## When there is load-shedding\nWhen the power is off, a **power bank** can charge your phone. Charge the power bank when there is electricity. Some shops and community centres also charge phones.\n\n## Reading the battery level\nAt the top of the screen there is a small battery picture. It may show a number, like 45%. At 100% the battery is full. Below 20%, it is time to charge.\n\n## Making the battery last\n- Turn the screen brightness down. Swipe down from the top and slide the sun bar to the left.\n- Turn on **Battery saver**. You find it in the same place, or in Settings, Battery.\n- Turn off mobile data, Wi-Fi and Bluetooth when you are not using them.\n- Close apps you are not using.\n\nYou do not need to wait until the phone is empty before you charge it.",
+          "key_points": [
+            "Use a good charger and charge on a hard surface",
+            "Below 20%, it is time to charge",
+            "Battery saver and lower brightness make the battery last"
+          ],
+          "try_it": "Find Battery saver on your phone and turn it on."
+        },
+        {
+          "slug": "meet-your-phone-check",
+          "title": "Check: Meet your phone",
+          "type": "quiz",
+          "est_minutes": 3,
+          "motif": "circle",
+          "body": "Four short questions on this module. There is no time limit, and you can try again.",
+          "quiz": [
+            {
+              "question": "You press the power button quickly and the screen goes dark. What happened?",
+              "options": [
+                "The phone is broken",
+                "The screen turned off, but the phone is still on",
+                "The phone turned off completely",
+                "You deleted your apps"
+              ],
+              "correct": 1,
+              "explanation": "A short press only turns the screen off. Calls and messages still arrive."
+            },
+            {
+              "question": "How do you make a photo bigger on the screen?",
+              "options": [
+                "Tap it many times",
+                "Shake the phone",
+                "Put two fingers on it and move them apart",
+                "Press the power button"
+              ],
+              "correct": 2,
+              "explanation": "Moving two fingers apart zooms in. Moving them together zooms out."
+            },
+            {
+              "question": "You are lost inside an app. What is the easiest way to start again?",
+              "options": [
+                "Take out the battery",
+                "Press Home",
+                "Turn the phone off",
+                "Buy a new phone"
+              ],
+              "correct": 1,
+              "explanation": "Home always takes you back to the home screen. Nothing is lost."
+            },
+            {
+              "question": "Which is the safest place to charge your phone?",
+              "options": [
+                "On the bed under a pillow",
+                "On a hard table",
+                "In your pocket",
+                "Next to a cooking fire"
+              ],
+              "correct": 1,
+              "explanation": "Phones get warm when charging. A hard surface lets the heat escape."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Getting connected",
+      "summary": "Airtime, data, Wi-Fi and making your bundle last.",
+      "lessons": [
+        {
+          "slug": "airtime-and-data",
+          "title": "Airtime and data bundles",
+          "type": "read",
+          "est_minutes": 4,
+          "motif": "radio",
+          "body": "Your phone uses two different things: **airtime** and **data**. They are not the same.\n\n## Airtime\nAirtime is money on your line. You use it for normal calls and SMS. You can buy airtime from a shop, an agent, or with mobile money.\n\n## Data\nData is what you need for the internet. WhatsApp, Facebook, YouTube and websites all use data. Data is measured in **MB** (megabytes) and **GB** (gigabytes). 1 GB is about 1,000 MB.\n\n## Bundles\nIt is cheaper to buy data as a **bundle** than to use your airtime directly. A bundle gives you a set amount of data for a set time, for example a day, a week or a month.\n\nYou buy bundles from your network: **Airtel, MTN or Zamtel**. You can:\n\n- dial your network's bundle menu from the phone app,\n- use your network's own app, or\n- buy with mobile money.\n\nAsk an agent or the network shop for the right menu code. Codes and prices change, so always check the price on the screen before you confirm.\n\n## Checking what you have left\nEach network has a code or app that shows your remaining data. When your bundle ends, some phones start using airtime for data, which is expensive. Turning data off stops that.",
+          "key_points": [
+            "Airtime is for calls and SMS; data is for the internet",
+            "Bundles are cheaper than using airtime for data",
+            "Check the price on the screen before you confirm"
+          ],
+          "try_it": "Ask your network or an agent for the menu to check your data balance, and try it."
+        },
+        {
+          "slug": "connecting-to-data",
+          "title": "Turning mobile data on and off",
+          "type": "practice",
+          "est_minutes": 4,
+          "motif": "radio",
+          "body": "When **mobile data** is on, your phone can use the internet through your network. When it is off, no data is used.\n\n## The quick settings panel\nPut your finger at the very top of the screen and swipe down. A panel opens with small round buttons. Swipe down a second time to see more of them. This is the **quick settings** panel.\n\n## Finding mobile data\nLook for a button with two small arrows, one up and one down. It may say **Mobile data** under it.\n\n- If the button is coloured, data is on.\n- If it is grey, data is off.\n\nTap it once to change it.\n\n## When to turn data off\n- When you are not using the internet.\n- When your bundle is finished, so the phone does not use your airtime.\n- At night, to save data and battery.\n\nCalls and SMS still work when data is off. WhatsApp messages will arrive when you turn data back on.\n\n## Signs at the top of the screen\nNear the battery you may see letters like **4G**, **LTE** or **3G**. They show you are connected to the internet. Bars show how strong the signal is. More bars means a better signal.",
+          "key_points": [
+            "Swipe down from the top to open quick settings",
+            "The two-arrows button turns mobile data on and off",
+            "Calls and SMS still work with data off"
+          ],
+          "try_it": "Turn mobile data off, then on again, using quick settings."
+        },
+        {
+          "slug": "using-wi-fi",
+          "title": "Using Wi-Fi safely",
+          "type": "read",
+          "est_minutes": 4,
+          "motif": "radio",
+          "body": "**Wi-Fi** is internet without using your own bundle. Schools, ICT hubs, offices, some shops and homes have Wi-Fi.\n\n## Joining a Wi-Fi network\n1. Swipe down from the top and press and hold the **Wi-Fi** button. It looks like a fan or a slice of cake.\n2. A list of nearby networks appears.\n3. Tap the network you want.\n4. If it has a lock, type the password. Ask the owner for it.\n5. Tap Connect.\n\nNext time you are there, the phone joins by itself.\n\n## Is it safe?\nWi-Fi in public places is shared with strangers. Someone could try to see what you send. Follow these rules:\n\n- Only join Wi-Fi from places you know and trust.\n- Be careful of networks with no lock that have a name like a bank or a shop. They could be fake.\n- **Never** do mobile money or banking, or type a PIN or password, on public Wi-Fi. Use your own data for that.\n- Turn Wi-Fi off when you leave.\n\n## Forgetting a network\nIf you no longer want the phone to join a network, press and hold its name and tap **Forget**.",
+          "key_points": [
+            "Wi-Fi does not use your own data bundle",
+            "Only join Wi-Fi from places you trust",
+            "Never type a PIN or password on public Wi-Fi"
+          ],
+          "try_it": "Open the Wi-Fi list on your phone and see which networks are near you. Do not join one you do not know."
+        },
+        {
+          "slug": "saving-data",
+          "title": "Making your bundle last",
+          "type": "read",
+          "est_minutes": 4,
+          "motif": "radio",
+          "body": "Data costs money. A few small changes can make your bundle last much longer.\n\n## What uses the most data\n- **Videos** use the most. One short video can use more data than a day of messages.\n- Voice and video calls on WhatsApp.\n- Photos and videos that download by themselves in WhatsApp groups.\n- App updates.\n\nText messages on WhatsApp use very little.\n\n## Simple ways to save\n- **WhatsApp:** open Settings, then Storage and data. Under media auto-download, choose No media for mobile data. Now pictures and videos only download when you tap them.\n- **Data saver:** on Android, open Settings, then Network or Connections, then Data saver, and turn it on. Apps then use less data in the background.\n- **Updates on Wi-Fi only:** in the Play Store settings, choose to update apps over Wi-Fi only.\n- Watch videos in lower quality. In YouTube, tap the settings wheel and choose a smaller number, like 144p or 240p.\n- Turn data off when you are not using it.\n\n## See where your data goes\nIn Settings, look for **Data usage**. It lists which apps used the most data this month. If an app you rarely use is near the top, remove it or limit it.",
+          "key_points": [
+            "Videos and calls use the most data",
+            "Stop WhatsApp downloading media by itself",
+            "Data saver and Wi-Fi-only updates save a lot"
+          ],
+          "try_it": "In WhatsApp, set media auto-download on mobile data to No media."
+        },
+        {
+          "slug": "getting-connected-check",
+          "title": "Check: Getting connected",
+          "type": "quiz",
+          "est_minutes": 3,
+          "motif": "circle",
+          "body": "Four short questions on this module. There is no time limit, and you can try again.",
+          "quiz": [
+            {
+              "question": "What do you need to use WhatsApp, apart from Wi-Fi?",
+              "options": [
+                "Airtime only",
+                "Data",
+                "A charger",
+                "A SIM card from another country"
+              ],
+              "correct": 1,
+              "explanation": "WhatsApp works over the internet, so it needs data or Wi-Fi."
+            },
+            {
+              "question": "Your data bundle is finished. What should you do so the phone does not use your airtime?",
+              "options": [
+                "Turn mobile data off",
+                "Turn the volume down",
+                "Restart the phone many times",
+                "Delete your contacts"
+              ],
+              "correct": 0,
+              "explanation": "With data off, the phone cannot use airtime for the internet."
+            },
+            {
+              "question": "You are at a busy place with free Wi-Fi. What should you NOT do?",
+              "options": [
+                "Read the news",
+                "Send money with your mobile money PIN",
+                "Look at a map",
+                "Read a lesson"
+              ],
+              "correct": 1,
+              "explanation": "Public Wi-Fi is shared with strangers. Do money and passwords on your own data."
+            },
+            {
+              "question": "Which uses the most data?",
+              "options": [
+                "Sending a short text on WhatsApp",
+                "Watching a video",
+                "Reading an SMS",
+                "Looking at your contacts"
+              ],
+              "correct": 1,
+              "explanation": "Videos use far more data than text."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Apps and keeping your phone safe",
+      "summary": "Installing, updating and removing apps, and locking your phone.",
+      "lessons": [
+        {
+          "slug": "installing-an-app",
+          "title": "Installing an app from the Play Store",
+          "type": "practice",
+          "est_minutes": 5,
+          "motif": "phone",
+          "body": "Apps are programs you add to your phone. On Android phones, you get them from the **Play Store**. On an iPhone, it is the **App Store**.\n\n## Before you start\nYou need a Google account to use the Play Store. Most phones ask you to make one when you first set them up. You also need data or Wi-Fi. Large apps are best downloaded on Wi-Fi.\n\n## Installing an app\n1. Open **Play Store**. Its icon is a coloured triangle.\n2. Tap the search bar at the top.\n3. Type the name of the app, for example Civic Wise or WhatsApp.\n4. Tap the right app in the list.\n5. Tap **Install**. Wait for the green bar to finish.\n6. Tap **Open**, or find the new app on your home screen.\n\n## Check before you install\nFake apps sometimes copy the name of a real one. Before you tap Install:\n\n- Look at the name under the app title. This is who made it. WhatsApp is made by **WhatsApp LLC**.\n- Look at the number of downloads and the reviews.\n- Never install apps from links in messages, or from files sent over Bluetooth. They can carry harmful programs.\n\nMost apps are free. If an app costs money, the price shows on the button instead of Install.",
+          "key_points": [
+            "Get apps only from the Play Store or App Store",
+            "Check who made the app before you install",
+            "Never install apps from links or Bluetooth files"
+          ],
+          "try_it": "Open the Play Store and search for an app you know. Look at who made it. You do not have to install it."
+        },
+        {
+          "slug": "removing-apps-and-space",
+          "title": "Removing apps and freeing space",
+          "type": "read",
+          "est_minutes": 4,
+          "motif": "phone",
+          "body": "Phones have limited space, called **storage**. When it is full, the phone gets slow and cannot take new photos or install apps.\n\n## Removing an app\n1. Find the app on the home screen or in all your apps.\n2. **Press and hold** the app icon.\n3. Tap **Uninstall**, or drag the app to the word Uninstall at the top.\n4. Tap OK.\n\nThe app is gone. You can install it again later from the Play Store if you need it. Some apps that came with the phone cannot be removed. You can only disable them.\n\n## Checking your space\nOpen **Settings**, then **Storage** (on some phones it is under Battery and device care). You will see how much space is used and what is using it.\n\n## Ways to free space\n- Remove apps you have not used for a month.\n- Delete old videos. They take a lot of space.\n- In WhatsApp, open Settings, Storage and data, Manage storage. Delete large files you no longer need.\n- Move photos to a memory card, or back them up before deleting them.\n\n## Clearing a slow app\nIf one app is slow or not working, in Settings, Apps, choose the app, then Storage, then **Clear cache**. This deletes temporary files only. Your messages and account stay.",
+          "key_points": [
+            "Press and hold an app to uninstall it",
+            "Videos take the most space",
+            "Clear cache removes only temporary files"
+          ],
+          "try_it": "Find one app you never use and remove it."
+        },
+        {
+          "slug": "keeping-your-phone-updated",
+          "title": "Keeping your phone updated",
+          "type": "read",
+          "est_minutes": 3,
+          "motif": "shield",
+          "body": "Phones and apps get **updates**. An update is a free improvement from the company that made it.\n\n## Why updates matter\nUpdates fix problems and close holes that criminals use to break into phones. A phone that is never updated is easier to attack. Updates can also make apps faster and add new features.\n\n## Updating your apps\n1. Open the Play Store.\n2. Tap your profile picture or letter in the top corner.\n3. Tap **Manage apps and device**.\n4. Tap **Update all**.\n\nTo save data, set updates to happen on Wi-Fi only. In the same menu, open Settings, Network preferences, Auto-update apps, and choose **Over Wi-Fi only**.\n\n## Updating the phone itself\nOpen **Settings** and look for **Software update** or **System update**. Tap Download and install if an update is waiting. Before a phone update:\n\n- charge the phone above 50%,\n- use Wi-Fi if you can, because phone updates are large,\n- do not turn the phone off while it updates.\n\n## Be careful of fake updates\nReal updates come from the Play Store or the phone's Settings. A message or website saying \"Your phone has a virus, update now\" is a trick. Close it.",
+          "key_points": [
+            "Updates fix problems and protect you from criminals",
+            "Update apps from the Play Store",
+            "Real updates never come from pop-ups or messages"
+          ],
+          "try_it": "Open the Play Store and check if any of your apps have updates waiting."
+        },
+        {
+          "slug": "locking-your-phone",
+          "title": "Locking your phone with a PIN",
+          "type": "practice",
+          "est_minutes": 4,
+          "motif": "shield",
+          "body": "Your phone holds your contacts, messages, photos and maybe your mobile money. A **screen lock** stops other people from opening it if it is lost or stolen.\n\n## Kinds of screen lock\n- **PIN:** a number of at least 4 digits. Six digits is safer.\n- **Pattern:** you draw a shape by joining dots.\n- **Password:** letters and numbers.\n- **Fingerprint or face:** many phones can also open with your finger or face. You still need a PIN as a backup.\n\n## Setting a PIN\n1. Open **Settings**.\n2. Tap **Security** or **Lock screen**.\n3. Tap **Screen lock**, then **PIN**.\n4. Type your PIN, tap Continue, and type it again.\n\n## Choosing a good PIN\n- Do not use 1234, 0000 or your year of birth. These are the first ones thieves try.\n- Do not use the same PIN as your mobile money or bank card.\n- Choose something you can remember but others cannot guess.\n\n## Keep it to yourself\nDo not tell your PIN to anyone, and do not write it on the phone or its cover. If someone has seen it, change it in the same menu.\n\nIf you forget your PIN, the phone may need to be reset, which can delete your data. So choose one you will remember.",
+          "key_points": [
+            "A screen lock protects your phone if it is lost or stolen",
+            "Avoid 1234, 0000 and your birth year",
+            "Use a different PIN from your mobile money PIN"
+          ],
+          "try_it": "Check if your phone has a screen lock. If not, set a PIN now."
+        },
+        {
+          "slug": "device-basics-quiz",
+          "title": "Final check: Your device",
+          "type": "quiz",
+          "est_minutes": 4,
+          "motif": "circle",
+          "body": "Five questions covering the whole course. Score 70% or more to complete it. You can try again as many times as you like.",
+          "quiz": [
+            {
+              "question": "How long should you hold the power button to turn on most phones?",
+              "options": [
+                "Half a second",
+                "About three seconds",
+                "One minute",
+                "You do not need to press it"
+              ],
+              "correct": 1,
+              "explanation": "Holding for about three seconds turns most phones on. A quick press only turns the screen on or off."
+            },
+            {
+              "question": "Where is the safest place to get new apps on an Android phone?",
+              "options": [
+                "A link from a stranger",
+                "The Play Store",
+                "A Bluetooth file from a friend",
+                "Any website"
+              ],
+              "correct": 1,
+              "explanation": "The Play Store checks apps before you install them. Files from links or Bluetooth can carry harmful programs."
+            },
+            {
+              "question": "A message says: \"Your phone has a virus! Tap here to update now.\" What do you do?",
+              "options": [
+                "Tap the link quickly",
+                "Forward it to friends",
+                "Close it. Real updates come from Settings or the Play Store",
+                "Type your PIN to check"
+              ],
+              "correct": 2,
+              "explanation": "Fake update messages are a common trick. Use Settings or the Play Store for real updates."
+            },
+            {
+              "question": "Which is the best PIN for your phone?",
+              "options": [
+                "1234",
+                "Your year of birth",
+                "The same as your mobile money PIN",
+                "A number only you know that is hard to guess"
+              ],
+              "correct": 3,
+              "explanation": "Easy or shared PINs are the first ones thieves try."
+            },
+            {
+              "question": "Your phone is slow and full. What frees the most space?",
+              "options": [
+                "Deleting old videos",
+                "Deleting one contact",
+                "Turning down the volume",
+                "Changing the wallpaper"
+              ],
+              "correct": 0,
+              "explanation": "Videos take far more space than anything else on most phones."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

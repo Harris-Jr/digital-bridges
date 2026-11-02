@@ -1,0 +1,112 @@
+{
+  "slug": "how-government-works",
+  "title": "How Government Works",
+  "tagline": "Who makes decisions, and who to go to for what.",
+  "description": "A simple guide to how government is organised in Zambia — national, provincial and local — what each part does, and the rights and responsibilities you have as a citizen.",
+  "pathway": "civic-education",
+  "category": "citizenship",
+  "icon_name": "Landmark",
+  "difficulty": "start_here",
+  "estimated_hours": 1.5,
+  "pass_mark": 70,
+  "outcomes": [
+    "Know the main levels of government and what they do",
+    "Understand your basic rights and responsibilities",
+    "Know which level handles which kind of concern",
+    "Feel more confident dealing with public institutions"
+  ],
+  "sort_order": 13,
+  "published": true,
+  "modules": [
+    {
+      "title": "Module 1",
+      "summary": "",
+      "lessons": [
+        {
+          "slug": "who-makes-the-rules",
+          "title": "Who makes the rules",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "Government in Zambia works at different levels, and each one has a different job.\n\n## The main levels\nNational government makes national laws and runs ministries like health and education. Provincial administration coordinates government work across a province. Local councils run day-to-day services in your area — markets, roads, rubbish, trading licences.\n\n## Why levels matter\nKnowing the level helps you find the right door. A pothole is usually a council matter; a national policy is not.",
+          "key_points": [
+            "National government makes laws and runs ministries",
+            "Provincial administration coordinates a province",
+            "Local councils run everyday local services",
+            "Knowing the level helps you find the right office"
+          ],
+          "try_it": "Name one service near you and guess which level handles it.",
+          "motif": "community",
+          "published": true
+        },
+        {
+          "slug": "your-rights-and-responsibilities",
+          "title": "Your rights and responsibilities",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "Citizens have rights, and also responsibilities that keep a community working.\n\n## Some of your rights\nYou have the right to access many public services, to ask public offices for information, and to take part in decisions that affect your area. Rights come with fair treatment and dignity.\n\n## Your responsibilities\nResponsibilities include following the law, respecting others, paying fair dues like trading fees, and taking part — voting, attending meetings, and keeping your community clean and safe.",
+          "key_points": [
+            "You have rights to services, information and participation",
+            "Rights come with fair treatment",
+            "Responsibilities include following the law and paying fair dues",
+            "Taking part is both a right and a responsibility"
+          ],
+          "try_it": "Write one right and one responsibility that matter to you.",
+          "motif": "shield",
+          "published": true
+        },
+        {
+          "slug": "who-to-go-to-for-what",
+          "title": "Who to go to for what",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "Matching your concern to the right office saves time.\n\n## Everyday matches\nMarkets, rubbish, drainage and trading licences — the local council. A clinic card or health service — a health facility. An NRC or birth record — the civic registration office. A local problem or to be pointed the right way — your ward councillor.\n\n## When you are unsure\nAsk at reception or ask your ward councillor. It is normal to ask — a short question saves a wasted trip.",
+          "key_points": [
+            "Council: markets, rubbish, drainage, licences",
+            "Health facility: clinic cards and health services",
+            "Registration office: NRC and births",
+            "Ward councillor: local problems and directions"
+          ],
+          "try_it": "Pick a concern and write which office you would visit first.",
+          "motif": "community",
+          "published": true
+        },
+        {
+          "slug": "government-quiz",
+          "title": "Check what you learned",
+          "type": "quiz",
+          "est_minutes": 5,
+          "body": "Answer these short questions.",
+          "key_points": [
+            "Take your time"
+          ],
+          "motif": "circle",
+          "published": true,
+          "quiz": [
+            {
+              "question": "Which level usually runs everyday local services like markets and rubbish?",
+              "options": [
+                "National government",
+                "The local council",
+                "A foreign donor",
+                "The courts"
+              ],
+              "correct": 1,
+              "explanation": "Local councils run day-to-day services such as markets, roads, rubbish and trading licences."
+            },
+            {
+              "question": "Taking part in meetings and voting is best described as:",
+              "options": [
+                "Only a right",
+                "Only a responsibility",
+                "Both a right and a responsibility",
+                "Neither"
+              ],
+              "correct": 2,
+              "explanation": "Participation is both a right you hold and a responsibility that keeps communities working."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

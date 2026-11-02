@@ -1,0 +1,140 @@
+{
+  "slug": "digital-rights-and-responsibilities",
+  "title": "Digital Rights and Responsibilities",
+  "tagline": "Protect your data, be respectful, and check before you share.",
+  "description": "Digital citizenship is about using phones and the internet safely and responsibly — protecting your personal data, treating others with respect, and checking information before you pass it on.",
+  "pathway": "civic-education",
+  "category": "citizenship",
+  "icon_name": "Globe",
+  "difficulty": "easy",
+  "estimated_hours": 1.5,
+  "pass_mark": 70,
+  "outcomes": [
+    "Protect your personal data and privacy",
+    "Communicate respectfully online",
+    "Check information before you share it",
+    "Recognise your responsibilities as a digital citizen"
+  ],
+  "sort_order": 16,
+  "published": true,
+  "modules": [
+    {
+      "title": "Module 1",
+      "summary": "",
+      "lessons": [
+        {
+          "slug": "your-data-and-privacy",
+          "title": "Your data and privacy",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "Your personal information has value. Protecting it keeps you safe.\n\n## What to protect\nYour NRC number, PINs and passwords, your home details and photos. Do not share these with people you do not trust, and never enter them on a link you did not expect.\n\n## Simple habits\nUse a screen lock. Do not reuse one password everywhere. Think before you allow an app to see your contacts, photos or location.",
+          "key_points": [
+            "Protect your NRC number, PINs and passwords",
+            "Do not share private details with strangers",
+            "Use a screen lock and strong passwords",
+            "Think before apps access your data"
+          ],
+          "try_it": "Check the screen lock on your phone and change one weak password.",
+          "motif": "shield",
+          "video_url": "https://www.youtube.com/watch?v=-ZrqxAB-ABQ",
+          "published": true
+        },
+        {
+          "slug": "being-respectful-online",
+          "title": "Being respectful online",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "How you treat others online matters as much as in person.\n\n## Communicate well\nBe polite, even in disagreement. Do not share private messages or photos of others without permission. Words online can spread far and last a long time.\n\n## Report harm\nIf you see bullying, threats or scams, do not pass them on. Report them on the platform and talk to someone you trust.",
+          "key_points": [
+            "Be polite, even when you disagree",
+            "Do not share others' private messages or photos",
+            "Online words spread far and last",
+            "Report bullying, threats and scams"
+          ],
+          "try_it": "Think of one way you can make a group chat you are in kinder.",
+          "motif": "community",
+          "published": true
+        },
+        {
+          "slug": "check-before-you-share-scenario",
+          "title": "Scenario: Should you share it?",
+          "type": "scenario",
+          "est_minutes": 5,
+          "body": "A dramatic message arrives on your phone and asks you to forward it to everyone. Work through what to do.",
+          "key_points": [
+            "Checking first protects you and others",
+            "The feedback explains the safest choice"
+          ],
+          "motif": "circle",
+          "published": true,
+          "scenario": [
+            {
+              "prompt": "A message says a local clinic is giving free money today and tells you to forward it to ten people. What do you do?",
+              "options": [
+                "Forward it quickly so friends do not miss out",
+                "Pause and check whether it is true before sharing",
+                "Forward it and add that it must be true"
+              ],
+              "feedback": [
+                "Forwarding fast is how false messages and scams spread.",
+                "Right — checking first protects you and the people you would send it to.",
+                "Adding your name makes others trust a message you have not checked."
+              ],
+              "best": 1
+            },
+            {
+              "prompt": "How could you check it?",
+              "options": [
+                "Ask the clinic or a trusted official, or look for an official notice",
+                "Count how many people already shared it",
+                "Trust it because a friend sent it"
+              ],
+              "feedback": [
+                "Yes — go to the source or an official channel to confirm.",
+                "Many shares does not make something true.",
+                "Even trusted friends forward things they have not checked."
+              ],
+              "best": 0
+            }
+          ]
+        },
+        {
+          "slug": "digital-citizenship-quiz",
+          "title": "Check what you learned",
+          "type": "quiz",
+          "est_minutes": 5,
+          "body": "Answer these short questions.",
+          "key_points": [
+            "Take your time"
+          ],
+          "motif": "circle",
+          "published": true,
+          "quiz": [
+            {
+              "question": "Which of these should you keep private?",
+              "options": [
+                "Your favourite colour",
+                "Your PINs, passwords and NRC number",
+                "The weather",
+                "A public notice"
+              ],
+              "correct": 1,
+              "explanation": "Keep PINs, passwords, your NRC number and personal details private and safe."
+            },
+            {
+              "question": "Before forwarding a dramatic message, you should:",
+              "options": [
+                "Send it to everyone fast",
+                "Check if it is true first",
+                "Add more drama",
+                "Never read it"
+              ],
+              "correct": 1,
+              "explanation": "Check whether a message is true before you share it, so you do not spread false information."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

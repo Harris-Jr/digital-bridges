@@ -12,6 +12,8 @@
     "start": "node --env-file=.env dist/index.js",
     "migrate": "node --env-file=.env --import tsx src/migrate.ts",
     "set-admin": "node --env-file=.env --import tsx src/scripts/set-admin.ts",
+    "seed": "node --env-file=.env --import tsx src/scripts/seed.ts",
+    "content:export": "node --env-file=.env --import tsx src/scripts/export-content.ts",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest"

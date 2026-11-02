@@ -1,0 +1,113 @@
+{
+  "slug": "getting-help-from-public-services",
+  "title": "Getting Help from Public Services",
+  "tagline": "Where to go, what to bring, and how to follow up.",
+  "description": "Learn how to find the right office for a service, what papers to prepare, and what to do when your request takes too long. Practical steps for everyday needs like an NRC, a clinic card or a market stand.",
+  "pathway": "civic-education",
+  "category": "citizenship",
+  "icon_name": "Building2",
+  "difficulty": "easy",
+  "estimated_hours": 2,
+  "pass_mark": 70,
+  "outcomes": [
+    "Know which office handles which service",
+    "Prepare the right documents before you go",
+    "Ask clearly and keep a record",
+    "Follow up politely when help is delayed",
+    "Know who to turn to next if you are stuck"
+  ],
+  "sort_order": 10,
+  "published": true,
+  "modules": [
+    {
+      "title": "Module 1",
+      "summary": "",
+      "lessons": [
+        {
+          "slug": "which-office-does-what",
+          "title": "Which office does what",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "Different needs are handled by different offices. Knowing where to go first saves you time and money.\n\n## Common places\nThe local council handles markets, rubbish, trading licences and many community services. A health facility handles clinic cards and health services. The civic registration office handles the National Registration Card (NRC) and births. Your ward councillor can help with local problems and point you to the right office.\n\n## Start with the right door\nIf you are not sure, ask at the office reception or ask your ward councillor. Going to the right place first means fewer trips.",
+          "key_points": [
+            "The council handles markets, rubbish and trading licences",
+            "Health facilities handle clinic cards",
+            "Registration offices handle the NRC",
+            "Your ward councillor can point you the right way"
+          ],
+          "try_it": "Think of one service you need. Write down which office is most likely to handle it.",
+          "motif": "community",
+          "published": true
+        },
+        {
+          "slug": "what-to-bring-and-how-to-ask",
+          "title": "What to bring and how to ask",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "Most offices ask for the same few things. Bringing them the first time avoids being turned away.\n\n## Prepare your papers\nCarry your NRC. Bring any forms, letters or receipts that relate to your request, and bring copies as well as the originals. If someone is helping you, bring a letter from them.\n\n## Ask clearly\nSay what you need in one sentence. Ask for the name of the officer helping you and write it down. Ask how long it will take and what the next step is.",
+          "key_points": [
+            "Carry your NRC and bring copies of papers",
+            "Say what you need in one clear sentence",
+            "Write down the officer's name",
+            "Ask how long it will take"
+          ],
+          "try_it": "Before your next visit, make a small checklist of the papers you will carry.",
+          "motif": "circle",
+          "published": true
+        },
+        {
+          "slug": "when-help-is-delayed",
+          "title": "When help is delayed",
+          "type": "practice",
+          "est_minutes": 5,
+          "body": "Sometimes a request takes longer than expected. Staying calm and keeping records helps you follow up well.\n\n## A real situation\nYou applied for a service two weeks ago and heard nothing. What do you do? Go back, or call, and give your reference or the officer's name. Ask politely what stage your request is at and when it will be ready.\n\n## Keep a record\nWrite the date, who you spoke to and what they said each time. If it is still stuck, ask who the supervisor is, or ask your ward councillor to help you follow up.",
+          "key_points": [
+            "Follow up calmly and give your reference",
+            "Ask what stage your request is at",
+            "Write down each conversation",
+            "Ask for a supervisor or your councillor if stuck"
+          ],
+          "try_it": "Make a simple note page: date, person, what they said. Use it next time you follow up.",
+          "motif": "community",
+          "published": true
+        },
+        {
+          "slug": "public-services-quiz",
+          "title": "Check what you learned",
+          "type": "quiz",
+          "est_minutes": 5,
+          "body": "Answer these short questions.",
+          "key_points": [
+            "Take your time"
+          ],
+          "motif": "circle",
+          "published": true,
+          "quiz": [
+            {
+              "question": "Who usually handles markets, rubbish and trading licences?",
+              "options": [
+                "The health facility",
+                "The local council",
+                "The school",
+                "The police"
+              ],
+              "correct": 1,
+              "explanation": "The local council handles markets, rubbish, trading licences and many community services."
+            },
+            {
+              "question": "Your request has taken too long. What is a good first step?",
+              "options": [
+                "Give up",
+                "Follow up calmly and give your reference",
+                "Complain loudly to everyone",
+                "Start again from the beginning"
+              ],
+              "correct": 1,
+              "explanation": "Follow up calmly, give your reference or the officer's name, and ask what stage it is at."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

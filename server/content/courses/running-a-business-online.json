@@ -1,0 +1,109 @@
+{
+  "slug": "running-a-business-online",
+  "title": "Running a Business Online",
+  "tagline": "Social media marketing and selling online.",
+  "description": "Whether you sell tomatoes, chitenge or phone repairs, learn to show your products online, talk to customers, and take payments safely.",
+  "pathway": "digital-skills",
+  "category": "business",
+  "icon_name": "Store",
+  "difficulty": "intermediate",
+  "estimated_hours": 3,
+  "pass_mark": 70,
+  "outcomes": [
+    "Set up a business profile",
+    "Take clear photos of your products",
+    "Write posts customers understand",
+    "Take mobile money payments safely",
+    "Keep simple records of sales"
+  ],
+  "sort_order": 7,
+  "published": true,
+  "modules": [
+    {
+      "title": "Module 1",
+      "summary": "",
+      "lessons": [
+        {
+          "slug": "business-profile",
+          "title": "Setting up a business profile",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "WhatsApp Business and a Facebook page let customers find you and see your products.\n\n## What to add\nYour business name, what you sell, where you are, opening hours and your phone number. Use a clear photo as your profile picture.",
+          "key_points": [
+            "Customers need your name, location and hours",
+            "Use a clear profile photo",
+            "Use WhatsApp Business for your shop"
+          ],
+          "try_it": "Write down the five details you would put on your business profile.",
+          "motif": "community",
+          "published": true
+        },
+        {
+          "slug": "product-photos",
+          "title": "Taking good product photos",
+          "type": "practice",
+          "est_minutes": 5,
+          "body": "Good photos sell more. You do not need an expensive phone.\n\n## Tips\nTake photos in daylight near a window or outside. Use a plain background like a wall or cloth. Clean the camera lens with a soft cloth. Show the price clearly in your post.",
+          "key_points": [
+            "Use daylight",
+            "Plain background",
+            "Clean your lens"
+          ],
+          "try_it": "Take three photos of one product using these tips.",
+          "motif": "phone",
+          "published": true
+        },
+        {
+          "slug": "safe-payments",
+          "title": "Taking payments safely",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "Customers will want to pay with mobile money.\n\n## Protect yourself\nOnly release goods after you check your real balance, not after seeing an SMS. Keep a simple record of each sale: date, item, amount, customer.",
+          "key_points": [
+            "Check your balance before handing over goods",
+            "Keep a record of every sale"
+          ],
+          "try_it": "Start a simple sales notebook or phone note today.",
+          "motif": "phone",
+          "published": true
+        },
+        {
+          "slug": "business-quiz",
+          "title": "Check what you learned",
+          "type": "quiz",
+          "est_minutes": 5,
+          "body": "Answer these short questions.",
+          "key_points": [
+            "Take your time"
+          ],
+          "motif": "circle",
+          "published": true,
+          "quiz": [
+            {
+              "question": "When should you hand over goods paid by mobile money?",
+              "options": [
+                "When you see an SMS",
+                "After checking your real balance",
+                "Before payment",
+                "When the customer says they paid"
+              ],
+              "correct": 1,
+              "explanation": "SMS can be faked. Your real balance is the only proof."
+            },
+            {
+              "question": "What makes a good product photo?",
+              "options": [
+                "Dark room",
+                "Busy background",
+                "Daylight and plain background",
+                "Blurry lens"
+              ],
+              "correct": 2,
+              "explanation": "Daylight and a plain background show your product clearly."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

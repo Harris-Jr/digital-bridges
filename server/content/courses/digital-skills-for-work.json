@@ -1,0 +1,110 @@
+{
+  "slug": "digital-skills-for-work",
+  "title": "Digital Skills for Work",
+  "tagline": "Documents, research, and online job applications.",
+  "description": "Write a CV on your phone, search for jobs safely, and send an application by email. Skills that help you find and keep work.",
+  "pathway": "digital-skills",
+  "category": "work",
+  "icon_name": "Briefcase",
+  "difficulty": "intermediate",
+  "estimated_hours": 3,
+  "pass_mark": 70,
+  "outcomes": [
+    "Write a simple CV on your phone",
+    "Search for jobs and avoid fake offers",
+    "Send an application by email",
+    "Use a shared document",
+    "Prepare for an online interview"
+  ],
+  "sort_order": 6,
+  "published": true,
+  "modules": [
+    {
+      "title": "Module 1",
+      "summary": "",
+      "lessons": [
+        {
+          "slug": "cv-on-your-phone",
+          "title": "Writing a CV on your phone",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "A CV is a short page that tells an employer who you are and what you can do.\n\n## What to include\nYour name, phone number and email. Your education. Work you have done, including piece work and volunteering. Skills like driving, tailoring or speaking Bemba and English.\n\n## Writing it\nUse a free app like Google Docs. Keep it to one page. Save it as a PDF to send.",
+          "key_points": [
+            "Keep your CV to one page",
+            "Include all work, even informal work",
+            "Save it as a PDF"
+          ],
+          "try_it": "Write the first three lines of your CV: name, phone, email.",
+          "motif": "phone",
+          "published": true
+        },
+        {
+          "slug": "fake-job-offers",
+          "title": "Spotting fake job offers",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "Fake job adverts ask you to pay money for a job, training or a uniform before you start.\n\n## Warning signs\nThey ask for payment. The salary is very high for little work. They only talk on WhatsApp and have no office address. Real employers do not charge you to apply.",
+          "key_points": [
+            "Real employers never charge you to apply",
+            "Very high pay is a warning",
+            "Check there is a real address"
+          ],
+          "try_it": "Look at one job advert and check it for warning signs.",
+          "motif": "shield",
+          "published": true
+        },
+        {
+          "slug": "send-an-application",
+          "title": "Sending an application by email",
+          "type": "practice",
+          "est_minutes": 5,
+          "body": "When you email an application, write a short message and attach your CV.\n\n## Example\nSubject: Application for Shop Assistant. Message: Dear Sir or Madam, I would like to apply for the Shop Assistant job in Kitwe. My CV is attached. Thank you, Mwaka Banda, 097 000 0000.",
+          "key_points": [
+            "Write a clear subject",
+            "Keep the message short and polite",
+            "Attach your CV"
+          ],
+          "try_it": "Write a practice email to yourself with your CV attached.",
+          "motif": "phone",
+          "published": true
+        },
+        {
+          "slug": "work-quiz",
+          "title": "Check what you learned",
+          "type": "quiz",
+          "est_minutes": 5,
+          "body": "Answer these short questions.",
+          "key_points": [
+            "Take your time"
+          ],
+          "motif": "circle",
+          "published": true,
+          "quiz": [
+            {
+              "question": "An advert asks you to pay K300 for a uniform before starting. This is:",
+              "options": [
+                "Normal",
+                "A warning sign of a fake job",
+                "A good offer",
+                "Required by law"
+              ],
+              "correct": 1,
+              "explanation": "Real employers do not charge you money to get a job."
+            },
+            {
+              "question": "How long should a simple CV be?",
+              "options": [
+                "One page",
+                "Ten pages",
+                "One line",
+                "As long as possible"
+              ],
+              "correct": 0,
+              "explanation": "One clear page is easiest for employers to read."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

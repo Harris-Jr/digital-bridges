@@ -1,0 +1,110 @@
+{
+  "slug": "talking-and-working-online",
+  "title": "Talking and Working Online",
+  "tagline": "Email, messaging, and video calls for daily life.",
+  "description": "Send an email, join a WhatsApp group the right way, and make a video call to family in another town. Simple steps for everyday communication.",
+  "pathway": "digital-skills",
+  "category": "communication",
+  "icon_name": "MessageCircle",
+  "difficulty": "easy",
+  "estimated_hours": 2.5,
+  "pass_mark": 70,
+  "outcomes": [
+    "Create and use an email address",
+    "Write a clear, polite message",
+    "Send photos and documents",
+    "Join and make a video call",
+    "Use group chats respectfully"
+  ],
+  "sort_order": 3,
+  "published": true,
+  "modules": [
+    {
+      "title": "Module 1",
+      "summary": "",
+      "lessons": [
+        {
+          "slug": "create-an-email",
+          "title": "Create your email address",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "An email address is like a postal address for the internet. Many jobs, schools and government services ask for one.\n\n## Choose a simple address\nUse your name, for example chanda.mwale@gmail.com. Avoid nicknames that may look unprofessional to an employer.\n\n## Write it down\nWrite your email address and password in a safe place at home.",
+          "key_points": [
+            "Use your real name in your address",
+            "Keep your password safe",
+            "You need email for jobs and services"
+          ],
+          "try_it": "Write down the email address you would like to create.",
+          "motif": "phone",
+          "published": true
+        },
+        {
+          "slug": "video-calls",
+          "title": "Making a video call",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "A video call lets you see and hear someone far away. WhatsApp video calls work on most smartphones.\n\n## Before you call\nVideo uses a lot of data. Use Wi-Fi if you can, or buy a bundle first. Sit somewhere quiet with light on your face.\n\n## Making the call\nOpen the chat, tap the camera icon at the top. To end, tap the red button.",
+          "key_points": [
+            "Video uses more data than voice",
+            "Sit in good light",
+            "Tap the red button to end"
+          ],
+          "try_it": "Make a two-minute video call to a family member.",
+          "motif": "radio",
+          "published": true
+        },
+        {
+          "slug": "group-chat-manners",
+          "title": "Group chat manners",
+          "type": "practice",
+          "est_minutes": 5,
+          "body": "Group chats are useful for churches, clubs and savings groups. Good manners keep them useful.\n\n## Simple rules\nStay on topic. Do not forward messages you have not checked. Ask before adding someone to a group. Reply privately to one person instead of the whole group.",
+          "key_points": [
+            "Stay on topic",
+            "Check before you forward",
+            "Ask before adding people"
+          ],
+          "try_it": "Look at one of your groups. Is there a rule you could share with members?",
+          "motif": "community",
+          "published": true
+        },
+        {
+          "slug": "communication-quiz",
+          "title": "Check what you learned",
+          "type": "quiz",
+          "est_minutes": 5,
+          "body": "Answer these short questions.",
+          "key_points": [
+            "Take your time"
+          ],
+          "motif": "circle",
+          "published": true,
+          "quiz": [
+            {
+              "question": "Before making a video call on mobile data, you should:",
+              "options": [
+                "Check you have enough data",
+                "Turn your phone off",
+                "Remove all apps",
+                "Change your password"
+              ],
+              "correct": 0,
+              "explanation": "Video calls use a lot of data, so make sure your bundle is enough or use trusted Wi-Fi."
+            },
+            {
+              "question": "What is good manners in a group chat?",
+              "options": [
+                "Forward every message",
+                "Add people without asking",
+                "Stay on topic",
+                "Send many voice notes at night"
+              ],
+              "correct": 2,
+              "explanation": "Staying on topic keeps the group useful for everyone."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

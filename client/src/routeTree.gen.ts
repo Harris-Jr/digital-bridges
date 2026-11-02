@@ -30,7 +30,9 @@ import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticat
 import { Route as AuthenticatedTrainerRouteImport } from './routes/_authenticated/trainer'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as AdminBrandingRouteImport } from './routes/admin/branding'
+import { Route as AdminCohortsRouteImport } from './routes/admin/cohorts'
 import { Route as AdminFaqsRouteImport } from './routes/admin/faqs'
+import { Route as AdminMaterialsRouteImport } from './routes/admin/materials'
 import { Route as AdminPagesRouteImport } from './routes/admin/pages'
 import { Route as AdminPartnersRouteImport } from './routes/admin/partners'
 import { Route as AdminPathwaysRouteImport } from './routes/admin/pathways'
@@ -153,9 +155,19 @@ const AdminBrandingRoute = AdminBrandingRouteImport.update({
   path: '/branding',
   getParentRoute: () => AdminRouteRoute,
 } as any)
+const AdminCohortsRoute = AdminCohortsRouteImport.update({
+  id: '/cohorts',
+  path: '/cohorts',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
 const AdminFaqsRoute = AdminFaqsRouteImport.update({
   id: '/faqs',
   path: '/faqs',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminMaterialsRoute = AdminMaterialsRouteImport.update({
+  id: '/materials',
+  path: '/materials',
   getParentRoute: () => AdminRouteRoute,
 } as any)
 const AdminPagesRoute = AdminPagesRouteImport.update({
@@ -268,7 +280,9 @@ export interface FileRoutesByFullPath {
   '/settings': typeof AuthenticatedSettingsRoute
   '/trainer': typeof AuthenticatedTrainerRoute
   '/admin/branding': typeof AdminBrandingRoute
+  '/admin/cohorts': typeof AdminCohortsRoute
   '/admin/faqs': typeof AdminFaqsRoute
+  '/admin/materials': typeof AdminMaterialsRoute
   '/admin/pages': typeof AdminPagesRoute
   '/admin/partners': typeof AdminPartnersRoute
   '/admin/pathways': typeof AdminPathwaysRoute
@@ -307,7 +321,9 @@ export interface FileRoutesByTo {
   '/settings': typeof AuthenticatedSettingsRoute
   '/trainer': typeof AuthenticatedTrainerRoute
   '/admin/branding': typeof AdminBrandingRoute
+  '/admin/cohorts': typeof AdminCohortsRoute
   '/admin/faqs': typeof AdminFaqsRoute
+  '/admin/materials': typeof AdminMaterialsRoute
   '/admin/pages': typeof AdminPagesRoute
   '/admin/partners': typeof AdminPartnersRoute
   '/admin/pathways': typeof AdminPathwaysRoute
@@ -349,7 +365,9 @@ export interface FileRoutesById {
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/_authenticated/trainer': typeof AuthenticatedTrainerRoute
   '/admin/branding': typeof AdminBrandingRoute
+  '/admin/cohorts': typeof AdminCohortsRoute
   '/admin/faqs': typeof AdminFaqsRoute
+  '/admin/materials': typeof AdminMaterialsRoute
   '/admin/pages': typeof AdminPagesRoute
   '/admin/partners': typeof AdminPartnersRoute
   '/admin/pathways': typeof AdminPathwaysRoute
@@ -391,7 +409,9 @@ export interface FileRouteTypes {
     | '/settings'
     | '/trainer'
     | '/admin/branding'
+    | '/admin/cohorts'
     | '/admin/faqs'
+    | '/admin/materials'
     | '/admin/pages'
     | '/admin/partners'
     | '/admin/pathways'
@@ -430,7 +450,9 @@ export interface FileRouteTypes {
     | '/settings'
     | '/trainer'
     | '/admin/branding'
+    | '/admin/cohorts'
     | '/admin/faqs'
+    | '/admin/materials'
     | '/admin/pages'
     | '/admin/partners'
     | '/admin/pathways'
@@ -471,7 +493,9 @@ export interface FileRouteTypes {
     | '/_authenticated/settings'
     | '/_authenticated/trainer'
     | '/admin/branding'
+    | '/admin/cohorts'
     | '/admin/faqs'
+    | '/admin/materials'
     | '/admin/pages'
     | '/admin/partners'
     | '/admin/pathways'
@@ -666,11 +690,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminBrandingRouteImport
       parentRoute: typeof AdminRouteRoute
     }
+    '/admin/cohorts': {
+      id: '/admin/cohorts'
+      path: '/cohorts'
+      fullPath: '/admin/cohorts'
+      preLoaderRoute: typeof AdminCohortsRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
     '/admin/faqs': {
       id: '/admin/faqs'
       path: '/faqs'
       fullPath: '/admin/faqs'
       preLoaderRoute: typeof AdminFaqsRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/materials': {
+      id: '/admin/materials'
+      path: '/materials'
+      fullPath: '/admin/materials'
+      preLoaderRoute: typeof AdminMaterialsRouteImport
       parentRoute: typeof AdminRouteRoute
     }
     '/admin/pages': {
@@ -814,7 +852,9 @@ const AuthenticatedRouteRouteWithChildren =
 
 interface AdminRouteRouteChildren {
   AdminBrandingRoute: typeof AdminBrandingRoute
+  AdminCohortsRoute: typeof AdminCohortsRoute
   AdminFaqsRoute: typeof AdminFaqsRoute
+  AdminMaterialsRoute: typeof AdminMaterialsRoute
   AdminPagesRoute: typeof AdminPagesRoute
   AdminPartnersRoute: typeof AdminPartnersRoute
   AdminPathwaysRoute: typeof AdminPathwaysRoute
@@ -830,7 +870,9 @@ interface AdminRouteRouteChildren {
 
 const AdminRouteRouteChildren: AdminRouteRouteChildren = {
   AdminBrandingRoute: AdminBrandingRoute,
+  AdminCohortsRoute: AdminCohortsRoute,
   AdminFaqsRoute: AdminFaqsRoute,
+  AdminMaterialsRoute: AdminMaterialsRoute,
   AdminPagesRoute: AdminPagesRoute,
   AdminPartnersRoute: AdminPartnersRoute,
   AdminPathwaysRoute: AdminPathwaysRoute,

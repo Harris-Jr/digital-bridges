@@ -10,23 +10,11 @@ export const trainerRouter = Router();
 trainerRouter.use(requireAuth);
 
 trainerRouter.get(
-  "/community-groups",
-  requireTrainer,
-  asyncHandler(async (_req, res) => {
-    // Facilitator-created cohorts (which carry a join_code) live in the same
-    // table but are shown in their own "My cohorts" section; here we list only
-    // the network's seeded community groups.
-    const { rows } = await query("select * from community_groups where join_code is null order by name");
-    res.json(rows);
-  }),
-);
-
-trainerRouter.get(
   "/resources",
   asyncHandler(async (req, res) => {
     const audience = req.query.audience === "learner" ? "learner" : "trainer";
     const { rows } = await query(
-      "select * from resources where is_published = true and audience = $1 order by title",
+      "select * from resources where is_published = true and audience = $1 order by sort_order, title",
       [audience],
     );
     res.json(rows);
@@ -75,8 +63,8 @@ trainerRouter.post(
 
 /** Confirm the cohort exists and belongs to this facilitator; 404 otherwise. */
 async function ownedCohort(groupId: string, trainerId: string) {
-  const { rows } = await query<{ id: string; name: string; join_code: string | null }>(
-    "select id, name, join_code from community_groups where id = $1 and trainer_id = $2",
+  const { rows } = await query<{ id: string; name: string; join_code: string | null; location: string; description: string; course_ids: string[] }>(
+    "select id, name, join_code, location, description, course_ids from community_groups where id = $1 and trainer_id = $2",
     [groupId, trainerId],
   );
   if (!rows[0]) throw notFound("Cohort not found.");
@@ -95,14 +83,37 @@ async function uniqueJoinCode(): Promise<string> {
   throw badRequest("Could not generate a join code. Please try again.");
 }
 
-// List the facilitator's own cohorts with a live member count.
+
+// Published lessons a cohort is measured on: its chosen courses, or every
+// published course when none are chosen. Use as a correlated subquery with the
+// cohort aliased as g.
+const SCOPE_LESSONS = `
+  select l.id from lessons l join courses c on c.id = l.course_id
+   where l.is_published and c.is_published
+     and (cardinality(g.course_ids) = 0 or l.course_id = any(g.course_ids))`;
+
+/** Per-member completion % within the cohort's scope, as a subquery over m (cohort_members). */
+const MEMBER_PCT = `
+  (select case when (select count(*) from (${SCOPE_LESSONS}) s) = 0 then 0
+          else round(100.0 * (select count(*) from lesson_progress lp
+                               where lp.user_id = m.user_id and lp.lesson_id in (${SCOPE_LESSONS}))
+                     / (select count(*) from (${SCOPE_LESSONS}) s))::int end)`;
+
+// List the facilitator's own cohorts with live progress figures.
 trainerRouter.get(
   "/cohorts",
   requireTrainer,
   asyncHandler(async (req, res) => {
     const { rows } = await query(
-      `select g.id, g.name, g.location, g.description, g.join_code, g.created_at,
-              (select count(*)::int from cohort_members m where m.group_id = g.id) as member_count
+      `select g.id, g.name, g.location, g.description, g.join_code, g.created_at, g.course_ids,
+              (select count(*)::int from cohort_members m where m.group_id = g.id) as member_count,
+              coalesce((select round(avg(${MEMBER_PCT}))::int from cohort_members m where m.group_id = g.id), 0) as avg_completion,
+              (select count(distinct m.user_id)::int from cohort_members m
+                 join lesson_progress lp on lp.user_id = m.user_id
+                where m.group_id = g.id and lp.completed_at > now() - interval '7 days') as active_7d,
+              (select count(*)::int from cohort_sessions s where s.group_id = g.id) as session_count,
+              (select min(s.session_date)::text from cohort_sessions s where s.group_id = g.id and s.session_date >= current_date) as next_session,
+              coalesce((select array_agg(c.title order by c.sort_order) from courses c where c.id = any(g.course_ids)), '{}') as course_titles
          from community_groups g
         where g.trainer_id = $1
         order by g.created_at desc`,
@@ -121,18 +132,45 @@ trainerRouter.post(
       name: z.string().trim().min(1).max(120),
       location: z.string().trim().min(1).max(160),
       description: z.string().trim().max(500).optional().default(""),
+      course_ids: z.array(z.string().uuid()).max(50).optional().default([]),
     });
     const input = schema.safeParse(req.body);
     if (!input.success) throw badRequest("Please give the cohort a name and location.");
     const code = await uniqueJoinCode();
     const { rows } = await query(
-      `insert into community_groups (name, location, description, trainer_id, join_code)
-       values ($1, $2, $3, $4, $5)
-       returning id, name, location, description, join_code, created_at,
+      `insert into community_groups (name, location, description, trainer_id, join_code, course_ids)
+       values ($1, $2, $3, $4, $5, $6::uuid[])
+       returning id, name, location, description, join_code, created_at, course_ids,
                  0 as member_count`,
-      [input.data.name, input.data.location, input.data.description, req.auth!.id, code],
+      [input.data.name, input.data.location, input.data.description, req.auth!.id, code, input.data.course_ids],
     );
     res.status(201).json(rows[0]);
+  }),
+);
+
+// Edit a cohort's details and the courses it follows.
+trainerRouter.patch(
+  "/cohorts/:id",
+  requireTrainer,
+  asyncHandler(async (req, res) => {
+    const cohort = await ownedCohort(String(req.params.id), req.auth!.id);
+    const schema = z.object({
+      name: z.string().trim().min(1).max(120).optional(),
+      location: z.string().trim().min(1).max(160).optional(),
+      description: z.string().trim().max(500).optional(),
+      course_ids: z.array(z.string().uuid()).max(50).optional(),
+    });
+    const input = schema.safeParse(req.body);
+    if (!input.success) throw badRequest("Check the cohort details.");
+    const d = input.data;
+    const { rows } = await query(
+      `update community_groups set
+         name = coalesce($2, name), location = coalesce($3, location),
+         description = coalesce($4, description), course_ids = coalesce($5::uuid[], course_ids)
+       where id = $1 returning id, name, location, description, join_code, course_ids`,
+      [cohort.id, d.name ?? null, d.location ?? null, d.description ?? null, d.course_ids ?? null],
+    );
+    res.json(rows[0]);
   }),
 );
 
@@ -148,8 +186,11 @@ trainerRouter.get(
               u.email,
               m.joined_at,
               (select count(*)::int from lesson_progress lp where lp.user_id = u.id) as lessons_completed,
-              (select count(*)::int from certificates c where c.user_id = u.id) as certificates
+              (select count(*)::int from certificates c where c.user_id = u.id) as certificates,
+              ${MEMBER_PCT} as completion,
+              (select max(lp.completed_at) from lesson_progress lp where lp.user_id = u.id) as last_active
          from cohort_members m
+         join community_groups g on g.id = m.group_id
          join users u on u.id = m.user_id
          left join profiles p on p.id = u.id
         where m.group_id = $1

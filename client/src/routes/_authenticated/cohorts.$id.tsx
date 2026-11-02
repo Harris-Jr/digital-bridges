@@ -1,7 +1,7 @@
 import { createFileRoute, Link, redirect } from "@tanstack/react-router";
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { ArrowLeft, Users, Copy, Check, UserPlus, Trash2, CalendarPlus, ClipboardCheck, Award, BookOpenCheck } from "lucide-react";
+import { ArrowLeft, Users, Copy, Check, UserPlus, Trash2, CalendarPlus, ClipboardCheck, Award, BookOpenCheck, BookOpen, Pencil } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,7 +9,9 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Skeleton } from "@/components/ui/skeleton";
 import { EmptyState } from "@/components/site";
-import { getToken, apiGet, apiPost, apiDelete } from "@/lib/api";
+import { getToken, apiGet, apiPost, apiDelete, apiPatch } from "@/lib/api";
+import { usePublishedCourses } from "@/lib/content";
+import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/_authenticated/cohorts/$id")({
   beforeLoad: () => {
@@ -18,10 +20,10 @@ export const Route = createFileRoute("/_authenticated/cohorts/$id")({
   component: CohortDetail,
 });
 
-type Member = { user_id: string; name: string; email: string; lessons_completed: number; certificates: number };
+type Member = { user_id: string; name: string; email: string; lessons_completed: number; certificates: number; completion: number; last_active: string | null };
 type Session = { id: string; title: string; session_date: string };
 type Detail = {
-  cohort: { id: string; name: string; join_code: string | null };
+  cohort: { id: string; name: string; join_code: string | null; location: string; description: string; course_ids: string[] };
   members: Member[];
   sessions: (Session & { present_count: number })[];
 };
@@ -93,6 +95,8 @@ function CohortDetail() {
           )}
         </div>
 
+        <CohortCourses cohortId={cohort.id} selected={cohort.course_ids ?? []} onSaved={invalidate} />
+
         {/* Members + progress */}
         <div className="mt-10">
           <h2 className="text-2xl">Learners &amp; progress</h2>
@@ -107,17 +111,24 @@ function CohortDetail() {
           {members.length === 0 ? (
             <div className="mt-4"><EmptyState icon="Users" title="No learners yet" body="Add learners by email, or share the join code above." /></div>
           ) : (
-            <div className="mt-4 overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
+            <div className="mt-4 overflow-x-auto rounded-2xl border border-border bg-card shadow-sm">
               <table className="w-full text-sm">
                 <thead className="border-b border-border bg-secondary/40 text-left">
-                  <tr><th className="px-4 py-3 font-semibold">Learner</th><th className="px-4 py-3 font-semibold">Lessons</th><th className="px-4 py-3 font-semibold">Certificates</th><th className="px-4 py-3" /></tr>
+                  <tr><th className="px-4 py-3 font-semibold">Learner</th><th className="px-4 py-3 font-semibold">Progress</th><th className="hidden px-4 py-3 font-semibold sm:table-cell">Lessons</th><th className="hidden px-4 py-3 font-semibold sm:table-cell">Certificates</th><th className="hidden px-4 py-3 font-semibold md:table-cell">Last active</th><th className="px-4 py-3" /></tr>
                 </thead>
                 <tbody className="divide-y divide-border">
                   {members.map((m) => (
                     <tr key={m.user_id}>
                       <td className="px-4 py-3"><p className="font-medium">{m.name}</p><p className="text-xs text-muted-foreground">{m.email}</p></td>
-                      <td className="px-4 py-3"><span className="inline-flex items-center gap-1"><BookOpenCheck className="size-4 text-success" aria-hidden="true" />{m.lessons_completed}</span></td>
-                      <td className="px-4 py-3"><span className="inline-flex items-center gap-1"><Award className="size-4 text-accent" aria-hidden="true" />{m.certificates}</span></td>
+                      <td className="px-4 py-3">
+                        <div className="flex min-w-24 items-center gap-2">
+                          <div className="h-2 flex-1 rounded-full bg-secondary"><div className="h-2 rounded-full bg-success" style={{ width: `${m.completion}%` }} /></div>
+                          <span className="w-9 text-right text-xs font-semibold">{m.completion}%</span>
+                        </div>
+                      </td>
+                      <td className="hidden px-4 py-3 sm:table-cell"><span className="inline-flex items-center gap-1"><BookOpenCheck className="size-4 text-success" aria-hidden="true" />{m.lessons_completed}</span></td>
+                      <td className="hidden px-4 py-3 sm:table-cell"><span className="inline-flex items-center gap-1"><Award className="size-4 text-accent" aria-hidden="true" />{m.certificates}</span></td>
+                      <td className="hidden px-4 py-3 text-muted-foreground md:table-cell">{m.last_active ? new Date(m.last_active).toLocaleDateString("en-GB", { day: "numeric", month: "short" }) : "Not yet"}</td>
                       <td className="px-4 py-3 text-right"><Button variant="ghost" size="icon" aria-label={`Remove ${m.name}`} onClick={() => removeMember.mutate(m.user_id)}><Trash2 className="size-4 text-destructive" /></Button></td>
                     </tr>
                   ))}
@@ -190,6 +201,50 @@ function AttendancePanel({ sessionId, onSaved }: { sessionId: string; onSaved: (
         ))}
       </ul>
       <div className="mt-3 flex justify-end"><Button size="sm" onClick={() => save.mutate()} disabled={save.isPending}>Save attendance</Button></div>
+    </div>
+  );
+}
+
+function CohortCourses({ cohortId, selected, onSaved }: { cohortId: string; selected: string[]; onSaved: () => void }) {
+  const courses = usePublishedCourses();
+  const qc = useQueryClient();
+  const [editing, setEditing] = useState(false);
+  const [ids, setIds] = useState<string[]>(selected);
+  const save = useMutation({
+    mutationFn: () => apiPatch(`/trainer/cohorts/${cohortId}`, { course_ids: ids }),
+    onSuccess: () => { toast.success("Courses updated. Progress is now measured on these."); setEditing(false); onSaved(); qc.invalidateQueries({ queryKey: ["cohorts"] }); },
+    onError: () => toast.error("Could not update the courses."),
+  });
+  const titles = (courses.data ?? []).filter((c) => selected.includes(c.id)).map((c) => c.title);
+
+  return (
+    <div className="mt-8 rounded-2xl border border-border bg-card p-5 shadow-sm">
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <p className="flex items-center gap-2 font-semibold"><BookOpen className="size-4 text-primary" />Courses this cohort follows</p>
+          <p className="mt-1 text-sm text-muted-foreground">{titles.length ? titles.join(", ") : "All courses. Choose specific courses to measure progress on them only."}</p>
+        </div>
+        {!editing && <Button variant="outline" size="sm" onClick={() => { setIds(selected); setEditing(true); }}><Pencil className="size-4" />Change</Button>}
+      </div>
+      {editing && (
+        <div className="mt-4">
+          <div className="flex flex-wrap gap-2">
+            {courses.data?.map((c) => {
+              const on = ids.includes(c.id);
+              return (
+                <button key={c.id} type="button" aria-pressed={on} onClick={() => setIds((s) => (on ? s.filter((x) => x !== c.id) : [...s, c.id]))}
+                  className={cn("min-h-9 rounded-full border px-3 text-xs font-semibold transition-colors", on ? "border-primary bg-primary text-primary-foreground" : "border-border bg-background hover:border-primary")}>
+                  {c.title}
+                </button>
+              );
+            })}
+          </div>
+          <div className="mt-3 flex gap-2">
+            <Button size="sm" onClick={() => save.mutate()} disabled={save.isPending}>Save courses</Button>
+            <Button size="sm" variant="ghost" onClick={() => setEditing(false)}>Cancel</Button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

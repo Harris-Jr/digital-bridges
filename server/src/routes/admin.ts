@@ -234,6 +234,16 @@ const partnerSchema = z.object({
   is_published: z.boolean().default(false),
 });
 
+const resourceSchema = z.object({
+  title: nonEmpty(200),
+  description: z.string().trim().max(1000).default(""),
+  type: z.enum(["pdf", "doc", "slides", "image", "video", "link"]).default("pdf"),
+  file_url: nonEmpty(1000),
+  audience: z.enum(["trainer", "learner"]).default("trainer"),
+  sort_order: z.coerce.number().int().default(0),
+  is_published: z.boolean().default(false),
+});
+
 const faqSchema = z.object({
   question: nonEmpty(500),
   answer: nonEmpty(5000),
@@ -288,6 +298,11 @@ registerResource("testimonials", {
 registerResource("partners", {
   table: "partners", idColumn: "id", orderBy: "created_at desc",
   columns: ["name", "category", "is_published"], schema: partnerSchema,
+});
+registerResource("resources", {
+  table: "resources", idColumn: "id", orderBy: "sort_order, title",
+  columns: ["title", "description", "type", "file_url", "audience", "sort_order", "is_published"],
+  schema: resourceSchema,
 });
 registerResource("faqs", {
   table: "faqs", idColumn: "id", orderBy: "sort_order",
@@ -441,5 +456,29 @@ adminRouter.put(
       }
     });
     res.json({ ok: true });
+  }),
+);
+
+// ---- Cohorts overview (read-only) -------------------------------------------
+// Every facilitator cohort with its facilitator, size, activity and completion,
+// so staff can see how programmes are going across the country.
+adminRouter.get(
+  "/cohorts",
+  asyncHandler(async (_req, res) => {
+    const { rows } = await query(`
+      select g.id, g.name, g.location, g.created_at, g.join_code,
+             coalesce(p.full_name, u.email, '') as facilitator, u.email as facilitator_email,
+             (select count(*)::int from cohort_members m where m.group_id = g.id) as member_count,
+             (select count(*)::int from cohort_sessions s where s.group_id = g.id) as session_count,
+             (select count(distinct m.user_id)::int from cohort_members m
+                join lesson_progress lp on lp.user_id = m.user_id
+               where m.group_id = g.id and lp.completed_at > now() - interval '30 days') as active_30d,
+             coalesce((select count(*)::int from certificates c join cohort_members m on m.user_id = c.user_id
+                        where m.group_id = g.id), 0) as certificates
+        from community_groups g
+        left join users u on u.id = g.trainer_id
+        left join profiles p on p.id = g.trainer_id
+       order by g.created_at desc`);
+    res.json(rows);
   }),
 );

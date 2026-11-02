@@ -3,7 +3,7 @@ import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   LayoutDashboard, BookOpen, FileText, MessageSquareQuote, Handshake, HelpCircle,
-  Plus, Pencil, Trash2, ArrowLeft, Loader2, LogOut, Menu, X, PanelLeftClose, PanelLeftOpen, Eye, EyeOff, Sparkles, Route as RouteIcon, CalendarCheck, Languages, Image as ImageIcon,
+  Plus, Pencil, Trash2, ArrowLeft, Loader2, LogOut, Menu, X, PanelLeftClose, PanelLeftOpen, Eye, EyeOff, Sparkles, Route as RouteIcon, CalendarCheck, Languages, Image as ImageIcon, Users, FolderOpen, FileText as FileIcon,
 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -20,7 +20,7 @@ import { useCollapsed } from "@/components/app-shell";
 
 /* ------------------------------------------------------------------ shell */
 
-type AdminPath = "/admin" | "/admin/pathways" | "/admin/courses" | "/admin/pages" | "/admin/testimonials" | "/admin/partners" | "/admin/faqs" | "/admin/workshops" | "/admin/translations" | "/admin/branding";
+type AdminPath = "/admin" | "/admin/pathways" | "/admin/courses" | "/admin/pages" | "/admin/testimonials" | "/admin/partners" | "/admin/faqs" | "/admin/workshops" | "/admin/translations" | "/admin/branding" | "/admin/materials" | "/admin/cohorts";
 type NavItem = { to: AdminPath; label: string; icon: typeof LayoutDashboard; exact?: boolean };
 
 const NAV: NavItem[] = [
@@ -28,7 +28,9 @@ const NAV: NavItem[] = [
   { to: "/admin/pathways", label: "Pathways", icon: RouteIcon },
   { to: "/admin/courses", label: "Courses", icon: BookOpen },
   { to: "/admin/translations", label: "Translations", icon: Languages },
+  { to: "/admin/cohorts", label: "Cohorts", icon: Users },
   { to: "/admin/workshops", label: "Workshops", icon: CalendarCheck },
+  { to: "/admin/materials", label: "Materials", icon: FolderOpen },
   { to: "/admin/pages", label: "Site pages", icon: FileText },
   { to: "/admin/branding", label: "Branding", icon: ImageIcon },
   { to: "/admin/testimonials", label: "Testimonials", icon: MessageSquareQuote },
@@ -156,7 +158,8 @@ export type Field =
   | { name: string; label: string; type: "lines"; help?: string }
   | { name: string; label: string; type: "json"; help?: string }
   | { name: string; label: string; type: "image"; help?: string }
-  | { name: string; label: string; type: "audio"; help?: string };
+  | { name: string; label: string; type: "audio"; help?: string }
+  | { name: string; label: string; type: "file"; help?: string };
 
 export type Column<T> = { label: string; render: (row: T) => ReactNode; className?: string };
 
@@ -363,7 +366,7 @@ export function FieldInput({ field, value, onChange }: { field: Field; value: st
       </div>
     );
   }
-  if (field.type === "image" || field.type === "audio") {
+  if (field.type === "image" || field.type === "audio" || field.type === "file") {
     return (
       <div>
         <Label>{field.label}</Label>
@@ -395,7 +398,7 @@ export function FieldInput({ field, value, onChange }: { field: Field; value: st
 type MediaConfig = { enabled: boolean; cloudName: string | null };
 type SignResponse = { cloudName: string; apiKey: string; folder: string; timestamp: number; signature: string };
 
-async function uploadToCloudinary(file: File, resourceType: "image" | "video"): Promise<string> {
+async function uploadToCloudinary(file: File, resourceType: "image" | "video" | "raw"): Promise<string> {
   const sign = await apiPost<SignResponse>("/admin/media/sign");
   const form = new FormData();
   form.append("file", file);
@@ -409,20 +412,24 @@ async function uploadToCloudinary(file: File, resourceType: "image" | "video"): 
   return data.secure_url;
 }
 
-export function MediaUpload({ value, onChange, kind = "image" }: { value: string; onChange: (v: string) => void; kind?: "image" | "audio" }) {
+export function MediaUpload({ value, onChange, kind = "image" }: { value: string; onChange: (v: string) => void; kind?: "image" | "audio" | "file" }) {
   const cfg = useQuery({ queryKey: ["media-config"], queryFn: () => apiGet<MediaConfig>("/admin/media/config"), staleTime: 5 * 60_000 });
   const [busy, setBusy] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
-  const isAudio = kind === "audio";
-  const noun = isAudio ? "audio" : "image";
+  const noun = kind === "audio" ? "audio" : kind === "file" ? "file" : "image";
+  const accept = kind === "audio" ? "audio/*" : kind === "file" ? ".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx" : "image/*";
+  // Cloudinary: audio is a "video" resource; documents are "raw" so PDFs download
+  // as files (no image-delivery restrictions).
+  const resourceType = kind === "audio" ? "video" : kind === "file" ? "raw" : "image";
 
   const onFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
+    if (kind === "file" && file.size > 20 * 1024 * 1024) { toast.error("That file is larger than 20 MB. Please make it smaller."); return; }
     setBusy(true);
     try {
-      onChange(await uploadToCloudinary(file, isAudio ? "video" : "image"));
-      toast.success(`${isAudio ? "Audio" : "Image"} uploaded`);
+      onChange(await uploadToCloudinary(file, resourceType));
+      toast.success(`${noun[0]!.toUpperCase()}${noun.slice(1)} uploaded`);
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Upload failed");
     } finally {
@@ -433,13 +440,15 @@ export function MediaUpload({ value, onChange, kind = "image" }: { value: string
 
   return (
     <div className="space-y-2">
-      {value && (isAudio
+      {value && (kind === "audio"
         ? <audio controls src={value} className="w-full" />
-        : <img src={value} alt="" className="h-28 w-full rounded-lg border border-border object-cover" />)}
+        : kind === "file"
+          ? <a href={value} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 rounded-lg border border-border bg-background px-3 py-2 text-sm font-medium text-primary underline-offset-2 hover:underline"><FileIcon className="size-4 shrink-0" /><span className="truncate">{decodeURIComponent(value.split("/").pop() ?? value)}</span></a>
+          : <img src={value} alt="" className="h-28 w-full rounded-lg border border-border object-cover" />)}
       <div className="flex flex-wrap gap-2">
         {cfg.data?.enabled && (
           <>
-            <input ref={inputRef} type="file" accept={isAudio ? "audio/*" : "image/*"} className="hidden" onChange={onFile} />
+            <input ref={inputRef} type="file" accept={accept} className="hidden" onChange={onFile} />
             <Button type="button" variant="outline" size="sm" onClick={() => inputRef.current?.click()} disabled={busy}>
               {busy ? "Uploading…" : value ? `Replace ${noun}` : `Upload ${noun}`}
             </Button>
@@ -447,9 +456,9 @@ export function MediaUpload({ value, onChange, kind = "image" }: { value: string
         )}
         {value && <Button type="button" variant="ghost" size="sm" onClick={() => onChange("")}>Remove</Button>}
       </div>
-      <Input value={value} onChange={(e) => onChange(e.target.value)} placeholder={`https://… ${noun} URL`} className="h-11" />
+      <Input value={value} onChange={(e) => onChange(e.target.value)} placeholder={kind === "file" ? "https://… or /materials/guide.pdf" : `https://… ${noun} URL`} className="h-11" />
       {cfg.data && !cfg.data.enabled && (
-        <p className="text-xs text-muted-foreground">Uploads aren't set up yet, paste a {noun} URL above. (Add Cloudinary keys to the server .env to enable uploads.)</p>
+        <p className="text-xs text-muted-foreground">Uploads aren't set up yet, paste a {noun} link above. (Add Cloudinary keys to the server .env to enable uploads.)</p>
       )}
     </div>
   );

@@ -3,6 +3,9 @@ import { createRoot } from "react-dom/client";
 import { RouterProvider, createRouter } from "@tanstack/react-router";
 import { QueryClient } from "@tanstack/react-query";
 import { routeTree } from "./routeTree.gen";
+// Fonts are bundled with the app (no Google Fonts request), so text renders
+// correctly offline and on slow connections. Latin subset only.
+import "./fonts.css";
 import "./styles.css";
 
 const queryClient = new QueryClient({

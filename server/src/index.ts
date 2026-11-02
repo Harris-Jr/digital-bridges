@@ -54,16 +54,20 @@ app.get("/api/health", async (_req, res) => {
 // (stable pages only) is served. Also available at /api/sitemap.xml.
 const SITE_ORIGIN = (env.APP_URL || "https://civicwise.online").replace(/\/$/, "");
 async function sitemapHandler(_req: express.Request, res: express.Response) {
-  const staticPaths = ["/", "/courses", "/about", "/for-trainers", "/contact", "/privacy", "/terms", "/accessibility"];
+  const staticPaths = ["/", "/courses", "/news", "/about", "/for-trainers", "/contact", "/privacy", "/terms", "/accessibility"];
   let courseSlugs: string[] = [];
+  let postSlugs: string[] = [];
   try {
     const { rows } = await query<{ slug: string }>("select slug from courses where is_published = true order by slug");
     courseSlugs = rows.map((r) => r.slug);
+    const posts = await query<{ slug: string }>("select slug from posts where status = 'published' order by published_at desc limit 500");
+    postSlugs = posts.rows.map((r) => r.slug);
   } catch { /* fall back to static paths only */ }
   const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
   const urls = [
     ...staticPaths.map((p) => ({ loc: SITE_ORIGIN + (p === "/" ? "/" : p), priority: p === "/" ? "1.0" : "0.7" })),
     ...courseSlugs.map((s) => ({ loc: `${SITE_ORIGIN}/courses/${esc(s)}`, priority: "0.8" })),
+    ...postSlugs.map((s) => ({ loc: `${SITE_ORIGIN}/news/${esc(s)}`, priority: "0.6" })),
   ];
   const body = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls
     .map((u) => `  <url><loc>${u.loc}</loc><priority>${u.priority}</priority></url>`)

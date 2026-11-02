@@ -277,3 +277,23 @@ export function groupByModule<L extends { module_id?: string | null }>(modules: 
   if (rest.length) groups.push({ module: null, lessons: rest });
   return groups;
 }
+
+/* ------------------------------------------------------------------ news */
+export type PostSummary = { id: string; slug: string; title: string; excerpt: string; cover_url: string | null; cover_alt: string; tags: string[]; author_name: string; published_at: string };
+export type PostFull = PostSummary & { body: string; updated_at: string };
+
+export const usePosts = (opts: { tag?: string | undefined; page?: number; limit?: number } = {}) =>
+  useQuery({
+    queryKey: ["posts", opts.tag ?? "", opts.page ?? 1, opts.limit ?? 12],
+    queryFn: () => {
+      const p = new URLSearchParams({ page: String(opts.page ?? 1), limit: String(opts.limit ?? 12) });
+      if (opts.tag) p.set("tag", opts.tag);
+      return apiGet<{ posts: PostSummary[]; total: number; page: number; limit: number }>(`/posts?${p}`, false);
+    },
+    staleTime: 5 * 60_000,
+  });
+
+export const usePostTags = () =>
+  useQuery({ queryKey: ["posts", "tags"], queryFn: () => apiGet<{ tag: string; count: number }[]>("/posts/tags", false), staleTime: 5 * 60_000 });
+
+export const formatDate = (d: string) => new Date(d).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });

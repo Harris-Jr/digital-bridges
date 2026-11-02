@@ -18,7 +18,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useAuth } from "@/lib/auth";
 import { useI18n, LANGS } from "@/lib/i18n";
 import { useConsent } from "@/lib/consent";
-import { type Course, usePublishedCourses, usePathways, useSetting } from "@/lib/content";
+import { type Course, usePublishedCourses, usePathways, usePosts, useSetting } from "@/lib/content";
 import { AssistantWidget } from "@/components/assistant-widget";
 import { OfflineBar } from "@/components/offline-sync";
 import { cn } from "@/lib/utils";
@@ -390,8 +390,12 @@ export function SiteHeader() {
     await signOut(); // clears cached user data and redirects to /signin
   };
 
+  // News appears in the menu only once there is at least one published post.
+  const news = usePosts({ limit: 1 });
+  const hasNews = (news.data?.total ?? 0) > 0;
   const navLinks = [
     { to: "/courses", label: t("nav.courses", "Courses") },
+    ...(hasNews ? [{ to: "/news", label: t("nav.news", "News") }] : []),
     { to: "/about", label: t("nav.about", "About") },
   ] as const;
 
@@ -426,6 +430,11 @@ export function SiteHeader() {
               {t("nav.courses", "Courses")}
               <ChevronDown className={cn("size-4 transition-transform duration-200", mega && "rotate-180")} aria-hidden="true" />
             </button>
+            {hasNews && (
+              <Link to="/news" className={linkBase} activeProps={{ className: activeLink }} onMouseEnter={() => setMega(false)}>
+                {t("nav.news", "News")}
+              </Link>
+            )}
             <Link to="/about" className={linkBase} activeProps={{ className: activeLink }} onMouseEnter={() => setMega(false)}>
               {t("nav.about", "About")}
             </Link>
@@ -530,6 +539,7 @@ export function SiteFooter() {
           <Link to="/courses" className="text-primary-foreground/70 transition-colors duration-200 hover:text-primary-foreground">{t("nav.courses", "Courses")}</Link>
           <Link to="/about" className="text-primary-foreground/70 transition-colors duration-200 hover:text-primary-foreground">{t("nav.about", "About")}</Link>
           <Link to="/for-trainers" className="text-primary-foreground/70 transition-colors duration-200 hover:text-primary-foreground">{t("nav.trainers", "For Trainers")}</Link>
+<FooterNewsLink />
           <Link to="/contact" className="text-primary-foreground/70 transition-colors duration-200 hover:text-primary-foreground">{t("footer.contact", "Contact")}</Link>
         </nav>
         <nav aria-label="Legal" className="flex flex-col items-center gap-2 text-sm md:items-start">
@@ -668,15 +678,26 @@ export function CourseCard({ course, progress }: { course: Course; index?: numbe
   );
 }
 
-/** Lesson text renderer. Supports blank-line separated blocks, "## " sub-headings,
-    "- " bullet lists, "1. " numbered lists, **bold** and *italic*. A heading, a paragraph
-    and a list may share one block (no blank line needed between them). */
+/** Lesson and article text renderer. Supports blank-line separated blocks,
+    "## " sub-headings, "- " bullet lists, "1. " numbered lists, **bold**,
+    *italic*, [links](https://...) and images on their own line: ![description](url).
+    A heading, a paragraph and a list may share one block. */
+const safeHref = (u: string) => /^(https?:\/\/|\/|mailto:|tel:)/i.test(u) ? u : null;
+
 export function RichText({ text }: { text: string }) {
   const inline = (s: string) =>
-    s.split(/(\*\*[^*]+\*\*|\*[^*\s][^*]*\*)/g).map((p, i) =>
-      p.startsWith("**") && p.endsWith("**") && p.length > 4 ? <strong key={i}>{p.slice(2, -2)}</strong>
-      : p.startsWith("*") && p.endsWith("*") && p.length > 2 ? <em key={i}>{p.slice(1, -1)}</em>
-      : <span key={i}>{p}</span>);
+    s.split(/(\*\*[^*]+\*\*|\[[^\]]+\]\([^)\s]+\)|\*[^*\s][^*]*\*)/g).map((p, i) => {
+      if (p.startsWith("**") && p.endsWith("**") && p.length > 4) return <strong key={i}>{p.slice(2, -2)}</strong>;
+      const link = /^\[([^\]]+)\]\(([^)\s]+)\)$/.exec(p);
+      if (link) {
+        const href = safeHref(link[2]!);
+        if (!href) return <span key={i}>{link[1]}</span>;
+        const external = /^https?:/i.test(href);
+        return <a key={i} href={href} className="font-semibold text-primary underline underline-offset-2" {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}>{link[1]}</a>;
+      }
+      if (p.startsWith("*") && p.endsWith("*") && p.length > 2) return <em key={i}>{p.slice(1, -1)}</em>;
+      return <span key={i}>{p}</span>;
+    });
   const out: ReactNode[] = [];
   let k = 0;
   for (const block of text.split(/\n\s*\n/)) {
@@ -691,9 +712,19 @@ export function RichText({ text }: { text: string }) {
       list = null;
     };
     for (const line of lines) {
+      const img = /^!\[([^\]]*)\]\(([^)\s]+)\)$/.exec(line);
       const bullet = /^[-*] (.*)$/.exec(line);
       const num = /^\d+[.)] (.*)$/.exec(line);
-      if (line.startsWith("## ")) { flushPara(); flushList(); out.push(<h2 key={k++}>{line.slice(3)}</h2>); }
+      if (img) {
+        flushPara(); flushList();
+        const src = safeHref(img[2]!);
+        if (src) out.push(
+          <figure key={k++} className="my-5">
+            <img src={src} alt={img[1]} loading="lazy" className="w-full rounded-xl border border-border" />
+            {img[1] && <figcaption className="mt-2 text-center text-sm text-muted-foreground">{img[1]}</figcaption>}
+          </figure>,
+        );
+      } else if (line.startsWith("## ")) { flushPara(); flushList(); out.push(<h2 key={k++}>{line.slice(3)}</h2>); }
       else if (bullet || num) {
         flushPara();
         const ordered = !!num;
@@ -763,4 +794,11 @@ export function PageHero({ eyebrow, title, sub }: { eyebrow?: string | undefined
       {sub && <p className="mt-4 max-w-2xl text-lg text-muted-foreground">{sub}</p>}
     </section>
   );
+}
+
+function FooterNewsLink() {
+  const { t } = useI18n();
+  const news = usePosts({ limit: 1 });
+  if (!(news.data?.total)) return null;
+  return <Link to="/news" className="text-primary-foreground/70 transition-colors duration-200 hover:text-primary-foreground">{t("footer.news", "News")}</Link>;
 }

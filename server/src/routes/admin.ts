@@ -244,6 +244,18 @@ const resourceSchema = z.object({
   is_published: z.boolean().default(false),
 });
 
+const postSchema = z.object({
+  slug: z.string().trim().min(1).max(120).regex(/^[a-z0-9-]+$/, "Slug: lowercase words with dashes"),
+  title: nonEmpty(200),
+  excerpt: z.string().trim().max(400).default(""),
+  body: z.string().max(50000).default(""),
+  cover_url: z.string().trim().max(1000).nullish(),
+  cover_alt: z.string().trim().max(300).default(""),
+  tags: z.array(z.string().trim().min(1).max(40)).max(10).default([]),
+  author_name: z.string().trim().max(120).default(""),
+  status: z.enum(["draft", "published"]).default("draft"),
+});
+
 const faqSchema = z.object({
   question: nonEmpty(500),
   answer: nonEmpty(5000),
@@ -303,6 +315,11 @@ registerResource("resources", {
   table: "resources", idColumn: "id", orderBy: "sort_order, title",
   columns: ["title", "description", "type", "file_url", "audience", "sort_order", "is_published"],
   schema: resourceSchema,
+});
+registerResource("posts", {
+  table: "posts", idColumn: "id", orderBy: "coalesce(published_at, created_at) desc",
+  columns: ["slug", "title", "excerpt", "body", "cover_url", "cover_alt", "tags", "author_name", "status"],
+  schema: postSchema,
 });
 registerResource("faqs", {
   table: "faqs", idColumn: "id", orderBy: "sort_order",

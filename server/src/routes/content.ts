@@ -185,3 +185,45 @@ contentRouter.get(
     res.json(rows);
   }),
 );
+
+// ---- News ------------------------------------------------------------------
+contentRouter.get(
+  "/posts",
+  asyncHandler(async (req, res) => {
+    const tag = typeof req.query.tag === "string" && req.query.tag ? req.query.tag.slice(0, 40) : null;
+    const limit = Math.min(Math.max(Number(req.query.limit) || 12, 1), 50);
+    const page = Math.max(Number(req.query.page) || 1, 1);
+    const { rows } = await query(
+      `select id, slug, title, excerpt, cover_url, cover_alt, tags, author_name, published_at,
+              count(*) over()::int as total
+         from posts
+        where status = 'published' and ($1::text is null or $1 = any(tags))
+        order by published_at desc
+        limit $2 offset $3`,
+      [tag, limit, (page - 1) * limit],
+    );
+    res.json({ posts: rows.map(({ total: _t, ...r }) => r), total: rows[0]?.total ?? 0, page, limit });
+  }),
+);
+
+contentRouter.get(
+  "/posts/tags",
+  asyncHandler(async (_req, res) => {
+    const { rows } = await query(
+      "select t as tag, count(*)::int as count from posts, unnest(tags) t where status = 'published' group by t order by count desc, t limit 30",
+    );
+    res.json(rows);
+  }),
+);
+
+contentRouter.get(
+  "/posts/:slug",
+  asyncHandler(async (req, res) => {
+    const { rows } = await query(
+      "select id, slug, title, excerpt, body, cover_url, cover_alt, tags, author_name, published_at, updated_at from posts where slug = $1 and status = 'published'",
+      [req.params.slug],
+    );
+    if (!rows[0]) throw notFound("Post not found");
+    res.json(rows[0]);
+  }),
+);

@@ -5,6 +5,10 @@
 //   npm run seed                       every course + pathways, categories, badges
 //   npm run seed -- getting-to-know-your-device   only the named course(s)
 //   npm run seed -- --check            validate the files, touch nothing
+//   npm run seed -- --new              only ADD what is missing (new courses,
+//                                      pathways, categories, badges). Existing
+//                                      ones are left exactly as they are, so CMS
+//                                      edits are safe. This is what deploys run.
 //   npm run seed -- --prune            also DELETE lessons no longer in a file
 //                                      (default: they are unpublished and kept,
 //                                      so nobody loses progress)
@@ -23,6 +27,9 @@ const root = join(dirname(fileURLToPath(import.meta.url)), "..", "..", "content"
 const args = process.argv.slice(2);
 const CHECK = args.includes("--check");
 const PRUNE = args.includes("--prune");
+const NEW_ONLY = args.includes("--new");
+/** In --new mode an existing row is never touched. */
+const onConflict = (update: string) => (NEW_ONLY ? "do nothing" : `do update set ${update}`);
 const only = args.filter((a) => !a.startsWith("--"));
 
 async function readJson(path: string): Promise<unknown> {
@@ -70,8 +77,8 @@ async function seedCatalogue(db: PoolClient) {
     await db.query(
       `insert into pathways (slug, title, subtitle, description, icon_name, accent, sort_order, is_published)
        values ($1,$2,$3,$4,$5,$6,$7,$8)
-       on conflict (slug) do update set title=excluded.title, subtitle=excluded.subtitle, description=excluded.description,
-         icon_name=excluded.icon_name, accent=excluded.accent, sort_order=excluded.sort_order, is_published=excluded.is_published`,
+       on conflict (slug) ${onConflict(`title=excluded.title, subtitle=excluded.subtitle, description=excluded.description,
+         icon_name=excluded.icon_name, accent=excluded.accent, sort_order=excluded.sort_order, is_published=excluded.is_published`)}`,
       [p.slug, p.title, p.subtitle, p.description, p.icon_name, p.accent, p.sort_order, p.published],
     );
   }
@@ -79,7 +86,7 @@ async function seedCatalogue(db: PoolClient) {
   for (const c of categories) {
     await db.query(
       `insert into categories (slug, name, icon_name, sort_order) values ($1,$2,$3,$4)
-       on conflict (slug) do update set name=excluded.name, icon_name=excluded.icon_name, sort_order=excluded.sort_order`,
+       on conflict (slug) ${onConflict("name=excluded.name, icon_name=excluded.icon_name, sort_order=excluded.sort_order")}`,
       [c.slug, c.name, c.icon_name, c.sort_order],
     );
   }
@@ -87,7 +94,7 @@ async function seedCatalogue(db: PoolClient) {
   for (const b of badges) {
     await db.query(
       `insert into badges (slug, name, description, criteria, icon_name) values ($1,$2,$3,$4,$5)
-       on conflict (slug) do update set name=excluded.name, description=excluded.description, criteria=excluded.criteria, icon_name=excluded.icon_name`,
+       on conflict (slug) ${onConflict("name=excluded.name, description=excluded.description, criteria=excluded.criteria, icon_name=excluded.icon_name")}`,
       [b.slug, b.name, b.description, JSON.stringify(b.criteria), b.icon_name],
     );
   }
@@ -229,7 +236,14 @@ async function main() {
   try {
     await db.query("begin");
     if (!only.length) await seedCatalogue(db);
-    for (const c of courses) await seedCourse(db, c);
+    let todo = courses;
+    if (NEW_ONLY) {
+      const { rows } = await db.query<{ slug: string }>("select slug from courses");
+      const have = new Set(rows.map((r) => r.slug));
+      todo = courses.filter((c) => !have.has(c.slug));
+      console.log(`[seed] --new: ${todo.length} new course(s), ${courses.length - todo.length} already in the database (left unchanged)`);
+    }
+    for (const c of todo) await seedCourse(db, c);
     await db.query("commit");
     console.log("[seed] done");
   } catch (e) {

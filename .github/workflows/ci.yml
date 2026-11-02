@@ -1,0 +1,150 @@
+# CI: proves a change is safe before it reaches main.
+#
+# Runs on every pull request and on every push to develop. The deploy
+# workflow also calls it, so main is never deployed without passing it.
+#
+#   server job: typecheck, unit tests, build, then apply every migration and
+#               seed every course into a brand-new Postgres (twice, to prove
+#               the seed can be re-run safely).
+#   client job: unit tests, typecheck and production build (including the
+#               prerendered pages).
+name: CI
+
+on:
+  pull_request:
+    branches: [main, develop]
+  push:
+    branches: [develop]
+  workflow_call:
+
+# A newer push to the same branch cancels the older, now pointless, run.
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  server:
+    name: Server (API)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: server
+
+    # A throwaway database that exists only for this run.
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: civicwise
+          POSTGRES_PASSWORD: civicwise
+          POSTGRES_DB: civicwise_ci
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U civicwise -d civicwise_ci"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: server/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      # The npm scripts load server/.env, so CI writes a test one.
+      # None of these values are secrets: they only work inside this run.
+      - name: Write test environment
+        run: |
+          cat > .env <<'ENV'
+          NODE_ENV=test
+          PORT=4000
+          DATABASE_URL=postgresql://civicwise:civicwise@localhost:5432/civicwise_ci
+          JWT_SECRET=ci-only-secret-not-used-anywhere-else-0123456789
+          ACCESS_TOKEN_TTL=15m
+          REFRESH_TOKEN_TTL_DAYS=30
+          CORS_ORIGIN=http://localhost:5173
+          APP_URL=http://localhost:5173
+          ENV
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Unit tests
+        run: npm test
+
+      - name: Build
+        run: npm run build
+
+      - name: Apply migrations to a fresh database
+        run: npm run migrate
+
+      - name: Validate course content files
+        run: npm run seed -- --check
+
+      - name: Seed all content
+        run: npm run seed
+
+      - name: Seed again (must be safe to re-run)
+        run: npm run seed
+
+      - name: Deploy-style seed (adds only new content)
+        run: npm run seed -- --new
+
+      - name: API starts and answers /api/health
+        run: |
+          node --env-file=.env dist/index.js > /tmp/api.log 2>&1 &
+          for i in $(seq 1 30); do
+            if curl -fsS http://localhost:4000/api/health; then echo; exit 0; fi
+            sleep 1
+          done
+          echo "API did not become healthy. Log:"; cat /tmp/api.log; exit 1
+
+  client:
+    name: Client (web app)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: client
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: client/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Unit tests
+        run: npm test
+
+      # npm run build = typecheck + vite build + prerender.
+      - name: Typecheck and production build
+        run: npm run build
+
+      # The route tree is generated during the build and committed. If the
+      # build changed it, someone forgot to commit the new version.
+      - name: Route tree is committed
+        run: git diff --exit-code -- src/routeTree.gen.ts
+
+      - name: Keep the built site for 7 days
+        uses: actions/upload-artifact@v4
+        with:
+          name: web-dist
+          path: client/dist
+          retention-days: 7

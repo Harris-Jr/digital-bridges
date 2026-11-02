@@ -5,7 +5,7 @@ import tailwindcss from "@tailwindcss/vite";
 import { tanstackRouter } from "@tanstack/router-plugin/vite";
 import { VitePWA } from "vite-plugin-pwa";
 
-// Digital Bridges — Vite + React SPA, built as an offline-first PWA.
+// Civic Wise: Vite + React SPA, built as an offline-first PWA.
 // The service worker precaches the app shell and runtime-caches API GETs and
 // media so lessons keep working on slow or absent connections.
 export default defineConfig({
@@ -37,8 +37,8 @@ export default defineConfig({
       registerType: "autoUpdate",
       includeAssets: ["favicon.ico", "robots.txt"],
       manifest: {
-        name: "Digital Bridges",
-        short_name: "Digital Bridges",
+        name: "Civic Wise",
+        short_name: "Civic Wise",
         description: "Free, simple digital skills lessons for communities in Zambia.",
         theme_color: "#14532D",
         background_color: "#ffffff",

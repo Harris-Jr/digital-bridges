@@ -1,108 +1,337 @@
 {
   "slug": "staying-safe-online",
   "title": "Staying Safe Online",
-  "tagline": "Passwords, scams, and protecting your personal information.",
-  "description": "Learn the habits that keep your phone, your accounts and your money safe. We cover strong passwords, scam messages, and what not to share with strangers online.",
+  "tagline": "Strong locks, spotting scams, and keeping your details private.",
+  "description": "Criminals target phones every day in Zambia with fake prizes, fake jobs and fake messages from 'customer care'. This course shows you how to lock your accounts, spot a scam before it costs you, keep your personal details private, and what to do quickly if you are tricked.",
   "pathway": "digital-skills",
   "category": "safety",
   "icon_name": "ShieldCheck",
   "difficulty": "easy",
-  "estimated_hours": 2,
+  "estimated_hours": 1.5,
   "pass_mark": 70,
-  "outcomes": [
-    "Make a strong password you can remember",
-    "Spot the red flags in a scam message",
-    "Lock your phone with a PIN",
-    "Keep your personal details private",
-    "Know what to do if you are tricked"
-  ],
   "sort_order": 2,
   "published": true,
+  "outcomes": [
+    "Make a strong password you can remember",
+    "Lock your phone and turn on two-step verification",
+    "Spot the warning signs of a scam message or call",
+    "Recognise common scams in Zambia",
+    "Keep your personal details and NRC private",
+    "Know exactly what to do if you are tricked"
+  ],
   "modules": [
     {
-      "title": "Module 1",
-      "summary": "",
+      "title": "Lock the doors",
+      "summary": "Passwords, screen locks and an extra lock for WhatsApp.",
       "lessons": [
         {
           "slug": "strong-passwords",
           "title": "Making a strong password you can remember",
           "type": "read",
           "est_minutes": 5,
-          "body": "A strong password is long and hard for others to guess, but easy for you to remember.\n\n## Use a sentence\nPick three or four words that mean something to you, like: MangoTree Kitwe 2009 Rain. Join them together: MangoTreeKitwe2009Rain. That is long, strong and memorable.\n\n## Avoid these\nDo not use your name, your birthday, 1234, or the word password. Do not use the same password for everything. If one account is stolen, the others stay safe.",
+          "body": "A **password** is the key to an account, like your email or Facebook. If someone guesses it, they can read your messages and pretend to be you.\n\n## What makes a password weak\nCriminals use computers that try thousands of common passwords in seconds. These are found almost at once:\n\n- 123456, password, or qwerty\n- your name, your child's name or your village\n- your year of birth or phone number\n\n## The sentence trick\nA long password is much harder to guess than a short, clever one. Take a short sentence that only you know and join the words:\n\n*Nshima with beans on Friday* becomes **NshimaWithBeans0nFriday**\n\nIt is long, easy for you to remember, and very hard to guess. Change a letter to a number if the website asks for one.\n\n## One account, one password\nIf you use the same password everywhere and one website is broken into, criminals try it on your email and Facebook too. Use a different password for your most important accounts, especially your **email**, because email can reset all your other passwords.\n\n## Keeping them safe\nDo not tell anyone your password, even a friend or someone who says they work for the company. If you must write passwords down, keep the paper hidden at home, not in your phone cover or wallet.",
           "key_points": [
             "Long is stronger than short",
-            "Use three or four words together",
-            "Never use your birthday or 1234",
-            "Use a different password for each account"
+            "Make a password from a sentence only you know",
+            "Use a different password for your email"
           ],
-          "try_it": "Think of four words you will remember and write a practice password on paper. Do not use it for a real account yet.",
-          "motif": "shield",
-          "published": true
-        },
-        {
-          "slug": "red-flags-of-scam-messages",
-          "title": "Red flags of scam messages",
-          "type": "read",
-          "est_minutes": 5,
-          "body": "Scammers send messages that look real to trick you into giving money or your PIN.\n\n## Common red flags\nThe message says you have won a prize you never entered. It says your account will be closed unless you act now. It asks for your PIN or a code sent to your phone. The sender is a number you do not know, or the spelling is strange.\n\n## What to do\nStop. Do not reply, do not click links, do not send money. Call the company on its official number to check. Delete the message and warn your family.",
-          "key_points": [
-            "Real companies never ask for your PIN",
-            "Urgent pressure is a warning sign",
-            "Do not click links from strangers",
-            "Check by calling the official number"
-          ],
-          "try_it": "Look through your SMS messages. Can you find one that has a red flag?",
-          "motif": "shield",
-          "published": true
+          "try_it": "Think of a sentence only you know and turn it into a password. Do not write it here.",
+          "motif": "shield"
         },
         {
           "slug": "lock-your-phone",
           "title": "Lock your phone with a PIN",
           "type": "practice",
           "est_minutes": 5,
-          "body": "If your phone is lost or stolen, a lock stops others from reading your messages or using your mobile money.\n\n## Set a lock\nOpen Settings, tap Security or Lock screen, then choose PIN. Pick 4 to 6 numbers that are not your birthday. Type it twice to confirm.",
+          "body": "Your phone holds your messages, photos and mobile money. A **screen lock** stops a thief, or a nosy person, from opening it.\n\n## Setting a screen lock\n1. Open **Settings**.\n2. Tap **Security** or **Lock screen**.\n3. Tap **Screen lock** and choose **PIN**.\n4. Type a PIN of at least 6 digits, then type it again.\n\nMany phones also open with your **fingerprint** or **face**. These are quick, but you still need a PIN as a backup.\n\n## A good PIN\n- Not 1234, 0000, 1111 or your year of birth.\n- **Not the same** as your mobile money PIN or bank card PIN. If someone learns one, they should not know the other.\n\n## Lock it automatically\nIn the same settings, set the screen to lock after a short time, like 30 seconds. Then the phone locks itself if you forget.\n\n## Hide your messages on the lock screen\nYour lock screen may show the words of new messages, including secret codes sent by your bank or WhatsApp. In **Settings, Notifications, Lock screen**, choose to hide sensitive content. Now people near you cannot read them.\n\n## If your phone is lost\nCall your network straight away to block the SIM. If your phone has a Google account, you can find, lock or erase it from another phone at android.com/find.",
           "key_points": [
-            "A PIN protects your messages and money",
-            "Do not use your birthday",
-            "Do not share your PIN, even with friends"
+            "Use a PIN of at least 6 digits",
+            "Never use the same PIN as your mobile money",
+            "Hide message content on the lock screen"
           ],
-          "try_it": "Set a screen lock PIN on your phone today.",
-          "motif": "shield",
-          "published": true
+          "try_it": "Check your lock screen. If it shows the words of your messages, change the setting to hide them.",
+          "motif": "shield"
         },
         {
-          "slug": "safety-quiz",
-          "title": "Check what you learned",
-          "type": "quiz",
+          "slug": "two-step-verification",
+          "title": "An extra lock: codes and two-step verification",
+          "type": "practice",
           "est_minutes": 5,
-          "body": "Answer these short questions about staying safe.",
+          "body": "Sometimes an app sends you a short **code** by SMS, like 482-913. The code proves that you are the owner of the phone number. It is like a second key.\n\n## Never share a code\nCriminals try to get these codes from you. They may say:\n\n- \"I sent my code to your number by mistake. Please send it to me.\"\n- \"This is WhatsApp support. Read me the code we sent you.\"\n\nIf you give them the code, they can take over your WhatsApp or Facebook and message your family asking for money. **Real companies never ask you for a code.** The message itself often says: do not share this code.\n\n## Turn on two-step verification in WhatsApp\nTwo-step verification adds a 6-digit PIN that WhatsApp asks for when someone sets up your number on a new phone. Even if a criminal gets your SMS code, they also need this PIN.\n\n1. Open WhatsApp and tap the three dots, then **Settings**.\n2. Tap **Account**, then **Two-step verification**.\n3. Tap **Turn on** and choose a 6-digit PIN.\n4. Add your email address so you can reset it if you forget.\n\nFacebook and Gmail have the same feature. It may be called two-factor authentication or 2-step verification.",
           "key_points": [
-            "Take your time"
+            "Never share a code sent to your phone",
+            "Real companies never ask for your code",
+            "Turn on two-step verification in WhatsApp"
           ],
+          "try_it": "Turn on two-step verification in WhatsApp now.",
+          "motif": "shield"
+        },
+        {
+          "slug": "lock-the-doors-check",
+          "title": "Check: Lock the doors",
+          "type": "quiz",
+          "est_minutes": 3,
+          "body": "A few short questions on this module. There is no time limit, and you can try again.",
           "motif": "circle",
-          "published": true,
           "quiz": [
             {
               "question": "Which password is the strongest?",
               "options": [
-                "1234",
-                "Chanda1990",
-                "MangoTreeKitwe2009Rain",
-                "password"
+                "123456",
+                "Your year of birth",
+                "NshimaWithBeans0nFriday",
+                "Your first name"
               ],
               "correct": 2,
-              "explanation": "Long passwords made of several words are much harder to guess, and still easy for you to remember."
+              "explanation": "A long password made from a sentence is easy to remember and very hard to guess."
             },
             {
-              "question": "A message says your account will close unless you send your PIN. What should you do?",
+              "question": "Should your phone PIN be the same as your mobile money PIN?",
               "options": [
-                "Send the PIN quickly",
-                "Reply asking for more time",
-                "Ignore it and call the official number",
+                "Yes, it is easier",
+                "No, use different PINs",
+                "Only on weekends",
+                "Only if they are 4 digits"
+              ],
+              "correct": 1,
+              "explanation": "If someone learns one PIN, they should not be able to open everything."
+            },
+            {
+              "question": "Someone says they sent their WhatsApp code to your number by mistake and asks you to send it to them. What do you do?",
+              "options": [
+                "Send it, they need it",
+                "Do not send it. It is a trick to steal your WhatsApp",
+                "Send half of it",
+                "Post it in a group"
+              ],
+              "correct": 1,
+              "explanation": "With your code, a criminal can take over your WhatsApp and ask your family for money."
+            },
+            {
+              "question": "What does two-step verification in WhatsApp add?",
+              "options": [
+                "A second phone number",
+                "A 6-digit PIN needed to set up your WhatsApp on a new phone",
+                "Free data",
+                "A new profile picture"
+              ],
+              "correct": 1,
+              "explanation": "Even with your SMS code, a criminal also needs the PIN."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Spot the scam",
+      "summary": "Warning signs and the scams most used in Zambia.",
+      "lessons": [
+        {
+          "slug": "red-flags-of-scam-messages",
+          "title": "Red flags of scam messages",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "A **scam** is a trick to take your money or your information. Most scams come by SMS, WhatsApp or a phone call. They share the same warning signs, called **red flags**.\n\n## The red flags\n- **Hurry.** \"Act now or you lose it.\" \"Your account will be closed today.\" Scammers do not want you to stop and think.\n- **A prize you did not enter.** \"Congratulations, you have won K10,000.\" You cannot win a draw you never joined.\n- **A request for a PIN, password or code.** No real bank, network or company asks for these.\n- **Money first.** \"Pay a small fee to receive your prize, loan or job.\"\n- **A stranger who is suddenly very friendly**, or a \"relative\" with a new number who needs money quickly.\n- **A link** to click, especially one with a strange spelling.\n- **Spelling and grammar mistakes**, and a sender who is a normal phone number, not the company name.\n\n## The golden rule\nIf a message has even one red flag, **stop**. Do not reply, do not click, do not pay.\n\nThen check another way. Call the person on the number you already have for them. Call your network or bank on their official number from their website or shop, not a number in the message.\n\nTaking two minutes to check can save you a lot of money.",
+          "key_points": [
+            "Hurry, prizes, fees and PIN requests are red flags",
+            "One red flag means stop",
+            "Check using a number you already trust"
+          ],
+          "try_it": "Look through your SMS inbox and find one message with a red flag. Delete it.",
+          "motif": "shield"
+        },
+        {
+          "slug": "common-scams-in-zambia",
+          "title": "Common scams in Zambia",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "Scammers change their stories, but the same tricks come back again and again. Knowing them makes you hard to fool.\n\n## \"Mum, it's me, new number\"\nA message says it is your child or relative with a new number. They are in trouble and need money fast. **Call the old number** or someone close to them before sending anything.\n\n## The fake job\nA job offer with a high salary for easy work, often abroad or at a mine. You only need to pay for the \"medical\", \"uniform\" or \"travel\". Real employers do not ask you to pay to get a job.\n\n## The fake loan app\nAn app promises a quick loan with no questions. It asks for permission to read your contacts and photos. If you are late, it may insult you and message your contacts. Only borrow from lenders you know and that are registered with the **Bank of Zambia**.\n\n## The prize or promotion\nYou have \"won\" a phone, money or a scholarship from a network or company. You just need to send a fee or your PIN. If you did not enter, you did not win.\n\n## The fake customer care call\nA caller says they are from your network and your line will be blocked unless you follow their steps. They ask you to dial a code or read out a code you receive. **Hang up** and call the official customer care number yourself.\n\n## Investment that doubles your money\n\"Put in K500, get K1,000 next week.\" Money that grows that fast is almost always a trick, and early \"winners\" are paid with new people's money.",
+          "key_points": [
+            "Call relatives on their old number before sending money",
+            "Real jobs do not ask you to pay",
+            "If you did not enter, you did not win"
+          ],
+          "try_it": "Tell a family member about one of these scams today.",
+          "motif": "shield"
+        },
+        {
+          "slug": "fake-links-and-websites",
+          "title": "Fake links and websites",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "A **link** is text you tap to open a website, like www.example.com. Scammers make fake links that look real, to steal your password or money.\n\n## How fake links trick you\n- A small spelling change: **airtel-zm-promo.com** or **faceboook.com** instead of the real name.\n- A shortened link like bit.ly/abc that hides where it goes.\n- A website that copies the real logo and colours exactly.\n\nOn the fake page, you are asked to \"log in\" or \"confirm your details\". Whatever you type goes straight to the criminal.\n\n## Before you tap a link\nAsk yourself:\n\n1. Did I expect this message?\n2. Do I know who sent it?\n3. Does the address look exactly right?\n\nIf any answer is no, do not tap.\n\n## A safer way\nInstead of tapping a link in a message, **open the app or type the website yourself**. If your bank says there is a problem, open the bank's own app and look. If Facebook says you broke a rule, open Facebook directly.\n\n## Look for the lock\nReal websites that ask for passwords start with **https** and show a small lock next to the address. A lock alone does not prove a site is honest, but no lock on a login page is a clear warning.\n\n## If you already tapped\nDo not type anything. Close the page. If you typed a password, change it straight away from the real app.",
+          "key_points": [
+            "Fake links copy real names with small changes",
+            "Open the app yourself instead of tapping the link",
+            "If you typed a password on a fake page, change it now"
+          ],
+          "try_it": "Next time you get a link, check the spelling of the address before you tap.",
+          "motif": "shield"
+        },
+        {
+          "slug": "spot-the-scam-check",
+          "title": "Check: Spot the scam",
+          "type": "quiz",
+          "est_minutes": 3,
+          "body": "A few short questions on this module. There is no time limit, and you can try again.",
+          "motif": "circle",
+          "quiz": [
+            {
+              "question": "A message says: 'You have won K10,000! Send K150 to collect.' You never entered a competition. What is this?",
+              "options": [
+                "Good luck",
+                "A scam",
+                "A bank message",
+                "A government grant"
+              ],
+              "correct": 1,
+              "explanation": "You cannot win something you never entered, and real prizes never need a fee."
+            },
+            {
+              "question": "Your 'son' messages from a new number asking for money urgently. What should you do first?",
+              "options": [
+                "Send the money quickly",
+                "Call his old number or someone close to him",
+                "Send your PIN",
+                "Ignore all messages forever"
+              ],
+              "correct": 1,
+              "explanation": "Checking on a number you already know stops this common scam."
+            },
+            {
+              "question": "A job at a mine pays very well, but you must pay K800 for a medical first. What is the safest thought?",
+              "options": [
+                "Pay quickly before someone else does",
+                "Real employers do not ask you to pay to get a job",
+                "Borrow money to pay",
+                "Send your NRC photo"
+              ],
+              "correct": 1,
+              "explanation": "Asking for fees is one of the strongest signs of a fake job."
+            },
+            {
+              "question": "Which is the safest way to check a message that says your bank account has a problem?",
+              "options": [
+                "Tap the link in the message",
+                "Reply with your PIN",
+                "Open the bank's own app or call its official number",
                 "Forward it to friends"
               ],
               "correct": 2,
-              "explanation": "Real companies never ask for your PIN. Call the official number if you are worried."
+              "explanation": "Go to the real bank yourself rather than following the message."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Protect your information",
+      "summary": "Personal details, privacy settings and what to do if you are tricked.",
+      "lessons": [
+        {
+          "slug": "personal-details-private",
+          "title": "Keeping your personal details private",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "Your **personal details** are information about you: your full name, NRC number, date of birth, address, phone number and photos. In the wrong hands, they can be used to steal from you or pretend to be you.\n\n## Your NRC is precious\nCriminals can use a photo of your **NRC** to register a SIM card, take a loan or open an account in your name. So:\n\n- Only give your NRC to places that really need it: a bank, a network shop, a government office.\n- Do not post it online or send a photo of it on WhatsApp to people you do not know.\n- If you must send a copy, you can write across it what it is for, like *For ABC Bank account only*.\n\n## Think before you post\nBefore posting on Facebook or a status, ask: would I be happy for a stranger to see this?\n\n- Do not post your home address, your daily routine, or that your house is empty while you travel.\n- Be careful with photos of children in school uniform, which show where they are every day.\n- Do not post boarding passes, bank slips or receipts. They carry numbers criminals can use.\n\n## Quizzes and forms\n\"Answer these questions to see your celebrity twin\": your mother's name, your first school, your pet. These are often the same questions used to reset passwords. Skip them.\n\n## Ask why\nWhen anyone asks for your details, it is fine to ask: why do you need it, and how will you keep it safe?",
+          "key_points": [
+            "Only give your NRC where it is really needed",
+            "Do not post your address or travel plans",
+            "It is fine to ask why someone needs your details"
+          ],
+          "try_it": "Look at your last five posts or statuses. Remove anything that shows your address or NRC.",
+          "motif": "shield"
+        },
+        {
+          "slug": "safe-privacy-settings",
+          "title": "Privacy settings on WhatsApp and Facebook",
+          "type": "practice",
+          "est_minutes": 5,
+          "body": "**Privacy settings** decide who can see your information. A few changes make you much safer.\n\n## WhatsApp\nOpen WhatsApp, tap the three dots, then **Settings**, then **Privacy**.\n\n- **Profile photo** and **About:** choose *My contacts*, so strangers cannot see them.\n- **Last seen and online:** choose *My contacts* or *Nobody*.\n- **Groups:** choose *My contacts*. This stops strangers adding you to scam groups.\n- **Status:** choose who can see your status updates.\n\nTo stop a person contacting you, open the chat, tap their name, and tap **Block**. You can also tap **Report** to warn WhatsApp about scams.\n\n## Facebook\nTap the menu, then **Settings and privacy**, then **Privacy checkup**. It walks you through the main settings step by step:\n\n- Who can see your future posts: choose **Friends**, not Public.\n- Who can see your friends list, phone number and email.\n- Who can send you friend requests.\n\n## Friend requests\nOnly accept friend requests from people you know in real life. Scammers create fake profiles, often using photos of attractive people or soldiers, to build trust before asking for money.\n\n## Check from time to time\nApps change their settings. Look again every few months, and after big app updates.",
+          "key_points": [
+            "In WhatsApp, set Groups to My contacts",
+            "Set Facebook posts to Friends",
+            "Only accept friend requests from people you know"
+          ],
+          "try_it": "In WhatsApp, set who can add you to groups to My contacts.",
+          "motif": "shield"
+        },
+        {
+          "slug": "if-you-are-tricked",
+          "title": "What to do if you are tricked",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "Anyone can be tricked. Scammers are skilled and it is not your fault. What matters is acting **quickly**, because every minute counts.\n\n## If you sent money to a scammer\n1. **Call your mobile money provider or bank at once** on their official customer care number. Tell them the transaction and ask them to stop or reverse it. The faster you call, the better the chance.\n2. Keep the **transaction message**. Do not delete it.\n3. **Report to the police** at your nearest station. Take the transaction details and the scammer's number with you.\n\n## If someone has your PIN or password\n- Change your mobile money PIN straight away.\n- Change your passwords, starting with your email.\n- Turn on two-step verification.\n\n## If your WhatsApp was taken over\nReinstall WhatsApp and register your number again. You will get a new code that logs the criminal out. Then turn on two-step verification. Tell your contacts not to send money to anyone using your account.\n\n## If your phone or SIM is stolen\nCall your network to block the SIM and ask for a replacement. Your money stays on the line.\n\n## Warn others\nTell your family and friends, and report the scammer's number to your network. Sharing what happened protects others. There is no shame in it.",
+          "key_points": [
+            "Act fast: call your provider first",
+            "Keep the transaction message as proof",
+            "Report to the police and warn others"
+          ],
+          "try_it": "Save your mobile money provider's official customer care number in your contacts now.",
+          "motif": "shield"
+        },
+        {
+          "slug": "safety-quiz",
+          "title": "Final check: Staying safe online",
+          "type": "quiz",
+          "est_minutes": 4,
+          "body": "Questions covering the whole course. Score 70% or more to complete it. You can try again as many times as you like.",
+          "motif": "circle",
+          "quiz": [
+            {
+              "question": "Who should you give your NRC photo to?",
+              "options": [
+                "Anyone who asks on WhatsApp",
+                "Only places that really need it, like a bank or network shop",
+                "A Facebook quiz",
+                "A new online friend"
+              ],
+              "correct": 1,
+              "explanation": "Criminals can use your NRC to register SIMs or loans in your name."
+            },
+            {
+              "question": "In WhatsApp privacy, what does setting Groups to My contacts do?",
+              "options": [
+                "Deletes your groups",
+                "Stops strangers adding you to groups",
+                "Makes your status public",
+                "Turns off messages"
+              ],
+              "correct": 1,
+              "explanation": "Strangers can no longer add you to scam groups."
+            },
+            {
+              "question": "You sent money to a scammer five minutes ago. What should you do first?",
+              "options": [
+                "Wait a week",
+                "Call your mobile money provider on its official number straight away",
+                "Delete the message",
+                "Send more money to get it back"
+              ],
+              "correct": 1,
+              "explanation": "Speed matters. The sooner the provider knows, the better the chance of stopping it."
+            },
+            {
+              "question": "A caller from 'customer care' asks you to read out a code you just received. What do you do?",
+              "options": [
+                "Read it out",
+                "Hang up and call the official number yourself",
+                "Send your PIN instead",
+                "Give half the code"
+              ],
+              "correct": 1,
+              "explanation": "Real customer care never asks for your codes or PIN."
+            },
+            {
+              "question": "Which password is safest for your email?",
+              "options": [
+                "The same one you use everywhere",
+                "123456",
+                "A long sentence only you know, used only for email",
+                "Your phone number"
+              ],
+              "correct": 2,
+              "explanation": "Email can reset your other accounts, so it needs its own strong password."
             }
           ]
         }

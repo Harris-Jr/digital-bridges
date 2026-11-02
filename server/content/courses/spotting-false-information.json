@@ -2,105 +2,336 @@
   "slug": "spotting-false-information",
   "title": "Spotting False Information",
   "tagline": "How to check if news and messages are true before you share.",
-  "description": "Not everything forwarded on WhatsApp is true. Learn quick checks to tell real news from rumours, so you protect your family and community.",
+  "description": "False messages spread fast on WhatsApp and Facebook, sometimes faster than the truth. They can cause fear, cost money and even put lives at risk. This course gives you simple habits to check a message, a photo or a video before you believe it or pass it on.",
   "pathway": "digital-skills",
   "category": "citizenship",
   "icon_name": "SearchCheck",
   "difficulty": "easy",
   "estimated_hours": 1.5,
   "pass_mark": 70,
+  "sort_order": 4,
+  "published": true,
   "outcomes": [
+    "Explain what false information is and why it spreads",
     "Ask three questions before you share",
     "Check who really sent a message",
     "Spot edited photos and old videos",
-    "Find trusted news sources in Zambia",
+    "Find trusted sources of news in Zambia",
     "Talk to others kindly about false news"
   ],
-  "sort_order": 4,
-  "published": true,
   "modules": [
     {
-      "title": "Module 1",
-      "summary": "",
+      "title": "Why false information spreads",
+      "summary": "What it is, why we share it, and three questions to stop it.",
       "lessons": [
+        {
+          "slug": "what-is-false-information",
+          "title": "What is false information?",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "**False information** is anything that is presented as true but is not. It can be a message, a photo, a video, a voice note or a news story.\n\n## Two kinds\n- **Misinformation** is false, but the person sharing it believes it is true. Most people who forward false messages are trying to help.\n- **Disinformation** is false on purpose. Someone made it to trick people, to make money, or to make people angry with a group or a leader.\n\nBoth do harm once they spread.\n\n## What it can look like\n- A message saying a drink cures a disease.\n- A \"warning\" about a kidnapper in your area that never happened.\n- A photo from another country, shared as if it happened in Zambia.\n- A fake announcement of free money, jobs or bursaries from the government.\n- A quote that a public figure never said.\n\n## Why it matters\nFalse health advice can stop people from getting real treatment. False alarms can cause panic and attacks on innocent people. Fake offers can trick people out of their money. And when false stories are everywhere, people stop trusting real information when it matters most.\n\n## The good news\nYou do not need to be an expert. A few simple checks catch most false messages. And every time you stop a false message, you protect everyone in your groups.",
+          "key_points": [
+            "Misinformation is shared by mistake; disinformation is shared on purpose",
+            "False messages can harm health, safety and money",
+            "Simple checks catch most false messages"
+          ],
+          "try_it": "Think of one message you saw this month that might not be true.",
+          "motif": "radio"
+        },
+        {
+          "slug": "why-we-share",
+          "title": "Why we share without checking",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "False messages are designed to make us share them quickly. Knowing the tricks helps you slow down.\n\n## Strong feelings\nMessages that make us **afraid, angry or excited** spread the fastest. When we feel strongly, we want to act straight away, and we forget to check. If a message makes your heart beat faster, that is a sign to pause.\n\n## \"Forward to everyone you love\"\nMany false messages tell you to share them: *\"Send this to 10 groups\"*, *\"Before they delete it\"*. Real news does not need you to forward it.\n\n## Trust in the sender\nWe believe messages from family, friends and church groups. But they usually forwarded it from someone else. A message from your aunt is only as true as its first source, which she probably does not know either.\n\n## It fits what we already think\nWe believe stories that agree with what we already feel about a person or a group. Be extra careful with those.\n\n## Wanting to be first\nWe like to be the one who shares news first. But being first and wrong helps no one.\n\n## Slow down\nBefore you share, take a breath. Ask: *Do I really know this is true?* If not, it can wait. The message will still be there after you check.",
+          "key_points": [
+            "Strong feelings are a sign to pause",
+            "Real news does not ask you to forward it",
+            "A trusted sender may still forward false news"
+          ],
+          "try_it": "The next time a message makes you angry or afraid, wait one hour before sharing it.",
+          "motif": "radio"
+        },
         {
           "slug": "three-questions",
           "title": "Three questions before you share",
           "type": "read",
           "est_minutes": 5,
-          "body": "Before you forward a message, ask three questions.\n\n## Who sent it first?\nA forward from a friend may have started with a stranger. Look for the real source.\n\n## Is it on trusted news?\nCheck ZNBC, a trusted newspaper, or a community radio station you know.\n\n## How does it make me feel?\nMessages that make you very angry or scared are often made to spread fast. Slow down.",
+          "body": "Before you forward any message, ask these three questions. They take less than a minute.\n\n## 1. Who made this?\nIs there a name of a real person or organisation? Can you find it? *\"A doctor at UTH says\"* with no name is not a source. *\"Forwarded many times\"* means nobody knows where it started.\n\n## 2. Where is the proof?\nDoes the message link to an official page or a known news outlet? Can you find the same story on the radio, ZNBC, a newspaper, or the official page of the ministry or company it mentions? If only WhatsApp groups are talking about it, be careful.\n\n## 3. Does it make sense?\n- Is it too good to be true, like free money for everyone?\n- Is the date clear and recent?\n- Are there many spelling mistakes, or a strange website address?\n- Does it ask you to pay or share personal details?\n\n## If you are not sure, do not share\nSharing a false message, even with good intentions, helps it spread. If you cannot answer the three questions, the safest choice is to **not forward it**.\n\nYou can still ask in the group: *\"Does anyone know where this comes from?\"* That helps others stop and think too.",
           "key_points": [
-            "Who sent it first?",
-            "Is it on trusted news?",
-            "Strong feelings mean slow down"
+            "Who made this?",
+            "Where is the proof?",
+            "Does it make sense?"
           ],
-          "try_it": "Take the last forwarded message you received and ask the three questions.",
-          "motif": "radio",
-          "published": true
+          "try_it": "Pick one forwarded message on your phone and ask the three questions about it.",
+          "motif": "radio"
+        },
+        {
+          "slug": "why-false-info-spreads-check",
+          "title": "Check: Why false information spreads",
+          "type": "quiz",
+          "est_minutes": 3,
+          "body": "A few short questions on this module. There is no time limit, and you can try again.",
+          "motif": "circle",
+          "quiz": [
+            {
+              "question": "Your friend forwards a false message because she truly believes it. What is this called?",
+              "options": [
+                "Disinformation",
+                "Misinformation",
+                "Advertising",
+                "Encryption"
+              ],
+              "correct": 1,
+              "explanation": "Misinformation is false but shared by someone who believes it."
+            },
+            {
+              "question": "A message makes you very angry and says 'share before they delete it'. What should you do?",
+              "options": [
+                "Share it quickly",
+                "Pause and check it first",
+                "Send it to 10 groups",
+                "Reply in capital letters"
+              ],
+              "correct": 1,
+              "explanation": "Strong feelings and pressure to share are signs to slow down."
+            },
+            {
+              "question": "Which is a real source?",
+              "options": [
+                "'A doctor says'",
+                "'Forwarded many times'",
+                "A named organisation's official page",
+                "'Everyone is talking about it'"
+              ],
+              "correct": 2,
+              "explanation": "A named, findable source can be checked."
+            },
+            {
+              "question": "You cannot find where a message came from. What is the safest choice?",
+              "options": [
+                "Forward it anyway",
+                "Do not forward it",
+                "Add more details",
+                "Post it on Facebook"
+              ],
+              "correct": 1,
+              "explanation": "If you cannot check it, it can wait."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Checking messages and pictures",
+      "summary": "Senders, screenshots, photos and videos.",
+      "lessons": [
+        {
+          "slug": "check-who-sent",
+          "title": "Checking who really sent it",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "Scammers and liars often pretend to be someone important: a ministry, a bank, a hospital or a well-known person. Here is how to check.\n\n## Forwarded labels\nOn WhatsApp, a message marked **Forwarded** or **Forwarded many times** did not start with the person who sent it to you. The double arrow means it has passed through many chats. Treat it with care.\n\n## Fake screenshots\nA **screenshot** is a picture of a screen. It is very easy to fake. Anyone can make a screenshot that looks like a news website or a government letter. If you see a screenshot of an announcement, look for the real announcement on the official page.\n\n## Fake pages and accounts\nOn Facebook, fake pages copy the name and logo of real organisations. Check:\n\n- Is there a **blue tick** next to the name? Many official pages have one.\n- How long has the page existed, and how many followers does it have?\n- Does it post normal content, or only offers and links?\n\n## Official letters\nFake government letters circulate on WhatsApp. Real ones are usually also posted on the official website or Facebook page of the ministry. If you cannot find it there, do not trust it.\n\n## Voice notes\nVoice notes claiming to be from a doctor, a pastor or a leader are hard to check. Ask: who is this person? Can I find them? Without a name and a way to check, treat it as a rumour.",
+          "key_points": [
+            "'Forwarded many times' means the source is unknown",
+            "Screenshots are easy to fake",
+            "Check announcements on the official page"
+          ],
+          "try_it": "Look at the next forwarded message you receive and see if it has the forwarded label.",
+          "motif": "radio"
         },
         {
           "slug": "old-photos-new-stories",
           "title": "Old photos, new stories",
           "type": "read",
           "est_minutes": 5,
-          "body": "A common trick is using an old photo or video and saying it happened today.\n\n## How to check\nLook for clues: the weather, signs, clothing, phone models. Ask the sender where it came from. If no one knows, do not share.",
+          "body": "One of the most common tricks is to take a real photo or video and tell a **false story** about it. The picture is real, but it is from another place or another year.\n\nFor example, a photo of a flood in another country is shared as *\"Lusaka this morning\"*. Or a video of a protest from years ago is shared as if it is happening today.\n\n## Signs a photo may be old or edited\n- The buildings, cars, signs or language do not look like the place in the story.\n- The weather or season does not match.\n- People's clothes, car number plates or shop signs are from somewhere else.\n- Parts of the picture look blurry, stretched or oddly cut.\n\n## Search for the picture\nYou can check where a photo came from using **Google Lens**:\n\n1. Save the photo to your phone.\n2. Open the Google app or Google Photos, and tap the **Lens** icon (a small camera).\n3. Choose the photo.\n4. Tap **Find image source**, or scroll down to see where else it appears online.\n\nIf the same photo appears in a story from years ago or another country, the new story is false.\n\n## Edited and fake videos\nVideos can be cut to change their meaning, and computer programs can now make fake voices and faces. If a video shows a leader saying something shocking, check if trusted news outlets report it.",
           "key_points": [
-            "Photos can be old or edited",
-            "Look for clues in the picture",
-            "If unsure, do not share"
+            "Real photos are often given false stories",
+            "Look for signs the place or time does not match",
+            "Use Google Lens to find where a photo first appeared"
           ],
-          "try_it": "Find a photo in a group chat and look for clues about when it was taken.",
-          "motif": "circle",
-          "published": true
+          "try_it": "Use Google Lens on any photo in your gallery to see how it works.",
+          "motif": "radio"
         },
         {
           "slug": "check-a-message",
           "title": "Practice: check a message",
           "type": "practice",
           "est_minutes": 5,
-          "body": "Here is a message: \"Government is giving K2,000 to every family. Click this link and enter your NRC number before Friday!\"\n\n## Think it through\nThere is a deadline, a link, a request for your NRC number and free money. These are four warning signs. Real government programmes are announced on official channels and do not ask for your details by link.",
+          "body": "Let us practise with a message like the ones that go around WhatsApp.\n\n*\"URGENT!!! The Ministry of Health has announced that drinking hot water with lemon every 2 hours kills the virus. Hospitals don't want you to know this. Forward to all your groups to save lives!!!\"*\n\n## Step 1: How does it make you feel?\nWorried, and eager to help your family. That strong feeling is the first warning sign.\n\n## Step 2: Who made this?\nIt mentions the Ministry of Health, but gives no link, no date and no name. It says *hospitals don't want you to know*, which is a common trick to make you distrust real experts.\n\n## Step 3: Where is the proof?\nLook at the **Ministry of Health's official Facebook page** or website. Is this announcement there? Listen to the news. In this case, you would not find it.\n\n## Step 4: Does it make sense?\nA simple home cure that hospitals hide? Lots of exclamation marks? A demand to forward it everywhere? These are all red flags.\n\n## The decision\n**Do not forward it.** You can reply kindly in the group: *\"I checked the Ministry of Health page and could not find this. Let us wait for the official advice.\"*\n\n## Health messages need extra care\nFalse health advice can stop people from going to a clinic. For health questions, always check with a health worker or the Ministry of Health.",
           "key_points": [
-            "Free money plus a link is a warning",
-            "Never send your NRC number by link",
-            "Check official channels"
+            "Notice your feelings first",
+            "Check the official page of the organisation named",
+            "Reply kindly when you find a false message"
           ],
-          "try_it": "Share what you learned with one person in your family.",
-          "motif": "shield",
-          "published": true
+          "try_it": "Find one health message in your groups and check it against the Ministry of Health's official page.",
+          "motif": "radio"
+        },
+        {
+          "slug": "checking-messages-check",
+          "title": "Check: Checking messages and pictures",
+          "type": "quiz",
+          "est_minutes": 3,
+          "body": "A few short questions on this module. There is no time limit, and you can try again.",
+          "motif": "circle",
+          "quiz": [
+            {
+              "question": "A WhatsApp message is marked 'Forwarded many times'. What does that tell you?",
+              "options": [
+                "It is definitely true",
+                "It has passed through many chats and the source is unknown",
+                "It came from the government",
+                "It is an advert"
+              ],
+              "correct": 1,
+              "explanation": "The label means the message started somewhere else, often unknown."
+            },
+            {
+              "question": "You see a screenshot of a 'government announcement'. What is the best check?",
+              "options": [
+                "Trust it because it looks official",
+                "Look for it on the ministry's official page",
+                "Forward it to ask",
+                "Zoom in"
+              ],
+              "correct": 1,
+              "explanation": "Screenshots are easy to fake. The official page is the real source."
+            },
+            {
+              "question": "A photo of a flood is shared as 'Lusaka today', but the signs are in another language. What is likely?",
+              "options": [
+                "It is from Lusaka",
+                "It is an old or foreign photo with a false story",
+                "The signs were changed",
+                "It is a painting"
+              ],
+              "correct": 1,
+              "explanation": "Details that do not match the place are a strong sign of a false story."
+            },
+            {
+              "question": "Which tool helps you find where a photo first appeared online?",
+              "options": [
+                "The calculator",
+                "Google Lens",
+                "The torch",
+                "Airplane mode"
+              ],
+              "correct": 1,
+              "explanation": "Google Lens searches for other copies of the same image."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Trusted sources and talking kindly",
+      "summary": "Where to check, and how to correct others without a fight.",
+      "lessons": [
+        {
+          "slug": "trusted-sources",
+          "title": "Finding trusted sources in Zambia",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "Checking a message is easier when you know where reliable information comes from.\n\n## Signs of a trustworthy source\n- It has a **name** and is easy to contact.\n- It says **who** said something and **when**.\n- It corrects its mistakes openly.\n- Other trusted sources report the same thing.\n\n## Places to check in Zambia\n- **National and community radio and TV**, such as ZNBC news and local stations.\n- **Established newspapers**, in print or on their official websites.\n- The **official websites and verified Facebook pages** of ministries, councils and public bodies. For example, health news from the Ministry of Health, and election information from the **Electoral Commission of Zambia (ECZ)**.\n- For money and banking warnings: the **Bank of Zambia** and your bank or network's official pages.\n\n## Two sources are better than one\nIf you can find the same story in **two trusted places**, it is much more likely to be true. If only one unknown page or a WhatsApp group is saying it, wait.\n\n## Be careful with these\n- Pages with no clear owner, or new pages with very few posts.\n- Headlines in capital letters with *SHOCKING* or *BREAKING* and no details.\n- Websites with names that copy real outlets but with small changes.\n\n## Opinions are not news\nA post sharing someone's opinion, even a famous person's, is not the same as a news report. Both can be useful, but know which one you are reading.",
+          "key_points": [
+            "Trusted sources give names and dates",
+            "Check official pages for announcements",
+            "Look for the same story in two trusted places"
+          ],
+          "try_it": "Follow the official page of one ministry or public body you care about.",
+          "motif": "radio"
+        },
+        {
+          "slug": "talking-kindly",
+          "title": "Talking to others kindly about false news",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "When you find a false message in a family or church group, it is tempting to say *\"This is fake, how can you believe this?\"* But that often makes people defensive, and they stop listening.\n\n## Correct the message, not the person\nMost people share false messages because they care. Start with that.\n\n*\"Thank you for looking out for us. I checked the Ministry of Health page and I could not find this. Here is what they say instead.\"*\n\n## Give the true information\nDo not just say something is false. Share what is true, with a link or source. People are more likely to accept a correction when they get something useful in return.\n\n## Keep it short and calm\nOne clear, friendly reply is better than a long argument. Avoid capital letters and many exclamation marks.\n\n## Talk in private if needed\nIf someone might feel embarrassed in front of the group, send them a private message instead.\n\n## It is fine to say \"I don't know\"\nSometimes you cannot prove a message is true or false. You can say: *\"I am not sure this is true. Let us wait for official news before we share it.\"* That alone stops it spreading.\n\n## Lead by example\nWhen you make a mistake and share something false, say so in the group. It shows others that checking is normal, and it builds trust.",
+          "key_points": [
+            "Correct the message, not the person",
+            "Share the true information with a source",
+            "It is fine to say 'let us wait for official news'"
+          ],
+          "try_it": "Write a kind reply you could use the next time someone shares a false message.",
+          "motif": "radio"
+        },
+        {
+          "slug": "elections-and-emergencies",
+          "title": "Rumours at important times",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "False information spreads most during **elections**, **disease outbreaks** and **disasters**. At these times, rumours can cause real harm.\n\n## During elections\n- Be careful of messages about voting dates, places or rules. Check them with the **Electoral Commission of Zambia (ECZ)** official page.\n- Fake results and fake quotes from candidates often appear. Wait for official announcements.\n- Messages that make you hate another group or tribe are often designed to divide people. Do not share them.\n\n## During outbreaks\n- Get health advice from the **Ministry of Health**, clinics and health workers.\n- Be very careful of home cures, and claims that medicines or vaccines are dangerous, from unknown sources.\n\n## During disasters\n- During floods or fires, false messages about danger or help can send people to the wrong place.\n- Follow official instructions from the **Disaster Management and Mitigation Unit**, your local council and the police, on radio and their official pages.\n\n## Your role\nAt these times, people in your groups may listen to you. Share only checked information, point people to official sources, and do not forward rumours, even to ask if they are true. A calm voice in a group can stop panic.",
+          "key_points": [
+            "Rumours spread most during elections, outbreaks and disasters",
+            "Check election information with the ECZ",
+            "Point people to official sources"
+          ],
+          "try_it": "Find and save the official page of the Electoral Commission of Zambia.",
+          "motif": "radio"
         },
         {
           "slug": "false-info-quiz",
-          "title": "Check what you learned",
+          "title": "Final check: Spotting false information",
           "type": "quiz",
-          "est_minutes": 5,
-          "body": "Answer these short questions.",
-          "key_points": [
-            "Take your time"
-          ],
+          "est_minutes": 4,
+          "body": "Questions covering the whole course. Score 70% or more to complete it. You can try again as many times as you like.",
           "motif": "circle",
-          "published": true,
           "quiz": [
             {
-              "question": "A message makes you very angry. What is the best first step?",
+              "question": "What are the three questions to ask before you share?",
               "options": [
-                "Share it fast",
-                "Slow down and check it",
-                "Add more comments",
-                "Send it to every group"
+                "Who made this? Where is the proof? Does it make sense?",
+                "Is it long? Is it funny? Is it new?",
+                "Who sent it? What time is it? Is it a video?",
+                "Is it free? Is it urgent? Is it in English?"
               ],
-              "correct": 1,
-              "explanation": "Messages that cause strong feelings are often made to spread. Slow down and check first."
+              "correct": 0,
+              "explanation": "These three questions catch most false messages."
             },
             {
-              "question": "A message offers free money if you enter your NRC number at a link. This is:",
+              "question": "Where should you check information about voting dates and places?",
               "options": [
-                "A real government programme",
-                "A likely scam",
-                "Safe if a friend sent it",
-                "Fine before Friday"
+                "A forwarded voice note",
+                "The Electoral Commission of Zambia's official page",
+                "A Facebook page with no owner",
+                "A screenshot"
               ],
               "correct": 1,
-              "explanation": "Free money, a deadline, a link and a request for your NRC are all warning signs."
+              "explanation": "The ECZ is the official source for election information."
+            },
+            {
+              "question": "Your uncle shares a false health message in the family group. What is the best reply?",
+              "options": [
+                "'Only a fool would believe this!'",
+                "A kind reply with the correct information and its source",
+                "Leave the group",
+                "Forward it to more groups"
+              ],
+              "correct": 1,
+              "explanation": "Correct the message, not the person, and share what is true."
+            },
+            {
+              "question": "A story appears on one unknown page only. What should you do?",
+              "options": [
+                "Share it quickly",
+                "Wait until a trusted source reports it",
+                "Add your own details",
+                "Print it"
+              ],
+              "correct": 1,
+              "explanation": "Two trusted sources are better than one unknown page."
+            },
+            {
+              "question": "A video shows a leader saying something shocking. What is a good check?",
+              "options": [
+                "Believe it, videos cannot be faked",
+                "See whether trusted news outlets report it",
+                "Share it to ask",
+                "Turn the volume up"
+              ],
+              "correct": 1,
+              "explanation": "Videos can be cut or faked. Trusted outlets help you check."
             }
           ]
         }

@@ -1,106 +1,337 @@
 {
   "slug": "talking-and-working-online",
   "title": "Talking and Working Online",
-  "tagline": "Email, messaging, and video calls for daily life.",
-  "description": "Send an email, join a WhatsApp group the right way, and make a video call to family in another town. Simple steps for everyday communication.",
+  "tagline": "Email, messaging and video calls for daily life and work.",
+  "description": "Email, WhatsApp and video calls connect you with family, schools, employers and services. This course takes you from making your first email address to joining an online meeting with confidence, and shows you how to communicate clearly and politely.",
   "pathway": "digital-skills",
   "category": "communication",
   "icon_name": "MessageCircle",
   "difficulty": "easy",
-  "estimated_hours": 2.5,
+  "estimated_hours": 1.5,
   "pass_mark": 70,
-  "outcomes": [
-    "Create and use an email address",
-    "Write a clear, polite message",
-    "Send photos and documents",
-    "Join and make a video call",
-    "Use group chats respectfully"
-  ],
   "sort_order": 3,
   "published": true,
+  "outcomes": [
+    "Create and use an email address",
+    "Write a clear, polite email",
+    "Send photos and documents as attachments",
+    "Use WhatsApp messages and voice notes well",
+    "Make and join video calls and online meetings",
+    "Use group chats respectfully"
+  ],
   "modules": [
     {
-      "title": "Module 1",
-      "summary": "",
+      "title": "Email",
+      "summary": "Your own address, clear messages and attachments.",
       "lessons": [
         {
           "slug": "create-an-email",
           "title": "Create your email address",
           "type": "read",
           "est_minutes": 5,
-          "body": "An email address is like a postal address for the internet. Many jobs, schools and government services ask for one.\n\n## Choose a simple address\nUse your name, for example chanda.mwale@gmail.com. Avoid nicknames that may look unprofessional to an employer.\n\n## Write it down\nWrite your email address and password in a safe place at home.",
+          "body": "An **email address** is like a postal address for the internet. Employers, schools, banks and government services often ask for one. It is also needed for the Play Store and many apps.\n\nAn email address looks like this: **mutale.banda@gmail.com**. The part before the @ is your name. The part after is the email service.\n\n## Making a Gmail address\nGmail is free and works well on phones.\n\n1. Open the **Gmail** app (on Android it is already installed) or go to gmail.com.\n2. Tap **Create account**, then **For my personal use**.\n3. Type your first and last name.\n4. Type your date of birth.\n5. Choose your address. Gmail will suggest some, or you can type your own.\n6. Create a strong **password**: a long sentence only you know.\n7. Add your **phone number**. This helps you get back in if you forget your password.\n\n## Choosing a good address\nFor work and school, use your real name: **mutale.banda** or **mbanda1990**. Avoid playful names like *coolboy_zed*. An employer will see your address before they meet you.\n\n## Write it down safely\nWrite your email address on paper you keep at home, so you can share it correctly. Keep your password separate and private.\n\n## Check your inbox\nOpen Gmail once a day. Important messages from employers or schools may come by email, not SMS.",
           "key_points": [
-            "Use your real name in your address",
-            "Keep your password safe",
-            "You need email for jobs and services"
+            "An email address looks like name@gmail.com",
+            "Use your real name for work and school",
+            "Add your phone number so you can recover it"
           ],
-          "try_it": "Write down the email address you would like to create.",
-          "motif": "phone",
-          "published": true
+          "try_it": "If you do not have an email address yet, create one now.",
+          "motif": "community"
+        },
+        {
+          "slug": "writing-a-clear-email",
+          "title": "Writing a clear, polite email",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "A good email is short, clear and polite. It helps people understand what you need and answer quickly.\n\n## The parts of an email\n- **To:** the email address of the person you are writing to. Check every letter.\n- **Subject:** a few words saying what the email is about, like *Application for shop assistant job*. Never leave it empty.\n- **Message:** what you want to say.\n\n## A simple shape\n1. **Greeting:** *Dear Mrs Phiri,* or *Good morning,*\n2. **Who you are**, in one line: *My name is Mutale Banda from Chipata.*\n3. **Why you are writing**, in one or two lines: *I would like to apply for the shop assistant job I saw at the market.*\n4. **What happens next:** *My CV is attached. I am available for an interview any weekday.*\n5. **Closing:** *Thank you. Kind regards, Mutale Banda, 097...*\n\n## Tips\n- Keep it short. Three or four short paragraphs are enough.\n- Do not write in CAPITAL LETTERS. It looks like shouting.\n- Read it once before you send. Check names, numbers and spelling.\n- Reply within a day or two to important emails.\n\n## Cc and Bcc\n**Cc** sends a copy to someone else so they know about it. **Bcc** sends a hidden copy. When emailing many people who do not know each other, use Bcc so their addresses stay private.",
+          "key_points": [
+            "Always write a clear subject",
+            "Greeting, who you are, why you write, closing",
+            "Read it once before you send"
+          ],
+          "try_it": "Write a short email to a friend or family member with a clear subject line.",
+          "motif": "community"
+        },
+        {
+          "slug": "attachments",
+          "title": "Sending photos and documents",
+          "type": "practice",
+          "est_minutes": 5,
+          "body": "An **attachment** is a file sent with an email or a message, like a photo, a CV or a form.\n\n## Attaching a file in Gmail\n1. Start a new email and fill in To and Subject.\n2. Tap the **paper clip** icon at the top.\n3. Choose the file from your phone, or a photo from your gallery.\n4. Wait until the file appears in the email, then tap **Send**.\n\n## Taking a clear photo of a document\nOften you need to send a picture of a certificate, a form or a letter.\n\n- Put the paper on a flat, dark surface in good light, near a window.\n- Hold the phone straight above the paper, not at an angle.\n- Make sure all four corners are in the picture and nothing is blurred.\n\nBetter still, use **scan**: in the Google Drive app, tap **+**, then **Scan**. It straightens the page and saves it as a **PDF**, the format most offices prefer.\n\n## Name your files\nName your CV *Mutale_Banda_CV.pdf*, not *IMG_2041.jpg*. It looks professional and is easy to find.\n\n## Size\nVery large files, like long videos, may not send by email. Email usually allows about 25 MB. For bigger files, share a link from Google Drive instead.\n\n## Be careful with attachments you receive\nOnly open attachments from people you know and expect. Unexpected files, especially ones ending in .apk or .exe, can harm your phone.",
+          "key_points": [
+            "Tap the paper clip to attach a file",
+            "Scan documents to PDF with Google Drive",
+            "Only open attachments you expect"
+          ],
+          "try_it": "Use Google Drive's Scan to make a PDF of any page at home.",
+          "motif": "community"
+        },
+        {
+          "slug": "email-check",
+          "title": "Check: Email",
+          "type": "quiz",
+          "est_minutes": 3,
+          "body": "A few short questions on this module. There is no time limit, and you can try again.",
+          "motif": "circle",
+          "quiz": [
+            {
+              "question": "Which email address is best for applying for a job?",
+              "options": [
+                "coolboy_zed@gmail.com",
+                "mutale.banda@gmail.com",
+                "iamthebest123@gmail.com",
+                "no email at all"
+              ],
+              "correct": 1,
+              "explanation": "Your real name looks professional."
+            },
+            {
+              "question": "What should the Subject line do?",
+              "options": [
+                "Stay empty",
+                "Say in a few words what the email is about",
+                "Contain your password",
+                "Be in capital letters"
+              ],
+              "correct": 1,
+              "explanation": "A clear subject helps people understand and find your email."
+            },
+            {
+              "question": "Which icon do you tap to attach a file in Gmail?",
+              "options": [
+                "The paper clip",
+                "The bin",
+                "The star",
+                "The clock"
+              ],
+              "correct": 0,
+              "explanation": "The paper clip adds attachments."
+            },
+            {
+              "question": "You get an unexpected attachment called 'prize.apk' from a stranger. What do you do?",
+              "options": [
+                "Open it quickly",
+                "Do not open it",
+                "Forward it",
+                "Install it"
+              ],
+              "correct": 1,
+              "explanation": "Unexpected .apk files can install harmful programs."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Messaging and calls",
+      "summary": "WhatsApp, voice notes, video calls and group manners.",
+      "lessons": [
+        {
+          "slug": "whatsapp-basics",
+          "title": "WhatsApp messages and voice notes",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "**WhatsApp** sends messages, photos, voice notes and calls using data or Wi-Fi instead of airtime.\n\n## Sending a message\n1. Open WhatsApp and tap the **chat** button.\n2. Choose a contact. They must be saved in your phone and have WhatsApp.\n3. Type your message in the box at the bottom and tap the **send** arrow.\n\n## What the ticks mean\n- **One grey tick:** sent from your phone.\n- **Two grey ticks:** delivered to their phone.\n- **Two blue ticks:** they have read it.\n\n## Voice notes\nVoice notes are useful if typing is hard. **Press and hold** the microphone button, speak, then let go to send. Slide your finger to the bin to cancel. Speak clearly and keep it short: under one minute is best. Long voice notes use more data and many people will not listen to them.\n\n## Sending photos and documents\nTap the **paper clip** or **camera** in the chat. To send a document such as a PDF, choose **Document**. Documents keep their full quality.\n\n## Being polite\n- Greet first, as you would in person: *Good morning, Sir.*\n- For work or officials, send messages in working hours unless it is urgent.\n- Do not send many messages one after another. Put your request in one clear message.\n\n## Deleting a message\nPress and hold a message, then tap the bin. Choose **Delete for everyone** if you sent it by mistake. The other person will see that a message was deleted.",
+          "key_points": [
+            "Two blue ticks mean the message was read",
+            "Keep voice notes short",
+            "Greet first and keep requests clear"
+          ],
+          "try_it": "Send a short voice note to a family member.",
+          "motif": "community"
         },
         {
           "slug": "video-calls",
           "title": "Making a video call",
           "type": "read",
           "est_minutes": 5,
-          "body": "A video call lets you see and hear someone far away. WhatsApp video calls work on most smartphones.\n\n## Before you call\nVideo uses a lot of data. Use Wi-Fi if you can, or buy a bundle first. Sit somewhere quiet with light on your face.\n\n## Making the call\nOpen the chat, tap the camera icon at the top. To end, tap the red button.",
+          "body": "A **video call** lets you see and talk to someone at the same time. It is great for family far away, and for interviews and meetings.\n\n## Video call on WhatsApp\n1. Open the chat with the person.\n2. Tap the **video camera** icon at the top.\n3. When they answer, you will see each other.\n4. Tap the red button to end the call.\n\nTo call a group, open a group chat and tap the video icon, then choose who to call.\n\n## Before an important call\n- **Charge your phone** or keep it plugged in.\n- Check your **data**: video calls use a lot. A 10-minute video call can use around 50 to 100 MB. Use Wi-Fi if you can.\n- Find a **quiet place** with light in front of your face, not behind you.\n- Rest the phone on something steady at eye level, so your face is not shaking.\n\n## During the call\n- Look at the camera when you speak, not only at the screen.\n- If the picture freezes, turn your video off and continue with voice only. It uses much less data.\n- Tap the **microphone** to mute yourself when others are talking in a group call and there is noise around you.\n\n## If the call keeps dropping\nMove closer to a window or outside for a better signal, or switch between mobile data and Wi-Fi.",
           "key_points": [
-            "Video uses more data than voice",
-            "Sit in good light",
-            "Tap the red button to end"
+            "Tap the video camera icon in a chat",
+            "Charge your phone and check data first",
+            "Turn video off to save data if the picture freezes"
           ],
-          "try_it": "Make a two-minute video call to a family member.",
-          "motif": "radio",
-          "published": true
+          "try_it": "Make a short video call to someone you know.",
+          "motif": "community"
         },
         {
           "slug": "group-chat-manners",
           "title": "Group chat manners",
           "type": "practice",
           "est_minutes": 5,
-          "body": "Group chats are useful for churches, clubs and savings groups. Good manners keep them useful.\n\n## Simple rules\nStay on topic. Do not forward messages you have not checked. Ask before adding someone to a group. Reply privately to one person instead of the whole group.",
+          "body": "WhatsApp groups bring together family, churches, schools, savings groups and workplaces. Good manners keep them useful and friendly.\n\n## Before you post\n- Is it **for the whole group**, or just one person? Reply privately when it is personal: press and hold their message, tap the three dots, and choose **Reply privately**.\n- Is it **true**? Check before forwarding news and warnings.\n- Is it on topic? A work group is not the place for jokes and chain messages.\n\n## Good habits\n- Keep messages short and clear.\n- **Reply to a specific message** by swiping right on it, so others know what you are answering.\n- Do not send many good-morning pictures or videos. They use everyone's data and space.\n- Respect quiet hours, especially in work and school groups.\n- Never share other people's photos or phone numbers without asking.\n\n## If you run a group\nAs an **admin**, you can:\n\n- Set the group so **only admins can send messages** for announcements.\n- Write a short group description with the rules.\n- Remove people who post scams or insults.\n\n## Mute instead of leaving\nIf a group is too busy, you can **mute** it: open the group, tap its name, then **Mute notifications**. You stay in the group without your phone ringing all day.\n\n## Disagreeing politely\nIt is fine to disagree. Talk about the idea, not the person, and take long arguments to a private chat.",
           "key_points": [
-            "Stay on topic",
-            "Check before you forward",
-            "Ask before adding people"
+            "Reply privately when it is personal",
+            "Check before forwarding news",
+            "Mute busy groups instead of leaving"
           ],
-          "try_it": "Look at one of your groups. Is there a rule you could share with members?",
-          "motif": "community",
-          "published": true
+          "try_it": "Mute one very busy group on your phone.",
+          "motif": "community"
+        },
+        {
+          "slug": "messaging-and-calls-check",
+          "title": "Check: Messaging and calls",
+          "type": "quiz",
+          "est_minutes": 3,
+          "body": "A few short questions on this module. There is no time limit, and you can try again.",
+          "motif": "circle",
+          "quiz": [
+            {
+              "question": "What do two blue ticks on WhatsApp mean?",
+              "options": [
+                "The message failed",
+                "The message was read",
+                "The person blocked you",
+                "It was sent by mistake"
+              ],
+              "correct": 1,
+              "explanation": "Two blue ticks show the message was read."
+            },
+            {
+              "question": "A video call keeps freezing. What can you try first?",
+              "options": [
+                "Shout louder",
+                "Turn your video off and continue with voice",
+                "Restart the phone ten times",
+                "Buy a new phone"
+              ],
+              "correct": 1,
+              "explanation": "Voice uses much less data than video."
+            },
+            {
+              "question": "Someone in a work group shares personal news only for you. Where should you answer?",
+              "options": [
+                "In the big group",
+                "In a private reply",
+                "On Facebook",
+                "By email to everyone"
+              ],
+              "correct": 1,
+              "explanation": "Personal replies belong in a private chat."
+            },
+            {
+              "question": "A group sends hundreds of messages a day. What can you do without leaving?",
+              "options": [
+                "Mute the group",
+                "Delete WhatsApp",
+                "Block everyone",
+                "Turn off your phone"
+              ],
+              "correct": 0,
+              "explanation": "Muting stops the notifications but keeps you in the group."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Working online",
+      "summary": "Online meetings, sharing files and a professional presence.",
+      "lessons": [
+        {
+          "slug": "online-meetings",
+          "title": "Joining an online meeting",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "Many workshops, interviews and trainings now happen online, using apps like **Google Meet**, **Zoom** or **Microsoft Teams**. You usually join by tapping a **link**.\n\n## Before the meeting\n- You receive a link by email or WhatsApp, with the date and time. Check the time zone if it is from another country.\n- Install the app the meeting uses from the Play Store a day before. Some links also open in your web browser.\n- Charge your phone and check your data or Wi-Fi. One hour of video can use a lot of data.\n\n## Joining\n1. Tap the link a few minutes early.\n2. Type your **real name** when asked, so the organiser knows who you are.\n3. Allow the app to use your camera and microphone if it asks.\n4. Tap **Join**. You may wait in a \"waiting room\" until the host lets you in.\n\n## The main buttons\n- **Microphone:** tap to mute and unmute. Stay muted when you are not speaking.\n- **Camera:** turn video on or off.\n- **Chat:** type a question without interrupting.\n- **Raise hand:** asks to speak politely.\n- **Leave:** the red button ends the meeting for you.\n\n## Good habits\n- Say your name before you speak in a large meeting.\n- If your connection is weak, turn your camera off and keep listening.\n- Write down important dates and tasks during the meeting.",
+          "key_points": [
+            "Join a few minutes early with your real name",
+            "Stay muted when you are not speaking",
+            "Use the chat or raise hand to ask questions"
+          ],
+          "try_it": "Install Google Meet or Zoom so you are ready for your next meeting.",
+          "motif": "community"
+        },
+        {
+          "slug": "sharing-documents-online",
+          "title": "Sharing and keeping documents online",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "Saving important documents online keeps them safe if your phone is lost, and makes them easy to share.\n\n## Google Drive\nEvery Gmail account comes with free storage in **Google Drive**. You can keep your CV, certificates and photos of important documents there.\n\n## Uploading a file\n1. Open the **Drive** app.\n2. Tap **+**, then **Upload**.\n3. Choose the file from your phone.\n\nNow you can open it from any phone or computer by signing in to your Gmail account.\n\n## Sharing a file with a link\n1. In Drive, tap the three dots next to the file.\n2. Tap **Share**, or **Copy link**.\n3. Choose who can see it: only the people you add, or anyone with the link.\n4. Paste the link in an email or WhatsApp message.\n\nSharing a link is better than sending a big file, because it uses less data.\n\n## Folders\nMake folders such as *CV and certificates*, *School*, and *Business*. Then you can find things quickly.\n\n## Keep sensitive documents private\nBe careful with documents showing your NRC, bank details or medical information. Do not share them with **anyone with the link**. Share only with the specific person who needs them, and remove access when they are done.\n\n## Free space is limited\nThe free storage is large but not unlimited. Delete old copies and large videos you no longer need.",
+          "key_points": [
+            "Keep important documents in Google Drive",
+            "Share a link instead of a big file",
+            "Share sensitive files only with specific people"
+          ],
+          "try_it": "Upload your CV or one important document to Google Drive.",
+          "motif": "community"
+        },
+        {
+          "slug": "professional-online",
+          "title": "Being professional online",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "How you communicate online shapes how employers, customers and officials see you. Small habits make a big difference.\n\n## Your profile\n- Use a clear **profile picture** of your face on WhatsApp and email. It helps people recognise you.\n- Write a short, simple **About**, such as *Tailor, Kitwe* or *Available for work*.\n- Use your real name.\n\n## Responding\n- Reply to work messages within a day, even if only to say *Received, I will get back to you on Friday.*\n- If you cannot make a meeting or deadline, say so early and politely.\n- Thank people when they help you.\n\n## Writing well\n- Use full sentences, not text-speak like *pls hw r u*.\n- Check names and numbers before sending.\n- Be polite even when you are unhappy. Stay calm and stick to the facts.\n\n## Your online footprint\nEmployers sometimes look at Facebook and other public profiles. Before you post, think: would I be comfortable if an employer saw this? You can set your posts to **Friends only** to keep personal life separate.\n\n## Separate work and personal\nIf you use your phone for business, consider a separate **WhatsApp Business** account. It lets you set a business profile, working hours and quick replies, and keeps work messages apart from family chats.",
+          "key_points": [
+            "Use a clear photo and your real name",
+            "Reply to work messages within a day",
+            "Think about who can see your posts"
+          ],
+          "try_it": "Update your WhatsApp profile photo and About to look clear and professional.",
+          "motif": "community"
         },
         {
           "slug": "communication-quiz",
-          "title": "Check what you learned",
+          "title": "Final check: Talking and working online",
           "type": "quiz",
-          "est_minutes": 5,
-          "body": "Answer these short questions.",
-          "key_points": [
-            "Take your time"
-          ],
+          "est_minutes": 4,
+          "body": "Questions covering the whole course. Score 70% or more to complete it. You can try again as many times as you like.",
           "motif": "circle",
-          "published": true,
           "quiz": [
             {
-              "question": "Before making a video call on mobile data, you should:",
+              "question": "What is the best Subject for a job application email?",
               "options": [
-                "Check you have enough data",
-                "Turn your phone off",
-                "Remove all apps",
-                "Change your password"
+                "hi",
+                "Application for shop assistant job",
+                "(empty)",
+                "PLEASE READ"
               ],
-              "correct": 0,
-              "explanation": "Video calls use a lot of data, so make sure your bundle is enough or use trusted Wi-Fi."
+              "correct": 1,
+              "explanation": "A clear subject tells the reader what the email is about."
             },
             {
-              "question": "What is good manners in a group chat?",
+              "question": "You join an online meeting but there is noise around you. What should you do?",
               "options": [
-                "Forward every message",
-                "Add people without asking",
-                "Stay on topic",
-                "Send many voice notes at night"
+                "Shout over it",
+                "Mute your microphone when you are not speaking",
+                "Leave without saying anything",
+                "Turn up the volume"
               ],
-              "correct": 2,
-              "explanation": "Staying on topic keeps the group useful for everyone."
+              "correct": 1,
+              "explanation": "Muting keeps the meeting clear for everyone."
+            },
+            {
+              "question": "What is the best way to send a large file to someone?",
+              "options": [
+                "Send a Google Drive link",
+                "Print it and post it",
+                "Send 20 photos",
+                "Read it out on a call"
+              ],
+              "correct": 0,
+              "explanation": "A link uses less data and works for big files."
+            },
+            {
+              "question": "Who should you share a file showing your NRC with?",
+              "options": [
+                "Anyone with the link",
+                "Only the specific person who needs it",
+                "Every group",
+                "Facebook friends"
+              ],
+              "correct": 1,
+              "explanation": "Sensitive documents should only go to people who really need them."
+            },
+            {
+              "question": "You cannot meet a work deadline. What is professional?",
+              "options": [
+                "Say nothing",
+                "Tell them early and politely",
+                "Block the person",
+                "Send a voice note at midnight"
+              ],
+              "correct": 1,
+              "explanation": "Telling people early shows respect and builds trust."
             }
           ]
         }

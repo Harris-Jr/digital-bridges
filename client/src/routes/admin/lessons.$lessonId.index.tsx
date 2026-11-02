@@ -187,7 +187,7 @@ function Editor({ lesson }: { lesson: Lesson }) {
               {ai.data && !ai.data.enabled && <p className="mb-2 text-xs text-muted-foreground">AI help is off. Add GEMINI_API_KEY or GROQ_API_KEY to server/.env and restart the API to turn it on.</p>}
               <Textarea ref={bodyRef} rows={16} className="font-mono text-sm leading-relaxed" value={f.body} onChange={(e) => set("body", e.target.value)}
                 placeholder={"Start with one sentence on why this matters.\n\n## A short sub-heading\nShort sentences. One idea.\n\n- Step one\n- Step two"} />
-              <p className="mt-1 text-xs text-muted-foreground">Leave a blank line between paragraphs. “## ” makes a sub-heading, “- ” a list item, **word** is bold.</p>
+              <p className="mt-1 text-xs text-muted-foreground">Leave a blank line between paragraphs. “## ” makes a sub-heading, “- ” a list item, **word** is bold, *words* are italic, “1. ” makes numbered steps.</p>
             </Card>
           )}
 

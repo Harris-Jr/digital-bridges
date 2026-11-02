@@ -1,106 +1,337 @@
 {
   "slug": "mobile-money-made-safe",
   "title": "Mobile Money, Made Safe",
-  "tagline": "Send, receive, and protect your money on your phone.",
-  "description": "Mobile money is part of daily life in Zambia. Learn to send and receive safely, check numbers before you send, protect your PIN, and spot common mobile money scams.",
+  "tagline": "Send, receive and protect your money on your phone.",
+  "description": "Mobile money lets you send, receive, pay and save with just your phone. This course walks you through each step slowly, shows you the checks that stop mistakes, and teaches you to spot the tricks scammers use to take your money.",
   "pathway": "digital-skills",
   "category": "money",
   "icon_name": "Wallet",
   "difficulty": "easy",
-  "estimated_hours": 2,
+  "estimated_hours": 1.5,
   "pass_mark": 70,
-  "outcomes": [
-    "Send and receive money step by step",
-    "Check the name before you confirm",
-    "Keep your PIN secret",
-    "Spot fake reversal messages",
-    "Keep records of your transactions"
-  ],
   "sort_order": 5,
   "published": true,
+  "outcomes": [
+    "Explain how a mobile money wallet works",
+    "Send, receive and withdraw money step by step",
+    "Check the name before you confirm",
+    "Keep your PIN secret and use agents safely",
+    "Spot fake reversal and 'customer care' scams",
+    "Keep records and act fast if something goes wrong"
+  ],
   "modules": [
     {
-      "title": "Module 1",
-      "summary": "",
+      "title": "Using mobile money",
+      "summary": "How it works, sending, receiving and cashing out.",
       "lessons": [
+        {
+          "slug": "how-mobile-money-works",
+          "title": "How mobile money works",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "**Mobile money** is a wallet that lives on your SIM card. In Zambia, the main services are **Airtel Money**, **MTN MoMo** and **Zamtel Kwacha**. You do not need a bank account or a smartphone. A basic phone works.\n\n## Your wallet\nWhen you register, your network opens a wallet linked to your phone number. You need your **NRC** to register at a network shop or an agent. Then you choose a secret **PIN**.\n\n## Putting money in and taking it out\n- **Deposit:** give cash to an **agent** and they put the same amount in your wallet.\n- **Withdraw:** the agent gives you cash and takes the amount from your wallet.\n\nAgents are small shops and booths with the network's sign. They are everywhere, from towns to rural markets.\n\n## What you can do\n- Send money to family and friends.\n- Pay for goods at shops, and pay bills like ZESCO tokens, water and school fees.\n- Buy airtime and data bundles.\n- Save, and on some services, borrow small amounts.\n\n## Fees\nSending and withdrawing usually cost a small **fee**. The fee depends on the amount. The menu shows the fee before you confirm. Read it every time. Sending money to someone on the same network is often cheaper than sending across networks.\n\n## Using the menu or the app\nYou can use mobile money by dialling your network's menu code, or with the network's app on a smartphone. Both do the same things.",
+          "key_points": [
+            "Mobile money is a wallet on your SIM",
+            "Agents swap cash for e-money and back",
+            "Always read the fee before you confirm"
+          ],
+          "try_it": "Find the mobile money agent nearest to your home.",
+          "motif": "phone"
+        },
         {
           "slug": "sending-money",
           "title": "Sending money step by step",
           "type": "read",
           "est_minutes": 5,
-          "body": "Sending money with Airtel Money, MTN MoMo or Zamtel Kwacha follows similar steps.\n\n## The steps\nDial the menu code or open the app. Choose Send Money. Enter the number. Enter the amount. Read the confirmation screen carefully. Enter your PIN only when everything is correct.",
+          "body": "Sending money takes less than a minute once you know the steps. The exact words differ between networks, but the steps are the same.\n\n## Using the menu\n1. Dial your network's mobile money menu.\n2. Choose **Send money** (or Transfer).\n3. Choose whether the person is on the **same network** or another network.\n4. Type the person's **phone number**. Type slowly and check each digit.\n5. Type the **amount** in kwacha.\n6. The screen shows the **name** registered to that number, the amount and the fee.\n7. **Stop and read.** Is this the right person and the right amount?\n8. Type your **PIN** to confirm.\n\n## After sending\nYou receive an **SMS** saying the money was sent, with a **transaction ID**, the new balance and the fee. Keep this message. The person you sent to also gets an SMS.\n\n## Using a reference\nSome payments, like school fees or bills, ask for a **reference**. This is usually an account or pupil number. Type it carefully so the payment reaches the right account.\n\n## If the money does not arrive\nCheck your SMS first to see if it went through. Network delays happen, so wait a few minutes. If there is still a problem, call your network's official customer care with the transaction ID.\n\nNever let someone else type your PIN for you, even to \"help\".",
           "key_points": [
-            "Read the confirmation screen every time",
-            "Enter your PIN last",
-            "Keep the confirmation SMS"
+            "Type the number slowly and check each digit",
+            "Read the name on the screen before typing your PIN",
+            "Keep the SMS with the transaction ID"
           ],
-          "try_it": "Dial your mobile money menu and find Send Money, without sending anything.",
-          "motif": "phone",
-          "published": true
+          "try_it": "Practise the menu up to the name screen, then press cancel without typing your PIN.",
+          "motif": "phone"
         },
+        {
+          "slug": "receiving-and-withdrawing",
+          "title": "Receiving and withdrawing money",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "## Receiving money\nTo receive money, you only need to give your **phone number**. You never need to give your PIN, or follow any steps on your phone. When money arrives, you get an SMS from your network showing:\n\n- the amount,\n- the sender's name and number,\n- your new balance,\n- a transaction ID.\n\n**Check that the SMS comes from your network**, not a normal phone number. Then check your balance in the menu. Scammers send fake SMS messages that look like real ones. The real balance in your menu is the truth.\n\n## Withdrawing at an agent\n1. Tell the agent how much you want to withdraw.\n2. On your phone, choose **Withdraw cash** in the menu.\n3. Type the **agent code** shown at the booth, and the amount.\n4. Check the agent name on your screen, then type your PIN **yourself**, hiding the screen.\n5. Wait for the SMS confirming the withdrawal.\n6. Count your cash **before you leave** the booth.\n\n## Agent safety\n- Never give your phone or PIN to the agent to \"do it for you\".\n- Use agents with clear network signs, in busy, well-lit places.\n- If the agent says \"the network is down, come back later\" after money left your wallet, ask for the transaction ID and call customer care.",
+          "key_points": [
+            "You only need your number to receive money",
+            "Check your balance in the menu, not just the SMS",
+            "Type your PIN yourself and count cash before leaving"
+          ],
+          "try_it": "Check your mobile money balance using the menu.",
+          "motif": "phone"
+        },
+        {
+          "slug": "using-mobile-money-check",
+          "title": "Check: Using mobile money",
+          "type": "quiz",
+          "est_minutes": 3,
+          "body": "A few short questions on this module. There is no time limit, and you can try again.",
+          "motif": "circle",
+          "quiz": [
+            {
+              "question": "What do you need to give someone so they can send you money?",
+              "options": [
+                "Your PIN",
+                "Your phone number",
+                "Your NRC photo",
+                "Your SIM card"
+              ],
+              "correct": 1,
+              "explanation": "Your number is enough. Never share your PIN."
+            },
+            {
+              "question": "When should you check the name on the screen?",
+              "options": [
+                "After the money is sent",
+                "Before you type your PIN",
+                "Never",
+                "Only for large amounts"
+              ],
+              "correct": 1,
+              "explanation": "The name check is your last chance to stop a mistake."
+            },
+            {
+              "question": "You get an SMS saying money arrived, but it came from a normal phone number. What should you do?",
+              "options": [
+                "Spend it",
+                "Check your real balance in the mobile money menu",
+                "Send it back immediately",
+                "Give the agent your PIN"
+              ],
+              "correct": 1,
+              "explanation": "Fake SMS messages are common. The menu shows your real balance."
+            },
+            {
+              "question": "At the agent, who should type your PIN?",
+              "options": [
+                "The agent",
+                "You, hiding the screen",
+                "Anyone in the queue",
+                "Nobody, it is not needed"
+              ],
+              "correct": 1,
+              "explanation": "Your PIN is only for you."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Check before you confirm",
+      "summary": "The habits that stop mistakes and theft.",
+      "lessons": [
         {
           "slug": "check-the-number",
           "title": "Checking the number before you send",
           "type": "read",
           "est_minutes": 5,
-          "body": "Most mobile money mistakes happen because one digit is wrong.\n\n## Check the name\nAfter you type the number, the screen shows the name of the person who will receive the money. If the name is not the person you expect, cancel. It is much easier to cancel than to get money back.\n\n## Save trusted numbers\nSave the numbers you send to often in your contacts, so you can pick them instead of typing.",
+          "body": "Most mobile money mistakes happen in one moment: typing the wrong number and pressing confirm without looking. Money sent to the wrong person can be very hard to get back.\n\n## The name check\nAfter you type the number and amount, your screen shows the **registered name** of the person receiving the money. This is your safety check.\n\n- If you are sending to *Mutale Banda* and the screen says *Joseph Phiri*, **cancel**.\n- If the name is only partly shown, check that the part you see matches.\n\n## Save numbers as contacts\nTyping numbers by hand causes mistakes. Save the people you send money to regularly in your contacts, with their full names. Some apps let you pick from your contacts.\n\n## Read the number back\nRead the number out loud, in pairs: 09 77... Then check it against the number the person gave you.\n\n## Large amounts\nFor a large amount, send a small test amount first, like K5. Call the person to confirm it arrived. Then send the rest.\n\n## Paying a business\nWhen paying a shop or business, check the **merchant name** on your screen matches the shop. Scammers sometimes put up fake payment numbers.\n\n## If you sent to the wrong number\nCall your network's official customer care **straight away** with the transaction ID. Do not deal with a stranger who calls you about it. That is how the reversal scam begins, which you will learn about later.",
           "key_points": [
-            "The confirmation screen shows the receiver's name",
-            "Cancel if the name is wrong",
-            "Save numbers you use often"
+            "The name on the screen is your safety check",
+            "If the name is wrong, cancel",
+            "Send a small test amount before a large one"
           ],
-          "try_it": "Next time you send money, stop and read the name out loud before confirming.",
-          "motif": "phone",
-          "published": true
+          "try_it": "Save one person you often send money to as a contact with their full name.",
+          "motif": "phone"
         },
+        {
+          "slug": "keep-your-pin-secret",
+          "title": "Keeping your PIN secret",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "Your mobile money **PIN** is the key to your wallet. With your PIN and your phone, anyone can empty your account.\n\n## Nobody needs your PIN\nNot your network, not customer care, not an agent, not the police, not a family member. **Real staff never ask for your PIN.** Anyone who asks is trying to steal from you.\n\n## Choosing a PIN\n- Not 1234, 0000 or your year of birth.\n- Not the same as your phone's screen lock or your bank card.\n- Something you will remember without writing it down.\n\n## Hiding your PIN\n- Cover the keypad with your hand when you type it.\n- Look around in queues and at agents. People can watch over your shoulder.\n- Do not write it on your phone cover, SIM pack or a paper in your wallet.\n\n## Changing your PIN\nYou can change your PIN in the mobile money menu under **My account** or **Change PIN**. Change it straight away if:\n\n- you think someone saw it,\n- you told it to someone, even someone you trust,\n- your phone was lost and found again.\n\n## Lock your phone too\nA screen lock on your phone adds another layer. Then a thief needs your phone PIN and your mobile money PIN.\n\n## If you forget your PIN\nVisit a network shop or call official customer care. You will be asked to prove who you are, usually with your NRC.",
+          "key_points": [
+            "Nobody ever needs your PIN",
+            "Cover the keypad when you type it",
+            "Change it at once if someone may know it"
+          ],
+          "try_it": "If your PIN is easy to guess, change it in the menu today.",
+          "motif": "phone"
+        },
+        {
+          "slug": "using-agents-safely",
+          "title": "Using agents safely",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "**Agents** are important for mobile money. Most are honest, but a few criminals pretend to be agents or use tricks at the counter.\n\n## Choosing an agent\n- Use agents with the **official network sign** and an agent code on display.\n- Prefer busy, well-lit places, especially at night.\n- Use the same agents you know when you can.\n\n## At the counter\n- Say the amount clearly and watch the agent type it.\n- Type your own PIN on **your own phone**. Never hand over your phone.\n- Wait for the **SMS from your network** before handing over cash for a deposit.\n- Count withdrawn cash before you leave.\n\n## Tricks to watch for\n- **\"Give me your phone, I will do it for you.\"** The agent could see your PIN or send money elsewhere.\n- **Deposit to the wrong number.** Before you leave a deposit, check that the agent typed *your* number. Ask to see the confirmation.\n- **\"The system is down\" after taking cash for a deposit.** Do not leave the cash. Ask for it back until the network SMS arrives.\n\n## Keep proof\nAsk for the **transaction ID** for every deposit and withdrawal. Agents also keep a record book. If something goes wrong, the ID helps customer care trace it.\n\n## Report problems\nIf an agent cheats you, call your network's official customer care with the agent code and transaction ID. Networks can suspend dishonest agents.",
+          "key_points": [
+            "Use agents with official signs and codes",
+            "Never hand your phone to the agent",
+            "Wait for the network SMS before leaving"
+          ],
+          "try_it": "Next time you visit an agent, find their agent code on the booth.",
+          "motif": "phone"
+        },
+        {
+          "slug": "check-before-you-confirm-check",
+          "title": "Check: Check before you confirm",
+          "type": "quiz",
+          "est_minutes": 3,
+          "body": "A few short questions on this module. There is no time limit, and you can try again.",
+          "motif": "circle",
+          "quiz": [
+            {
+              "question": "You are sending to Mutale Banda, but the screen shows a different name. What do you do?",
+              "options": [
+                "Confirm anyway",
+                "Cancel and check the number",
+                "Type your PIN faster",
+                "Send double"
+              ],
+              "correct": 1,
+              "explanation": "A different name means a wrong number. Cancel."
+            },
+            {
+              "question": "Who is allowed to ask for your mobile money PIN?",
+              "options": [
+                "Customer care",
+                "An agent",
+                "The police",
+                "Nobody"
+              ],
+              "correct": 3,
+              "explanation": "Real staff never need your PIN."
+            },
+            {
+              "question": "You want to send K2,000 to a new number. What is a smart first step?",
+              "options": [
+                "Send all at once",
+                "Send a small test amount and confirm it arrived",
+                "Ask a stranger to send it",
+                "Write your PIN on the phone"
+              ],
+              "correct": 1,
+              "explanation": "A small test catches mistakes before you lose a large amount."
+            },
+            {
+              "question": "An agent offers to take your phone and do the withdrawal for you. What should you do?",
+              "options": [
+                "Give it to them",
+                "Keep your phone and type your PIN yourself",
+                "Tell them your PIN instead",
+                "Leave your phone with them"
+              ],
+              "correct": 1,
+              "explanation": "Never hand over your phone or PIN."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Scams and staying in control",
+      "summary": "Fake reversals, other money tricks, and keeping records.",
+      "lessons": [
         {
           "slug": "fake-reversal-scam",
           "title": "The fake reversal scam",
           "type": "practice",
           "est_minutes": 5,
-          "body": "A common scam: you get an SMS saying you received K500, then someone calls saying it was a mistake and asks you to send it back.\n\n## What to do\nCheck your real balance by dialling your mobile money menu. Fake SMS messages come from normal numbers, not from your network. If your balance did not go up, do not send anything. Real reversals are handled by the network, not by strangers.",
+          "body": "This is one of the most common mobile money scams in Zambia. Learning the pattern protects you.\n\n## How it works\n1. You get an **SMS** that looks like it is from your network: *\"You have received K500 from John Mwale. New balance...\"*\n2. Soon after, John calls or messages. He sounds worried: *\"I sent K500 to you by mistake. Please send it back, it was for my child's school fees.\"*\n3. You feel sorry for him and send K500 back.\n4. But **no money ever arrived**. The SMS was fake, sent from a normal phone number. You have lost K500.\n\nIn another version, real money did arrive, and after you send it back, the scammer also asks the network for a reversal. You lose twice.\n\n## How to protect yourself\n- **Check your balance in the menu.** A real deposit shows in your balance. A fake SMS does not.\n- Look at the sender of the SMS. Real network messages come from the network's name, not an 09... number.\n- **Never send money back yourself.** Say: *\"Please contact customer care to reverse it.\"* Real mistakes are fixed by the network, which checks the transaction.\n- Do not let anyone pressure you. A real person who made a mistake can wait for customer care.\n\n## If you sent money back\nCall your network's official customer care straight away with both transaction IDs, and report the number to the police.",
           "key_points": [
-            "Always check your real balance",
-            "Fake SMS comes from normal phone numbers",
-            "Real reversals go through the network"
+            "Fake SMS messages do not change your real balance",
+            "Never send 'mistake' money back yourself",
+            "Tell the person to contact customer care"
           ],
-          "try_it": "Find out the official customer care number for your network and save it.",
-          "motif": "shield",
-          "published": true
+          "try_it": "Practise what you will say: 'Please contact customer care to reverse it.'",
+          "motif": "phone"
+        },
+        {
+          "slug": "other-money-scams",
+          "title": "Other money tricks to know",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "Scammers keep inventing new stories, but they always want one of two things: **your money** or **your PIN**.\n\n## The fake customer care call\n*\"This is Airtel Money. Your account will be blocked. Dial this code and enter your PIN to verify.\"* The code they give you actually sends them money or resets your PIN. **Hang up.** Call the official number yourself.\n\n## The fake promotion\n*\"You have won a promotion from MTN. Send K200 for processing.\"* Real promotions never ask you to pay to collect a prize.\n\n## The 'agent float' trick\nSomeone pretending to be from the network asks an **agent** to send float to \"fix the system\". Agents: real network staff never ask for float by phone.\n\n## Paying online sellers\nA seller on Facebook or WhatsApp asks for full payment before you see the item. After you pay, they disappear. When buying from strangers:\n\n- meet in a safe public place and pay when you see the item, or\n- pay a small deposit only, to a seller you can verify.\n\n## Loans that are too easy\nMessages offering instant loans with \"no checks\" often ask for an upfront fee. A real lender takes fees from the loan, not before it.\n\n## Your best defences\n- Take your time. Pressure is a warning sign.\n- Check with someone you trust before paying a stranger.\n- Use your network's official number, from its website or a network shop.",
+          "key_points": [
+            "Scammers want your money or your PIN",
+            "Real promotions never charge a fee",
+            "Pay sellers when you see the item"
+          ],
+          "try_it": "Write down your network's official customer care number from its website or shop.",
+          "motif": "phone"
+        },
+        {
+          "slug": "records-and-what-to-do",
+          "title": "Keeping records and acting fast",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "Good records make problems easy to solve. If something goes wrong, they are your proof.\n\n## Keep your transaction messages\nEvery transaction SMS has a **transaction ID**, the amount, the other person's name and the date. Do not delete these messages. If your inbox is full, delete other messages first.\n\n## Check your statement\nThe mobile money menu has a **mini statement** that shows your last few transactions. Look at it once a week. If you see a payment you did not make, act straight away.\n\n## A simple record for your family or business\nUse a notebook, or the notes app on your phone. Write the date, who you paid or who paid you, the amount and what it was for. This helps you plan and spot mistakes. It also shows how much the fees cost you each month.\n\n## When something goes wrong\n1. **Call official customer care immediately.** Give the transaction ID, the date and the amount. Ask them to block or reverse it.\n2. Write down the name of the person you spoke to and any reference number they give you.\n3. If it was a scam, **report to the police** with your transaction messages.\n4. If the problem is not solved, visit a network shop with your NRC and the details.\n\n## Keep learning\nScams change. When your network or the Bank of Zambia shares a warning, read it and tell your family.",
+          "key_points": [
+            "Never delete transaction messages",
+            "Check your mini statement every week",
+            "Act fast with the transaction ID if something is wrong"
+          ],
+          "try_it": "Open your mini statement and check that every transaction is yours.",
+          "motif": "phone"
         },
         {
           "slug": "mobile-money-quiz",
-          "title": "Check what you learned",
+          "title": "Final check: Mobile money",
           "type": "quiz",
-          "est_minutes": 5,
-          "body": "Answer these short questions.",
-          "key_points": [
-            "Take your time"
-          ],
+          "est_minutes": 4,
+          "body": "Questions covering the whole course. Score 70% or more to complete it. You can try again as many times as you like.",
           "motif": "circle",
-          "published": true,
           "quiz": [
             {
-              "question": "What should you check before entering your PIN to send money?",
+              "question": "You get an SMS saying you received K500, then a stranger asks you to send it back. What should you do first?",
               "options": [
-                "The weather",
-                "The receiver's name on the screen",
-                "Your battery",
-                "The time"
+                "Send it back at once",
+                "Check your real balance in the menu and tell them to contact customer care",
+                "Send K250",
+                "Give them your PIN"
               ],
               "correct": 1,
-              "explanation": "The confirmation screen shows who will receive the money. If the name is wrong, cancel."
+              "explanation": "Fake SMS messages are common. Real mistakes are fixed by customer care."
             },
             {
-              "question": "You get an SMS saying you received K500 and a stranger asks for it back. What do you do first?",
+              "question": "A caller from 'customer care' asks you to dial a code and enter your PIN. What is happening?",
               "options": [
-                "Send it back",
-                "Check your real balance",
-                "Call the stranger",
-                "Delete your account"
+                "Normal account check",
+                "A scam to take your money",
+                "A free bundle",
+                "A network upgrade"
               ],
               "correct": 1,
-              "explanation": "Fake SMS messages are common. Check your real balance through the official menu."
+              "explanation": "Real customer care never asks for your PIN."
+            },
+            {
+              "question": "Where can you see your last few transactions?",
+              "options": [
+                "In your mini statement in the menu",
+                "On Facebook",
+                "Only at the bank",
+                "Nowhere"
+              ],
+              "correct": 0,
+              "explanation": "The mini statement shows your recent transactions."
+            },
+            {
+              "question": "What is the most important detail to give customer care when something goes wrong?",
+              "options": [
+                "Your PIN",
+                "The transaction ID",
+                "Your password",
+                "Your NRC photo on WhatsApp"
+              ],
+              "correct": 1,
+              "explanation": "The transaction ID lets them trace exactly what happened."
+            },
+            {
+              "question": "Before you type your PIN to send money, what must you check?",
+              "options": [
+                "The weather",
+                "The name and amount on the screen",
+                "Your data bundle",
+                "Your WhatsApp status"
+              ],
+              "correct": 1,
+              "explanation": "The name and amount check stops most mistakes."
             }
           ]
         }

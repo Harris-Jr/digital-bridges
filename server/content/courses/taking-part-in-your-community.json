@@ -2,109 +2,337 @@
   "slug": "taking-part-in-your-community",
   "title": "Taking Part in Your Community",
   "tagline": "Speak up, bring evidence, and help decisions get made.",
-  "description": "Decisions about your area are made in meetings you can take part in. Learn how to prepare, how to present a problem with evidence, and how to engage respectfully with officials and councillors.",
+  "description": "Communities change when people take part: in ward meetings, consultations, community groups and peaceful action. This course shows you where local decisions are made, how to raise an issue with evidence, how to work with others, and how to make sure everyone, including women, youth and people with disabilities, has a voice.",
   "pathway": "civic-education",
   "category": "citizenship",
   "icon_name": "Users",
   "difficulty": "easy",
-  "estimated_hours": 2,
+  "estimated_hours": 1.5,
   "pass_mark": 70,
-  "outcomes": [
-    "Know where community decisions are made",
-    "Prepare before a meeting or consultation",
-    "Present a problem clearly, with evidence",
-    "Engage officials respectfully and constructively",
-    "Report a community problem and follow it up"
-  ],
   "sort_order": 12,
   "published": true,
+  "outcomes": [
+    "Name where local decisions are made",
+    "Take part in ward meetings and public consultations",
+    "Raise an issue clearly with evidence",
+    "Report a community problem and follow it up",
+    "Organise peacefully, including petitions and meetings",
+    "Run a fair, inclusive community group"
+  ],
   "modules": [
     {
-      "title": "Module 1",
-      "summary": "",
+      "title": "Where decisions are made",
+      "summary": "Councils, ward committees and consultations.",
       "lessons": [
         {
           "slug": "where-decisions-are-made",
           "title": "Where decisions are made",
           "type": "read",
           "est_minutes": 5,
-          "body": "Many decisions about your area are made in meetings that are open to residents.\n\n## Places to take part\nWard development meetings, council meetings and public consultations are where plans and budgets are discussed. Community radio and notice boards often share when these happen.\n\n## Why it matters\nWhen residents take part, decisions reflect real needs. Showing up and speaking is one of the simplest ways to shape your community.",
+          "body": "Many decisions that affect your daily life are made **close to home**, not only in Lusaka.\n\n## Local decision-makers\n- **Your council** decides on markets, local roads, refuse, planning and building permits, and local by-laws. Councillors vote on these in **council meetings**.\n- **Ward Development Committees (WDCs)** identify local needs and propose and monitor projects in each ward.\n- **CDF committees** decide which community projects and applications get Constituency Development Fund money.\n- **School boards** and **parent-teacher associations** influence how schools are run.\n- **Health centre committees** link communities with clinics.\n- **Traditional leaders** make many decisions on customary land and community matters in chiefdoms.\n\n## National decision-makers\n- **Parliament** passes laws and the budget.\n- **Ministries** make policies and plans, often after **consultation**.\n\n## Why local matters\nIt is often easier to influence a decision in your ward or district than in Lusaka. Councillors and committee members live nearby, and local projects are visible: you can see whether the borehole works.\n\n## Find out who is who\nMake a short list:\n- your ward name and councillor,\n- your constituency and MP,\n- members of your WDC,\n- the council's main office and its phone number.\n\nKeep it on your phone. When an issue comes up, you will know exactly who to contact.",
           "key_points": [
-            "Ward meetings and consultations are open to residents",
-            "Plans and budgets are discussed there",
-            "Radio and notice boards share the dates",
-            "Taking part helps decisions reflect real needs"
+            "Many decisions are made locally",
+            "WDCs and CDF committees decide local projects",
+            "Know your councillor, MP and WDC members"
           ],
-          "try_it": "Find out when the next community or ward meeting in your area is.",
+          "try_it": "Write down your ward, councillor, constituency and MP.",
           "motif": "community",
-          "video_url": "https://www.youtube.com/watch?v=IQhc6s_KPgQ",
-          "published": true
+          "video_url": "https://www.youtube.com/watch?v=IQhc6s_KPgQ"
         },
+        {
+          "slug": "ward-meetings-and-council",
+          "title": "Ward meetings and council meetings",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "Meetings are where community voices turn into decisions.\n\n## Ward meetings\nWard Development Committees and councillors hold **ward meetings** to discuss local needs and projects, including CDF proposals. These are your chance to:\n\n- raise problems in your area,\n- suggest projects, such as a borehole, a footbridge or a classroom,\n- hear updates on projects already running.\n\nAsk your councillor when and where the next meeting is. Notices may be put up at schools, churches, markets or the council office.\n\n## Council meetings\nFull council meetings are where councillors debate and decide. They are generally **open to the public** to observe. Agendas and minutes may be available from the council. Ask the council secretary or town clerk's office.\n\n## Preparing to speak\n- Arrive on time and sign the attendance register.\n- Write your point in **one or two sentences**.\n- Bring **facts**: dates, numbers, photos.\n- Suggest a **solution** if you can.\n- Speak politely and briefly. Let others speak too.\n\n## After the meeting\n- Note what was decided and **who** will act, and **by when**.\n- Ask for a copy of the **minutes**.\n- Follow up at the next meeting: *\"Last month we agreed the drainage would be cleared. What has happened?\"*\n\n## Bring others\nTen residents raising the same issue carry more weight than one. Invite neighbours, especially those most affected.",
+          "key_points": [
+            "Ward meetings are where local needs are raised",
+            "Council meetings are generally open to observe",
+            "Prepare one clear point with facts and a solution"
+          ],
+          "try_it": "Ask your councillor when the next ward meeting is.",
+          "motif": "community"
+        },
+        {
+          "slug": "consultations-and-submissions",
+          "title": "Public consultations and submissions",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "Before making big decisions, government often asks the public for views. These are called **consultations**.\n\n## Examples\n- **Pre-budget consultations** by the Ministry of Finance and National Planning.\n- Consultations on new **laws and policies**.\n- **Council planning** consultations, such as for a new market or land use plan.\n- **Parliamentary committees** inviting **submissions** on Bills and issues.\n- **Environmental assessments** for big projects such as mines, dams and roads, where affected communities should be consulted.\n\n## Finding them\nWatch for notices in **newspapers**, on **radio**, on the **official pages** of ministries and the National Assembly, and on council notice boards. Civil society organisations often share them too.\n\n## Making a submission\nA **submission** is a short written statement of your views.\n\n1. Say **who you are**: a resident, a group, a farmers' cooperative.\n2. Say **what** you are responding to.\n3. Give your **main points**, numbered, each with a reason or example.\n4. Make **recommendations**: what should change.\n5. Keep it short, clear and polite.\n\nGroups can make submissions together. It is often more powerful when many people agree.\n\n## Speaking at a consultation meeting\nIf there is a public hearing or meeting, prepare like for a ward meeting: one clear point, facts, and a suggestion.\n\n## Follow up\nAsk how views will be used, and look for the final decision or report. Your submission becomes part of the public record.",
+          "key_points": [
+            "Consultations ask the public for views before decisions",
+            "A submission is a short, clear written statement",
+            "Groups can submit together for more weight"
+          ],
+          "try_it": "Look for one current public consultation on a ministry's or Parliament's official page.",
+          "motif": "community"
+        },
+        {
+          "slug": "where-decisions-check",
+          "title": "Check: Where decisions are made",
+          "type": "quiz",
+          "est_minutes": 3,
+          "body": "A few short questions on this module. There is no time limit, and you can try again.",
+          "motif": "circle",
+          "quiz": [
+            {
+              "question": "Which committee proposes and monitors projects in your ward?",
+              "options": [
+                "The Ward Development Committee",
+                "The Supreme Court",
+                "The Electoral Commission",
+                "A bank board"
+              ],
+              "correct": 0,
+              "explanation": "WDCs identify local needs and monitor projects."
+            },
+            {
+              "question": "What is the best way to raise an issue at a ward meeting?",
+              "options": [
+                "Shout over others",
+                "One clear point with facts and a suggested solution",
+                "Bring no information",
+                "Insult the councillor"
+              ],
+              "correct": 1,
+              "explanation": "Short, factual points with solutions are most effective."
+            },
+            {
+              "question": "What is a submission?",
+              "options": [
+                "A short written statement of your views for a consultation",
+                "A tax",
+                "A bribe",
+                "A type of vote"
+              ],
+              "correct": 0,
+              "explanation": "Submissions share your views formally."
+            },
+            {
+              "question": "Why ask for the minutes of a meeting?",
+              "options": [
+                "To follow up on what was agreed",
+                "For decoration",
+                "To sell them",
+                "It is not useful"
+              ],
+              "correct": 0,
+              "explanation": "Minutes record decisions you can follow up on."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Speaking up",
+      "summary": "Evidence, reporting problems and peaceful action.",
+      "lessons": [
         {
           "slug": "speak-up-with-evidence",
           "title": "Speak up with evidence",
           "type": "read",
           "est_minutes": 5,
-          "body": "A point lands better when it is clear and backed by facts.\n\n## Prepare first\nDecide the one thing you want to say. Write it in a sentence or two. Bring evidence: a photo, a date, a number of people affected, or a simple example.\n\n## Be constructive\nSpeak calmly and respectfully, even when you disagree. Offer a suggestion, not only a complaint. Thank people for listening.",
+          "body": "A complaint backed by evidence is hard to ignore. A complaint based on rumours is easy to dismiss.\n\n## What counts as evidence\n- **Photos and videos** you took yourself, with dates.\n- **Numbers**: how many households, how many days, how far people walk.\n- **Documents**: letters, receipts, project boards, budgets, minutes.\n- **Statements** from people affected, with their permission.\n- Information received through an **access to information request**.\n\n## Collect it carefully\n- Visit the site yourself.\n- Take clear photos from several angles.\n- Write down what you see, with the date and place.\n- Ask affected people simple questions and note their answers.\n\n## Present it simply\nTurn your evidence into a short message:\n\n*\"The footbridge at Mutanda stream collapsed on 2 February. 150 pupils from Kalimba now walk an extra 4 km to school. During the rains, some miss school completely. We ask the council to repair the bridge before the next rainy season.\"*\n\nFacts, impact, and a clear request.\n\n## Be honest\n- Separate what you **know** from what you **think**.\n- Do not exaggerate numbers.\n- Do not accuse named people of wrongdoing without proof.\n\nHonest evidence builds trust. Exaggeration destroys it.\n\n## Protect people\nAsk permission before photographing or quoting people. Do not share private information, especially of children.",
           "key_points": [
-            "Decide the one point you want to make",
-            "Bring simple evidence: a photo, a date, a number",
-            "Stay calm and respectful",
-            "Offer a suggestion, not only a complaint"
+            "Evidence includes photos, numbers and documents",
+            "Facts, impact and a clear request",
+            "Never exaggerate or accuse without proof"
           ],
-          "try_it": "Pick one issue and write the single sentence you would say about it.",
-          "motif": "circle",
-          "published": true
+          "try_it": "Write a three-sentence message about a local issue: facts, impact, request.",
+          "motif": "community"
         },
         {
           "slug": "reporting-a-community-problem",
-          "title": "Reporting a community problem",
+          "title": "Practice: reporting a community problem",
           "type": "practice",
           "est_minutes": 5,
-          "body": "Reporting a problem well makes it more likely to be fixed.\n\n## A real situation\nA borehole in your area has been broken for weeks. Who do you tell? Start with your ward councillor or the responsible office. Explain clearly: where it is, how long it has been broken, and how many people it affects.\n\n## Follow it up\nAsk what will happen next and when. Keep a note of who you spoke to. If nothing changes, follow up politely and, if needed, raise it at a community meeting.",
+          "body": "*The drainage along the main road in your compound is blocked. Every time it rains, water floods into homes and the market. It has happened three times this season.*\n\n## Step 1: Gather facts\n- Take photos of the blocked drain and the flooding, with dates.\n- Count roughly how many homes and stalls are affected.\n- Ask neighbours when it started and whether anyone has reported it.\n\n## Step 2: Report to the right office\nDrainage is usually a **council** responsibility. Report it to the council's engineering or public health office, by visit, letter or official phone line. Ask for a **reference number**.\n\n## Step 3: Tell your councillor\nSend your councillor a short message with the photos and reference. Ask them to follow up and to raise it at the next **ward meeting**.\n\n## Step 4: Organise neighbours\nAsk affected neighbours to sign a short **letter** supporting the request. Include their names, plot numbers and signatures. Many voices add weight.\n\n## Step 5: Follow up\nAfter two weeks, follow up with your reference. Keep a record of each contact.\n\n## Step 6: Think about what you can do together\nWhile waiting, can the community organise a **clean-up** of rubbish blocking the drain, safely and with the council's knowledge? Communities and councils working together often get faster results.\n\n## Step 7: Share progress\nTell neighbours what happened. If it is fixed, thank the council publicly. That encourages good service.",
           "key_points": [
-            "Report to your councillor or the responsible office",
-            "Say where, how long, and how many are affected",
-            "Ask what happens next and when",
-            "Follow up and raise it at a meeting if needed"
+            "Facts and photos first",
+            "Report to the council and get a reference",
+            "Organise neighbours and follow up"
           ],
-          "try_it": "Think of one real problem near you. Write who you would tell and what you would say.",
-          "motif": "community",
-          "published": true
+          "try_it": "Choose one problem in your area and plan the first three steps.",
+          "motif": "community"
+        },
+        {
+          "slug": "petitions-and-peaceful-action",
+          "title": "Petitions and peaceful action",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "When meetings and complaints are not enough, communities can take **peaceful collective action**. The Constitution protects freedom of assembly and expression, with limits to protect public safety and others' rights.\n\n## Petitions\nA **petition** is a letter signed by many people asking for a specific action.\n\n- Address it to the right decision-maker: the council, a ministry, or Parliament.\n- State the problem, the evidence and the request clearly.\n- Collect names, NRC numbers or phone numbers, and signatures, only with people's agreement.\n- Deliver it in person and get a **stamped copy**.\n\nCitizens can also petition **Parliament** on issues of public concern. Ask your MP or the National Assembly office about the process.\n\n## Public meetings and processions\nFor public gatherings and processions, the **Public Order Act** requires organisers to **notify the police in advance**. Organisers must also keep the event peaceful. Ask at your local police station about the current requirements and timelines.\n\n## Using the media\n- **Community radio** call-in programmes are widely heard.\n- Local journalists may cover well-documented community problems.\n- Social media can spread your message. Keep it factual and respectful.\n\n## Peaceful always\nViolence, damaging property and blocking roads hurt your own community, put people in danger, and can lead to arrests. They also make it easier to ignore your message. Peaceful, persistent and well-organised action is far more effective.\n\n## Know when to get support\nCivil society organisations, paralegals and community leaders can advise you on organising safely and lawfully.",
+          "key_points": [
+            "A petition is a signed request for a specific action",
+            "Notify the police in advance of public gatherings",
+            "Peaceful, persistent action works best"
+          ],
+          "try_it": "Draft the one-sentence request a petition about a local issue would make.",
+          "motif": "community"
+        },
+        {
+          "slug": "speaking-up-check",
+          "title": "Check: Speaking up",
+          "type": "quiz",
+          "est_minutes": 3,
+          "body": "A few short questions on this module. There is no time limit, and you can try again.",
+          "motif": "circle",
+          "quiz": [
+            {
+              "question": "Which message is strongest?",
+              "options": [
+                "'The council never does anything!'",
+                "Facts, impact and a clear request, with photos",
+                "A rumour from WhatsApp",
+                "An insult"
+              ],
+              "correct": 1,
+              "explanation": "Evidence and a clear request get results."
+            },
+            {
+              "question": "A drain in your compound is blocked. Who is usually responsible?",
+              "options": [
+                "The council",
+                "The Electoral Commission",
+                "ZICTA",
+                "A bank"
+              ],
+              "correct": 0,
+              "explanation": "Drainage is usually a council responsibility."
+            },
+            {
+              "question": "What must organisers do before a public procession?",
+              "options": [
+                "Nothing",
+                "Notify the police in advance as required by the Public Order Act",
+                "Pay the councillor",
+                "Block the road"
+              ],
+              "correct": 1,
+              "explanation": "The Public Order Act requires advance notification."
+            },
+            {
+              "question": "Why is peaceful action more effective than violence?",
+              "options": [
+                "It is not",
+                "It protects people and keeps the focus on your message",
+                "It is faster to arrest people",
+                "It gets more likes"
+              ],
+              "correct": 1,
+              "explanation": "Violence hurts communities and makes it easier to ignore the issue."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Working together",
+      "summary": "Community groups, inclusion and keeping momentum.",
+      "lessons": [
+        {
+          "slug": "community-groups",
+          "title": "Community groups that make a difference",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "Many changes happen through **groups**, not individuals. Zambia has a strong tradition of people working together.\n\n## Types of groups\n- **Savings groups** and **cooperatives**: members save, lend and invest together.\n- **Parent-teacher associations (PTAs)**: improve schools and children's learning.\n- **Neighbourhood watch** groups: improve safety, working with the police.\n- **Youth and women's clubs**: build skills, start businesses and speak up.\n- **Farmers' groups**: share knowledge, buy inputs and sell together.\n- **Health and water committees**: look after boreholes and link with clinics.\n- **Church and faith groups**: often lead community support.\n\n## Starting a group\n1. Bring together people who share a goal.\n2. Agree the **purpose** in one sentence.\n3. Choose **leaders** fairly, by election.\n4. Agree simple **rules**: meetings, contributions, decisions.\n5. Keep **records**: members, money, minutes.\n\n## Registering\nSome groups benefit from registering, for example to open a bank account or apply for CDF empowerment grants or loans. Clubs and cooperatives can register with the relevant authorities. Ask your district **Community Development** office or the council's CDF office for guidance on which registration suits your group.\n\n## Working with others\nLink your group with your **Ward Development Committee**, councillor, and local civil society organisations. Groups that work together often achieve much more.",
+          "key_points": [
+            "Groups achieve more than individuals",
+            "Agree purpose, fair leadership, rules and records",
+            "Registration can help groups access funds"
+          ],
+          "try_it": "Think of one group in your community you could join or start.",
+          "motif": "community"
+        },
+        {
+          "slug": "including-everyone",
+          "title": "Making sure everyone has a voice",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "A community decision is better when **everyone** affected has a say. Some people are often left out, even when no one means to exclude them.\n\n## Who is often left out\n- **Women**, especially in public meetings.\n- **Young people.**\n- **People with disabilities.**\n- **Elderly people.**\n- People who **cannot read**, or who speak a different language.\n- People who live far from the meeting place.\n\n## Simple ways to include everyone\n- Hold meetings at **times and places** people can reach, considering work, farming, markets and childcare.\n- Choose places that are **accessible** for people using wheelchairs or crutches.\n- Use the **local language**, and explain documents aloud.\n- Invite women and youth to **speak**, and give space for their views. Some groups hold separate sessions so people feel comfortable.\n- Share information through **many channels**: announcements at church, the market, radio, WhatsApp and word of mouth.\n- Ask people directly: *\"What do you think?\"*\n\n## In leadership\nEncourage women, youth and people with disabilities to stand for leadership roles in committees and groups. Diverse leaders understand more of the community's needs.\n\n## In projects\nWhen planning a project, ask: *Who will benefit? Who might be harmed or left out?* For example, a new borehole should be reachable by elderly people and safe for women and children to use.\n\n## Respect\nIncluding everyone is not a favour. It is about the equal rights and dignity of every member of the community.",
+          "key_points": [
+            "Plan meetings people can actually attend",
+            "Invite women, youth and people with disabilities to speak and lead",
+            "Ask who benefits and who is left out"
+          ],
+          "try_it": "At your next meeting, invite someone who usually stays quiet to share their view.",
+          "motif": "community"
+        },
+        {
+          "slug": "keeping-it-going",
+          "title": "Keeping momentum and accountability",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "Starting is exciting. Keeping going is harder. Good habits help groups and campaigns last.\n\n## Meet regularly\nAgree a regular time, such as the first Saturday of the month. Keep meetings short, with an **agenda**.\n\n## Keep records\n- **Minutes**: what was discussed, decided, who will act, and by when.\n- **Money**: every contribution and expense, with receipts. Share the accounts with members regularly.\n- **Contacts**: officials, partners and members.\n\n## Share the work\nDo not let one person do everything. Give each member a task. When people have a role, they stay involved.\n\n## Be accountable\nLeaders should report to members. Members should be able to ask questions about money and decisions without fear. Regular, fair **elections** for leaders keep groups healthy.\n\n## Celebrate wins\nWhen a borehole is fixed or a bridge repaired, celebrate and thank everyone who helped, including officials. It builds energy for the next goal.\n\n## Learn from setbacks\nNot everything works. Ask: what went well, what did not, and what will we do differently?\n\n## Stay peaceful and non-partisan\nCommunity work is for everyone. Keep groups open to people of all political views, tribes and religions. This makes your group stronger and harder to dismiss.\n\n## Pass it on\nTrain new members, especially young people, so the work continues when current leaders step back.",
+          "key_points": [
+            "Regular meetings, minutes and clear money records",
+            "Share tasks and hold fair elections",
+            "Celebrate wins and stay open to everyone"
+          ],
+          "try_it": "Write a simple agenda for a 30-minute community group meeting.",
+          "motif": "community"
         },
         {
           "slug": "participation-quiz",
-          "title": "Check what you learned",
+          "title": "Final check: Taking part in your community",
           "type": "quiz",
-          "est_minutes": 5,
-          "body": "Answer these short questions.",
-          "key_points": [
-            "Take your time"
-          ],
+          "est_minutes": 4,
+          "body": "Questions covering the whole course. Score 70% or more to complete it. You can try again as many times as you like.",
           "motif": "circle",
-          "published": true,
           "quiz": [
             {
-              "question": "Where are many decisions about your area discussed?",
+              "question": "Why keep clear money records in a community group?",
               "options": [
-                "Only in private",
-                "Ward meetings and public consultations",
-                "Only on television",
-                "Nowhere you can attend"
+                "So members can see how money is used and trust the group",
+                "They are not needed",
+                "To hide spending",
+                "To pay leaders more"
               ],
-              "correct": 1,
-              "explanation": "Ward meetings, council meetings and public consultations are open to residents."
+              "correct": 0,
+              "explanation": "Transparent records build trust."
             },
             {
-              "question": "What makes a point land well at a meeting?",
+              "question": "A community meeting is always held at a time when women are at the market. What would help?",
               "options": [
-                "Shouting the loudest",
-                "Being clear and bringing evidence",
-                "Speaking for a long time",
-                "Blaming one person"
+                "Keep it the same",
+                "Change the time or hold an extra session so women can attend",
+                "Ban women",
+                "Hold it at midnight"
               ],
               "correct": 1,
-              "explanation": "A clear point backed by simple evidence, offered respectfully, lands best."
+              "explanation": "Inclusive timing lets everyone take part."
+            },
+            {
+              "question": "What is a petition?",
+              "options": [
+                "A letter signed by many people asking for a specific action",
+                "A type of tax",
+                "A court fine",
+                "A protest that blocks roads"
+              ],
+              "correct": 0,
+              "explanation": "Petitions show many people support a request."
+            },
+            {
+              "question": "Where can a group get guidance on registering to apply for CDF empowerment?",
+              "options": [
+                "The district Community Development office or the council's CDF office",
+                "A stranger on WhatsApp",
+                "ZESCO",
+                "The Supreme Court"
+              ],
+              "correct": 0,
+              "explanation": "These offices can advise on registration and applications."
+            },
+            {
+              "question": "What keeps a community group open and strong?",
+              "options": [
+                "Only one tribe or party",
+                "Staying peaceful, non-partisan and open to everyone",
+                "Secret money",
+                "Never holding elections"
+              ],
+              "correct": 1,
+              "explanation": "Openness makes groups stronger and harder to dismiss."
             }
           ]
         }

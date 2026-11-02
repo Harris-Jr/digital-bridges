@@ -2,98 +2,270 @@
   "slug": "making-a-complaint",
   "title": "Making a Complaint",
   "tagline": "Which office to use, how to complain clearly, and where to escalate.",
-  "description": "When a service fails, a clear complaint to the right office gets results. Learn who handles what, how to write a strong complaint, where to escalate, and practise with a real scenario.",
+  "description": "When a service fails you, a complaint is how you get it fixed, and how systems improve for everyone. This course helps you choose the right office or regulator, write a clear complaint with evidence, follow up, and escalate calmly when nothing happens.",
   "pathway": "civic-education",
   "category": "citizenship",
   "icon_name": "Scale",
   "difficulty": "easy",
-  "estimated_hours": 2,
+  "estimated_hours": 1.5,
   "pass_mark": 70,
-  "outcomes": [
-    "Match a concern to the office that handles it",
-    "Write a clear, factual complaint",
-    "Know where to escalate if nothing happens",
-    "Practise handling a real situation"
-  ],
   "sort_order": 15,
   "published": true,
+  "outcomes": [
+    "Choose the right office, regulator or oversight body",
+    "Write a clear complaint with the key facts",
+    "Keep evidence and records",
+    "Follow up and escalate calmly",
+    "Know where to report corruption and rights violations",
+    "Find free legal help"
+  ],
   "modules": [
     {
-      "title": "Module 1",
-      "summary": "",
+      "title": "Who to complain to",
+      "summary": "Service providers, regulators and oversight bodies.",
       "lessons": [
         {
           "slug": "which-office-handles-your-concern",
-          "title": "Which office handles your concern",
+          "title": "Start with the service provider",
           "type": "read",
           "est_minutes": 5,
-          "body": "A complaint only works if it reaches the office that can act on it.\n\n## Match the concern\nBroken water point or drainage, uncollected rubbish, market issues — the local council. Poor treatment at a clinic — the health facility, then the district health office. A document problem — the office that issued it. Unsure — your ward councillor can direct you.\n\n## Get the details\nFind the office name and, if you can, a contact person. A complaint sent to the right place is already half-way to being solved.",
+          "body": "Most problems are solved fastest by the **organisation that caused them**. Always start there, unless it is a crime or you are in danger.\n\n## Who is the service provider?\n- **Council:** markets, refuse, local roads, drainage, street lights, levies.\n- **School or clinic:** speak to the head teacher or the clinic in-charge first, then the district education or health office.\n- **ZESCO:** power faults, meters, tokens and bills.\n- **Your water utility:** water supply, leaks and bills.\n- **Your network:** airtime, data, mobile money and SIM problems.\n- **Your bank** or **a shop** for financial products and goods.\n- **A ministry office** for its services, such as social welfare or agricultural support.\n\n## Use their official channels\nMost organisations have a **customer care** line, a complaints desk, an official email or a social media page. Use the official ones from their website, offices or bills, not numbers from strangers.\n\n## Ask for a reference\nEvery complaint should get a **reference number**, ticket or a stamped copy. Write it down, with the date and the name of the person who helped you.\n\n## Give them a fair chance\nOrganisations need time to act. Ask: *\"When should I expect a response?\"* Write the date down.\n\n## When to go further\nIf the provider does not respond or does not fix it in a reasonable time, you can go to a **regulator** or an **oversight body**. The next lessons explain who they are.",
           "key_points": [
-            "Match the concern to the office that can act",
-            "Council handles water, rubbish, drainage, markets",
-            "Health matters go to the facility, then the district office",
-            "Your ward councillor can direct you"
+            "Start with the organisation that caused the problem",
+            "Use official channels only",
+            "Always get a reference number"
           ],
-          "try_it": "Write down one concern and the office that should handle it.",
+          "try_it": "Find the official customer care contact for one service you use.",
           "motif": "community",
-          "video_url": "https://www.youtube.com/watch?v=rsf7wb66Grs",
-          "published": true
+          "video_url": "https://www.youtube.com/watch?v=rsf7wb66Grs"
         },
+        {
+          "slug": "regulators-for-services",
+          "title": "Regulators: when providers do not fix it",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "**Regulators** are public bodies that set rules for a type of service and can act when providers break them. Go to a regulator **after** you have complained to the provider, and bring your reference number.\n\n## Main regulators\n- **Energy Regulation Board (ERB):** electricity and fuel. If ZESCO does not resolve a complaint about power supply or billing, you can take it to the ERB.\n- **NWASCO** (the National Water Supply and Sanitation Council): water utilities. For unresolved complaints about water supply, quality or bills.\n- **ZICTA** (the Zambia Information and Communications Technology Authority): networks, phones, internet and postal services. For unresolved problems with your network, such as poor service or SIM issues.\n- **Bank of Zambia:** banks and many financial service providers. For unresolved complaints about banks, mobile money and lenders, after you have complained to the provider.\n- **CCPC** (the Competition and Consumer Protection Commission): unfair treatment by shops and businesses, such as faulty goods, unfair prices or misleading adverts.\n\n## What regulators can do\nThey can ask the provider to explain, investigate, order corrections, and sometimes fine providers that break the rules. They also use complaints to spot patterns and improve rules for everyone.\n\n## How to contact them\nUse the contact details on each regulator's **official website** or Facebook page. Many accept complaints by phone, email, letter or in person.\n\n## Bring your proof\nRegulators will ask what the provider did. Bring your reference numbers, bills, receipts and dates.",
+          "key_points": [
+            "Regulators act when providers do not",
+            "ERB for electricity, NWASCO for water, ZICTA for networks",
+            "Bank of Zambia for finance, CCPC for shops and businesses"
+          ],
+          "try_it": "Find the official website of the regulator for one service you use.",
+          "motif": "community"
+        },
+        {
+          "slug": "complaining-about-public-officials",
+          "title": "Complaints about public officials",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "Some problems are about how public officials **behave**, not just a service. Special bodies exist for these.\n\n## The Public Protector\nThe **Public Protector**, also called the **Ombudsman**, investigates complaints of **maladministration** by public bodies and officers. This includes unfair treatment, unreasonable delays, abuse of power and decisions made without following the rules. Complaining is **free**.\n\n*Example: your pension or terminal benefits have been delayed for years without explanation.*\n\n## The Human Rights Commission\nThe **Human Rights Commission (HRC)** handles violations of your **rights**, such as discrimination, torture or unlawful detention. Toll-free: **8181**. Email: complaints@hrc.org.zm.\n\n## The Anti-Corruption Commission\nThe **Anti-Corruption Commission (ACC)** deals with **corruption**: when an official asks for a bribe, demands money for a free service, or misuses public money. You can report in person, by letter or through its official channels.\n\n## Complaints about the police\nFor misconduct by police officers, such as unlawful arrest or abuse, you can complain to the **Police Public Complaints Commission**. For crimes, report to a police station, and ask to speak to a senior officer if needed.\n\n## Choosing the right one\n- **Unfair or slow treatment by an office:** Public Protector.\n- **Rights violated:** Human Rights Commission.\n- **Bribes and misuse of money:** Anti-Corruption Commission.\n- **Police misconduct:** Police Public Complaints Commission.\n\nUsing the right body saves time. If you are unsure, any of them can usually point you to the right place.",
+          "key_points": [
+            "Public Protector: unfair treatment and maladministration",
+            "Human Rights Commission: rights violations (toll-free 8181)",
+            "ACC for corruption; PPCC for police misconduct"
+          ],
+          "try_it": "Save the Human Rights Commission's toll-free number, 8181, in your phone.",
+          "motif": "community"
+        },
+        {
+          "slug": "who-to-complain-to-check",
+          "title": "Check: Who to complain to",
+          "type": "quiz",
+          "est_minutes": 3,
+          "body": "A few short questions on this module. There is no time limit, and you can try again.",
+          "motif": "circle",
+          "quiz": [
+            {
+              "question": "Your electricity bill is wrong. Where should you complain first?",
+              "options": [
+                "ZESCO",
+                "The Supreme Court",
+                "The Electoral Commission",
+                "A WhatsApp group"
+              ],
+              "correct": 0,
+              "explanation": "Start with the provider. The ERB can help if ZESCO does not resolve it."
+            },
+            {
+              "question": "A shop refuses to replace a faulty item. Which body can help?",
+              "options": [
+                "CCPC",
+                "The Electoral Commission",
+                "NWASCO",
+                "The House of Chiefs"
+              ],
+              "correct": 0,
+              "explanation": "The Competition and Consumer Protection Commission protects consumers."
+            },
+            {
+              "question": "An official asks you for money to process a free document. Who should you report to?",
+              "options": [
+                "The Anti-Corruption Commission",
+                "Your network",
+                "ZESCO",
+                "Nobody"
+              ],
+              "correct": 0,
+              "explanation": "Demanding bribes is corruption."
+            },
+            {
+              "question": "Your terminal benefits have been delayed for years by a government office with no explanation. Which body handles this kind of complaint?",
+              "options": [
+                "The Public Protector",
+                "ZICTA",
+                "The Bank of Zambia",
+                "NWASCO"
+              ],
+              "correct": 0,
+              "explanation": "The Public Protector deals with maladministration."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Making your complaint",
+      "summary": "Writing it clearly, keeping evidence, and speaking up in person.",
+      "lessons": [
         {
           "slug": "writing-a-clear-complaint",
           "title": "Writing a clear complaint",
           "type": "read",
           "est_minutes": 5,
-          "body": "A strong complaint is short, factual and specific.\n\n## What to include\nState what happened, where, and when. Give facts: dates, a location, how many people are affected. Say clearly what you would like done. Keep it polite — it is more persuasive.\n\n## Keep a record\nWrite or type it and keep a copy. If you hand it in, ask for a stamp or note that it was received. If you send it, keep the message and the date.",
+          "body": "A clear complaint is easier to act on and harder to ignore.\n\n## The five things to include\n1. **Who you are:** name, phone number and where you live.\n2. **What happened:** the facts, in a few short sentences.\n3. **When and where:** dates, times and the exact location.\n4. **What you have already done:** who you contacted, when, and reference numbers.\n5. **What you want:** the specific result you are asking for.\n\n## An example\n*Dear Sir/Madam,*\n\n*My name is Chanda Mwila of Plot 24, Chawama, phone 097...*\n\n*The water point serving Lines 4 to 6 in Chawama has been broken since 10 October. About 80 households now walk 2 km for water.*\n\n*I reported it to your office on 14 October (reference WA/1452) and was told it would be fixed within a week. It has not been fixed.*\n\n*Please repair the water point, and tell me when the work will be done.*\n\n*Yours faithfully,*\n*Chanda Mwila*\n\n## Tips\n- Keep it short: one page or less.\n- Stick to facts. Avoid insults and threats.\n- One problem per complaint where possible.\n- Attach copies, never originals, of documents.\n- Sign and date it, and keep a copy.\n\n## By phone or WhatsApp\nUse the same five points. At the end, ask for a **reference number** and write down the name of the person you spoke to.",
           "key_points": [
-            "Say what happened, where and when",
-            "Give facts: dates, place, people affected",
-            "Say clearly what you want done",
-            "Keep a copy and proof it was received"
+            "Who, what, when and where, what you did, what you want",
+            "Facts only, no insults or threats",
+            "Keep a copy and get a reference"
           ],
-          "try_it": "Draft a three-sentence complaint about a real issue near you.",
-          "motif": "circle",
-          "published": true
+          "try_it": "Write a short complaint about a real problem using the five points.",
+          "motif": "community"
         },
         {
-          "slug": "if-nothing-happens",
-          "title": "If nothing happens",
+          "slug": "evidence-and-records",
+          "title": "Evidence and keeping records",
           "type": "read",
           "est_minutes": 5,
-          "body": "If a complaint is ignored, there are calm next steps.\n\n## Escalate in order\nFollow up first and give your reference. If there is still no response, ask for the supervisor or the next office up. Raising it at a community or ward meeting adds weight.\n\n## Keep going, stay calm\nKeep your copies and your notes of who you spoke to. A civil society organisation or legal aid service can guide you if you are stuck.",
+          "body": "Evidence turns a complaint from *\"they say\"* into *\"this is what happened\"*.\n\n## Useful evidence\n- **Photos and videos** of the problem, with the date showing if possible.\n- **Receipts, bills, contracts** and **transaction messages**.\n- **Letters and emails** sent and received.\n- **Names** of officers you spoke to, and **reference numbers**.\n- **Statements** from other people affected, such as neighbours.\n\n## Make a simple complaint diary\nIn a notebook or on your phone, write one line every time something happens:\n\n- the **date**,\n- **who** you contacted,\n- **what** was said or promised,\n- the **reference** number.\n\n*Example: 14 Oct. Water utility office, Mr Banda. Promised repair within a week. Ref WA/1452.* This diary is very useful if you need to escalate.\n\n## Keep copies safe\n- Never hand over your only original document. Give **copies**.\n- Take photos of all papers and save them in Google Drive or email them to yourself.\n- Keep paper copies in one folder.\n\n## Your stamped copy\nWhen you deliver a letter in person, bring **two copies**. Ask the office to **stamp and sign** your copy as received. That is your proof of the date.\n\n## Be honest\nNever exaggerate or change evidence. If one detail is wrong, people may doubt everything else, and false statements can get you into trouble.",
           "key_points": [
-            "Follow up and give your reference",
-            "Ask for a supervisor or the next office up",
-            "Raise it at a community meeting for weight",
-            "Keep records; seek help if stuck"
+            "Photos, receipts, names and references are evidence",
+            "Keep a complaint diary",
+            "Get a stamped copy of letters you deliver"
           ],
-          "try_it": "Write the order of people you would contact if your complaint is ignored.",
-          "motif": "shield",
-          "published": true
+          "try_it": "Start a complaint diary for any problem you are dealing with now.",
+          "motif": "community"
+        },
+        {
+          "slug": "complaining-in-person",
+          "title": "Complaining in person and by phone",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "Sometimes it is faster to go to the office or call. A calm, prepared approach works best.\n\n## Before you go\n- Write down your **five points** on a paper.\n- Bring your **NRC**, copies of documents and your complaint diary.\n- Go early in the day, when offices are less busy.\n\n## At the office\n- Greet the officer politely and say what you need in one or two sentences.\n- Ask: *\"Who is the right person to deal with this?\"*\n- Hand over a written copy of your complaint, and ask them to **stamp** yours.\n- Ask: *\"What happens next, and when should I expect an answer?\"*\n- Write down the officer's **name** and the date.\n\n## On the phone\n- Have a pen ready.\n- Give your name and the problem clearly.\n- Ask for a **reference number** before you end the call.\n- If the line drops, call back and give the reference.\n\n## Staying calm\nOfficers often deal with problems they did not cause. Being polite gets better results. If you are treated rudely, stay calm, note the officer's name and the time, and ask to speak to a **supervisor**.\n\n## Bring support if you need it\nYou can bring a family member, a community leader or a paralegal with you, especially if you find it hard to explain, or if the language is a barrier.\n\n## Never pay to be served\nPublic services do not require \"tea money\". If anyone asks for payment that is not an official fee with a receipt, report it to the **Anti-Corruption Commission**.",
+          "key_points": [
+            "Prepare your points and documents before you go",
+            "Ask what happens next and write down names",
+            "Never pay a bribe; report it to the ACC"
+          ],
+          "try_it": "Practise saying your complaint in two sentences.",
+          "motif": "community"
+        },
+        {
+          "slug": "making-complaint-check",
+          "title": "Check: Making your complaint",
+          "type": "quiz",
+          "est_minutes": 3,
+          "body": "A few short questions on this module. There is no time limit, and you can try again.",
+          "motif": "circle",
+          "quiz": [
+            {
+              "question": "Which of these belongs in a clear complaint?",
+              "options": [
+                "Insults",
+                "What you want to happen",
+                "Threats",
+                "Unrelated stories"
+              ],
+              "correct": 1,
+              "explanation": "Say clearly what result you are asking for."
+            },
+            {
+              "question": "Why ask the office to stamp your copy of a letter?",
+              "options": [
+                "For decoration",
+                "As proof of the date you delivered it",
+                "It is a fee",
+                "To make it longer"
+              ],
+              "correct": 1,
+              "explanation": "A stamped copy proves when you complained."
+            },
+            {
+              "question": "Should you hand over your original documents?",
+              "options": [
+                "Yes, always",
+                "No, give copies and keep originals",
+                "Only on Fridays",
+                "Only to strangers"
+              ],
+              "correct": 1,
+              "explanation": "Keep originals safe and give copies."
+            },
+            {
+              "question": "An officer says you must pay 'tea money' to be served. What should you do?",
+              "options": [
+                "Pay it",
+                "Refuse and report it to the Anti-Corruption Commission",
+                "Pay half",
+                "Leave and never return"
+              ],
+              "correct": 1,
+              "explanation": "Unofficial payments are corruption."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "When nothing happens",
+      "summary": "Following up, escalating and getting free legal help.",
+      "lessons": [
+        {
+          "slug": "if-nothing-happens",
+          "title": "Following up and escalating",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "Sometimes a complaint is ignored. Escalating step by step, calmly, usually works.\n\n## Step 1: Follow up\nAfter the time you were given, contact the office again with your **reference number**. *\"I complained on 14 October, reference WA/1452. Can you tell me what has been done?\"*\n\n## Step 2: Go to a supervisor\nAsk to speak to the officer's **supervisor**, the head of the office, or the district head of the department. Write to them, attaching copies of your earlier complaint.\n\n## Step 3: Go to the regulator or oversight body\n- For services: the **regulator**, such as ERB, NWASCO, ZICTA, the Bank of Zambia or CCPC.\n- For unfair treatment by public offices: the **Public Protector**.\n- For rights violations: the **Human Rights Commission**.\n- For corruption: the **Anti-Corruption Commission**.\n\nBring your complaint diary and copies of everything.\n\n## Step 4: Involve your representatives\nYour **councillor** or **MP** can raise the matter with the office. Ward Development Committee meetings are also a good place for problems that affect many people.\n\n## Step 5: Make it public, responsibly\nIf many people are affected, a community meeting, a letter signed by many residents, or a call to a local radio programme can add pressure. Stick to facts.\n\n## Step 6: Legal action\nSome problems need a lawyer or a court. The next lesson covers free legal help.\n\n## Patience and persistence\nEscalation takes time. Keep records, stay polite, and keep going.",
+          "key_points": [
+            "Follow up with your reference number",
+            "Supervisor, then regulator or oversight body",
+            "Representatives and community action add weight"
+          ],
+          "try_it": "Write the escalation steps for one problem you know, with the office for each step.",
+          "motif": "community"
         },
         {
           "slug": "a-broken-service-scenario",
           "title": "Scenario: An unresolved problem",
           "type": "scenario",
-          "est_minutes": 5,
-          "body": "Work through a real situation: a service in your area has failed and nothing is happening. Choose what you would do at each step.",
+          "est_minutes": 4,
+          "body": "Work through a real situation: a service in your area has failed and nothing is happening. Choose what you would do at each step. Each choice shows feedback explaining why.",
           "key_points": [
-            "There is often more than one reasonable choice",
-            "The feedback explains why one works best"
+            "Report to the office that can act",
+            "Give specific facts",
+            "Escalate calmly and follow up"
           ],
-          "motif": "community",
-          "published": true,
+          "motif": "circle",
           "scenario": [
             {
               "prompt": "The water point serving your street has been broken for three weeks. What is a good first step?",
               "options": [
                 "Post an angry message in a group chat",
-                "Report it to the local council or your ward councillor",
+                "Report it to the water utility or council, and tell your ward councillor",
                 "Wait and hope someone else reports it"
               ],
               "feedback": [
                 "Venting is understandable, but it does not reach the office that can fix it.",
-                "Right — the council or councillor can log the fault and act on it.",
+                "Right. The office responsible can log the fault and act on it, and your councillor can follow up.",
                 "If everyone waits, the fault stays unreported and unfixed."
               ],
               "best": 1
@@ -106,8 +278,8 @@
                 "Demand it is fixed today or else"
               ],
               "feedback": [
-                "Too vague — they may not find the right fault.",
-                "Yes — specific facts help them act quickly and fairly.",
+                "Too vague. They may not find the right fault.",
+                "Yes. Specific facts help them act quickly and fairly.",
                 "Threats make staff defensive and rarely speed things up."
               ],
               "best": 1
@@ -115,13 +287,13 @@
             {
               "prompt": "Two weeks later nothing has changed. What now?",
               "options": [
-                "Give up — it is hopeless",
-                "Follow up with your reference, then ask for a supervisor and raise it at the next ward meeting",
+                "Give up, it is hopeless",
+                "Follow up with your reference, ask for a supervisor, and raise it at the next ward meeting",
                 "Start a fight with the office"
               ],
               "feedback": [
                 "Giving up leaves the problem for everyone.",
-                "Right — escalate calmly and add weight by raising it publicly.",
+                "Right. Escalate calmly and add weight by raising it publicly. If it is still not fixed, the regulator, NWASCO, can help.",
                 "Conflict damages the relationship you need to solve this."
               ],
               "best": 1
@@ -129,38 +301,81 @@
           ]
         },
         {
-          "slug": "complaint-quiz",
-          "title": "Check what you learned",
-          "type": "quiz",
+          "slug": "free-legal-help",
+          "title": "Free legal help",
+          "type": "read",
           "est_minutes": 5,
-          "body": "Answer these short questions.",
+          "body": "Some problems need legal advice: land disputes, unfair dismissal, inheritance, debt, or when someone is arrested. Lawyers can be expensive, but free and low-cost help exists.\n\n## Legal Aid Board\nThe **Legal Aid Board** provides legal advice and representation to people who cannot afford a lawyer, in many criminal and civil cases. Visit their offices to ask whether you qualify.\n\n## Paralegals and civil society\nTrained **paralegals** work in many communities, police stations and prisons. They explain the law in simple language, help write letters, and guide you to the right office. Many civil society organisations run free **legal aid clinics**, including for women, children and people with disabilities.\n\n## University law clinics\nSome law schools run clinics where supervised students help the public for free.\n\n## Small claims\nFor disputes about small amounts of money, such as unpaid debts or faulty goods, **Small Claims Courts** offer a simpler, cheaper process without needing a lawyer.\n\n## Local Courts\n**Local Courts** handle many customary matters, such as some family and marriage issues, using simpler procedures.\n\n## Before you go\n- Bring your **NRC**, documents and complaint diary.\n- Write down your questions.\n- Be honest about all the facts, even ones that seem bad for you.\n\n## Know the deadlines\nSome legal claims must be made within a certain time. If you think you have a legal case, **seek advice early**.",
           "key_points": [
-            "Take your time"
+            "The Legal Aid Board helps people who cannot afford lawyers",
+            "Paralegals and legal aid clinics give free guidance",
+            "Seek legal advice early because deadlines apply"
           ],
+          "try_it": "Find out where the nearest Legal Aid Board office or legal aid clinic is.",
+          "motif": "community"
+        },
+        {
+          "slug": "complaint-quiz",
+          "title": "Final check: Making a complaint",
+          "type": "quiz",
+          "est_minutes": 4,
+          "body": "Questions covering the whole course. Score 70% or more to complete it. You can try again as many times as you like.",
           "motif": "circle",
-          "published": true,
           "quiz": [
             {
-              "question": "A complaint works best when it is sent to:",
+              "question": "What is usually the first place to complain about a service?",
               "options": [
-                "Anyone nearby",
-                "The office that can act on it",
-                "Only social media",
-                "No one"
+                "The service provider itself",
+                "The Supreme Court",
+                "Social media only",
+                "The Electoral Commission"
               ],
-              "correct": 1,
-              "explanation": "A complaint only gets results when it reaches the office that can actually act on it."
+              "correct": 0,
+              "explanation": "Providers can usually fix problems fastest."
             },
             {
-              "question": "If your complaint is ignored, a good next step is to:",
+              "question": "Your network will not fix a problem after several complaints. Which regulator can you go to?",
               "options": [
-                "Give up",
-                "Follow up, then ask for a supervisor or the next office",
-                "Shout at staff",
-                "Delete your records"
+                "ZICTA",
+                "NWASCO",
+                "ERB",
+                "PACRA"
               ],
-              "correct": 1,
-              "explanation": "Follow up with your reference, then escalate calmly to a supervisor or the next office up."
+              "correct": 0,
+              "explanation": "ZICTA regulates communications services."
+            },
+            {
+              "question": "Who provides legal help to people who cannot afford a lawyer?",
+              "options": [
+                "The Legal Aid Board",
+                "ZESCO",
+                "The Bank of Zambia",
+                "Your network"
+              ],
+              "correct": 0,
+              "explanation": "The Legal Aid Board offers advice and representation."
+            },
+            {
+              "question": "What should you have when you follow up a complaint?",
+              "options": [
+                "Your reference number and dates",
+                "Nothing",
+                "A threat",
+                "A bribe"
+              ],
+              "correct": 0,
+              "explanation": "References and dates let the office find your case quickly."
+            },
+            {
+              "question": "Which body deals with maladministration by public offices, for free?",
+              "options": [
+                "The Public Protector",
+                "CCPC",
+                "ZICTA",
+                "A bank"
+              ],
+              "correct": 0,
+              "explanation": "The Public Protector investigates maladministration."
             }
           ]
         }

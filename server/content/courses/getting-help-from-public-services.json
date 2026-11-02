@@ -2,108 +2,336 @@
   "slug": "getting-help-from-public-services",
   "title": "Getting Help from Public Services",
   "tagline": "Where to go, what to bring, and how to follow up.",
-  "description": "Learn how to find the right office for a service, what papers to prepare, and what to do when your request takes too long. Practical steps for everyday needs like an NRC, a clinic card or a market stand.",
+  "description": "Public services exist to help you: documents, health care, schools, social support and more. But finding the right office, bringing the right papers and following up can be confusing. This course makes it simple, including the government services you can now use online.",
   "pathway": "civic-education",
   "category": "citizenship",
   "icon_name": "Building2",
   "difficulty": "easy",
-  "estimated_hours": 2,
+  "estimated_hours": 1.5,
   "pass_mark": 70,
-  "outcomes": [
-    "Know which office handles which service",
-    "Prepare the right documents before you go",
-    "Ask clearly and keep a record",
-    "Follow up politely when help is delayed",
-    "Know who to turn to next if you are stuck"
-  ],
   "sort_order": 10,
   "published": true,
+  "outcomes": [
+    "Find the right office for common needs",
+    "Use official government services online safely",
+    "Get and protect your NRC and birth certificate",
+    "Prepare the right documents before you go",
+    "Know about social support, education and health services",
+    "Follow up calmly when help is delayed"
+  ],
   "modules": [
     {
-      "title": "Module 1",
-      "summary": "",
+      "title": "Finding the right service",
+      "summary": "Which office does what, online services and your documents.",
       "lessons": [
         {
           "slug": "which-office-does-what",
           "title": "Which office does what",
           "type": "read",
           "est_minutes": 5,
-          "body": "Different needs are handled by different offices. Knowing where to go first saves you time and money.\n\n## Common places\nThe local council handles markets, rubbish, trading licences and many community services. A health facility handles clinic cards and health services. The civic registration office handles the National Registration Card (NRC) and births. Your ward councillor can help with local problems and point you to the right office.\n\n## Start with the right door\nIf you are not sure, ask at the office reception or ask your ward councillor. Going to the right place first means fewer trips.",
+          "body": "Going to the right office first saves time, transport money and frustration.\n\n## Everyday needs and where to go\n- **NRC, passport, birth and death certificates:** the **Department of National Registration, Passport and Citizenship**, through its district and provincial offices.\n- **Health care:** your nearest **clinic** or health post first. They refer you to a hospital if needed.\n- **School places, teachers, bursaries:** the **school**, then the **District Education Board Secretary (DEBS)** office.\n- **Support for vulnerable households:** the district **Social Welfare** or **Community Development** office.\n- **Farming support:** the **agricultural extension officer** or district agriculture office.\n- **Markets, refuse, local roads, trading permits:** your **council**.\n- **CDF bursaries and empowerment:** the **council's CDF office** or your councillor.\n- **Land:** your council, the **Ministry of Lands**, or for customary land, your chief's palace.\n- **Tax and TPIN:** the **Zambia Revenue Authority**.\n- **Business registration:** **PACRA**.\n\n## Ask before you travel\nCall or send a message to the office first, or ask your councillor or a community worker, to check:\n\n- that it is the right office,\n- the opening hours,\n- what to bring,\n- whether there is a fee.\n\n## Civic centres and one-stop offices\nSome towns have **service centres** where several government services are offered in one place. Ask at your council whether there is one near you.",
           "key_points": [
-            "The council handles markets, rubbish and trading licences",
-            "Health facilities handle clinic cards",
-            "Registration offices handle the NRC",
-            "Your ward councillor can point you the right way"
+            "Go to the right office first",
+            "Call or ask before you travel",
+            "Check opening hours, documents and fees"
           ],
-          "try_it": "Think of one service you need. Write down which office is most likely to handle it.",
-          "motif": "community",
-          "published": true
+          "try_it": "Choose one service you need and find out which office provides it.",
+          "motif": "community"
         },
+        {
+          "slug": "online-government-services",
+          "title": "Government services online",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "More and more government services can be started or completed **online**, saving travel and queues.\n\n## Official portals\n- **ZamPortal** (zamportal.gov.zm) is the government's official portal. It lists services and links to them.\n- The **e-services portal** (eservices.gov.zm) lets you apply, fill in forms and pay for many services online.\n- Many bodies have their own online systems, such as **ZRA** for tax, **PACRA** for business registration, and **ECZ** for voter information.\n\n## What you might do online\n- Register a business name.\n- Get a TPIN and file tax returns.\n- Apply for some licences and permits.\n- Check information about services, fees and requirements.\n\n## Staying safe online\nFake websites copy government pages to steal money and personal details.\n\n- **Type the address yourself**, or use links from official pages. Do not trust links in WhatsApp messages.\n- Official Zambian government websites usually end in **.gov.zm**.\n- Check for **https** and the lock symbol before entering details.\n- Pay only through the official payment options on the official site, and keep your receipt or payment reference.\n- No real government office will ask for your mobile money **PIN**.\n\n## If you get stuck\nMany ICT hubs, libraries and community centres help people use online services. Ask a trusted person, and never give your passwords to anyone helping you.",
+          "key_points": [
+            "ZamPortal and eservices.gov.zm are official portals",
+            "Official sites usually end in .gov.zm",
+            "Never use links from WhatsApp for government payments"
+          ],
+          "try_it": "Visit zamportal.gov.zm and find one service listed there.",
+          "motif": "community"
+        },
+        {
+          "slug": "getting-your-documents",
+          "title": "Your NRC and birth certificate",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "Your **documents** prove who you are. You need them for many things: registering a SIM, opening a bank account, voting, school, jobs, and getting government support.\n\n## The National Registration Card (NRC)\nZambian citizens apply for an NRC from the age of **16**, at the **Department of National Registration, Passport and Citizenship**. Ask the office what to bring, which usually includes proof of your age and identity, such as a birth certificate or a parent's or relative's NRC.\n\n## Birth certificates\nRegister a child's birth as soon as possible after birth. A **birth certificate** proves a child's age, name and parents. It helps children get into school, sit exams, and later get an NRC and passport. Ask at the registration office or the hospital where the child was born about registration.\n\n## Lost or damaged documents\nIf your NRC is lost or stolen:\n\n1. Report it to the **police** and get a police report.\n2. Take the report to the registration office to apply for a replacement.\n\n## Protecting your documents\n- Keep originals in a dry, safe place at home, such as a plastic folder.\n- Make **photocopies** and take **photos** of your documents. Save them in your email or Google Drive.\n- Do not leave your NRC with anyone as security for a loan or a debt. Nobody has the right to keep it.\n- Share copies only with offices that really need them, and write on the copy what it is for.\n\n## Fees\nAsk what the official fee is and always get an **official receipt**. Report anyone asking for extra money.",
+          "key_points": [
+            "Citizens apply for an NRC from age 16",
+            "Register births early",
+            "Never leave your NRC as security for a debt"
+          ],
+          "try_it": "Take a clear photo of your NRC and save it somewhere private and safe.",
+          "motif": "community"
+        },
+        {
+          "slug": "finding-service-check",
+          "title": "Check: Finding the right service",
+          "type": "quiz",
+          "est_minutes": 3,
+          "body": "A few short questions on this module. There is no time limit, and you can try again.",
+          "motif": "circle",
+          "quiz": [
+            {
+              "question": "Where do you apply for an NRC?",
+              "options": [
+                "The Department of National Registration, Passport and Citizenship",
+                "ZESCO",
+                "A bank",
+                "The Electoral Commission"
+              ],
+              "correct": 0,
+              "explanation": "National Registration handles NRCs, passports and citizenship."
+            },
+            {
+              "question": "Which is the government's official services portal?",
+              "options": [
+                "zamportal.gov.zm",
+                "zam-portal-free-money.com",
+                "A WhatsApp link",
+                "Any Facebook page"
+              ],
+              "correct": 0,
+              "explanation": "ZamPortal is official. Official sites usually end in .gov.zm."
+            },
+            {
+              "question": "A moneylender says they will keep your NRC until you pay back. Is this right?",
+              "options": [
+                "Yes",
+                "No, nobody has the right to keep your NRC",
+                "Only for small loans",
+                "Only on weekends"
+              ],
+              "correct": 1,
+              "explanation": "Your NRC is yours. Do not leave it as security."
+            },
+            {
+              "question": "Your NRC was stolen. What is the first step?",
+              "options": [
+                "Buy a fake one",
+                "Report it to the police and get a report",
+                "Do nothing",
+                "Use a friend's"
+              ],
+              "correct": 1,
+              "explanation": "A police report is needed to apply for a replacement."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Using public services",
+      "summary": "Preparing, social support, education and health.",
+      "lessons": [
         {
           "slug": "what-to-bring-and-how-to-ask",
           "title": "What to bring and how to ask",
           "type": "read",
           "est_minutes": 5,
-          "body": "Most offices ask for the same few things. Bringing them the first time avoids being turned away.\n\n## Prepare your papers\nCarry your NRC. Bring any forms, letters or receipts that relate to your request, and bring copies as well as the originals. If someone is helping you, bring a letter from them.\n\n## Ask clearly\nSay what you need in one sentence. Ask for the name of the officer helping you and write it down. Ask how long it will take and what the next step is.",
+          "body": "A little preparation turns a frustrating day into a successful visit.\n\n## Before you go\n- Find out the **requirements**: documents, forms, photos, fees.\n- Put your documents in a folder: **originals and copies**.\n- Bring your **NRC**, and a pen.\n- Bring **passport-size photos** if the service may need them.\n- Write down what you need in one or two sentences.\n- Go early, and bring water and patience.\n\n## At the office\n- Join the right queue. Ask if you are unsure.\n- Greet the officer politely and explain your need clearly.\n- If you do not understand something, ask: *\"Can you explain that again, please?\"* You can also ask for help in your language.\n- Ask what happens next and **how long** it will take.\n- Get a **receipt** for any payment, and a **reference** or collection slip.\n- Write down the officer's name and the date.\n\n## Special help\n- **Elderly people, pregnant women and people with disabilities** can ask for priority or help.\n- You may bring someone to help you explain, read or write.\n\n## If you are sent away\nAsk clearly: *\"What exactly do I need to bring next time?\"* Ask them to write it down. That way your next visit will be the last one.\n\n## Know the official fee\nMany public services are free or have a fixed fee. If you are asked to pay without a receipt, or more than the official fee, that is not right. Report it.",
           "key_points": [
-            "Carry your NRC and bring copies of papers",
-            "Say what you need in one clear sentence",
-            "Write down the officer's name",
-            "Ask how long it will take"
+            "Find the requirements before you go",
+            "Bring originals and copies",
+            "Ask what happens next and get a receipt"
           ],
-          "try_it": "Before your next visit, make a small checklist of the papers you will carry.",
-          "motif": "circle",
-          "published": true
+          "try_it": "Make a checklist of what to bring for one service you need.",
+          "motif": "community"
         },
         {
+          "slug": "social-support-services",
+          "title": "Social support and education",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "Government runs programmes to help households in difficulty and to keep children in school.\n\n## Social cash transfer\nThe **Social Cash Transfer** programme gives regular cash payments to eligible poor and vulnerable households, such as households headed by elderly people, people with disabilities, or those caring for many children. It is managed by the **Ministry of Community Development and Social Services**. Ask at your district **Social Welfare** or **Community Development** office, or your **Community Welfare Assistance Committee**, about eligibility.\n\n## Public Welfare Assistance\nThe **Public Welfare Assistance Scheme** can provide help in emergencies and to people in great need. Ask your district Social Welfare office.\n\n## Free education\nGovernment provides **free education** in public schools from early childhood to secondary level. Schools should not turn children away for not paying tuition fees. If a child is denied a place, talk to the head teacher, then the **DEBS** office.\n\n## Bursaries\n- **CDF** offers secondary boarding school bursaries and skills development bursaries. Ask your council's CDF office when applications open.\n- Some universities and colleges have their own bursary and loan schemes.\n\n## Applying is free\nThese programmes are free to apply for. Be very careful of anyone who asks for money to \"add your name to the list\". Report it to the district office or the Anti-Corruption Commission.\n\n## Keep records\nKeep copies of all forms you fill in, and note the dates and names of officers who helped you.",
+          "key_points": [
+            "Social cash transfer supports eligible vulnerable households",
+            "Public schools provide free education",
+            "Applying for support is free; report anyone asking for money"
+          ],
+          "try_it": "Find out where your district Social Welfare office is.",
+          "motif": "community"
+        },
+        {
+          "slug": "health-services",
+          "title": "Using health services",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "Public health services are organised in levels. Using them in the right order gets you faster care.\n\n## The levels\n1. **Health posts and community health workers** in villages and compounds.\n2. **Health centres and clinics**.\n3. **District hospitals**.\n4. **Provincial and central hospitals**, such as university teaching hospitals, for specialist care.\n\nStart at your **local clinic**. If you need more care, they give you a **referral** to the next level. Going straight to a big hospital without a referral often means longer waits.\n\n## What to bring\n- Your **NRC** or the child's birth certificate or under-five card.\n- Your **health record book** or card, if you have one.\n- Any medicines you are already taking.\n\n## Costs\nBasic services at government clinics are generally free. If you are asked to pay, ask what the payment is for and ask for an **official receipt**.\n\n## Your rights as a patient\n- To be treated with respect and dignity.\n- To have things explained in language you understand.\n- To privacy about your health.\n- To agree before treatment, when you are able to.\n\n## Emergencies\nIn an emergency, go straight to the nearest health facility or hospital. Ask someone to call ahead if possible.\n\n## Health information\nFor health advice, trust health workers and the **Ministry of Health**, not forwarded messages.\n\n## Feedback\nMany facilities have a suggestion box or a person in charge to receive complaints. If a problem continues, contact the **District Health Office**.",
+          "key_points": [
+            "Start at your local clinic and get a referral",
+            "Bring your NRC and health record book",
+            "You have the right to respect, privacy and clear explanations"
+          ],
+          "try_it": "Find out the opening hours of your nearest clinic.",
+          "motif": "community"
+        },
+        {
+          "slug": "using-services-check",
+          "title": "Check: Using public services",
+          "type": "quiz",
+          "est_minutes": 3,
+          "body": "A few short questions on this module. There is no time limit, and you can try again.",
+          "motif": "circle",
+          "quiz": [
+            {
+              "question": "What should you get when you pay a fee at a public office?",
+              "options": [
+                "An official receipt",
+                "Nothing",
+                "A handshake only",
+                "A WhatsApp message from a stranger"
+              ],
+              "correct": 0,
+              "explanation": "Always get an official receipt."
+            },
+            {
+              "question": "Where should you usually go first for health care?",
+              "options": [
+                "Your local clinic",
+                "The biggest hospital in the country",
+                "A pharmacy abroad",
+                "Facebook"
+              ],
+              "correct": 0,
+              "explanation": "Start at the clinic and get a referral if needed."
+            },
+            {
+              "question": "Someone says they can add your name to the social cash transfer list for K200. What is this?",
+              "options": [
+                "The official fee",
+                "A scam or corruption; applying is free",
+                "A bursary",
+                "A tax"
+              ],
+              "correct": 1,
+              "explanation": "These programmes are free to apply for."
+            },
+            {
+              "question": "A public school refuses a child because the family cannot pay tuition. What can the family do?",
+              "options": [
+                "Nothing",
+                "Talk to the head teacher, then the DEBS office",
+                "Pay a bribe",
+                "Change the child's name"
+              ],
+              "correct": 1,
+              "explanation": "Public schools provide free education; DEBS can help."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "When help is delayed",
+      "summary": "Following up, your rights as a service user, and helping others.",
+      "lessons": [
+        {
           "slug": "when-help-is-delayed",
-          "title": "When help is delayed",
+          "title": "Practice: when help is delayed",
           "type": "practice",
           "est_minutes": 5,
-          "body": "Sometimes a request takes longer than expected. Staying calm and keeping records helps you follow up well.\n\n## A real situation\nYou applied for a service two weeks ago and heard nothing. What do you do? Go back, or call, and give your reference or the officer's name. Ask politely what stage your request is at and when it will be ready.\n\n## Keep a record\nWrite the date, who you spoke to and what they said each time. If it is still stuck, ask who the supervisor is, or ask your ward councillor to help you follow up.",
+          "body": "*Mrs Tembo applied for her NRC replacement two months ago. She was told to come back in two weeks. She has returned three times and been told \"not yet\" each time.*\n\n## Step 1: Check her records\nShe has her collection slip with a **reference number** and the date she applied. She also wrote the names of the officers she spoke to.\n\n## Step 2: Ask a specific question\nAt the office, she asks politely: *\"My reference is NR-5521, applied on 2 September. Can you check exactly where my application is, and what is causing the delay?\"* A specific question gets a specific answer.\n\n## Step 3: Ask for a supervisor\nIf the answer is unclear, she asks to speak to the **officer in charge** of the office. She explains calmly, showing her dates.\n\n## Step 4: Write it down\nShe leaves a short **letter** with her name, reference, dates and her phone number, and asks for her copy to be stamped.\n\n## Step 5: Get help if needed\nIf nothing changes, she can:\n- ask her **councillor** or **MP's office** to follow up,\n- complain to the **Public Protector** about unreasonable delay by a public office.\n\n## What helped most\nKeeping records, asking specific questions, staying calm, and escalating step by step.",
           "key_points": [
-            "Follow up calmly and give your reference",
-            "Ask what stage your request is at",
-            "Write down each conversation",
-            "Ask for a supervisor or your councillor if stuck"
+            "Keep reference numbers, dates and names",
+            "Ask specific questions about your application",
+            "Escalate calmly: supervisor, letter, representatives, Public Protector"
           ],
-          "try_it": "Make a simple note page: date, person, what they said. Use it next time you follow up.",
-          "motif": "community",
-          "published": true
+          "try_it": "Look at any application you are waiting on and write down its reference and date.",
+          "motif": "community"
+        },
+        {
+          "slug": "your-rights-as-a-service-user",
+          "title": "Your rights as a service user",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "Public servants are paid with public money to serve you. You have a right to fair, respectful service.\n\n## What you can expect\n- To be treated **politely and fairly**, whatever your tribe, religion, age, disability or political views.\n- To receive **clear information** about requirements, fees and timelines.\n- To be served **without paying bribes**.\n- To get **receipts** for all payments.\n- To have your **personal information** kept private.\n- To **complain** if the service is poor, without being punished for it.\n\n## Service charters\nSome public bodies publish a **service charter**, a promise of what service you can expect and how quickly. Look for it on notice boards and official websites. It is useful when you follow up: *\"Your charter says this service takes 10 working days, and it has been 20.\"*\n\n## Your responsibilities\n- Bring the right documents.\n- Be honest in what you declare.\n- Treat officers with respect.\n- Follow the queue and rules.\n- Report corruption instead of taking part in it.\n\n## When rights are not respected\n- Ask to speak to the officer in charge.\n- Complain to the **Public Protector** for unfair treatment or unreasonable delay.\n- Report bribery to the **Anti-Corruption Commission**.\n- Report discrimination to the **Human Rights Commission** (toll-free 8181).\n\n## Good service deserves thanks\nWhen officers help you well, thank them. Positive feedback encourages good service.",
+          "key_points": [
+            "You have a right to fair, respectful service without bribes",
+            "Look for service charters",
+            "Know where to complain if rights are not respected"
+          ],
+          "try_it": "Look for a service charter on the notice board of a public office you visit.",
+          "motif": "community"
+        },
+        {
+          "slug": "helping-others-access-services",
+          "title": "Helping others get services",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "Many people struggle to use public services: elderly relatives, people with disabilities, people who cannot read, or those who live far away. You can help.\n\n## Ways to help\n- **Go with them** to the office and help explain.\n- **Read and fill in forms** with them, explaining each part. Let them sign themselves.\n- **Find information** for them online or by phone: requirements, opening hours, fees.\n- **Help them keep records**: copies, receipts, reference numbers.\n- **Translate** if they speak a different language from the officer.\n\n## Respect their choices\nHelp the person decide; do not decide for them. Explain options and let them choose.\n\n## Protect their privacy and money\n- Never ask for their mobile money **PIN** or bank details.\n- Do not keep their NRC or other documents.\n- Keep any personal information you learn private.\n\nSadly, some people take advantage of those they \"help\". Make sure your help is honest and transparent, and encourage others to be careful of strangers who offer help for a fee.\n\n## Community support\nCommunity health workers, social welfare committees, church groups and paralegals already help people use services. Joining or supporting them multiplies the good you can do.\n\n## Help them speak for themselves\nThe best help builds confidence. Over time, many people can do it themselves with a little practice.",
+          "key_points": [
+            "Go with them, read forms with them, and keep records",
+            "Never ask for their PIN or keep their documents",
+            "Help them decide and build confidence"
+          ],
+          "try_it": "Offer to help one elderly relative or neighbour with a service they need.",
+          "motif": "community"
         },
         {
           "slug": "public-services-quiz",
-          "title": "Check what you learned",
+          "title": "Final check: Getting help from public services",
           "type": "quiz",
-          "est_minutes": 5,
-          "body": "Answer these short questions.",
-          "key_points": [
-            "Take your time"
-          ],
+          "est_minutes": 4,
+          "body": "Questions covering the whole course. Score 70% or more to complete it. You can try again as many times as you like.",
           "motif": "circle",
-          "published": true,
           "quiz": [
             {
-              "question": "Who usually handles markets, rubbish and trading licences?",
+              "question": "Your application is delayed. What is the most useful thing to have?",
               "options": [
-                "The health facility",
-                "The local council",
-                "The school",
-                "The police"
+                "Your reference number and the date you applied",
+                "Nothing",
+                "A gift for the officer",
+                "A rumour"
               ],
-              "correct": 1,
-              "explanation": "The local council handles markets, rubbish, trading licences and many community services."
+              "correct": 0,
+              "explanation": "References and dates let you ask specific questions."
             },
             {
-              "question": "Your request has taken too long. What is a good first step?",
+              "question": "Which body handles complaints about unreasonable delay by a public office?",
               "options": [
-                "Give up",
-                "Follow up calmly and give your reference",
-                "Complain loudly to everyone",
-                "Start again from the beginning"
+                "The Public Protector",
+                "ZESCO",
+                "PACRA",
+                "The Bank of Zambia"
+              ],
+              "correct": 0,
+              "explanation": "The Public Protector deals with maladministration, including delays."
+            },
+            {
+              "question": "You are helping your grandmother apply for support. What should you NOT do?",
+              "options": [
+                "Read the form with her",
+                "Ask for her mobile money PIN",
+                "Keep copies of her receipts",
+                "Go with her to the office"
               ],
               "correct": 1,
-              "explanation": "Follow up calmly, give your reference or the officer's name, and ask what stage it is at."
+              "explanation": "Never ask for someone's PIN."
+            },
+            {
+              "question": "Official Zambian government websites usually end in...",
+              "options": [
+                ".gov.zm",
+                ".free-money.com",
+                ".xyz",
+                "Nothing"
+              ],
+              "correct": 0,
+              "explanation": "Official sites usually end in .gov.zm."
+            },
+            {
+              "question": "What is a service charter?",
+              "options": [
+                "A public promise of what service and timelines to expect",
+                "A bus timetable",
+                "A type of tax",
+                "A bribe"
+              ],
+              "correct": 0,
+              "explanation": "Service charters set out standards you can expect."
             }
           ]
         }

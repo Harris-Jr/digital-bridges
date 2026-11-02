@@ -1,110 +1,338 @@
 {
   "slug": "your-right-to-information",
   "title": "Your Right to Information",
-  "tagline": "How to ask public offices for information you need.",
-  "description": "Public offices hold information that belongs to the people. Learn what you can ask for, how to write a simple request, and what steps to take if your request is refused.",
+  "tagline": "How to ask public offices for the information you need.",
+  "description": "Since 2024, Zambia's Access to Information Act gives everyone a legal way to ask public bodies for information: about a budget, a project, a decision or a service. This course explains what you can ask for, how to make a request step by step, the time limits offices must follow, and what to do if they refuse.",
   "pathway": "civic-education",
   "category": "citizenship",
   "icon_name": "FileSearch",
   "difficulty": "easy",
   "estimated_hours": 1.5,
   "pass_mark": 70,
-  "outcomes": [
-    "Understand what information you can ask for",
-    "Write a clear, simple request",
-    "Keep a copy and a record of your request",
-    "Know what to do if you are refused",
-    "Follow the right steps to appeal"
-  ],
   "sort_order": 11,
   "published": true,
+  "outcomes": [
+    "Explain what the Access to Information Act, 2023 does",
+    "Know what information you can ask for, and what may be withheld",
+    "Make a request in writing or orally",
+    "Know the time limits for a response",
+    "Appeal to the Human Rights Commission if refused",
+    "Use information to solve community problems"
+  ],
   "modules": [
     {
-      "title": "Module 1",
-      "summary": "",
+      "title": "Your right to know",
+      "summary": "The law, what you can ask for, and what offices must publish.",
       "lessons": [
+        {
+          "slug": "what-is-access-to-information",
+          "title": "What is the right to information?",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "Public bodies hold a lot of information that affects your life: budgets, plans, contracts, reports and decisions. The **right to information** means you can ask to see it.\n\n## The law\nThe **Access to Information Act, No. 24 of 2023** was passed in December 2023 and came into force on **25 June 2024**. It supports the freedom of expression in the **Constitution**, which includes the freedom to receive information.\n\n## Who must give information\nThe Act applies to **information holders**. These are mainly public bodies, such as:\n\n- ministries and government departments,\n- councils,\n- public institutions and state-owned companies,\n- other bodies that use public money or provide public services, as set out in the Act.\n\nThey must appoint **information officers** to help people who make requests.\n\n## Who oversees it\nThe **Human Rights Commission** oversees the Act. It promotes the right to information, and hears **appeals** when people are refused.\n\n## Why it matters\nInformation helps you:\n\n- check whether a promised project was funded,\n- understand why a decision was made,\n- find out what services you are entitled to,\n- hold leaders accountable with facts instead of rumours.\n\n## You do not need to explain why\nIn general, you do not have to be a journalist or a lawyer to ask. Any person can make a request. Clear, specific requests get the best results.",
+          "key_points": [
+            "The Access to Information Act, 2023 came into force in June 2024",
+            "Public bodies must answer requests",
+            "The Human Rights Commission oversees the law"
+          ],
+          "try_it": "Think of one piece of information about your community you would like to know.",
+          "motif": "community"
+        },
         {
           "slug": "information-you-can-ask-for",
           "title": "Information you can ask for",
           "type": "read",
           "est_minutes": 5,
-          "body": "Public offices keep information that belongs to the people. In many cases you have a right to ask for it.\n\n## What this means\nYou can ask a public office for information such as how a service works, what a project will cost, or the steps in a process. You do not always need to give a reason.\n\n## What to expect\nThe office should help you or explain how to make a request. Some information is protected, for example personal details of other people, but much of it can be shared.",
+          "body": "You can ask for information that a public body **already holds**, in records such as documents, reports, letters, emails, maps, photos and data.\n\n## Examples of useful requests\n- The **budget** and spending for a CDF project in your ward.\n- The **contract** and completion date for a road or school project.\n- The **minutes** of a council meeting.\n- The **criteria** for choosing who receives bursaries or social cash transfer.\n- **Inspection reports** for a market, school or clinic.\n- **Plans** for land use or a new development in your area.\n\n## Information that may be withheld\nThe right is not unlimited. The Act allows some information to be withheld or delayed, for example to protect:\n\n- **other people's private information**,\n- **safety and security**,\n- some **commercial secrets** of businesses,\n- matters before the **courts**.\n\nIf a request is refused, the office must explain why in writing and tell you that you can appeal.\n\n## Your own information\nTo see personal information an organisation holds about **you**, such as your records, you can also use your rights under the **Data Protection Act, 2021**.\n\n## Ask for what exists\nThe Act gives access to existing records. It does not require an office to write a new report or answer opinion questions. Instead of *\"Why is the clinic so bad?\"* ask *\"Please provide the clinic's drug supply records for the last three months.\"*",
           "key_points": [
-            "Public information belongs to the people",
-            "You can ask how a service or project works",
-            "You often do not need to give a reason",
-            "Some private information is protected"
+            "You can ask for records a public body already holds",
+            "Some information may be withheld, with written reasons",
+            "Ask for specific records, not opinions"
           ],
-          "try_it": "Think of one thing about a public service you would like to understand better.",
-          "motif": "shield",
-          "video_url": "https://www.youtube.com/watch?v=uQzMZRH56f0",
-          "published": true
+          "try_it": "Rewrite a complaint you have as a request for a specific record.",
+          "motif": "community",
+          "video_url": "https://www.youtube.com/watch?v=uQzMZRH56f0"
         },
         {
-          "slug": "writing-a-simple-request",
-          "title": "Writing a simple request",
+          "slug": "information-published-for-you",
+          "title": "Information offices must publish",
           "type": "read",
           "est_minutes": 5,
-          "body": "A clear request is easier to answer. You do not need big words.\n\n## What to include\nSay who you are, what information you want, and how you would like to receive it. Be specific: name the project, office or time period. Keep it short.\n\n## Keep a copy\nWrite or type your request and keep a copy. If you hand it in, ask for a stamp or a note that it was received. If you send it, keep the message.",
+          "body": "You do not always need to make a request. The Act also requires information holders to **publish** important information on their own, so the public can find it easily. This is called **proactive disclosure**.\n\n## What this means\nPublic bodies are expected to make available information of public interest, such as:\n\n- what the body does and how it is organised,\n- the services it provides and how to access them,\n- its budgets and key reports,\n- the contact details of its **information officer**.\n\nInformation holders were given time, until June 2026, to put their systems in place.\n\n## Where to look first\nBefore making a request, check:\n\n- the body's **official website** and Facebook page,\n- **notice boards** at councils, schools and clinics,\n- **Parliament's** website for budgets, reports and debates,\n- the **Auditor General's** reports,\n- the **Government Gazette** and **ZambiaLII** for laws.\n\nIf the information is already published, you will get it faster.\n\n## Information officers\nEvery information holder should have an **information officer** whose job is to help you. Ask at the reception of a ministry, council or public body: *\"Who is your information officer?\"*\n\n## Accessible formats\nIf you have a disability, you can ask for information in an accessible format, such as large print or read aloud.",
           "key_points": [
-            "Say who you are and what you want",
-            "Be specific about the project or office",
-            "Keep a copy of your request",
-            "Ask for proof that it was received"
+            "Many offices must publish key information without being asked",
+            "Check websites and notice boards first",
+            "Ask for the information officer"
           ],
-          "try_it": "Draft two sentences asking for one piece of public information you care about.",
-          "motif": "circle",
-          "published": true
+          "try_it": "Find the official website of your council or a ministry and look for published reports.",
+          "motif": "community"
         },
         {
+          "slug": "right-to-know-check",
+          "title": "Check: Your right to know",
+          "type": "quiz",
+          "est_minutes": 3,
+          "body": "A few short questions on this module. There is no time limit, and you can try again.",
+          "motif": "circle",
+          "quiz": [
+            {
+              "question": "Which law gives you the right to request information from public bodies?",
+              "options": [
+                "The Access to Information Act, 2023",
+                "The Lands Act",
+                "The Road Traffic Act",
+                "The Cyber Security Act"
+              ],
+              "correct": 0,
+              "explanation": "The Access to Information Act came into force in June 2024."
+            },
+            {
+              "question": "Which body oversees the Access to Information Act and hears appeals?",
+              "options": [
+                "The Human Rights Commission",
+                "ZESCO",
+                "ZICTA",
+                "The Electoral Commission"
+              ],
+              "correct": 0,
+              "explanation": "The Human Rights Commission oversees the Act."
+            },
+            {
+              "question": "Which is the best request?",
+              "options": [
+                "Why is the council so useless?",
+                "Please provide the contract and completion date for the Kanyama market shelter",
+                "Tell me everything",
+                "Write me a new report"
+              ],
+              "correct": 1,
+              "explanation": "Specific requests for existing records work best."
+            },
+            {
+              "question": "Who should help you make a request at a public body?",
+              "options": [
+                "The information officer",
+                "A security guard only",
+                "A bank teller",
+                "Nobody"
+              ],
+              "correct": 0,
+              "explanation": "Information holders must appoint information officers."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Making a request",
+      "summary": "Forms, timelines and tips for good requests.",
+      "lessons": [
+        {
+          "slug": "writing-a-simple-request",
+          "title": "Making a request step by step",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "## The form\nRequests are made using **Form 1**, set out in the **Access to Information (General) Regulations, 2025**. Ask the information officer for the form, or look for it on the Human Rights Commission's website.\n\n## In writing or by speaking\n- You can apply **in writing**, filling in the form.\n- You can apply **orally**, by speaking. If you cannot write, the information holder must fill in the form for you.\n\n## The steps\n1. Go to the office that holds the information, and ask for the **information officer**.\n2. Fill in **three copies** of Form 1.\n3. Describe the information clearly: what, which place, which dates.\n4. Say what **format** you want, such as a photocopy, an electronic copy, or to view it in person.\n5. The office must **date-stamp and sign** the copies. **Keep one copy** as your proof.\n\n## Fees\nThere may be fees, such as for copying. The office must tell you about any fees **before** it continues processing your request.\n\n## An example description\n*\"Copies of the bill of quantities, contract and payment records for the 1x3 classroom block at Chawama Primary School, funded by CDF in 2025.\"*\n\n## Keep a record\nWrite down the date you submitted, the name of the person who received it, and any reference number. You will need these if there is a delay or refusal.",
+          "key_points": [
+            "Use Form 1, in writing or orally",
+            "Fill three copies and keep a stamped one",
+            "Fees must be told to you in advance"
+          ],
+          "try_it": "Write a one-sentence description of information you would request, with place and dates.",
+          "motif": "community"
+        },
+        {
+          "slug": "time-limits",
+          "title": "Time limits: how long they have",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "The law sets clear **time limits**, so requests cannot be ignored forever.\n\n## The main deadlines\n- **7 days:** the information holder must decide whether to give you the information and tell you **in writing**.\n- If another body holds the information, your request may be **transferred** within **5 days**, and you must be told within **7 days**.\n- The holder can **extend** the time by up to **14 days**, but must give you written reasons within 7 days.\n- If information is going to be published soon, access may be **deferred**, normally for no more than **30 days**. You can respond with your reasons within **14 days**.\n\n## If they do not answer\nIf the information holder does not respond within the time allowed, the request is **treated as refused**. This is called a **deemed refusal**. You can then appeal.\n\n## If the information cannot be found\nIf a record cannot be found after a reasonable search, the holder must tell you in writing. If it is found later, they must process your request within **7 days**.\n\n## Keep track\nMark the dates on a calendar from the day your copy was stamped. If a deadline passes, follow up politely with your reference number before appealing.\n\n## Days and details\nThe exact rules are in the Act and the 2025 Regulations. The Human Rights Commission publishes guides that explain them.",
+          "key_points": [
+            "7 days for a written decision",
+            "Extensions of up to 14 days need written reasons",
+            "No answer in time counts as a refusal you can appeal"
+          ],
+          "try_it": "Mark on a calendar what date would be 7 days from today.",
+          "motif": "community"
+        },
+        {
+          "slug": "tips-for-good-requests",
+          "title": "Tips for a request that works",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "A well-written request is easier to answer and harder to refuse.\n\n## Be specific\n- Name the **place**: the school, ward, road or market.\n- Give **dates** or periods: *January to June 2026*.\n- Name the **type of record**: contract, minutes, budget, report.\n\n## Ask for a little at a time\nA request for *\"all documents about roads\"* may be slow or refused as too large. Start with one project or one document.\n\n## Use the right office\nSend the request to the body that holds the information. For a CDF project, start with the **council**. For a national programme, the **ministry**.\n\n## Be polite and patient\nOfficers are more willing to help when treated with respect. Many requests are answered smoothly.\n\n## Work together\nCommunity groups, parent-teacher associations and residents' groups can make requests together. Sharing the work also shares the results.\n\n## Use what you receive\nWhen you get information:\n\n- read it carefully and compare it with what you see on the ground,\n- keep the original safe,\n- share it accurately, without adding claims you cannot prove.\n\n## Protect yourself\nRequests are a lawful right. If anyone threatens you for making a request, keep evidence and report it to the Human Rights Commission or the police.",
+          "key_points": [
+            "Be specific about place, dates and type of record",
+            "Ask for one thing at a time",
+            "Requests are your lawful right"
+          ],
+          "try_it": "Improve this request: 'Give me road documents.'",
+          "motif": "community"
+        },
+        {
+          "slug": "making-request-check",
+          "title": "Check: Making a request",
+          "type": "quiz",
+          "est_minutes": 3,
+          "body": "A few short questions on this module. There is no time limit, and you can try again.",
+          "motif": "circle",
+          "quiz": [
+            {
+              "question": "How many copies of Form 1 should you fill in?",
+              "options": [
+                "One",
+                "Two",
+                "Three",
+                "Ten"
+              ],
+              "correct": 2,
+              "explanation": "Fill three copies; keep a stamped one."
+            },
+            {
+              "question": "You cannot write. Can you still make a request?",
+              "options": [
+                "No",
+                "Yes, orally; the office must fill in the form for you",
+                "Only through a lawyer",
+                "Only by email"
+              ],
+              "correct": 1,
+              "explanation": "The law allows oral requests."
+            },
+            {
+              "question": "How long does the information holder have to give a written decision?",
+              "options": [
+                "7 days",
+                "6 months",
+                "1 year",
+                "There is no limit"
+              ],
+              "correct": 0,
+              "explanation": "The holder must decide and inform you within 7 days."
+            },
+            {
+              "question": "The office never answers your request in time. What is this?",
+              "options": [
+                "A grant",
+                "A deemed refusal that you can appeal",
+                "Approval",
+                "A fee"
+              ],
+              "correct": 1,
+              "explanation": "No response within the time allowed counts as a refusal."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "When things go wrong",
+      "summary": "Refusals, appeals and using information well.",
+      "lessons": [
+        {
           "slug": "if-they-say-no",
-          "title": "If they say no",
+          "title": "Practice: if they say no",
           "type": "practice",
           "est_minutes": 5,
-          "body": "Sometimes a request is refused or ignored. There are calm steps you can take.\n\n## Ask for the reason\nIf you are refused, ask for the reason in writing. A reason helps you know what to do next.\n\n## Follow the next step\nAsk the office how to appeal or who to take it to next. Keep your copy and the reason. If you are still stuck, a civil society organisation or a legal aid service may be able to guide you.",
+          "body": "*You asked the council for the payment records of a CDF borehole project. After 7 days, you get a letter that says only: \"Request refused.\"*\n\n## Step 1: Check the letter\nA refusal must be **in writing**, give **reasons**, name the **part of the law** relied on, and tell you that you can **appeal**. This letter does none of these.\n\n## Step 2: Ask politely\nGo back to the information officer with your stamped copy. Say:\n\n*\"Thank you for your reply. Under the Access to Information Act, a refusal should give reasons and the legal provision relied on. Could you please provide these?\"*\n\nSometimes the refusal was a misunderstanding, and asking clearly solves it.\n\n## Step 3: Consider narrowing the request\nIf the office says the request is too broad, or includes private information about individuals, offer to accept part of the information, such as totals, with personal details removed.\n\n## Step 4: Appeal\nIf you are still refused, you can **appeal to the Human Rights Commission**. The next lesson explains how.\n\n## Keep everything\nKeep your stamped request, the refusal letter, notes of conversations with dates and names, and any other replies. These are your evidence for the appeal.\n\n## Stay calm\nA refusal is not the end. Many people get information after asking again politely or appealing.",
           "key_points": [
-            "Ask for the reason for a refusal in writing",
-            "Ask how to appeal or who to go to next",
-            "Keep your copies and the reason",
-            "Seek help from a civil society or legal aid service"
+            "Refusals must be in writing with reasons",
+            "Ask for the reasons and legal provision",
+            "Keep all papers for an appeal"
           ],
-          "try_it": "Write down one place or person you could ask for help if a request is refused.",
-          "motif": "shield",
-          "published": true
+          "try_it": "Practise what you would say to an information officer who refused without reasons.",
+          "motif": "community"
+        },
+        {
+          "slug": "appealing-to-hrc",
+          "title": "Appealing to the Human Rights Commission",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "If your request is refused, delayed beyond the time limits, or not answered, you can **appeal** to the **Human Rights Commission (HRC)**.\n\n## When you can appeal\n- Your request was **refused**, fully or partly.\n- The holder **extended** the time and you disagree.\n- There was **no response** in time (a deemed refusal).\n\nAppeal against a decision within **30 days** of receiving it.\n\n## How to appeal\nContact the Human Rights Commission. You can:\n\n- visit **Human Rights House** on Independence Avenue in Lusaka,\n- call the **toll-free line 8181**,\n- email **complaints@hrc.org.zm**,\n- visit **www.hrc.org.zm** for forms and guides.\n\n## What to include\n- Your name and contact details.\n- The information holder and the information you asked for.\n- The date of your request (your stamped copy).\n- What happened: the refusal letter, or that no answer came.\n- What you want: the information released.\n\n## What happens next\nThe Commission considers the appeal and, after any hearing, must decide within **30 days** of concluding it. It can order the information to be released.\n\n## It is free to ask\nContacting the Human Rights Commission does not require a lawyer. Bring your papers and explain clearly.",
+          "key_points": [
+            "Appeal to the Human Rights Commission within 30 days",
+            "HRC toll-free line: 8181",
+            "Bring your stamped request and the refusal"
+          ],
+          "try_it": "Save the HRC toll-free number, 8181, in your contacts.",
+          "motif": "community"
+        },
+        {
+          "slug": "using-information-well",
+          "title": "Using information to make change",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "Information on its own does not fix a borehole. Using it well does.\n\n## Compare paper with reality\nCompare what the records say with what you see. *The contract says the borehole was completed in March, but there is no borehole.* That is a powerful, factual finding.\n\n## Share responsibly\n- Share the **facts** and the **documents**, not rumours.\n- Separate what you **know** from what you **suspect**.\n- Do not share people's private information.\n\n## Take it to the right people\n- **Your councillor** and **Ward Development Committee**.\n- **The council's** officers, and your **MP**.\n- **Community meetings** and **local radio** call-in programmes.\n- The **Anti-Corruption Commission** if there are signs of corruption.\n\n## Work with others\nParent-teacher associations, church groups, residents' associations and civil society organisations can add weight. A group that brings documents and photos to a meeting is hard to ignore.\n\n## Follow up and celebrate\nKeep asking until the problem is fixed. When it is, share that too. Success encourages others to use their right to information.\n\n## Respect and safety\nBe respectful even when you are frustrated. Facts presented calmly persuade more people, and protect you from claims that you are spreading lies.",
+          "key_points": [
+            "Compare records with what you see",
+            "Share facts and documents, not rumours",
+            "Take findings to the right people and follow up"
+          ],
+          "try_it": "Think of one group in your community you could work with on a request.",
+          "motif": "community"
         },
         {
           "slug": "information-quiz",
-          "title": "Check what you learned",
+          "title": "Final check: Your right to information",
           "type": "quiz",
-          "est_minutes": 5,
-          "body": "Answer these short questions.",
-          "key_points": [
-            "Take your time"
-          ],
+          "est_minutes": 4,
+          "body": "Questions covering the whole course. Score 70% or more to complete it. You can try again as many times as you like.",
           "motif": "circle",
-          "published": true,
           "quiz": [
             {
-              "question": "When you ask a public office for information, you usually:",
+              "question": "What must a refusal letter include?",
               "options": [
-                "Must pay a large fee",
-                "Do not always need to give a reason",
-                "Need a lawyer",
-                "Cannot ask at all"
+                "Nothing",
+                "Reasons, the legal provision, and that you can appeal",
+                "Only a signature",
+                "A fee"
               ],
               "correct": 1,
-              "explanation": "You often do not need to give a reason. Much public information can be shared on request."
+              "explanation": "Refusals must be written with reasons and appeal information."
             },
             {
-              "question": "If your request for information is refused, a good step is to:",
+              "question": "Within how many days should you appeal a decision to the Human Rights Commission?",
               "options": [
-                "Forget about it",
-                "Ask for the reason and how to appeal",
-                "Argue angrily",
-                "Pay someone to force it"
+                "30 days",
+                "1 day",
+                "1 year",
+                "There is no limit"
+              ],
+              "correct": 0,
+              "explanation": "Appeal within 30 days of receiving the decision."
+            },
+            {
+              "question": "What is the Human Rights Commission's toll-free number?",
+              "options": [
+                "8181",
+                "999",
+                "111",
+                "1234"
+              ],
+              "correct": 0,
+              "explanation": "The HRC toll-free line is 8181."
+            },
+            {
+              "question": "You received a contract showing a borehole was completed, but none exists. What is a good next step?",
+              "options": [
+                "Post angry rumours",
+                "Take the documents and photos to your councillor and, if needed, the ACC",
+                "Do nothing",
+                "Destroy the documents"
               ],
               "correct": 1,
-              "explanation": "Ask for the reason in writing and how to appeal or who to take it to next."
+              "explanation": "Factual findings should go to those who can act."
+            },
+            {
+              "question": "Which is information you can usually request?",
+              "options": [
+                "Another person's medical records",
+                "Minutes of a council meeting",
+                "Someone's bank PIN",
+                "A private family letter"
+              ],
+              "correct": 1,
+              "explanation": "Public records like meeting minutes can be requested."
             }
           ]
         }

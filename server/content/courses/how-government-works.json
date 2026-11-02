@@ -2,107 +2,336 @@
   "slug": "how-government-works",
   "title": "How Government Works",
   "tagline": "Who makes decisions, and who to go to for what.",
-  "description": "A simple guide to how government is organised in Zambia — national, provincial and local — what each part does, and the rights and responsibilities you have as a citizen.",
+  "description": "Government can feel far away, but it decides things that touch your life every day: roads, clinics, schools, water and markets. This course explains, in plain language, how Zambia's government is organised, from State House to your ward, so you know who is responsible for what and how to reach them.",
   "pathway": "civic-education",
   "category": "citizenship",
   "icon_name": "Landmark",
   "difficulty": "start_here",
   "estimated_hours": 1.5,
   "pass_mark": 70,
-  "outcomes": [
-    "Know the main levels of government and what they do",
-    "Understand your basic rights and responsibilities",
-    "Know which level handles which kind of concern",
-    "Feel more confident dealing with public institutions"
-  ],
   "sort_order": 13,
   "published": true,
+  "outcomes": [
+    "Name the three arms of government and what each does",
+    "Explain the roles of the President, Parliament and the courts",
+    "Describe how provinces, districts and councils work",
+    "Know the role of your MP, councillor and ward development committee",
+    "Know your main rights and responsibilities as a citizen",
+    "Choose the right office for a common problem"
+  ],
   "modules": [
     {
-      "title": "Module 1",
-      "summary": "",
+      "title": "The three arms of government",
+      "summary": "The executive, Parliament and the courts.",
       "lessons": [
         {
           "slug": "who-makes-the-rules",
           "title": "Who makes the rules",
           "type": "read",
           "est_minutes": 5,
-          "body": "Government in Zambia works at different levels, and each one has a different job.\n\n## The main levels\nNational government makes national laws and runs ministries like health and education. Provincial administration coordinates government work across a province. Local councils run day-to-day services in your area — markets, roads, rubbish, trading licences.\n\n## Why levels matter\nKnowing the level helps you find the right door. A pothole is usually a council matter; a national policy is not.",
+          "body": "Zambia is a democracy. Power belongs to the people, who choose leaders in elections. The **Constitution** is the highest law. It sets out how government is organised and the rights of every person.\n\nTo stop any one person or group from having too much power, government is divided into **three arms**. Each one checks the others.\n\n## 1. The Legislature (Parliament)\nThe **National Assembly** makes laws, approves the national budget, and questions the government on its work. Its members are mainly **Members of Parliament (MPs)**, each elected by the people of one **constituency**.\n\n## 2. The Executive\nThe **President**, the **Vice-President** and **Cabinet ministers** run the country day to day. Ministries, like Health or Education, and the civil servants who work in them, put laws and policies into action.\n\n## 3. The Judiciary (the courts)\nThe courts settle disputes and decide whether laws have been broken. They also decide whether actions by government follow the Constitution. Judges must be **independent**, meaning nobody can tell them how to decide a case.\n\n## Why three arms?\nThink of a three-legged stool. If one leg is too long or too short, the stool falls. Parliament can question the executive. The courts can stop unlawful actions. The executive carries out the work. Together they keep power balanced.\n\n## Where you fit\nYou choose the President, your MP, your mayor or council chairperson, and your councillor in **general elections**, held every five years.",
           "key_points": [
-            "National government makes laws and runs ministries",
-            "Provincial administration coordinates a province",
-            "Local councils run everyday local services",
-            "Knowing the level helps you find the right office"
+            "The Constitution is the highest law",
+            "Three arms: Parliament, the executive and the courts",
+            "Each arm checks the others"
           ],
-          "try_it": "Name one service near you and guess which level handles it.",
-          "motif": "community",
-          "published": true
+          "try_it": "Find out the name of your constituency and your MP.",
+          "motif": "community"
         },
+        {
+          "slug": "the-executive",
+          "title": "The President, ministers and ministries",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "The **executive** is the part of government that does the work of running the country.\n\n## The President\nThe President is the **Head of State** and **Head of Government**, elected directly by voters. The President leads the Cabinet, appoints ministers and many senior officials, and is Commander-in-Chief of the Defence Force. A President can serve a maximum of two terms.\n\n## The Vice-President\nThe Vice-President is elected together with the President as a running mate, and takes over if the President cannot continue.\n\n## Cabinet ministers\nThe President appoints **ministers** to lead ministries, such as Health, Education, Agriculture, and Local Government. Together they form the **Cabinet**, which makes key government decisions.\n\n## Ministries and civil servants\nEach **ministry** has offices at national, provincial and district level, staffed by **civil servants**: teachers, nurses, agricultural officers, social welfare officers and many more. They stay in their jobs when governments change, so services continue.\n\n## Other public bodies\nMany services are run by **public bodies** set up by law, such as ZESCO for electricity, water utilities, the Zambia Revenue Authority, and regulators like ZICTA. They report to a ministry.\n\n## Why it matters to you\nWhen a clinic has no medicine or a school has no teacher, the problem usually sits with a **ministry's district office**. Knowing that helps you take the problem to the right place.",
+          "key_points": [
+            "The President leads the executive and is elected directly",
+            "Ministers lead ministries; civil servants deliver services",
+            "Many problems are handled by a ministry's district office"
+          ],
+          "try_it": "Name one ministry and one service it provides in your area.",
+          "motif": "community"
+        },
+        {
+          "slug": "parliament-and-courts",
+          "title": "Parliament and the courts",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "## The National Assembly\nParliament sits in Lusaka. Its main jobs are to:\n\n- **Make laws.** A proposed law is called a **Bill**. MPs debate it, and once passed and signed by the President, it becomes an **Act**.\n- **Approve the budget**, deciding how public money is spent.\n- **Oversee the government.** MPs ask ministers questions, and **committees** examine how ministries spend money and do their work.\n- **Represent you.** Your MP should bring your constituency's concerns to Parliament.\n\nMost MPs are elected by constituencies. A small number are nominated by the President. The **Speaker** chairs the sittings. Many sittings are broadcast on radio and TV, and the National Assembly website publishes debates and reports.\n\n## The courts\nZambia's courts include:\n\n- **Local Courts**, which handle many customary matters such as some marriage and family disputes.\n- **Subordinate Courts** (magistrates), which hear most criminal and civil cases.\n- The **High Court**, for more serious cases and appeals.\n- The **Court of Appeal**.\n- The **Supreme Court** and the **Constitutional Court**, the highest courts. The Constitutional Court decides questions about the Constitution.\n\n## Traditional leaders\n**Chiefs** play an important role in their chiefdoms, especially over customary land and culture. The **House of Chiefs** advises government on traditional matters. Chiefs are expected to stay out of party politics.",
+          "key_points": [
+            "Parliament makes laws, approves the budget and checks government",
+            "A Bill becomes an Act when passed and signed",
+            "Courts range from Local Courts to the Supreme and Constitutional Courts"
+          ],
+          "try_it": "Listen to part of a Parliament session on the radio or the National Assembly website.",
+          "motif": "community"
+        },
+        {
+          "slug": "three-arms-check",
+          "title": "Check: The three arms of government",
+          "type": "quiz",
+          "est_minutes": 3,
+          "body": "A few short questions on this module. There is no time limit, and you can try again.",
+          "motif": "circle",
+          "quiz": [
+            {
+              "question": "Which arm of government makes laws?",
+              "options": [
+                "The courts",
+                "Parliament (the National Assembly)",
+                "The police",
+                "ZESCO"
+              ],
+              "correct": 1,
+              "explanation": "Parliament debates and passes laws."
+            },
+            {
+              "question": "What is a Bill?",
+              "options": [
+                "A proposed law",
+                "An electricity account",
+                "A court fine",
+                "A minister"
+              ],
+              "correct": 0,
+              "explanation": "A Bill becomes an Act when passed and signed."
+            },
+            {
+              "question": "Why must judges be independent?",
+              "options": [
+                "So they can work fewer hours",
+                "So nobody can tell them how to decide a case",
+                "So they can run for Parliament",
+                "They do not need to be"
+              ],
+              "correct": 1,
+              "explanation": "Independence means fair decisions based on the law."
+            },
+            {
+              "question": "A school in your area has no teachers. Which part of government is most likely responsible?",
+              "options": [
+                "The Ministry of Education's district office",
+                "The Supreme Court",
+                "The House of Chiefs",
+                "Your network provider"
+              ],
+              "correct": 0,
+              "explanation": "Ministries deliver services through district offices."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Government close to you",
+      "summary": "Provinces, districts, councils and wards.",
+      "lessons": [
+        {
+          "slug": "provinces-and-districts",
+          "title": "Provinces, districts and councils",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "Zambia is divided into **10 provinces** and **116 districts**. This lets services be planned and delivered closer to people.\n\n## Provinces\nEach province has a **Provincial Minister** and a **Permanent Secretary**, who coordinate government work in the province.\n\n## Districts and councils\nEach district has a **local authority**, usually called a **council**. Depending on size, it is a **city council**, a **municipal council** or a **town council**.\n\nCouncils are led by an elected **mayor** (in cities and municipalities) or **council chairperson**, and made up of elected **councillors**, one for each **ward**. A **town clerk** or **council secretary** heads the council staff.\n\n## What councils do\nCouncils are responsible for many things you see every day, such as:\n\n- markets and bus stations,\n- local roads and drainage,\n- refuse collection,\n- business levies and some licences,\n- planning and building permits,\n- some water and sanitation work,\n- community development and social welfare in partnership with ministries.\n\nCouncils raise some money through levies, fees and property rates, and receive money from national government, such as the **Local Government Equalisation Fund** and the **Constituency Development Fund (CDF)**.\n\n## Decentralisation\nZambia's policy of **decentralisation** aims to move more decisions and money from Lusaka to councils, so communities have more say. You can see this in CDF, where local committees decide on local projects.",
+          "key_points": [
+            "10 provinces and 116 districts",
+            "Each district has a council with elected councillors",
+            "Councils run markets, local roads, refuse and more"
+          ],
+          "try_it": "Find out whether your area is under a city, municipal or town council.",
+          "motif": "community"
+        },
+        {
+          "slug": "your-mp-and-councillor",
+          "title": "Your MP and your councillor",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "You have elected representatives at different levels. Knowing who they are, and what they can do, helps you get problems solved.\n\n## Your Member of Parliament (MP)\nYour MP represents your **constituency** in the National Assembly. Your MP can:\n\n- raise your constituency's problems in Parliament and with ministers,\n- sit on the **CDF committee** that decides on local projects,\n- help connect you with the right ministry.\n\nMost MPs have a **constituency office**. You can visit, write or call.\n\n## Your ward councillor\nYour **councillor** represents your **ward** on the district council. Councillors are often the easiest elected leader to reach. They can:\n\n- raise ward issues in council meetings,\n- follow up on council services such as markets, roads and refuse,\n- work with your **Ward Development Committee**.\n\n## Your mayor or council chairperson\nThey lead the council and its meetings.\n\n## Ward Development Committees (WDCs)\nThe **Local Government Act of 2019** provides for **Ward Development Committees**. They bring together community members to identify local needs, plan projects and monitor them. WDCs play a role in proposing CDF projects. Ask your councillor how to attend or join.\n\n## Holding them to account\nRepresentatives work for you. It is reasonable to ask them what they have done, what is planned, and when. Be polite, be specific, and follow up.",
+          "key_points": [
+            "Your MP represents your constituency in Parliament",
+            "Your councillor represents your ward on the council",
+            "Ward Development Committees help plan local projects"
+          ],
+          "try_it": "Find out the name of your ward and your councillor.",
+          "motif": "community"
+        },
+        {
+          "slug": "elections-and-voting",
+          "title": "Elections and voting",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "Elections are how citizens choose their leaders and hold them accountable.\n\n## General elections\nZambia holds **general elections every five years**. On the same day, voters elect:\n\n- the **President** (with the Vice-President as running mate),\n- their **Member of Parliament**,\n- their **mayor or council chairperson**,\n- their **ward councillor**.\n\nThere can also be **by-elections** when a seat becomes empty.\n\n## Who can vote\nZambian citizens aged **18 or older** who are **registered** as voters. To register, you need your **NRC**. Registration happens during periods announced by the **Electoral Commission of Zambia (ECZ)**.\n\n## The ECZ\nThe **Electoral Commission of Zambia** runs elections. It registers voters, sets polling stations, counts votes and announces results. Its official website and social media pages are the place to check dates, rules and your polling station.\n\n## Your vote is secret\nNobody can see who you voted for. Do not let anyone pressure you, pay you or threaten you to vote a certain way, and do not take photos of your ballot.\n\n## Beyond voting\nDemocracy does not stop on election day. You can attend council meetings, contact your MP, take part in your Ward Development Committee, and make your views heard peacefully.\n\n## Be careful with election rumours\nFalse messages about dates, places and results spread fast at election time. Check with the ECZ before you believe or share them.",
+          "key_points": [
+            "General elections are every five years",
+            "Register with your NRC when the ECZ opens registration",
+            "Your vote is secret; check election facts with the ECZ"
+          ],
+          "try_it": "Check the ECZ's official page for information on voter registration.",
+          "motif": "community"
+        },
+        {
+          "slug": "government-close-check",
+          "title": "Check: Government close to you",
+          "type": "quiz",
+          "est_minutes": 3,
+          "body": "A few short questions on this module. There is no time limit, and you can try again.",
+          "motif": "circle",
+          "quiz": [
+            {
+              "question": "How many provinces does Zambia have?",
+              "options": [
+                "5",
+                "10",
+                "20",
+                "116"
+              ],
+              "correct": 1,
+              "explanation": "Zambia has 10 provinces and 116 districts."
+            },
+            {
+              "question": "Who represents your ward on the district council?",
+              "options": [
+                "Your MP",
+                "Your councillor",
+                "The Speaker",
+                "A judge"
+              ],
+              "correct": 1,
+              "explanation": "Each ward elects a councillor."
+            },
+            {
+              "question": "Which body runs elections in Zambia?",
+              "options": [
+                "ZICTA",
+                "The Electoral Commission of Zambia",
+                "PACRA",
+                "ZESCO"
+              ],
+              "correct": 1,
+              "explanation": "The ECZ registers voters and runs elections."
+            },
+            {
+              "question": "The market in your area has no refuse collection. Who is usually responsible?",
+              "options": [
+                "The council",
+                "The Supreme Court",
+                "The Bank of Zambia",
+                "Your network"
+              ],
+              "correct": 0,
+              "explanation": "Markets and refuse collection are council responsibilities."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "You and the government",
+      "summary": "Rights, responsibilities and who to go to for what.",
+      "lessons": [
         {
           "slug": "your-rights-and-responsibilities",
           "title": "Your rights and responsibilities",
           "type": "read",
           "est_minutes": 5,
-          "body": "Citizens have rights, and also responsibilities that keep a community working.\n\n## Some of your rights\nYou have the right to access many public services, to ask public offices for information, and to take part in decisions that affect your area. Rights come with fair treatment and dignity.\n\n## Your responsibilities\nResponsibilities include following the law, respecting others, paying fair dues like trading fees, and taking part — voting, attending meetings, and keeping your community clean and safe.",
+          "body": "The **Bill of Rights** in the Constitution protects the rights of every person in Zambia.\n\n## Some of your rights\n- **Life, liberty and security** of the person.\n- **Equality**: protection from discrimination because of your sex, tribe, religion, disability, political opinion and more.\n- **Freedom of expression**, including the right to receive and share information.\n- **Freedom of assembly and association**: to meet peacefully and join groups, including political parties and unions.\n- **Freedom of conscience and religion.**\n- **Privacy** of your home and property.\n- **Protection from torture** and inhuman treatment.\n- A **fair trial** if you are accused of a crime.\n\nRights have limits, for example to protect other people's rights and public safety.\n\n## Your responsibilities\nRights work when everyone also does their part:\n\n- **Obey the law** and respect other people's rights.\n- **Pay taxes**, levies and fees that fund public services.\n- **Vote** and take part in community life.\n- **Protect public property**, like schools, boreholes and roads.\n- **Report crime and corruption.**\n- **Respect** people of every tribe, religion and background.\n\n## When rights are violated\nYou can seek help from the **Human Rights Commission**, the police, a lawyer or legal aid, or the courts. The next course, Making a Complaint, explains how.\n\n## Know your rights calmly\nKnowing your rights helps you speak up respectfully and confidently, for yourself and others.",
           "key_points": [
-            "You have rights to services, information and participation",
-            "Rights come with fair treatment",
-            "Responsibilities include following the law and paying fair dues",
-            "Taking part is both a right and a responsibility"
+            "The Bill of Rights protects every person",
+            "Rights come with responsibilities",
+            "The Human Rights Commission helps when rights are violated"
           ],
-          "try_it": "Write one right and one responsibility that matter to you.",
-          "motif": "shield",
-          "published": true
+          "try_it": "Name one right and one responsibility you used this week.",
+          "motif": "community"
         },
         {
           "slug": "who-to-go-to-for-what",
           "title": "Who to go to for what",
           "type": "read",
           "est_minutes": 5,
-          "body": "Matching your concern to the right office saves time.\n\n## Everyday matches\nMarkets, rubbish, drainage and trading licences — the local council. A clinic card or health service — a health facility. An NRC or birth record — the civic registration office. A local problem or to be pointed the right way — your ward councillor.\n\n## When you are unsure\nAsk at reception or ask your ward councillor. It is normal to ask — a short question saves a wasted trip.",
+          "body": "Many problems are solved faster when you go to the right office first. Here is a simple guide.\n\n## Council\nMarkets, refuse collection, local roads and drainage, street lights, building plans, business levies and trading permits.\n\n## Ministry district offices\n- **Education:** schools, teachers, school places.\n- **Health:** clinics, medicines, health workers.\n- **Agriculture:** extension services and farmer support.\n- **Community Development and Social Services:** social welfare and social cash transfer.\n\n## Utilities and public bodies\n- **ZESCO:** electricity faults, meters and tokens.\n- **Your water utility:** water supply and bills.\n- **ZICTA:** problems with networks, SIM registration and communications services.\n\n## Documents\n- **Department of National Registration, Passport and Citizenship:** NRCs, passports and citizenship.\n- Birth and death registration: your district's registration office.\n\n## Safety and justice\n- **Police:** crime, accidents, threats. The **Victim Support Unit** helps victims of abuse.\n- **Human Rights Commission:** violations of your rights.\n- **Anti-Corruption Commission:** someone demands a bribe.\n\n## Your representatives\nYour **councillor** and **MP** can help when an office does not respond.\n\n## Start local\nBegin with the local office closest to the problem. If it is not solved, move up: the district head, then the provincial or national office, then an oversight body.",
           "key_points": [
-            "Council: markets, rubbish, drainage, licences",
-            "Health facility: clinic cards and health services",
-            "Registration office: NRC and births",
-            "Ward councillor: local problems and directions"
+            "Start with the local office closest to the problem",
+            "Councils handle markets, refuse and local roads",
+            "Ask your councillor or MP if an office does not respond"
           ],
-          "try_it": "Pick a concern and write which office you would visit first.",
-          "motif": "community",
-          "published": true
+          "try_it": "Pick one problem in your area and decide which office should handle it.",
+          "motif": "community"
+        },
+        {
+          "slug": "how-a-law-is-made",
+          "title": "How a law is made",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "Laws affect everything from land to mobile money. Knowing how they are made helps you take part.\n\n## The steps\n1. **An idea.** A ministry, an MP or a commission sees a need for a new law or a change.\n2. **Consultation.** Government often asks the public and organisations for views on draft laws. Watch for notices in newspapers, on the radio and on official pages.\n3. **Publication.** The Bill is published in the **Government Gazette**.\n4. **First reading** in the National Assembly, where the Bill is introduced.\n5. **Committee stage.** A parliamentary committee studies the Bill and can invite **submissions** from the public and organisations.\n6. **Second and third readings.** MPs debate and vote. They can change parts of the Bill.\n7. **Assent.** The President signs it, and it becomes an **Act of Parliament**.\n\nChanges to the Constitution follow a stricter process and need a larger majority in Parliament.\n\n## How you can have a say\n- Respond to public consultations.\n- Make a **submission** to a parliamentary committee, alone or with a group.\n- Talk to your MP about a Bill before the vote.\n- Join or support community and civil society groups working on the issue.\n\n## Reading laws\nActs are published by the National Assembly and on **ZambiaLII**, a free online library of Zambian law. Many organisations also publish simple summaries.",
+          "key_points": [
+            "Bills pass through readings and committee before becoming Acts",
+            "The public can make submissions to committees",
+            "Read Acts free on ZambiaLII"
+          ],
+          "try_it": "Find one recent Act of Parliament on ZambiaLII.",
+          "motif": "community"
         },
         {
           "slug": "government-quiz",
-          "title": "Check what you learned",
+          "title": "Final check: How government works",
           "type": "quiz",
-          "est_minutes": 5,
-          "body": "Answer these short questions.",
-          "key_points": [
-            "Take your time"
-          ],
+          "est_minutes": 4,
+          "body": "Questions covering the whole course. Score 70% or more to complete it. You can try again as many times as you like.",
           "motif": "circle",
-          "published": true,
           "quiz": [
             {
-              "question": "Which level usually runs everyday local services like markets and rubbish?",
+              "question": "Which three arms make up government?",
               "options": [
-                "National government",
-                "The local council",
-                "A foreign donor",
-                "The courts"
+                "Parliament, the executive and the courts",
+                "Police, army and courts",
+                "Councils, chiefs and churches",
+                "Banks, ZESCO and ZRA"
               ],
-              "correct": 1,
-              "explanation": "Local councils run day-to-day services such as markets, roads, rubbish and trading licences."
+              "correct": 0,
+              "explanation": "The legislature, executive and judiciary check each other."
             },
             {
-              "question": "Taking part in meetings and voting is best described as:",
+              "question": "Which local committee brings community members together to plan and monitor ward projects?",
               "options": [
-                "Only a right",
-                "Only a responsibility",
-                "Both a right and a responsibility",
-                "Neither"
+                "The Ward Development Committee",
+                "The Supreme Court",
+                "The Cabinet",
+                "The House of Chiefs"
               ],
-              "correct": 2,
-              "explanation": "Participation is both a right you hold and a responsibility that keeps communities working."
+              "correct": 0,
+              "explanation": "Ward Development Committees, provided for in the Local Government Act of 2019, support community participation."
+            },
+            {
+              "question": "Someone asks you for a bribe to process your documents. Which body should you report to?",
+              "options": [
+                "The Anti-Corruption Commission",
+                "ZESCO",
+                "The Electoral Commission",
+                "A WhatsApp group"
+              ],
+              "correct": 0,
+              "explanation": "The ACC deals with corruption."
+            },
+            {
+              "question": "How can the public have a say on a Bill?",
+              "options": [
+                "They cannot",
+                "Make a submission to the parliamentary committee studying it",
+                "Only by protesting",
+                "Only judges can comment"
+              ],
+              "correct": 1,
+              "explanation": "Committees can invite and consider public submissions."
+            },
+            {
+              "question": "How often are general elections held?",
+              "options": [
+                "Every year",
+                "Every five years",
+                "Every ten years",
+                "Only when Parliament decides"
+              ],
+              "correct": 1,
+              "explanation": "General elections are held every five years."
             }
           ]
         }

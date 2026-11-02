@@ -1,0 +1,74 @@
+# CD: ships main to the Hostinger VPS.
+#
+# Flow: merge a pull request into main -> CI runs again on the merged code ->
+# if it passes, GitHub connects to the VPS over SSH and runs deploy/deploy.sh,
+# which pulls that exact commit, builds, migrates, seeds and restarts the API.
+#
+# Turned off until the server is ready: set the repository variable
+# DEPLOY_ENABLED to true (Settings, Secrets and variables, Actions, Variables).
+#
+# Needs these in Settings, Secrets and variables, Actions:
+#   Secrets:   VPS_HOST         server IP or hostname
+#              VPS_USER         the deploy user, e.g. deploy
+#              VPS_SSH_KEY      private key whose public half is in that user's authorized_keys
+#              VPS_KNOWN_HOSTS  output of: ssh-keyscan -p <port> <host>
+#   Variables: DEPLOY_ENABLED   true
+#              VPS_PORT         SSH port (optional, defaults to 22)
+#
+# You can also run it by hand from the Actions tab (Run workflow).
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Never run two deploys at once; a second one waits for the first.
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  ci:
+    name: CI
+    uses: ./.github/workflows/ci.yml
+
+  deploy:
+    name: Deploy to civicwise.online
+    needs: ci
+    if: vars.DEPLOY_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    # The "production" environment shows each deploy on the repo home page
+    # and can be set to require a manual approval (Settings, Environments).
+    environment:
+      name: production
+      url: https://civicwise.online
+
+    steps:
+      - name: Load the SSH key
+        env:
+          SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
+          KNOWN_HOSTS: ${{ secrets.VPS_KNOWN_HOSTS }}
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$SSH_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          printf '%s\n' "$KNOWN_HOSTS" > ~/.ssh/known_hosts
+
+      - name: Run deploy/deploy.sh on the server
+        env:
+          HOST: ${{ secrets.VPS_HOST }}
+          USER: ${{ secrets.VPS_USER }}
+          PORT: ${{ vars.VPS_PORT || '22' }}
+        run: |
+          ssh -i ~/.ssh/deploy_key -p "$PORT" -o BatchMode=yes "$USER@$HOST" \
+            "bash /var/www/civicwise/app/deploy/deploy.sh ${{ github.sha }}"
+
+      - name: Check the live site
+        run: |
+          curl -fsS https://civicwise.online/api/health
+          curl -fsS -o /dev/null -w "Home page: HTTP %{http_code}\n" https://civicwise.online/

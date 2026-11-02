@@ -12,6 +12,23 @@ export default defineConfig({
   resolve: {
     alias: { "@": fileURLToPath(new URL("./src", import.meta.url)) },
   },
+  build: {
+    rollupOptions: {
+      output: {
+        // Split third-party code into a few stable chunks. They change rarely,
+        // so returning visitors keep them cached across our releases.
+        manualChunks(id: string) {
+          if (!id.includes("node_modules")) return undefined;
+          if (/[\\/]node_modules[\\/](react|react-dom|scheduler)[\\/]/.test(id)) return "react";
+          if (id.includes("@tanstack")) return "tanstack";
+          if (id.includes("@radix-ui") || id.includes("@floating-ui")) return "radix";
+          if (id.includes("lucide-react")) return "icons";
+          if (id.includes("zod")) return "zod";
+          return "vendor";
+        },
+      },
+    },
+  },
   plugins: [
     tanstackRouter({ target: "react", autoCodeSplitting: true }),
     react(),

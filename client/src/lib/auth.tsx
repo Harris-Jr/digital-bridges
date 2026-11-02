@@ -25,13 +25,19 @@ type AuthCtx = {
   isStaff: boolean;
   isTrainer: boolean;
   isAdmin: boolean;
-  signIn: (email: string, password: string) => Promise<void>;
+  /** Where this account lands after sign-in: staff go to Admin, everyone else to My learning. */
+  home: "/admin" | "/dashboard";
+  signIn: (email: string, password: string) => Promise<"/admin" | "/dashboard">;
   signUp: (input: { email: string; password: string; full_name: string; district?: string }) => Promise<Session>;
   signOut: () => Promise<void>;
   refresh: () => Promise<void>;
 };
 
 const Ctx = createContext<AuthCtx | null>(null);
+
+/** Staff accounts (admin, editor) run the platform; they do not get the learner area. */
+export const isStaffRole = (roles: Role[]) => roles.includes("admin") || roles.includes("editor");
+const homeFor = (roles: Role[]): "/admin" | "/dashboard" => (isStaffRole(roles) ? "/admin" : "/dashboard");
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
@@ -73,6 +79,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const s = await apiPost<Session>("/auth/login", { email, password }, false);
     setTokens(s);
     apply(s);
+    return homeFor(s.roles);
   };
 
   const signUp = async (input: { email: string; password: string; full_name: string; district?: string }) => {
@@ -120,9 +127,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     roles,
     profile,
     loading,
-    isStaff: roles.includes("editor") || roles.includes("admin"),
+    isStaff: isStaffRole(roles),
     isTrainer: roles.includes("trainer") || roles.includes("editor") || roles.includes("admin"),
     isAdmin: roles.includes("admin"),
+    home: homeFor(roles),
     signIn,
     signUp,
     signOut,

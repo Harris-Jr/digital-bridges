@@ -86,7 +86,7 @@ function MediaLibrary() {
             </button>
           ))}
         </div>
-        <Input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search by name or description" className="h-10 md:w-72" />
+        <Input name="media-search" aria-label="Search media" value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search by name or description" className="h-10 md:w-72" />
       </div>
 
       {/* Drop zone */}

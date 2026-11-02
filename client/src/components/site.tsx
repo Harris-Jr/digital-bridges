@@ -460,8 +460,8 @@ export function SiteHeader() {
             {user ? (
               <>
                 {isStaff && <Button asChild variant="ghost" size="sm"><Link to="/admin"><ShieldCheck />Admin</Link></Button>}
-                {isTrainer && <Button asChild variant="ghost" size="sm"><Link to="/trainer"><Users />{t("nav.trainers", "For Trainers")}</Link></Button>}
-                <Button asChild variant="ghost" size="sm"><Link to="/dashboard"><LayoutDashboard />{t("nav.dashboard", "My learning")}</Link></Button>
+                {isTrainer && !isStaff && <Button asChild variant="ghost" size="sm"><Link to="/trainer"><Users />{t("nav.trainers", "For Trainers")}</Link></Button>}
+                {!isStaff && <Button asChild variant="ghost" size="sm"><Link to="/dashboard"><LayoutDashboard />{t("nav.dashboard", "My learning")}</Link></Button>}
                 <Button asChild variant="ghost" size="icon" aria-label={t("nav.settings", "Settings")}><Link to="/settings"><Settings /></Link></Button>
                 <Button variant="ghost" size="icon" onClick={doSignOut} aria-label={t("nav.signout", "Sign out")}><LogOut /></Button>
               </>
@@ -516,8 +516,8 @@ export function SiteHeader() {
               {user && (
                 <>
                   {isStaff && <Link to="/admin" onClick={() => setOpen(false)} className={mobileRow}>Admin<ChevronRight className="size-5 text-muted-foreground" aria-hidden="true" /></Link>}
-                  {isTrainer && <Link to="/trainer" onClick={() => setOpen(false)} className={mobileRow}>{t("nav.trainers", "For Trainers")}<ChevronRight className="size-5 text-muted-foreground" aria-hidden="true" /></Link>}
-                  <Link to="/dashboard" onClick={() => setOpen(false)} className={mobileRow}>{t("nav.dashboard", "My learning")}<ChevronRight className="size-5 text-muted-foreground" aria-hidden="true" /></Link>
+                  {isTrainer && !isStaff && <Link to="/trainer" onClick={() => setOpen(false)} className={mobileRow}>{t("nav.trainers", "For Trainers")}<ChevronRight className="size-5 text-muted-foreground" aria-hidden="true" /></Link>}
+                  {!isStaff && <Link to="/dashboard" onClick={() => setOpen(false)} className={mobileRow}>{t("nav.dashboard", "My learning")}<ChevronRight className="size-5 text-muted-foreground" aria-hidden="true" /></Link>}
                   <Link to="/settings" onClick={() => setOpen(false)} className={mobileRow}>{t("nav.settings", "Settings")}<ChevronRight className="size-5 text-muted-foreground" aria-hidden="true" /></Link>
                 </>
               )}

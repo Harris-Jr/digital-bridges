@@ -300,15 +300,15 @@ function MyCourses() {
               {pathways.data?.map((p) => <Pill key={p.id} active={path === p.slug} onClick={() => setPath(p.slug)}>{p.title}</Pill>)}
             </div>
             <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
-              <select aria-label={t("courses.level", "Level")} value={level} onChange={(e) => setLevel(e.target.value)} className={select}>
+              <select name="level" aria-label={t("courses.level", "Level")} value={level} onChange={(e) => setLevel(e.target.value)} className={select}>
                 <option value="">{t("courses.anyLevel", "Any level")}</option>
                 {Object.entries(difficultyLabel).map(([v, l]) => <option key={v} value={v}>{l}</option>)}
               </select>
-              <select aria-label={t("courses.topic", "Topic")} value={cat} onChange={(e) => setCat(e.target.value)} className={select}>
+              <select name="topic" aria-label={t("courses.topic", "Topic")} value={cat} onChange={(e) => setCat(e.target.value)} className={select}>
                 <option value="">{t("courses.anyTopic", "Any topic")}</option>
                 {cats.data?.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
               </select>
-              <select aria-label={t("courses.status", "Status")} value={status} onChange={(e) => setStatus(e.target.value as typeof status)} className={select}>
+              <select name="status" aria-label={t("courses.status", "Status")} value={status} onChange={(e) => setStatus(e.target.value as typeof status)} className={select}>
                 <option value="all">{t("courses.anyStatus", "Any status")}</option>
                 <option value="new">{t("courses.notStarted", "Not started")}</option>
                 <option value="started">{t("courses.inProgress", "In progress")}</option>

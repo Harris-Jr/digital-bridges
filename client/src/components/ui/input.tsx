@@ -4,6 +4,8 @@ import { cn } from "@/lib/utils";
 
 const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<"input">>(
   ({ className, type, ...props }, ref) => {
+    // Every field gets an id so browsers can autofill and labels can point at it.
+    const autoId = React.useId();
     return (
       <input
         type={type}
@@ -13,6 +15,7 @@ const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<"input">>(
         )}
         ref={ref}
         {...props}
+        id={props.id ?? (props.name ? undefined : autoId)}
       />
     );
   },

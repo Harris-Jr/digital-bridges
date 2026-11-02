@@ -194,7 +194,7 @@ function CurriculumEditor({ data }: { data: Curriculum }) {
               {data.unassigned.map((l) => (
                 <li key={l.id} className="flex flex-wrap items-center gap-2 py-2">
                   <span className="flex-1 font-medium">{l.title}</span>
-                  <select aria-label="Move to module" className="h-9 rounded-md border border-input bg-background px-2 text-sm" value=""
+                  <select name="move-to-module" aria-label="Move to module" className="h-9 rounded-md border border-input bg-background px-2 text-sm" value=""
                     onChange={(e) => e.target.value && moveLesson(l.id, e.target.value, Number.MAX_SAFE_INTEGER)}>
                     <option value="">Move to…</option>
                     {modules.map((m) => <option key={m.id} value={m.id}>{m.title}</option>)}
@@ -308,7 +308,7 @@ function ModuleCard({ module: m, index, count, children, onUp, onDown, onRename,
       <form className="flex flex-wrap gap-2 border-t border-border bg-muted/30 p-3"
         onSubmit={(e) => { e.preventDefault(); if (newTitle.trim()) { onAddLesson(newTitle.trim(), newType); setNewTitle(""); } }}>
         <Input value={newTitle} onChange={(e) => setNewTitle(e.target.value)} placeholder="New lesson title" aria-label="New lesson title" className="h-10 min-w-48 flex-1 bg-background" />
-        <select value={newType} onChange={(e) => setNewType(e.target.value)} aria-label="Lesson type" className="h-10 rounded-md border border-input bg-background px-3 text-sm">
+        <select name="lesson-type" value={newType} onChange={(e) => setNewType(e.target.value)} aria-label="Lesson type" className="h-10 rounded-md border border-input bg-background px-3 text-sm">
           {TYPES.map((t) => <option key={t.value} value={t.value}>{t.label}</option>)}
         </select>
         <Button type="submit" size="sm" className="h-10" disabled={adding || !newTitle.trim()}><Plus className="size-4" />Add lesson</Button>

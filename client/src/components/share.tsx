@@ -133,7 +133,7 @@ export function ShareDialog({ item, open, onOpenChange }: { item: Shareable | nu
               ))}
             </div>
             <div className="flex gap-2">
-              <input readOnly value={url} onFocus={(e) => e.currentTarget.select()} aria-label={t("share.link", "Share link")}
+              <input name="share-link" readOnly value={url} onFocus={(e) => e.currentTarget.select()} aria-label={t("share.link", "Share link")}
                 className="h-11 min-w-0 flex-1 rounded-xl border border-input bg-background px-3 text-sm" />
               <Button variant="outline" onClick={copy} className="h-11 shrink-0">{copied ? <Check className="size-4" /> : <Copy className="size-4" />}{copied ? t("share.copied", "Copied") : t("share.copy", "Copy")}</Button>
             </div>

@@ -3,7 +3,7 @@ import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   LayoutDashboard, BookOpen, FileText, MessageSquareQuote, Handshake, HelpCircle,
-  Plus, Pencil, Trash2, ChevronDown, ArrowLeft, Loader2, LogOut, Menu, X, PanelLeftClose, PanelLeftOpen, Eye, EyeOff, Sparkles, Route as RouteIcon, CalendarCheck, Languages, Image as ImageIcon, Users, FolderOpen, FileText as FileIcon, Newspaper, ImagePlay,
+  Plus, Pencil, Trash2, ChevronDown, ExternalLink, UserCog, ArrowLeft, Loader2, LogOut, Menu, X, PanelLeftClose, PanelLeftOpen, Eye, EyeOff, Sparkles, Route as RouteIcon, CalendarCheck, Languages, Image as ImageIcon, Users, FolderOpen, FileText as FileIcon, Newspaper, ImagePlay,
 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -174,8 +174,11 @@ function AdminNav({ path, collapsed = false, onToggle }: { path: string; collaps
         })}
       </nav>
       <div className={cn("mt-auto flex flex-col gap-1 border-t border-border pt-3", collapsed && "w-full")}>
-        <Link to="/dashboard" title={collapsed ? "Back to site" : undefined} className={cn(item, "text-foreground/80 hover:bg-secondary", collapsed ? "justify-center" : "gap-2 px-3")}>
-          <ArrowLeft className="size-4 shrink-0" />{!collapsed && "Back to site"}
+        <a href="/" target="_blank" rel="noopener noreferrer" title={collapsed ? "View website" : undefined} className={cn(item, "text-foreground/80 hover:bg-secondary", collapsed ? "justify-center" : "gap-2 px-3")}>
+          <ExternalLink className="size-4 shrink-0" />{!collapsed && "View website"}
+        </a>
+        <Link to="/settings" title={collapsed ? "Account settings" : undefined} className={cn(item, "text-foreground/80 hover:bg-secondary", collapsed ? "justify-center" : "gap-2 px-3")}>
+          <UserCog className="size-4 shrink-0" />{!collapsed && "Account settings"}
         </Link>
         <button onClick={() => void signOut()} title={collapsed ? "Sign out" : undefined} className={cn(item, "text-muted-foreground hover:bg-secondary", collapsed ? "justify-center" : "gap-2 px-3")}>
           <LogOut className="size-4 shrink-0" />{!collapsed && "Sign out"}
@@ -485,7 +488,7 @@ export function MediaPicker({ open, onOpenChange, kind, onPick }: { open: boolea
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-h-[85vh] overflow-y-auto sm:max-w-3xl">
         <DialogHeader><DialogTitle>Choose from the media library</DialogTitle></DialogHeader>
-        <Input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search by name or description" className="h-11" />
+        <Input name="media-search" aria-label="Search media" value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search by name or description" className="h-11" />
         {list.isLoading ? (
           <div className="py-10 text-center"><Loader2 className="mx-auto size-5 animate-spin text-muted-foreground" /></div>
         ) : (list.data?.length ?? 0) === 0 ? (
@@ -544,7 +547,7 @@ export function MediaUpload({ value, onChange, kind = "image" }: { value: string
       <div className="flex flex-wrap gap-2">
         {cfg.data?.enabled && (
           <>
-            <input ref={inputRef} type="file" accept={accept} className="hidden" onChange={onFile} />
+            <input name="upload" ref={inputRef} type="file" accept={accept} className="hidden" onChange={onFile} />
             <Button type="button" variant="outline" size="sm" onClick={() => inputRef.current?.click()} disabled={busy}>
               {busy ? "Uploading…" : value ? `Replace ${noun}` : `Upload ${noun}`}
             </Button>
@@ -554,7 +557,7 @@ export function MediaUpload({ value, onChange, kind = "image" }: { value: string
         {value && <Button type="button" variant="ghost" size="sm" onClick={() => onChange("")}>Remove</Button>}
       </div>
       <MediaPicker open={picking} onOpenChange={setPicking} kind={kind === "audio" ? "audio" : kind === "file" ? "file" : "image"} onPick={(m) => onChange(m.url)} />
-      <Input value={value} onChange={(e) => onChange(e.target.value)} placeholder={kind === "file" ? "https://… or /materials/guide.pdf" : `https://… ${noun} URL`} className="h-11" />
+      <Input name="media-url" aria-label={`${noun} link`} value={value} onChange={(e) => onChange(e.target.value)} placeholder={kind === "file" ? "https://… or /materials/guide.pdf" : `https://… ${noun} URL`} className="h-11" />
       {cfg.data && !cfg.data.enabled && (
         <p className="text-xs text-muted-foreground">Uploads aren't set up yet, paste a {noun} link above. (Add Cloudinary keys to the server .env to enable uploads.)</p>
       )}
@@ -612,7 +615,7 @@ export function AiQuizGenerator({ lessonId }: { lessonId: string }) {
           <DialogHeader><DialogTitle>AI quiz draft</DialogTitle></DialogHeader>
           <div className="flex items-center gap-2 text-sm">
             <span className="text-muted-foreground">Questions:</span>
-            <select value={count} onChange={(e) => setCount(Number(e.target.value))} className="h-9 rounded-md border border-input bg-background px-2">
+            <select name="question-count" aria-label="Number of questions" value={count} onChange={(e) => setCount(Number(e.target.value))} className="h-9 rounded-md border border-input bg-background px-2">
               {[3, 4, 5, 6].map((n) => <option key={n} value={n}>{n}</option>)}
             </select>
             <Button type="button" variant="ghost" size="sm" onClick={() => gen.mutate()} disabled={gen.isPending}>Regenerate</Button>
@@ -624,7 +627,7 @@ export function AiQuizGenerator({ lessonId }: { lessonId: string }) {
               {drafts.map((q, i) => (
                 <div key={i} className="rounded-xl border border-border p-4">
                   <label className="flex items-start gap-2">
-                    <input type="checkbox" checked={sel.has(i)} onChange={() => toggle(i)} className="mt-1 size-4 accent-[var(--primary)]" />
+                    <input type="checkbox" name={`ai-question-${i}`} checked={sel.has(i)} onChange={() => toggle(i)} className="mt-1 size-4 accent-[var(--primary)]" />
                     <span className="font-medium">{q.question}</span>
                   </label>
                   <ul className="mt-2 space-y-1 pl-6 text-sm">

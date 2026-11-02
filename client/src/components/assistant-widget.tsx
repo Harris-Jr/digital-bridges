@@ -97,7 +97,7 @@ export function AssistantWidget() {
           </div>
 
           <form onSubmit={(e) => { e.preventDefault(); void send(); }} className="flex items-center gap-2 border-t border-border p-3">
-            <input
+            <input name="question"
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder={t("assistant.placeholder", "Type your question…")}

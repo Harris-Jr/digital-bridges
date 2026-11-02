@@ -27,14 +27,14 @@ export const Route = createFileRoute("/auth")({
 
 function AuthPage() {
   const { t } = useI18n();
-  const { user } = useAuth();
+  const { user, home } = useAuth();
   const navigate = useNavigate();
   const { mode } = Route.useSearch();
   const isLogin = mode !== "register";
 
   useEffect(() => {
-    if (user) navigate({ to: "/dashboard", replace: true });
-  }, [user, navigate]);
+    if (user) navigate({ to: home, replace: true });
+  }, [user, home, navigate]);
 
   const toggle = () =>
     navigate({ to: "/auth", search: isLogin ? { mode: "register" } : {}, replace: true });
@@ -106,8 +106,7 @@ function LoginForm({ onToggle }: { onToggle: () => void }) {
     if (!password) { setErr(t("auth.err.password", "Please type your password.")); return; }
     setBusy(true);
     try {
-      await signIn(email.trim(), password);
-      navigate({ to: "/dashboard", replace: true });
+      navigate({ to: await signIn(email.trim(), password), replace: true });
     } catch (e2) {
       setErr(
         e2 instanceof ApiError && e2.status === 401
@@ -135,7 +134,7 @@ function LoginForm({ onToggle }: { onToggle: () => void }) {
       </div>
       <div className="flex items-center justify-between text-sm">
         <label className="inline-flex cursor-pointer items-center gap-2 text-muted-foreground">
-          <input type="checkbox" checked={remember} onChange={(e) => setRemember(e.target.checked)} className="size-[18px] accent-[var(--primary)]" />
+          <input type="checkbox" name="remember" checked={remember} onChange={(e) => setRemember(e.target.checked)} className="size-[18px] accent-[var(--primary)]" />
           {t("auth.remember", "Remember me")}
         </label>
         <button type="button" onClick={reset} className="font-semibold text-primary hover:underline">{t("auth.forgot", "Forgot Password?")}</button>
@@ -223,7 +222,7 @@ function RegisterForm({ onToggle }: { onToggle: () => void }) {
 
       <fieldset className="space-y-2 rounded-xl border border-foreground/15 p-3 text-sm">
         <label className="flex items-start gap-2.5">
-          <input type="checkbox" checked={terms} onChange={(e) => setTerms(e.target.checked)} className="mt-0.5 size-[18px] shrink-0 accent-[var(--primary)]" />
+          <input type="checkbox" name="terms" checked={terms} onChange={(e) => setTerms(e.target.checked)} className="mt-0.5 size-[18px] shrink-0 accent-[var(--primary)]" />
           <span className="leading-snug">
             {t("auth.agree", "I agree to the")} <Link to="/terms" className="text-primary underline">{t("auth.terms", "Terms")}</Link> {t("auth.and", "and")} <Link to="/privacy" className="text-primary underline">{t("auth.privacy", "Privacy Policy")}</Link>.
           </span>
@@ -237,7 +236,7 @@ function RegisterForm({ onToggle }: { onToggle: () => void }) {
       </fieldset>
 
       <label className="flex items-start gap-2.5 text-sm text-muted-foreground">
-        <input type="checkbox" checked={news} onChange={(e) => setNews(e.target.checked)} className="mt-0.5 size-[18px] shrink-0 accent-[var(--primary)]" />
+        <input type="checkbox" name="newsletter" checked={news} onChange={(e) => setNews(e.target.checked)} className="mt-0.5 size-[18px] shrink-0 accent-[var(--primary)]" />
         <span className="leading-snug">{t("auth.news", "Optional: email me about new lessons and workshops near me.")}</span>
       </label>
 

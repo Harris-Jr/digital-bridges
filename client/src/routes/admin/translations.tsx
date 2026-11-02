@@ -108,13 +108,13 @@ function TranslationsAdmin() {
           <div className="grid gap-4 rounded-2xl border border-border bg-card p-4 sm:grid-cols-2">
             <label className="block text-sm">
               <span className="font-semibold">Course</span>
-              <select value={courseId} onChange={(e) => setCourseId(e.target.value)} className="mt-1 h-11 w-full rounded-xl border border-input bg-background px-3">
+              <select name="course" value={courseId} onChange={(e) => setCourseId(e.target.value)} className="mt-1 h-11 w-full rounded-xl border border-input bg-background px-3">
                 {targets.data?.map((c) => <option key={c.id} value={c.id}>{c.title}</option>)}
               </select>
             </label>
             <label className="block text-sm">
               <span className="font-semibold">What to translate</span>
-              <select value={sel} onChange={(e) => setSel(e.target.value)} className="mt-1 h-11 w-full rounded-xl border border-input bg-background px-3">
+              <select name="item" value={sel} onChange={(e) => setSel(e.target.value)} className="mt-1 h-11 w-full rounded-xl border border-input bg-background px-3">
                 <option value="course">Course overview (title, tagline, description, outcomes)</option>
                 {course?.lessons.map((l) => <option key={l.id} value={l.id}>Lesson: {l.title}</option>)}
               </select>
@@ -187,7 +187,7 @@ function FieldEditor({ field, source, value, onChange }: {
                   arr[i] = e.target.value;
                   onChange(arr);
                 }}
-                placeholder="Translation…"
+                name="translation" placeholder="Translation…"
               />
             </div>
           ))}
@@ -196,9 +196,9 @@ function FieldEditor({ field, source, value, onChange }: {
         <div className="grid gap-2 sm:grid-cols-2">
           <p className={cn("whitespace-pre-wrap rounded-lg bg-secondary/50 px-3 py-2 text-sm text-muted-foreground", field.type === "longtext" && "min-h-40")}>{srcText}</p>
           {field.type === "longtext" ? (
-            <Textarea value={value as string} onChange={(e) => onChange(e.target.value)} rows={10} placeholder="Translation…" />
+            <Textarea value={value as string} onChange={(e) => onChange(e.target.value)} rows={10} name="translation" placeholder="Translation…" />
           ) : (
-            <Input value={value as string} onChange={(e) => onChange(e.target.value)} placeholder="Translation…" />
+            <Input value={value as string} onChange={(e) => onChange(e.target.value)} name="translation" placeholder="Translation…" />
           )}
         </div>
       )}

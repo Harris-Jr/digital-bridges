@@ -366,7 +366,7 @@ function FieldEditor({ field, value, onChange }: { field: BlockField; value: any
         <F label={field.label}>
           <div className="flex items-center gap-2">
             <span className="grid size-11 shrink-0 place-items-center rounded-lg border border-border bg-secondary"><Icon name={value} className="size-5 text-primary" /></span>
-            <select aria-label={field.label} className={selectCls} value={value ?? ""} onChange={(e) => onChange(e.target.value)}>
+            <select name="icon" aria-label={field.label} className={selectCls} value={value ?? ""} onChange={(e) => onChange(e.target.value)}>
               <option value="">Choose an icon</option>
               {ICON_NAMES.map((n) => <option key={n} value={n}>{n.replace(/([a-z])([A-Z0-9])/g, "$1 $2")}</option>)}
             </select>
@@ -380,7 +380,7 @@ function FieldEditor({ field, value, onChange }: { field: BlockField; value: any
     case "select":
       return (
         <F label={field.label}>
-          <select className={selectCls} value={value ?? field.options[0]?.value} onChange={(e) => onChange(e.target.value)}>
+          <select name={field.key} className={selectCls} value={value ?? field.options[0]?.value} onChange={(e) => onChange(e.target.value)}>
             {field.options.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
           </select>
         </F>

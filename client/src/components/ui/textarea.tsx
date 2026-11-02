@@ -4,6 +4,8 @@ import { cn } from "@/lib/utils";
 
 const Textarea = React.forwardRef<HTMLTextAreaElement, React.ComponentProps<"textarea">>(
   ({ className, ...props }, ref) => {
+    // Every field gets an id so browsers can autofill and labels can point at it.
+    const autoId = React.useId();
     return (
       <textarea
         className={cn(
@@ -12,6 +14,7 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, React.ComponentProps<"tex
         )}
         ref={ref}
         {...props}
+        id={props.id ?? (props.name ? undefined : autoId)}
       />
     );
   },

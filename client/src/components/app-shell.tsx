@@ -1,5 +1,5 @@
 import { useEffect, useState, type ReactNode } from "react";
-import { Link, useNavigate } from "@tanstack/react-router";
+import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { GraduationCap, BookOpen, Users, Settings, ShieldCheck, LogOut, Menu, X, Loader2, PanelLeftClose, PanelLeftOpen } from "lucide-react";
 import { Logo, SiteLayout } from "@/components/site";
 import { getToken } from "@/lib/api";
@@ -28,16 +28,21 @@ export function useCollapsed(key: string): [boolean, () => void] {
 export function AppShell({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);
   const [collapsed, toggle] = useCollapsed("cw_sidebar_collapsed");
-  const { loading, user } = useAuth();
+  const { loading, user, isStaff } = useAuth();
   const navigate = useNavigate();
+  const path = useRouterState({ select: (s) => s.location.pathname });
+  // Staff accounts only use Admin. The one learner-area page they keep is
+  // Settings (their own name, password and language).
+  const staffBlocked = isStaff && !path.startsWith("/settings");
 
   // Never render private pages without a session (expired token, signed out in
   // another tab, or a deleted account). The API still enforces auth regardless.
   useEffect(() => {
     if (!loading && !user) navigate({ to: "/signin", replace: true });
-  }, [loading, user, navigate]);
+    else if (!loading && staffBlocked) navigate({ to: "/admin", replace: true });
+  }, [loading, user, staffBlocked, navigate]);
 
-  if (loading || !user) {
+  if (loading || !user || staffBlocked) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-background">
         <Loader2 className="size-6 animate-spin text-muted-foreground" aria-label="Loading" />
@@ -86,12 +91,14 @@ function SidebarInner({ onNavigate, collapsed = false, onToggle }: { onNavigate?
   const { user, profile, isTrainer, isStaff, signOut } = useAuth();
   const { t, lang, setLang } = useI18n();
 
-  const nav = [
+  const nav = isStaff ? [
+    { to: "/admin", label: t("nav.admin", "Admin"), icon: ShieldCheck },
+    { to: "/settings", label: t("nav.settings", "Settings"), icon: Settings },
+  ] : [
     { to: "/dashboard", label: t("nav.dashboard", "My learning"), icon: GraduationCap },
     { to: "/courses", label: t("nav.courses", "Courses"), icon: BookOpen },
     ...(isTrainer ? [{ to: "/trainer", label: t("nav.trainers", "For Trainers"), icon: Users }] : []),
     { to: "/settings", label: t("nav.settings", "Settings"), icon: Settings },
-    ...(isStaff ? [{ to: "/admin", label: t("nav.admin", "Admin"), icon: ShieldCheck }] : []),
   ];
 
   const name = profile?.full_name?.trim() || user?.email?.split("@")[0] || "";
@@ -180,7 +187,9 @@ function SidebarInner({ onNavigate, collapsed = false, onToggle }: { onNavigate?
 /** Public pages that also live inside the app when signed in (course pages):
     the app shell for a signed-in learner, the public site layout otherwise. */
 export function AdaptiveLayout({ children }: { children: ReactNode }) {
-  const { user, loading } = useAuth();
+  const { user, loading, isStaff } = useAuth();
+  // Staff see public pages (courses, news) the way visitors do.
+  if (isStaff) return <SiteLayout>{children}</SiteLayout>;
   if (user || (loading && getToken())) return <AppShell>{children}</AppShell>;
   return <SiteLayout>{children}</SiteLayout>;
 }

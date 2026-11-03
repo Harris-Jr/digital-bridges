@@ -3,8 +3,12 @@
 #
 #   bash /var/www/civicwise/app/deploy/deploy.sh            deploy the latest main
 #   bash /var/www/civicwise/app/deploy/deploy.sh <commit>   deploy (or roll back to) one commit
+#   bash .../deploy.sh <commit> <folder>   use a web build made elsewhere (GitHub does this)
 #
-# GitHub Actions calls it after CI passes on main. You can run it by hand too.
+# GitHub Actions calls it after CI passes on main. It builds the web app on
+# GitHub and uploads it first, so this server only builds the small API.
+# Run by hand without a folder, the web app is built here (needs about 1.5 GB
+# of free memory).
 #
 # Layout on the server:
 #   /var/www/civicwise/app   git clone of the repo (this script lives here)
@@ -19,6 +23,7 @@ set -euo pipefail
 APP_DIR=/var/www/civicwise/app
 WEB_DIR=/var/www/civicwise/web
 TARGET="${1:-origin/main}"
+PREBUILT="${2:-}"
 LOG=/var/www/civicwise/deploy.log
 
 # Only one deploy at a time, even if two are started.
@@ -49,17 +54,16 @@ npm run migrate
 # exist are never overwritten, so edits made in Admin are safe.
 npm run seed -- --new
 
-say "Web app: install, build"
-cd "$APP_DIR/client"
-npm ci --no-audit --no-fund
-npm run build
-
-say "Publishing the built site"
-mkdir -p "$WEB_DIR"
-# Copy without --delete: tabs still open on the old version keep finding their
-# old asset files. Hashed assets older than 30 days are cleaned up below.
-rsync -a "$APP_DIR/client/dist/" "$WEB_DIR/"
-find "$WEB_DIR/assets" -type f -mtime +30 -delete 2>/dev/null || true
+if [ -n "$PREBUILT" ] && [ -f "$PREBUILT/index.html" ]; then
+  say "Web app: using the build uploaded by GitHub"
+  WEB_SRC="$PREBUILT"
+else
+  say "Web app: install, build (on this server)"
+  cd "$APP_DIR/client"
+  npm ci --no-audit --no-fund
+  npm run build
+  WEB_SRC="$APP_DIR/client/dist"
+fi
 
 say "Restarting the API"
 cd "$APP_DIR"
@@ -71,13 +75,24 @@ fi
 pm2 save > /dev/null
 
 say "Health check"
+healthy=0
 for i in $(seq 1 30); do
-  if curl -fsS http://127.0.0.1:4000/api/health > /dev/null; then
-    say "Deploy $COMMIT finished $(date -Is)"
-    exit 0
-  fi
+  if curl -fsS http://127.0.0.1:4000/api/health > /dev/null; then healthy=1; break; fi
   sleep 1
 done
-say "API did not answer /api/health after the restart. Recent log:"
-pm2 logs civicwise-api --lines 40 --nostream || true
-exit 1
+if [ "$healthy" != 1 ]; then
+  say "API did not answer /api/health after the restart. The old site is still being served. Recent log:"
+  pm2 logs civicwise-api --lines 40 --nostream || true
+  exit 1
+fi
+
+# The new site goes live only after the API is healthy.
+say "Publishing the built site"
+mkdir -p "$WEB_DIR"
+# Copy without --delete: tabs still open on the old version keep finding their
+# old asset files. Hashed assets older than 30 days are cleaned up below.
+rsync -a "$WEB_SRC/" "$WEB_DIR/"
+find "$WEB_DIR/assets" -type f -mtime +30 -delete 2>/dev/null || true
+[ -n "$PREBUILT" ] && rm -rf "$PREBUILT"
+
+say "Deploy $COMMIT finished $(date -Is)"

@@ -532,35 +532,40 @@ nano /var/www/civicwise/app/server/.env
 
 Fill it using the [checklist](#environment-variables-checklist), with `NODE_ENV=production`, `APP_URL=https://civicwise.online` and `CORS_ORIGIN=https://civicwise.online`.
 
-### Step 5: First deploy by hand
-
-```bash
-bash /var/www/civicwise/app/deploy/deploy.sh
-pm2 startup        # prints one sudo command: run it so the API starts on boot
-pm2 save
-```
-
-### Step 6: nginx and HTTPS
+### Step 5: nginx and HTTPS
 
 ```bash
 sudo nano /etc/nginx/sites-available/civicwise.online.conf
 ```
 
-Paste the contents of `deploy/nginx/civicwise.online.conf`, then:
+Paste the contents of `deploy/nginx/civicwise.online.conf`, save, then:
 
 ```bash
 sudo ln -s /etc/nginx/sites-available/civicwise.online.conf /etc/nginx/sites-enabled/civicwise.online.conf
-sudo certbot --nginx -d civicwise.online -d www.civicwise.online
 sudo nginx -t && sudo systemctl reload nginx
+sudo certbot --nginx -d civicwise.online -d www.civicwise.online
 ```
 
-### Step 7: Let GitHub deploy
+Certbot adds the SSL lines and the HTTP to HTTPS redirect to the file and keeps the security headers, CSP, caching and API proxy.
+
+### Step 6: Let GitHub deploy
 
 1. On your own machine: `ssh-keygen -t ed25519 -f civicwise_deploy -N ""`.
 2. On the VPS, add `civicwise_deploy.pub` to `/home/deploy/.ssh/authorized_keys`.
 3. On your machine: `ssh-keyscan <vps-ip>` and copy the output.
 4. In GitHub, add the secrets `VPS_HOST`, `VPS_USER` (`deploy`), `VPS_SSH_KEY` (the private key file contents) and `VPS_KNOWN_HOSTS` (the keyscan output), and the variable `DEPLOY_ENABLED=true`.
-5. Run the Deploy workflow from the Actions tab to test it.
+5. Actions, Deploy, **Run workflow** on `main`. GitHub builds the web app, uploads it and runs `deploy/deploy.sh` on the server.
+
+### Step 7: Start the API on boot
+
+After the first deploy has started the API under PM2:
+
+```bash
+sudo env PATH=$PATH pm2 startup systemd -u deploy --hp /home/deploy
+sudo -iu deploy pm2 save
+```
+
+> The web app is built on GitHub, not on the server, because building it needs more than 1 GB of memory. Running `deploy/deploy.sh` by hand without a folder argument builds it on the server instead.
 
 ---
 

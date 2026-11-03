@@ -1,8 +1,10 @@
 # CD: ships main to the Hostinger VPS.
 #
 # Flow: merge a pull request into main -> CI runs again on the merged code ->
-# if it passes, GitHub connects to the VPS over SSH and runs deploy/deploy.sh,
-# which pulls that exact commit, builds, migrates, seeds and restarts the API.
+# if it passes, GitHub uploads the web app that CI built, then connects to the
+# VPS over SSH and runs deploy/deploy.sh, which pulls that exact commit, builds
+# the API, migrates, adds new courses, restarts the API and publishes the site.
+# The web app is built here, not on the server, to spare the server's memory.
 #
 # Turned off until the server is ready: set the repository variable
 # DEPLOY_ENABLED to true (Settings, Secrets and variables, Actions, Variables).
@@ -59,6 +61,21 @@ jobs:
           chmod 600 ~/.ssh/deploy_key
           printf '%s\n' "$KNOWN_HOSTS" > ~/.ssh/known_hosts
 
+      - name: Get the web app CI built
+        uses: actions/download-artifact@v4
+        with:
+          name: web-dist
+          path: web-dist
+
+      - name: Upload it to the server
+        env:
+          HOST: ${{ secrets.VPS_HOST }}
+          USER: ${{ secrets.VPS_USER }}
+          PORT: ${{ vars.VPS_PORT || '22' }}
+        run: |
+          rsync -az --delete --mkpath -e "ssh -i ~/.ssh/deploy_key -p $PORT -o BatchMode=yes" \
+            web-dist/ "$USER@$HOST:/var/www/civicwise/incoming/${{ github.sha }}/"
+
       - name: Run deploy/deploy.sh on the server
         env:
           HOST: ${{ secrets.VPS_HOST }}
@@ -66,7 +83,7 @@ jobs:
           PORT: ${{ vars.VPS_PORT || '22' }}
         run: |
           ssh -i ~/.ssh/deploy_key -p "$PORT" -o BatchMode=yes "$USER@$HOST" \
-            "bash /var/www/civicwise/app/deploy/deploy.sh ${{ github.sha }}"
+            "bash /var/www/civicwise/app/deploy/deploy.sh ${{ github.sha }} /var/www/civicwise/incoming/${{ github.sha }}"
 
       - name: Check the live site
         run: |

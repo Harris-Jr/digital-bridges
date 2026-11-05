@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { CheckCircle2, Circle, ChevronRight, Clock, BookOpen, HelpCircle, Hand, Download, Loader2, Check, Trash2, WifiOff, Compass } from "lucide-react";
+import { CheckCircle2, Circle, Lock, ChevronRight, Clock, BookOpen, HelpCircle, Hand, Download, Loader2, Check, Trash2, WifiOff, Compass } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -141,7 +141,8 @@ function CourseDetail() {
                           return (
                             <li key={l.id}>
                               <Link to="/learn/$courseSlug/$lessonSlug" params={{ courseSlug: c.slug, lessonSlug: l.slug }} className="flex min-h-14 items-center gap-4 px-5 py-3 hover:bg-secondary">
-                                {isDone ? <CheckCircle2 className="size-5 text-success" aria-label="Done" /> : <Circle className="size-5 text-muted-foreground" aria-label="Not done" />}
+                                {!user ? <Lock className="size-5 text-muted-foreground" aria-label="Sign in to open" />
+                                  : isDone ? <CheckCircle2 className="size-5 text-success" aria-label="Done" /> : <Circle className="size-5 text-muted-foreground" aria-label="Not done" />}
                                 <span className="flex-1"><span className="text-muted-foreground">{startAt + i + 1}. </span>{l.title}</span>
                                 <span className="inline-flex items-center gap-1 text-xs capitalize text-muted-foreground"><T className="size-4" aria-hidden="true" />{l.type === "quiz" ? t("course.check", "Check") : l.type}</span>
                               </Link>
@@ -161,15 +162,25 @@ function CourseDetail() {
             <div className="h-40"><ContentImage src={c.image_url} icon={c.icon_name} motif={c.categories?.slug} alt="" /></div>
             <div className="p-5">
               {user && <p className="text-sm text-muted-foreground">{completed} {t("course.of", "of")} {c.lessons.length} {t("course.lessonsDone", "lessons done")}</p>}
-              {next && (
+              {next && user && (
                 <Button asChild variant="accent" className="mt-3 w-full">
                   <Link to="/learn/$courseSlug/$lessonSlug" params={{ courseSlug: c.slug, lessonSlug: next.slug }}>
                     {completed > 0 ? t("course.continue", "Continue course") : t("course.start", "Start course")}
                   </Link>
                 </Button>
               )}
-              {!user && <p className="mt-3 text-xs text-muted-foreground"><Link to="/signup" className="font-semibold text-primary underline">{t("course.createAccount", "Create a free account")}</Link> {t("course.toSave", "to save your progress.")}</p>}
-              {c.lessons.length > 0 && <OfflineDownload slug={c.slug} title={c.title} image_url={c.image_url} lessons={c.lessons} />}
+              {next && !user && (
+                <>
+                  <Button asChild variant="accent" className="mt-3 w-full">
+                    <Link to="/auth" search={{ mode: "register", redirect: `/learn/${c.slug}/${next.slug}` }}>{t("gate.signup", "Create free account")}</Link>
+                  </Button>
+                  <p className="mt-2 text-center text-xs text-muted-foreground">
+                    {t("gate.free", "Free. Lessons open once you sign in.")}{" "}
+                    <Link to="/auth" search={{ redirect: `/learn/${c.slug}/${next.slug}` }} className="font-semibold text-primary underline">{t("nav.signin", "Sign in")}</Link>
+                  </p>
+                </>
+              )}
+              {user && c.lessons.length > 0 && <OfflineDownload slug={c.slug} title={c.title} image_url={c.image_url} lessons={c.lessons} />}
             </div>
           </div>
           {related && (

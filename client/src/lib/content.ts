@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { apiGet } from "@/lib/api";
+import { apiGet, getToken } from "@/lib/api";
 import { useI18n } from "@/lib/i18n";
 
 // Append ?lang= for non-English so the API overlays translated content.
@@ -184,9 +184,11 @@ export const usePathway = (slug: string) => {
 export const useCourse = (slug: string) => {
   const { lang } = useI18n();
   return useQuery({
-    queryKey: ["course", slug, lang],
+    // Signed-in learners get the full lessons; visitors get the outline only,
+    // so the cache keeps the two apart.
+    queryKey: ["course", slug, lang, !!getToken()],
     queryFn: async () => {
-      const { category, ...c } = await apiGet<ApiCourse & { lessons: Lesson[]; modules?: CourseModule[] }>(`/courses/${slug}${langQs(lang)}`, false);
+      const { category, ...c } = await apiGet<ApiCourse & { lessons: Lesson[]; modules?: CourseModule[] }>(`/courses/${slug}${langQs(lang)}`);
       return { ...c, modules: c.modules ?? [], categories: category } as Omit<Course, "lessons"> & { lessons: Lesson[]; modules: CourseModule[] };
     },
     retry: (count, err) => !(err instanceof Error && err.message.toLowerCase().includes("not found")) && count < 1,
@@ -197,8 +199,8 @@ export const useQuiz = (lessonId: string | undefined) => {
   const { lang } = useI18n();
   return useQuery({
     queryKey: ["quiz", lessonId, lang],
-    enabled: !!lessonId,
-    queryFn: () => apiGet<QuizQuestion[]>(`/lessons/${lessonId}/quiz${langQs(lang)}`, false),
+    enabled: !!lessonId && !!getToken(),
+    queryFn: () => apiGet<QuizQuestion[]>(`/lessons/${lessonId}/quiz${langQs(lang)}`),
   });
 };
 
@@ -216,8 +218,8 @@ export const useScenario = (lessonId: string | undefined, enabled: boolean) => {
   const { lang } = useI18n();
   return useQuery({
     queryKey: ["scenario", lessonId, lang],
-    enabled: !!lessonId && enabled,
-    queryFn: () => apiGet<ScenarioStep[]>(`/lessons/${lessonId}/scenario${langQs(lang)}`, false),
+    enabled: !!lessonId && enabled && !!getToken(),
+    queryFn: () => apiGet<ScenarioStep[]>(`/lessons/${lessonId}/scenario${langQs(lang)}`),
   });
 };
 

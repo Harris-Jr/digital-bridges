@@ -1,7 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { ArrowLeft, ArrowRight, CheckCircle2, Circle, Lightbulb, Hand, X, XCircle, Volume2, Compass, ThumbsUp, Play, ListOrdered, PanelLeftClose, BookOpen, HelpCircle } from "lucide-react";
+import { ArrowLeft, ArrowRight, Lock, CheckCircle2, Circle, Lightbulb, Hand, X, XCircle, Volume2, Compass, ThumbsUp, Play, ListOrdered, PanelLeftClose, BookOpen, HelpCircle } from "lucide-react";
 import { useCollapsed } from "@/components/app-shell";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -29,7 +29,7 @@ export const Route = createFileRoute("/learn/$courseSlug/$lessonSlug")({
 function LessonPlayer() {
   const { courseSlug, lessonSlug } = Route.useParams();
   const { t } = useI18n();
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const qc = useQueryClient();
   const navigate = useNavigate();
   const course = useCourse(courseSlug);
@@ -81,7 +81,7 @@ function LessonPlayer() {
     },
   });
 
-  if (course.isLoading) return <div className="container-page max-w-2xl space-y-4 py-10"><Skeleton className="h-4 w-full" /><Skeleton className="h-10 w-2/3" /><Skeleton className="h-64 w-full rounded-2xl" /></div>;
+  if (course.isLoading || authLoading) return <div className="container-page max-w-2xl space-y-4 py-10"><Skeleton className="h-4 w-full" /><Skeleton className="h-10 w-2/3" /><Skeleton className="h-64 w-full rounded-2xl" /></div>;
   if (course.isError) return <div className="container-page max-w-2xl py-10"><ErrorNote /></div>;
   if (!course.data || !lesson)
     return (
@@ -89,6 +89,10 @@ function LessonPlayer() {
         <EmptyState icon="BookX" title="We could not find this lesson" body="It may have been moved or is being updated." action={<Button asChild><Link to="/courses">Back to courses</Link></Button>} />
       </div>
     );
+
+  // Lessons are for signed-in learners. Visitors see what the lesson is and a
+  // way to make a free account, then come straight back here.
+  if (!user) return <LessonGate courseTitle={course.data.title} courseSlug={courseSlug} lessonTitle={lesson.title} minutes={lesson.est_minutes} />;
 
   const prev = lessons[idx - 1];
   const next = lessons[idx + 1];
@@ -491,6 +495,29 @@ function CourseOutline({ courseTitle, courseSlug, modules, lessons, current, don
             </div>
           );
         })}
+      </div>
+    </div>
+  );
+}
+
+function LessonGate({ courseTitle, courseSlug, lessonTitle, minutes }: { courseTitle: string; courseSlug: string; lessonTitle: string; minutes?: number | null }) {
+  const { t } = useI18n();
+  const here = typeof window !== "undefined" ? window.location.pathname : `/courses/${courseSlug}`;
+  return (
+    <div className="grid min-h-screen place-items-center bg-background px-4 py-10">
+      <div className="w-full max-w-md rounded-3xl border border-border bg-card p-6 text-center shadow-sm md:p-8">
+        <span className="mx-auto grid size-14 place-items-center rounded-2xl bg-primary-soft text-primary"><Lock className="size-6" aria-hidden="true" /></span>
+        <p className="eyebrow mt-5">{courseTitle}</p>
+        <h1 className="mt-2 text-2xl">{lessonTitle}</h1>
+        {minutes ? <p className="mt-1 text-sm text-muted-foreground">{minutes} min</p> : null}
+        <p className="mt-4 text-muted-foreground">{t("gate.body", "Create a free account to open this lesson. It takes a minute, and it saves your progress, badges and certificates.")}</p>
+        <div className="mt-6 grid gap-2">
+          <Button asChild variant="accent" size="lg"><Link to="/auth" search={{ mode: "register", redirect: here }}>{t("gate.signup", "Create free account")}</Link></Button>
+          <Button asChild variant="outline" size="lg"><Link to="/auth" search={{ redirect: here }}>{t("nav.signin", "Sign in")}</Link></Button>
+        </div>
+        <Link to="/courses/$slug" params={{ slug: courseSlug }} className="mt-5 inline-flex items-center gap-1 text-sm font-semibold text-primary hover:underline">
+          <ArrowLeft className="size-4" />{t("gate.back", "Back to the course")}
+        </Link>
       </div>
     </div>
   );

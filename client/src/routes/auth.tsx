@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Mail, User, X } from "lucide-react";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
@@ -13,8 +13,10 @@ import { seo } from "@/lib/seo";
 type Mode = "login" | "register";
 
 export const Route = createFileRoute("/auth")({
-  validateSearch: (s: Record<string, unknown>): { mode?: Mode } => ({
+  validateSearch: (s: Record<string, unknown>): { mode?: Mode; redirect?: string } => ({
     mode: s.mode === "register" ? "register" : undefined,
+    // Only paths on this site, so the link cannot send people elsewhere.
+    redirect: typeof s.redirect === "string" && /^\/(?!\/)/.test(s.redirect) ? s.redirect : undefined,
   }),
   head: () => seo({
     path: "/auth",
@@ -29,15 +31,21 @@ function AuthPage() {
   const { t } = useI18n();
   const { user, home } = useAuth();
   const navigate = useNavigate();
-  const { mode } = Route.useSearch();
+  const { mode, redirect } = Route.useSearch();
   const isLogin = mode !== "register";
+  // After signing in or up, learners go back to the lesson they wanted. Staff
+  // always go to Admin.
+  const goTo = useCallback((h: string) => {
+    if (redirect && h !== "/admin") navigate({ href: redirect, replace: true });
+    else navigate({ to: h as "/dashboard", replace: true });
+  }, [redirect, navigate]);
 
   useEffect(() => {
-    if (user) navigate({ to: home, replace: true });
-  }, [user, home, navigate]);
+    if (user) goTo(home);
+  }, [user, home, goTo]);
 
   const toggle = () =>
-    navigate({ to: "/auth", search: isLogin ? { mode: "register" } : {}, replace: true });
+    navigate({ to: "/auth", search: { ...(isLogin ? { mode: "register" as const } : {}), ...(redirect ? { redirect } : {}) }, replace: true });
 
   return (
     <div className="auth-page">
@@ -55,7 +63,7 @@ function AuthPage() {
               >
                 <X className="size-4" />
               </Link>
-              {isLogin ? <LoginForm key="login" onToggle={toggle} /> : <RegisterForm key="register" onToggle={toggle} />}
+              {isLogin ? <LoginForm key="login" onToggle={toggle} onDone={goTo} /> : <RegisterForm key="register" onToggle={toggle} onDone={goTo} />}
             </div>
           </div>
         </section>
@@ -88,10 +96,9 @@ function AuthPage() {
 }
 
 /* ----------------------------------------------------------------- login */
-function LoginForm({ onToggle }: { onToggle: () => void }) {
+function LoginForm({ onToggle, onDone }: { onToggle: () => void; onDone: (home: string) => void }) {
   const { t } = useI18n();
   const { signIn } = useAuth();
-  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [remember, setRemember] = useState(true);
@@ -106,7 +113,7 @@ function LoginForm({ onToggle }: { onToggle: () => void }) {
     if (!password) { setErr(t("auth.err.password", "Please type your password.")); return; }
     setBusy(true);
     try {
-      navigate({ to: await signIn(email.trim(), password), replace: true });
+      onDone(await signIn(email.trim(), password));
     } catch (e2) {
       setErr(
         e2 instanceof ApiError && e2.status === 401
@@ -160,10 +167,9 @@ const schema = z.object({
   password: z.string().min(8, "Use at least 8 characters. A short sentence works well."),
 });
 
-function RegisterForm({ onToggle }: { onToggle: () => void }) {
+function RegisterForm({ onToggle, onDone }: { onToggle: () => void; onDone: (home: string) => void }) {
   const { t } = useI18n();
   const { signUp } = useAuth();
-  const navigate = useNavigate();
   const version = usePolicyVersion() ?? "1.0";
   const [f, setF] = useState({ first: "", last: "", email: "", password: "", confirm: "" });
   const [terms, setTerms] = useState(false);
@@ -206,7 +212,7 @@ function RegisterForm({ onToggle }: { onToggle: () => void }) {
       }
     } catch { /* non-blocking */ }
     setBusy(false);
-    navigate({ to: "/dashboard", replace: true });
+    onDone("/dashboard");
   };
 
   return (

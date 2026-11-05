@@ -453,7 +453,10 @@ export type MediaItem = { id: string; url: string; public_id: string | null; kin
 
 type CloudinaryResult = { secure_url: string; public_id: string; bytes?: number; width?: number; height?: number; original_filename?: string; format?: string };
 
-async function uploadToCloudinary(file: File, resourceType: "image" | "video" | "raw"): Promise<CloudinaryResult> {
+export type UploadOptions = { onProgress?: (pct: number) => void; signal?: AbortSignal };
+
+/* XMLHttpRequest rather than fetch, because fetch cannot report upload progress. */
+async function uploadToCloudinary(file: File, resourceType: "image" | "video" | "raw", opts: UploadOptions = {}): Promise<CloudinaryResult> {
   const sign = await apiPost<SignResponse>("/admin/media/sign");
   const form = new FormData();
   form.append("file", file);
@@ -461,19 +464,30 @@ async function uploadToCloudinary(file: File, resourceType: "image" | "video" | 
   form.append("timestamp", String(sign.timestamp));
   form.append("folder", sign.folder);
   form.append("signature", sign.signature);
-  const res = await fetch(`https://api.cloudinary.com/v1_1/${sign.cloudName}/${resourceType}/upload`, { method: "POST", body: form });
-  const data = (await res.json()) as Partial<CloudinaryResult> & { error?: { message?: string } };
-  if (!res.ok || !data.secure_url) throw new Error(data.error?.message ?? "Upload failed. Please try again.");
-  return data as CloudinaryResult;
+  return new Promise<CloudinaryResult>((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", `https://api.cloudinary.com/v1_1/${sign.cloudName}/${resourceType}/upload`);
+    xhr.upload.onprogress = (e) => { if (e.lengthComputable) opts.onProgress?.(Math.round((e.loaded / e.total) * 100)); };
+    xhr.onload = () => {
+      let data: Partial<CloudinaryResult> & { error?: { message?: string } } = {};
+      try { data = JSON.parse(xhr.responseText); } catch { /* not JSON */ }
+      if (xhr.status >= 200 && xhr.status < 300 && data.secure_url) resolve(data as CloudinaryResult);
+      else reject(new Error(data.error?.message ?? "Upload failed. Please try again."));
+    };
+    xhr.onerror = () => reject(new Error("Upload failed. Check your connection and try again."));
+    xhr.onabort = () => reject(new DOMException("Upload cancelled", "AbortError"));
+    opts.signal?.addEventListener("abort", () => xhr.abort());
+    xhr.send(form);
+  });
 }
 
 const kindOf = (file: File): MediaItem["kind"] =>
   file.type.startsWith("image/") ? "image" : file.type.startsWith("audio/") ? "audio" : file.type.startsWith("video/") ? "video" : "file";
 
 /** Upload a file to Cloudinary and record it in the media library. Returns the library item. */
-export async function uploadToLibrary(file: File): Promise<MediaItem> {
+export async function uploadToLibrary(file: File, opts: UploadOptions = {}): Promise<MediaItem> {
   const kind = kindOf(file);
-  const r = await uploadToCloudinary(file, kind === "image" ? "image" : kind === "file" ? "raw" : "video");
+  const r = await uploadToCloudinary(file, kind === "image" ? "image" : kind === "file" ? "raw" : "video", opts);
   return apiPost<MediaItem>("/admin/media/items", {
     url: r.secure_url, public_id: r.public_id, kind,
     name: file.name.replace(/\.[^.]+$/, ""), bytes: r.bytes ?? file.size, width: r.width ?? null, height: r.height ?? null,
@@ -511,56 +525,156 @@ export function MediaPicker({ open, onOpenChange, kind, onPick }: { open: boolea
   );
 }
 
+type UploadState =
+  | { status: "idle" }
+  | { status: "uploading"; file: File; preview: string | null; pct: number; ctrl: AbortController }
+  | { status: "failed"; file: File; preview: string | null; error: string };
+
+const ACCEPT: Record<"image" | "audio" | "file", string> = {
+  image: "image/*",
+  audio: "audio/*",
+  file: ".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx",
+};
+const MAX_BYTES = 20 * 1024 * 1024;
+
+/** Does this dropped or chosen file suit the field? */
+function fileFits(file: File, kind: "image" | "audio" | "file") {
+  if (kind === "image") return file.type.startsWith("image/");
+  if (kind === "audio") return file.type.startsWith("audio/");
+  return /\.(pdf|docx?|pptx?|xlsx?)$/i.test(file.name);
+}
+
+/**
+ * One media field: drop a file, upload it, choose from the library or paste a link.
+ * While uploading it shows the file with a progress bar and an X to cancel; if the
+ * upload fails it keeps the file, says so, and offers Retry and X.
+ */
 export function MediaUpload({ value, onChange, kind = "image" }: { value: string; onChange: (v: string) => void; kind?: "image" | "audio" | "file" }) {
   const cfg = useQuery({ queryKey: ["media-config"], queryFn: () => apiGet<MediaConfig>("/admin/media/config"), staleTime: 5 * 60_000 });
-  const [busy, setBusy] = useState(false);
+  const [state, setState] = useState<UploadState>({ status: "idle" });
+  const [picking, setPicking] = useState(false);
+  const [over, setOver] = useState(false);
+  const [broken, setBroken] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const noun = kind === "audio" ? "audio" : kind === "file" ? "file" : "image";
-  const accept = kind === "audio" ? "audio/*" : kind === "file" ? ".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx" : "image/*";
-  // Cloudinary: audio is a "video" resource; documents are "raw" so PDFs download
-  // as files (no image-delivery restrictions).
-  const [picking, setPicking] = useState(false);
+  const enabled = !!cfg.data?.enabled;
 
-  const onFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    if (kind === "file" && file.size > 20 * 1024 * 1024) { toast.error("That file is larger than 20 MB. Please make it smaller."); return; }
-    setBusy(true);
+  useEffect(() => { setBroken(false); }, [value]);
+  // Free the local preview when it is no longer shown.
+  const preview = state.status !== "idle" ? state.preview : null;
+  useEffect(() => () => { if (preview) URL.revokeObjectURL(preview); }, [preview]);
+
+  const start = async (file: File) => {
+    if (!fileFits(file, kind)) { toast.error(`That is not ${kind === "image" ? "an image" : kind === "audio" ? "an audio file" : "a document"}.`); return; }
+    if (file.size > MAX_BYTES) { toast.error("That file is larger than 20 MB. Please make it smaller."); return; }
+    const ctrl = new AbortController();
+    const local = kind === "image" ? URL.createObjectURL(file) : null;
+    setState({ status: "uploading", file, preview: local, pct: 0, ctrl });
     try {
-      onChange((await uploadToLibrary(file)).url);
-      toast.success(`${noun[0]!.toUpperCase()}${noun.slice(1)} uploaded`);
+      const item = await uploadToLibrary(file, {
+        signal: ctrl.signal,
+        onProgress: (pct) => setState((s) => (s.status === "uploading" && s.file === file ? { ...s, pct } : s)),
+      });
+      onChange(item.url);
+      setState({ status: "idle" });
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "Upload failed");
+      if (err instanceof DOMException && err.name === "AbortError") { setState({ status: "idle" }); return; }
+      setState({ status: "failed", file, preview: local, error: err instanceof Error ? err.message : "Upload failed" });
     } finally {
-      setBusy(false);
       if (inputRef.current) inputRef.current.value = "";
     }
   };
 
+  const onDrop = (e: React.DragEvent) => {
+    e.preventDefault(); e.stopPropagation(); setOver(false);
+    const file = e.dataTransfer.files?.[0];
+    if (file && enabled) void start(file);
+  };
+  const dragProps = enabled ? {
+    onDragOver: (e: React.DragEvent) => { if (e.dataTransfer.types.includes("Files")) { e.preventDefault(); e.stopPropagation(); setOver(true); } },
+    onDragLeave: () => setOver(false),
+    onDrop,
+  } : {};
+
+  const busy = state.status === "uploading";
+  const showValue = state.status === "idle" && value;
+
   return (
     <div className="space-y-2">
-      {value && (kind === "audio"
-        ? <audio controls src={value} className="w-full" />
-        : kind === "file"
-          ? <a href={value} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 rounded-lg border border-border bg-background px-3 py-2 text-sm font-medium text-primary underline-offset-2 hover:underline"><FileIcon className="size-4 shrink-0" /><span className="truncate">{decodeURIComponent(value.split("/").pop() ?? value)}</span></a>
-          : <img src={value} alt="" className="h-28 w-full rounded-lg border border-border object-cover" />)}
-      <div className="flex flex-wrap gap-2">
-        {cfg.data?.enabled && (
-          <>
-            <input name="upload" ref={inputRef} type="file" accept={accept} className="hidden" onChange={onFile} />
-            <Button type="button" variant="outline" size="sm" onClick={() => inputRef.current?.click()} disabled={busy}>
-              {busy ? "Uploading…" : value ? `Replace ${noun}` : `Upload ${noun}`}
-            </Button>
-          </>
+      <input name="upload" ref={inputRef} type="file" accept={ACCEPT[kind]} className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) void start(f); }} />
+
+      {/* The box: drop zone, upload card, or the current file */}
+      <div {...dragProps} className={cn("relative overflow-hidden rounded-xl border bg-background transition-colors", over ? "border-primary bg-primary-soft/40 ring-2 ring-primary/30" : "border-border")}>
+        {state.status !== "idle" ? (
+          <UploadCard state={state} kind={kind}
+            onCancel={() => { if (state.status === "uploading") state.ctrl.abort(); else setState({ status: "idle" }); }}
+            onRetry={() => state.status === "failed" && void start(state.file)} />
+        ) : showValue ? (
+          kind === "audio" ? <div className="p-2"><audio controls src={value} className="w-full" /></div>
+          : kind === "file" ? (
+            <a href={value} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-3 py-3 text-sm font-medium text-primary underline-offset-2 hover:underline">
+              <FileIcon className="size-4 shrink-0" /><span className="truncate">{decodeURIComponent(value.split("/").pop() ?? value)}</span>
+            </a>
+          ) : broken ? (
+            <div className="grid h-32 place-items-center px-3 text-center text-sm text-muted-foreground">This image could not be loaded. Check the link, or upload it again.</div>
+          ) : (
+            <img src={value} alt="" onError={() => setBroken(true)} className="h-32 w-full object-cover" />
+          )
+        ) : (
+          <button type="button" disabled={!enabled} onClick={() => inputRef.current?.click()}
+            className="flex w-full flex-col items-center justify-center gap-1 px-3 py-6 text-center text-sm text-muted-foreground enabled:hover:bg-secondary/50 disabled:cursor-default">
+            <ImageIcon className="size-5 text-primary" aria-hidden="true" />
+            {enabled ? <span><span className="font-semibold text-primary">Upload {kind === "image" ? "an image" : `a ${noun}`}</span> or drag it here</span> : <span>No {noun} yet</span>}
+          </button>
         )}
-        <Button type="button" variant="outline" size="sm" onClick={() => setPicking(true)}>Choose from library</Button>
-        {value && <Button type="button" variant="ghost" size="sm" onClick={() => onChange("")}>Remove</Button>}
+        {over && <div className="pointer-events-none absolute inset-0 grid place-items-center bg-primary-soft/70 text-sm font-semibold text-primary">Drop to upload</div>}
+      </div>
+
+      <div className="flex flex-wrap gap-2">
+        {enabled && showValue && (
+          <Button type="button" variant="outline" size="sm" onClick={() => inputRef.current?.click()}>Replace {noun}</Button>
+        )}
+        <Button type="button" variant="outline" size="sm" onClick={() => setPicking(true)} disabled={busy}>Choose from library</Button>
+        {showValue && <Button type="button" variant="ghost" size="sm" onClick={() => onChange("")}>Remove</Button>}
       </div>
       <MediaPicker open={picking} onOpenChange={setPicking} kind={kind === "audio" ? "audio" : kind === "file" ? "file" : "image"} onPick={(m) => onChange(m.url)} />
-      <Input name="media-url" aria-label={`${noun} link`} value={value} onChange={(e) => onChange(e.target.value)} placeholder={kind === "file" ? "https://… or /materials/guide.pdf" : `https://… ${noun} URL`} className="h-11" />
-      {cfg.data && !cfg.data.enabled && (
+      <Input name="media-url" aria-label={`${noun} link`} value={value} onChange={(e) => onChange(e.target.value)} placeholder={kind === "file" ? "https://… or /materials/guide.pdf" : kind === "image" ? "Or paste an image link" : "Or paste an audio link"} className="h-11" />
+      {cfg.data && !enabled && (
         <p className="text-xs text-muted-foreground">Uploads aren't set up yet, paste a {noun} link above. (Add Cloudinary keys to the server .env to enable uploads.)</p>
       )}
+    </div>
+  );
+}
+
+/** The file being uploaded: preview, name, progress or the failure, with Retry and X. */
+function UploadCard({ state, kind, onCancel, onRetry }: { state: Exclude<UploadState, { status: "idle" }>; kind: "image" | "audio" | "file"; onCancel: () => void; onRetry: () => void }) {
+  const failed = state.status === "failed";
+  return (
+    <div className="relative">
+      {state.preview && kind === "image" ? (
+        <img src={state.preview} alt="" className={cn("h-32 w-full object-cover transition", failed ? "opacity-40 grayscale" : "opacity-60")} />
+      ) : (
+        <div className="flex h-20 items-center gap-2 px-3 text-sm text-muted-foreground"><FileIcon className="size-5 shrink-0" /><span className="truncate">{state.file.name}</span></div>
+      )}
+      <button type="button" onClick={onCancel} aria-label={failed ? "Remove" : "Cancel upload"}
+        className="absolute right-2 top-2 grid size-8 place-items-center rounded-full bg-black/60 text-white hover:bg-black/80">
+        <X className="size-4" />
+      </button>
+      <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent px-3 pb-2 pt-6 text-white">
+        {failed ? (
+          <div className="flex items-center justify-between gap-2 text-sm" role="alert">
+            <span className="font-semibold text-red-200" title={state.error}>Upload failed</span>
+            <button type="button" onClick={onRetry} className="font-semibold underline underline-offset-2 hover:text-red-100">Retry</button>
+          </div>
+        ) : (
+          <>
+            <div className="flex items-center justify-between text-xs font-semibold"><span className="truncate pr-2">{state.file.name}</span><span>{state.pct}%</span></div>
+            <div className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-white/30" role="progressbar" aria-valuenow={state.pct} aria-valuemin={0} aria-valuemax={100} aria-label="Upload progress">
+              <div className="h-full rounded-full bg-white transition-[width] duration-200" style={{ width: `${state.pct}%` }} />
+            </div>
+          </>
+        )}
+      </div>
     </div>
   );
 }

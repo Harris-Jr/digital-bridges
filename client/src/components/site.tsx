@@ -706,18 +706,22 @@ export function CourseCard({ course, progress }: { course: Course; index?: numbe
 const safeHref = (u: string) => /^(https?:\/\/|\/|mailto:|tel:)/i.test(u) ? u : null;
 
 export function RichText({ text }: { text: string }) {
-  const inline = (s: string) =>
-    s.split(/(\*\*[^*]+\*\*|\[[^\]]+\]\([^)\s]+\)|\*[^*\s][^*]*\*)/g).map((p, i) => {
-      if (p.startsWith("**") && p.endsWith("**") && p.length > 4) return <strong key={i}>{p.slice(2, -2)}</strong>;
+  // A backslash before an asterisk makes it literal (codes like *707#). It is swapped for a
+  // private-use character before formatting and swapped back in the output.
+  const LIT = "\uE000";
+  const lit = (t: string) => t.replace(/\uE000/g, "*");
+  const inline = (raw: string) =>
+    raw.replace(/\\\*/g, LIT).split(/(\*\*[^*]+\*\*|\[[^\]]+\]\([^)\s]+\)|\*[^*\s][^*]*\*)/g).map((p, i) => {
+      if (p.startsWith("**") && p.endsWith("**") && p.length > 4) return <strong key={i}>{lit(p.slice(2, -2))}</strong>;
       const link = /^\[([^\]]+)\]\(([^)\s]+)\)$/.exec(p);
       if (link) {
         const href = safeHref(link[2]!);
-        if (!href) return <span key={i}>{link[1]}</span>;
+        if (!href) return <span key={i}>{lit(link[1]!)}</span>;
         const external = /^https?:/i.test(href);
-        return <a key={i} href={href} className="font-semibold text-primary underline underline-offset-2" {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}>{link[1]}</a>;
+        return <a key={i} href={href} className="font-semibold text-primary underline underline-offset-2" {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}>{lit(link[1]!)}</a>;
       }
-      if (p.startsWith("*") && p.endsWith("*") && p.length > 2) return <em key={i}>{p.slice(1, -1)}</em>;
-      return <span key={i}>{p}</span>;
+      if (p.startsWith("*") && p.endsWith("*") && p.length > 2) return <em key={i}>{lit(p.slice(1, -1))}</em>;
+      return <span key={i}>{lit(p)}</span>;
     });
   const out: ReactNode[] = [];
   let k = 0;

@@ -370,7 +370,7 @@ The deploy job is switched off until the repository variable `DEPLOY_ENABLED` is
 - **Migrations** are wrapped in a transaction by the runner; SQL files must not contain `begin` or `commit`. Never edit an applied migration; add a new numbered file.
 - **Boolean env parsing** is explicit because `z.coerce.boolean()` treats `"false"` as true (this once broke STARTTLS on port 587).
 - **Content overlay** also applies to nested data: a course's category and lessons are translated with it.
-- **Rich text format** (lessons, news, text blocks): blank line between paragraphs, `## ` headings, `- ` and `1. ` lists, `**bold**`, `*italic*`, `[text](url)` (safe URLs only), and `![alt](url)` image lines. Tables are not supported.
+- **Rich text format** (lessons, news, text blocks): blank line between paragraphs, `## ` headings, `- ` and `1. ` lists, `**bold**`, `*italic*`, `[text](url)` (safe URLs only), and `![alt](url)` image lines. Write `\*` for a literal asterisk, for example `\*707#`. Tables are not supported.
 - **Route nesting:** with flat route files, `x.tsx` plus `x.$id.tsx` makes the second a child of the first, so the first must render `<Outlet />`. This project uses `x.index.tsx` for list pages to avoid that.
 - **`$` in file names** marks a URL parameter (`courses.$slug.tsx` is `/courses/:slug`). Quote these names in the shell.
 - **Build chunks:** third-party code is split into `react`, `tanstack`, `radix`, `icons`, `zod` and `vendor` chunks (see `client/vite.config.ts`) so returning visitors keep them cached across releases.

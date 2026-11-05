@@ -169,6 +169,20 @@
           "motif": "shield"
         },
         {
+          "slug": "report-scams-and-unwanted-messages",
+          "title": "Report it: *707# and unwanted messages",
+          "type": "read",
+          "est_minutes": 5,
+          "body": "You do not have to just delete a scam message. Reporting it helps stop the scammer reaching other people.\n\n## Report scam calls and SMS: dial *707#\nZICTA, the authority that regulates phones and the internet in Zambia, has a free short code for reporting fraud. Dial **\\*707#** and follow the menu to report the number that called or messaged you. Have the number and what they said ready.\n\nYou can also call ZICTA free on **7070**, or email **complaints@zicta.zm**.\n\n## If your phone is stolen\nZICTA advises three steps: dial **\\*707#** to block your SIM, report the theft at the nearest police station, and give the police your phone's serial or IMEI number. To find your IMEI now, dial **\\*#06#** and write it down somewhere safe.\n\n## Promotional messages you never asked for\nUnder the Electronic Communications and Transactions Act of 2021, a business may send you one promotional message without your agreement, but no more. Every promotional message must say who sent it and give you a working way to stop them. Sending more after you have said stop is an offence.\n\nWhat to do:\n1. If the message is from a real business you know, use the stop option it gives, for example replying STOP.\n2. If the messages keep coming after that, report them to ZICTA on **\\*707#** or **7070**.\n3. If you are not sure who sent it, do not reply and do not tap any link. Treat it as a possible scam.\n\n## Remember\nA real promotion never asks for your PIN or a fee to collect a prize.",
+          "key_points": [
+            "Dial *707# to report scam calls and SMS to ZICTA",
+            "ZICTA's free line is 7070",
+            "Businesses must give you a way to stop promotional messages"
+          ],
+          "try_it": "Dial *#06# to see your phone's IMEI number and write it down somewhere safe.",
+          "motif": "shield"
+        },
+        {
           "slug": "spot-the-scam-check",
           "title": "Check: Spot the scam",
           "type": "quiz",
@@ -219,6 +233,28 @@
               ],
               "correct": 2,
               "explanation": "Go to the real bank yourself rather than following the message."
+            },
+            {
+              "question": "You get a call from a number that tries to trick you into sending money. Where can you report it?",
+              "options": [
+                "Nowhere, just delete it",
+                "Dial *707# to report it to ZICTA",
+                "Call the number back",
+                "Post the number on Facebook only"
+              ],
+              "correct": 1,
+              "explanation": "*707# is ZICTA's free short code for reporting fraud calls and SMS."
+            },
+            {
+              "question": "A shop keeps sending you promotions after you replied STOP. What does the law say?",
+              "options": [
+                "They can send as many as they like",
+                "Sending more after you said stop is an offence, so you can report it to ZICTA",
+                "You must pay to stop them",
+                "You must change your number"
+              ],
+              "correct": 1,
+              "explanation": "The Electronic Communications and Transactions Act 2021 says businesses must stop when you opt out."
             }
           ]
         }
@@ -261,7 +297,7 @@
           "title": "What to do if you are tricked",
           "type": "read",
           "est_minutes": 5,
-          "body": "Anyone can be tricked. Scammers are skilled and it is not your fault. What matters is acting **quickly**, because every minute counts.\n\n## If you sent money to a scammer\n1. **Call your mobile money provider or bank at once** on their official customer care number. Tell them the transaction and ask them to stop or reverse it. The faster you call, the better the chance.\n2. Keep the **transaction message**. Do not delete it.\n3. **Report to the police** at your nearest station. Take the transaction details and the scammer's number with you.\n\n## If someone has your PIN or password\n- Change your mobile money PIN straight away.\n- Change your passwords, starting with your email.\n- Turn on two-step verification.\n\n## If your WhatsApp was taken over\nReinstall WhatsApp and register your number again. You will get a new code that logs the criminal out. Then turn on two-step verification. Tell your contacts not to send money to anyone using your account.\n\n## If your phone or SIM is stolen\nCall your network to block the SIM and ask for a replacement. Your money stays on the line.\n\n## Warn others\nTell your family and friends, and report the scammer's number to your network. Sharing what happened protects others. There is no shame in it.",
+          "body": "Anyone can be tricked. Scammers are skilled and it is not your fault. What matters is acting **quickly**, because every minute counts.\n\n## If you sent money to a scammer\n1. **Call your mobile money provider or bank at once** on their official customer care number. Tell them the transaction and ask them to stop or reverse it. The faster you call, the better the chance.\n2. Keep the **transaction message**. Do not delete it.\n3. **Report to the police** at your nearest station. Take the transaction details and the scammer's number with you.\n\n## If someone has your PIN or password\n- Change your mobile money PIN straight away.\n- Change your passwords, starting with your email.\n- Turn on two-step verification.\n\n## If your WhatsApp was taken over\nReinstall WhatsApp and register your number again. You will get a new code that logs the criminal out. Then turn on two-step verification. Tell your contacts not to send money to anyone using your account.\n\n## If your phone or SIM is stolen\nDial **\\*707#** to block the SIM, or call your network. Report the theft at the police station with your phone's IMEI number. Then ask your network for a replacement SIM. Your money stays on the line.\n\n## Warn others\nTell your family and friends, and report the scammer's number to ZICTA by dialling **\\*707#** (or call 7070 free). Sharing what happened protects others. There is no shame in it.",
           "key_points": [
             "Act fast: call your provider first",
             "Keep the transaction message as proof",

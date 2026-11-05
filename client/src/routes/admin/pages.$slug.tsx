@@ -2,10 +2,15 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { Children, cloneElement, isValidElement, useEffect, useId, useLayoutEffect, useRef, useState, type ReactNode } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
-  ArrowDown, ArrowLeft, ArrowUp, ChevronDown, Copy, ExternalLink, Eye, EyeOff, Loader2, Monitor, PenLine, Plus, Save, Trash2, X,
+  ArrowDown, ArrowLeft, ArrowUp, ChevronDown, Copy, ExternalLink, Eye, EyeOff, GripVertical, ImagePlus, Loader2, Monitor, PenLine, Plus, Save, Trash2, X,
 } from "lucide-react";
+import {
+  DndContext, KeyboardSensor, PointerSensor, TouchSensor, closestCenter, useSensor, useSensors, type DragEndEvent,
+} from "@dnd-kit/core";
+import { SortableContext, arrayMove, sortableKeyboardCoordinates, useSortable, verticalListSortingStrategy } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 import { toast } from "sonner";
-import { MediaUpload } from "@/components/admin";
+import { MediaUpload, uploadToLibrary } from "@/components/admin";
 import { BLOCKS, Blocks, PageHero, type Block, type BlockField } from "@/components/blocks";
 import { Icon, ICON_NAMES } from "@/components/site";
 import { Button } from "@/components/ui/button";
@@ -36,6 +41,35 @@ function PageBuilderRoute() {
 }
 
 const newId = () => `b-${Math.random().toString(36).slice(2, 9)}`;
+
+/** Drag sensors: mouse (after a small move), touch (press and hold) and keyboard (space, arrows). */
+function useDragSensors() {
+  return useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
+    useSensor(TouchSensor, { activationConstraint: { delay: 200, tolerance: 6 } }),
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
+  );
+}
+
+const hasFiles = (e: React.DragEvent) => Array.from(e.dataTransfer.types).includes("Files");
+
+/** Upload dropped image files to the media library, one by one. Returns their links. */
+async function uploadImages(files: File[]): Promise<string[]> {
+  const images = files.filter((f) => f.type.startsWith("image/"));
+  if (!images.length) throw new Error("Only images can be dropped here.");
+  const run = async () => {
+    const urls: string[] = [];
+    for (const f of images) urls.push((await uploadToLibrary(f)).url);
+    return urls;
+  };
+  const job = run();
+  toast.promise(job, {
+    loading: `Uploading ${images.length} photo${images.length === 1 ? "" : "s"}...`,
+    success: `${images.length === 1 ? "Photo" : "Photos"} added`,
+    error: (e) => (e instanceof Error ? e.message : "Upload failed"),
+  });
+  return job;
+}
 
 /** Set a field and drop its interface translation key: once edited, the text is the editor's own. */
 function setField(data: Data, key: string, value: unknown): Data {
@@ -92,6 +126,46 @@ function PageBuilder({ page }: { page: AdminPage }) {
     setSelected(copy.id);
     touch();
   };
+  const sensors = useDragSensors();
+  const onSectionDragEnd = ({ active, over }: DragEndEvent) => {
+    if (!over || active.id === over.id) return;
+    setBlocks((bs) => arrayMove(bs, bs.findIndex((b) => b.id === active.id), bs.findIndex((b) => b.id === over.id)));
+    touch();
+  };
+
+  /* Photos dropped onto a section in the preview (or onto the list) go where they fit. */
+  const dropPhotos = async (files: File[], target: string | "hero" | "new") => {
+    try {
+      if (target === "hero") {
+        const [url] = await uploadImages(files.slice(0, 1));
+        setH("hero_image_url", url!);
+        return;
+      }
+      const block = blocks.find((b) => b.id === target);
+      if (target === "new" || !block) {
+        const urls = await uploadImages(files);
+        const b: Block = urls.length > 1
+          ? { id: newId(), type: "gallery", data: { title: "Gallery", images: urls.map((url) => ({ url, alt: "" })) } }
+          : { id: newId(), type: "image_text", data: { ...(structuredClone(BLOCKS.image_text!.defaults) as Data), image: urls[0] } };
+        setBlocks((bs) => [...bs, b]);
+        setSelected(b.id);
+        touch();
+        return;
+      }
+      if (block.type === "image_text") {
+        const [url] = await uploadImages(files.slice(0, 1));
+        updateBlock(block.id, (x) => ({ ...x, data: { ...x.data, image: url } }));
+      } else if (block.type === "gallery") {
+        const urls = await uploadImages(files);
+        updateBlock(block.id, (x) => ({ ...x, data: { ...x.data, images: [...(Array.isArray(x.data.images) ? x.data.images : []), ...urls.map((url) => ({ url, alt: "" }))] } }));
+      } else {
+        toast.error(`"${BLOCKS[block.type]?.label ?? "This"}" section has no photo. Drop on an Image and text or Gallery section, or below the sections to add one.`);
+        return;
+      }
+      setSelected(block.id);
+    } catch { /* toast already shown */ }
+  };
+
   const add = (type: string, at: number) => {
     const b: Block = { id: newId(), type, data: structuredClone(BLOCKS[type]!.defaults) as Data };
     setBlocks((bs) => [...bs.slice(0, at), b, ...bs.slice(at)]);
@@ -185,20 +259,28 @@ function PageBuilder({ page }: { page: AdminPage }) {
               <div className="mb-2 flex items-end justify-between">
                 <div><h2 className="font-semibold">Sections</h2><p className="text-sm text-muted-foreground">Shown in this order below the top of the page.</p></div>
               </div>
-              <ol className="space-y-2">
-                {blocks.length === 0 && <li className="rounded-2xl border border-dashed border-border bg-card p-6 text-center text-sm text-muted-foreground">No sections yet.</li>}
-                {blocks.map((b, i) => (
-                  <BlockRow
-                    key={b.id} block={b} index={i} count={blocks.length} open={selected === b.id}
-                    onToggle={() => setSelected(selected === b.id ? null : b.id)}
-                    onMove={(d) => move(i, d)} onRemove={() => remove(i)} onDuplicate={() => duplicate(i)}
-                    onHide={() => updateBlock(b.id, (x) => ({ ...x, hidden: !x.hidden }))}
-                    onChange={(data) => updateBlock(b.id, (x) => ({ ...x, data }))}
-                    onAddAfter={() => setAdding(i + 1)}
-                  />
-                ))}
-              </ol>
-              <Button variant="outline" className="mt-3 w-full border-dashed" onClick={() => setAdding(blocks.length)}><Plus className="size-4" />Add a section</Button>
+              <p className="mb-2 text-xs text-muted-foreground">Drag <GripVertical className="inline size-3.5 align-text-bottom" aria-hidden="true" /> to reorder. Drop photos onto a section in the preview to add them there.</p>
+              <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={onSectionDragEnd}>
+                <SortableContext items={blocks.map((b) => b.id)} strategy={verticalListSortingStrategy}>
+                  <ol className="space-y-2">
+                    {blocks.length === 0 && <li className="rounded-2xl border border-dashed border-border bg-card p-6 text-center text-sm text-muted-foreground">No sections yet.</li>}
+                    {blocks.map((b, i) => (
+                      <BlockRow
+                        key={b.id} block={b} index={i} count={blocks.length} open={selected === b.id}
+                        onToggle={() => setSelected(selected === b.id ? null : b.id)}
+                        onMove={(d) => move(i, d)} onRemove={() => remove(i)} onDuplicate={() => duplicate(i)}
+                        onHide={() => updateBlock(b.id, (x) => ({ ...x, hidden: !x.hidden }))}
+                        onChange={(data) => updateBlock(b.id, (x) => ({ ...x, data }))}
+                        onAddAfter={() => setAdding(i + 1)}
+                      />
+                    ))}
+                  </ol>
+                </SortableContext>
+              </DndContext>
+              <PhotoDropZone onFiles={(f) => void dropPhotos(f, "new")}>
+                <Button variant="outline" className="mt-3 w-full border-dashed" onClick={() => setAdding(blocks.length)}><Plus className="size-4" />Add a section</Button>
+                <p className="mt-1 text-center text-xs text-muted-foreground">or drop photos here to add an image or gallery section</p>
+              </PhotoDropZone>
             </section>
           )}
 
@@ -223,8 +305,10 @@ function PageBuilder({ page }: { page: AdminPage }) {
                 </div>
               ) : (
                 <>
-                  <PageHero eyebrow={previewPage.hero_eyebrow} title={previewPage.hero_title || pageName(page)} intro={previewPage.hero_subline} image={previewPage.hero_image_url} />
-                  <PreviewBlocks blocks={blocks} selected={selected} onSelect={(id) => { setSelected(id); setView("edit"); requestAnimationFrame(() => document.getElementById(`edit-${id}`)?.scrollIntoView({ behavior: "smooth", block: "center" })); }} />
+                  <PhotoDropZone onFiles={(f) => void dropPhotos(f, "hero")} label="Drop to use as the page photo">
+                    <PageHero eyebrow={previewPage.hero_eyebrow} title={previewPage.hero_title || pageName(page)} intro={previewPage.hero_subline} image={previewPage.hero_image_url} />
+                  </PhotoDropZone>
+                  <PreviewBlocks blocks={blocks} selected={selected} onFiles={(id, f) => void dropPhotos(f, id)} onSelect={(id) => { setSelected(id); setView("edit"); requestAnimationFrame(() => document.getElementById(`edit-${id}`)?.scrollIntoView({ behavior: "smooth", block: "center" })); }} />
                 </>
               )}
             </ScaledPreview>
@@ -302,9 +386,20 @@ function BlockRow({ block, index, count, open, onToggle, onMove, onRemove, onDup
   const def = BLOCKS[block.type];
   const IconC = def?.icon;
   const iconBtn = "grid size-8 place-items-center rounded-md text-muted-foreground hover:bg-secondary hover:text-foreground disabled:opacity-30";
+  const sort = useSortable({ id: block.id });
   return (
-    <li id={`edit-${block.id}`} className={cn("overflow-hidden rounded-2xl border bg-card transition-colors", open ? "border-primary shadow-sm" : "border-border", block.hidden && "opacity-70")}>
-      <div className="flex items-center gap-2 p-2 pl-3">
+    <li
+      ref={sort.setNodeRef}
+      id={`edit-${block.id}`}
+      style={{ transform: CSS.Transform.toString(sort.transform), transition: sort.transition }}
+      className={cn("overflow-hidden rounded-2xl border bg-card transition-colors", open ? "border-primary shadow-sm" : "border-border", block.hidden && "opacity-70",
+        sort.isDragging && "relative z-20 shadow-lg ring-2 ring-primary/40")}
+    >
+      <div className="flex items-center gap-1 p-2 pl-1">
+        <button type="button" {...sort.attributes} {...sort.listeners} aria-label={`Drag to reorder ${def?.label ?? "section"}`} title="Drag to reorder"
+          className="grid size-8 shrink-0 cursor-grab touch-none place-items-center rounded-md text-muted-foreground hover:bg-secondary active:cursor-grabbing">
+          <GripVertical className="size-4" />
+        </button>
         <button onClick={onToggle} className="flex min-w-0 flex-1 items-center gap-3 py-1 text-left" aria-expanded={open}>
           <span className="grid size-9 shrink-0 place-items-center rounded-lg bg-primary-soft text-primary">{IconC ? <IconC className="size-4" /> : "?"}</span>
           <span className="min-w-0">
@@ -392,33 +487,101 @@ function FieldEditor({ field, value, onChange }: { field: BlockField; value: any
 
 function ItemsEditor({ items, fields, itemLabel, max = 30, onChange }: { items: Data[]; fields: BlockField[]; itemLabel: string; max?: number; onChange: (v: Data[]) => void }) {
   const [open, setOpen] = useState<number | null>(items.length <= 1 ? 0 : null);
+  const sensors = useDragSensors();
   const set = (i: number, d: Data) => onChange(items.map((x, k) => (k === i ? d : x)));
-  const mv = (i: number, dir: -1 | 1) => { const j = i + dir; if (j < 0 || j >= items.length) return; const n = [...items]; [n[i], n[j]] = [n[j]!, n[i]!]; onChange(n); setOpen(j); };
+  const mv = (i: number, j: number) => { if (j < 0 || j >= items.length || i === j) return; onChange(arrayMove(items, i, j)); setOpen(j); };
   const title = (it: Data) => it.title || it.heading || it.alt || (it.url ? String(it.url).split("/").pop() : "") || `Untitled ${itemLabel}`;
-  return (
+  // Lists with a photo field (the gallery) accept photos dropped from the computer.
+  const imageKey = fields.find((f) => f.kind === "image")?.key;
+  const ids = items.map((_, i) => `item-${i}`);
+  const onDragEnd = ({ active, over }: DragEndEvent) => { if (over) mv(ids.indexOf(String(active.id)), ids.indexOf(String(over.id))); };
+
+  const list = (
     <div className="space-y-2">
-      {items.map((it, i) => (
-        <div key={i} className="rounded-xl border border-border bg-background">
-          <div className="flex items-center gap-1 p-1.5 pl-3">
-            <button className="flex min-w-0 flex-1 items-center gap-2 py-1 text-left text-sm" onClick={() => setOpen(open === i ? null : i)}>
-              {it.icon && <Icon name={it.icon} className="size-4 shrink-0 text-primary" />}
-              {it.url && fields.some((f) => f.kind === "image") && <img src={it.url} alt="" className="size-7 shrink-0 rounded object-cover" />}
-              <span className="truncate font-medium">{title(it)}</span>
-              <ChevronDown className={cn("ml-auto size-4 shrink-0 text-muted-foreground transition-transform", open === i && "rotate-180")} />
-            </button>
-            <button className="grid size-8 place-items-center rounded-md text-muted-foreground hover:bg-secondary disabled:opacity-30" disabled={i === 0} onClick={() => mv(i, -1)} aria-label={`Move ${itemLabel} up`}><ArrowUp className="size-4" /></button>
-            <button className="grid size-8 place-items-center rounded-md text-muted-foreground hover:bg-secondary disabled:opacity-30" disabled={i === items.length - 1} onClick={() => mv(i, 1)} aria-label={`Move ${itemLabel} down`}><ArrowDown className="size-4" /></button>
-            <button className="grid size-8 place-items-center rounded-md text-muted-foreground hover:bg-secondary hover:text-destructive" onClick={() => { onChange(items.filter((_, k) => k !== i)); setOpen(null); }} aria-label={`Remove ${itemLabel}`}><X className="size-4" /></button>
-          </div>
-          {open === i && (
-            <div className="space-y-3 border-t border-border p-3">
-              {fields.map((f) => <FieldEditor key={f.key} field={f} value={it[f.key]} onChange={(v) => set(i, setField(it, f.key, v))} />)}
-            </div>
-          )}
-        </div>
-      ))}
+      <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={onDragEnd}>
+        <SortableContext items={ids} strategy={verticalListSortingStrategy}>
+          {items.map((it, i) => (
+            <SortableItem key={ids[i]} id={ids[i]!} label={`${itemLabel} ${i + 1}`}>
+              {(handle) => (
+                <>
+                  <div className="flex items-center gap-1 p-1.5 pl-1">
+                    {handle}
+                    <button className="flex min-w-0 flex-1 items-center gap-2 py-1 text-left text-sm" onClick={() => setOpen(open === i ? null : i)}>
+                      {it.icon && <Icon name={it.icon} className="size-4 shrink-0 text-primary" />}
+                      {imageKey && it[imageKey] && <img src={it[imageKey]} alt="" className="size-7 shrink-0 rounded object-cover" />}
+                      <span className="truncate font-medium">{title(it)}</span>
+                      <ChevronDown className={cn("ml-auto size-4 shrink-0 text-muted-foreground transition-transform", open === i && "rotate-180")} />
+                    </button>
+                    <button className="grid size-8 place-items-center rounded-md text-muted-foreground hover:bg-secondary disabled:opacity-30" disabled={i === 0} onClick={() => mv(i, i - 1)} aria-label={`Move ${itemLabel} up`}><ArrowUp className="size-4" /></button>
+                    <button className="grid size-8 place-items-center rounded-md text-muted-foreground hover:bg-secondary disabled:opacity-30" disabled={i === items.length - 1} onClick={() => mv(i, i + 1)} aria-label={`Move ${itemLabel} down`}><ArrowDown className="size-4" /></button>
+                    <button className="grid size-8 place-items-center rounded-md text-muted-foreground hover:bg-secondary hover:text-destructive" onClick={() => { onChange(items.filter((_, k) => k !== i)); setOpen(null); }} aria-label={`Remove ${itemLabel}`}><X className="size-4" /></button>
+                  </div>
+                  {open === i && (
+                    <div className="space-y-3 border-t border-border p-3">
+                      {fields.map((f) => <FieldEditor key={f.key} field={f} value={it[f.key]} onChange={(v) => set(i, setField(it, f.key, v))} />)}
+                    </div>
+                  )}
+                </>
+              )}
+            </SortableItem>
+          ))}
+        </SortableContext>
+      </DndContext>
       {items.length < max && (
         <Button type="button" variant="outline" size="sm" onClick={() => { onChange([...items, {}]); setOpen(items.length); }}><Plus className="size-4" />Add {itemLabel}</Button>
+      )}
+    </div>
+  );
+
+  if (!imageKey) return list;
+  return (
+    <PhotoDropZone
+      label={`Drop to add ${itemLabel}s`}
+      onFiles={async (files) => {
+        try {
+          const urls = await uploadImages(files.slice(0, Math.max(0, max - items.length)));
+          onChange([...items, ...urls.map((url) => ({ [imageKey]: url, alt: "" }))]);
+        } catch { /* toast already shown */ }
+      }}
+    >
+      {list}
+      <p className="mt-2 flex items-center gap-1.5 text-xs text-muted-foreground"><ImagePlus className="size-3.5" aria-hidden="true" />You can also drop several photos here at once.</p>
+    </PhotoDropZone>
+  );
+}
+
+/** A sortable row whose drag handle is passed to the children. */
+function SortableItem({ id, label, children }: { id: string; label: string; children: (handle: ReactNode) => ReactNode }) {
+  const sort = useSortable({ id });
+  const handle = (
+    <button type="button" {...sort.attributes} {...sort.listeners} aria-label={`Drag to reorder ${label}`} title="Drag to reorder"
+      className="grid size-8 shrink-0 cursor-grab touch-none place-items-center rounded-md text-muted-foreground hover:bg-secondary active:cursor-grabbing">
+      <GripVertical className="size-4" />
+    </button>
+  );
+  return (
+    <div ref={sort.setNodeRef} style={{ transform: CSS.Transform.toString(sort.transform), transition: sort.transition }}
+      className={cn("rounded-xl border border-border bg-background", sort.isDragging && "relative z-20 shadow-lg ring-2 ring-primary/40")}>
+      {children(handle)}
+    </div>
+  );
+}
+
+/** Wraps any area so image files dragged from the computer can be dropped on it. */
+function PhotoDropZone({ onFiles, label = "Drop photos here", children }: { onFiles: (files: File[]) => void; label?: string; children: ReactNode }) {
+  const [over, setOver] = useState(false);
+  return (
+    <div
+      className="relative"
+      onDragOver={(e) => { if (hasFiles(e)) { e.preventDefault(); e.stopPropagation(); setOver(true); } }}
+      onDragLeave={(e) => { if (!e.currentTarget.contains(e.relatedTarget as Node)) setOver(false); }}
+      onDrop={(e) => { if (!hasFiles(e)) return; e.preventDefault(); e.stopPropagation(); setOver(false); onFiles(Array.from(e.dataTransfer.files)); }}
+    >
+      {children}
+      {over && (
+        <div className="pointer-events-none absolute inset-0 z-10 grid place-items-center rounded-xl border-2 border-dashed border-primary bg-primary-soft/80 text-sm font-semibold text-primary">
+          <span className="flex items-center gap-2"><ImagePlus className="size-5" />{label}</span>
+        </div>
       )}
     </div>
   );
@@ -477,21 +640,25 @@ function ScaledPreview({ children }: { children: ReactNode }) {
   );
 }
 
-function PreviewBlocks({ blocks, selected, onSelect }: { blocks: Block[]; selected: string | null; onSelect: (id: string) => void }) {
+function PreviewBlocks({ blocks, selected, onSelect, onFiles }: { blocks: Block[]; selected: string | null; onSelect: (id: string) => void; onFiles: (id: string, files: File[]) => void }) {
   return (
     <>
-      {blocks.filter((b) => !b.hidden).map((b) => (
-        <div
-          key={b.id}
-          role="button"
-          tabIndex={0}
-          onClickCapture={(e) => { e.preventDefault(); e.stopPropagation(); onSelect(b.id); }}
-          onKeyDown={(e) => { if (e.key === "Enter") onSelect(b.id); }}
-          className={cn("relative cursor-pointer outline-offset-[-4px] hover:outline hover:outline-4 hover:outline-primary/40", selected === b.id && "outline outline-4 outline-primary")}
-        >
-          <Blocks blocks={[b]} />
-        </div>
-      ))}
+      {blocks.filter((b) => !b.hidden).map((b) => {
+        const takesPhotos = b.type === "image_text" || b.type === "gallery";
+        return (
+          <PhotoDropZone key={b.id} onFiles={(f) => onFiles(b.id, f)} label={takesPhotos ? (b.type === "gallery" ? "Drop to add to this gallery" : "Drop to use this photo") : "This section has no photo"}>
+            <div
+              role="button"
+              tabIndex={0}
+              onClickCapture={(e) => { e.preventDefault(); e.stopPropagation(); onSelect(b.id); }}
+              onKeyDown={(e) => { if (e.key === "Enter") onSelect(b.id); }}
+              className={cn("relative cursor-pointer outline-offset-[-4px] hover:outline hover:outline-4 hover:outline-primary/40", selected === b.id && "outline outline-4 outline-primary")}
+            >
+              <Blocks blocks={[b]} />
+            </div>
+          </PhotoDropZone>
+        );
+      })}
     </>
   );
 }

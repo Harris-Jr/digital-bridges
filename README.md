@@ -299,7 +299,8 @@ All routes are under `/api`. Public content returns published rows only.
 5. Signing out clears every cached query and signs out other open tabs too.
 
 ### Learning a course
-1. Learner opens a course, starts or continues the next lesson.
+1. Anyone can see a course page and its outline. Opening a lesson needs a free account: signed-out visitors see a lock screen, and the API returns lesson text, quizzes and scenarios only to signed-in users. After signing in they return to the lesson they picked.
+2. Learner opens a course, starts or continues the next lesson.
 2. Completing a lesson writes `lesson_progress` (queued if offline).
 3. Badges are awarded when their criteria are met.
 4. When every lesson is done and module quizzes meet the pass mark, a certificate is issued.
@@ -348,7 +349,7 @@ develop      -> pull request into main    -> CI -> merge -> Deploy workflow -> c
 
 1. fetches and checks out that exact commit in `/var/www/civicwise/app`
 2. installs and builds the API
-3. runs migrations, then `seed -- --new`
+3. backs up the database to `/var/www/civicwise/backups` (newest 14 kept), runs migrations, then `seed -- --new`
 4. installs and builds the web app
 5. copies the built site to `/var/www/civicwise/web` (old hashed assets are kept for 30 days so open tabs keep working)
 6. reloads the API under PM2 and checks `/api/health`

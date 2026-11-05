@@ -3,6 +3,10 @@ import { Router } from "express";
 import { query } from "../db.js";
 import { asyncHandler, notFound } from "../lib/http.js";
 import { overlay, overlayLang } from "../lib/translate.js";
+import { requireAuth } from "../middleware.js";
+
+/** Lesson fields a signed-out visitor may see: enough for the course outline. */
+const OUTLINE_FIELDS = ["id", "course_id", "module_id", "slug", "title", "type", "est_minutes", "sort_order", "is_published"] as const;
 
 export const contentRouter = Router();
 
@@ -130,12 +134,24 @@ contentRouter.get(
     await overlay("course", lang, rows);
     await overlay("category", lang, [rows[0].category as Record<string, unknown>].filter(Boolean));
     await overlay("lesson", lang, (rows[0].lessons as Record<string, unknown>[]) ?? []);
+    // Visitors see the course outline (lesson titles and times) but not the
+    // lessons themselves: opening a lesson needs a free account.
+    if (!req.auth) {
+      rows[0].lessons = ((rows[0].lessons as Record<string, unknown>[]) ?? []).map((l) => {
+        const out: Record<string, unknown> = {};
+        for (const k of OUTLINE_FIELDS) out[k] = l[k];
+        return out;
+      });
+      rows[0].locked = true;
+    }
+    res.set("Vary", "Authorization");
     res.json(rows[0]);
   }),
 );
 
 contentRouter.get(
   "/lessons/:id/quiz",
+  requireAuth,
   asyncHandler(async (req, res) => {
     const { rows } = await query(
       "select * from quiz_questions where lesson_id = $1 order by sort_order",
@@ -148,6 +164,7 @@ contentRouter.get(
 
 contentRouter.get(
   "/lessons/:id/scenario",
+  requireAuth,
   asyncHandler(async (req, res) => {
     const { rows } = await query(
       "select id, lesson_id, prompt, options, feedback, best_index, sort_order from scenario_steps where lesson_id = $1 order by sort_order",

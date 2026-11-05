@@ -20,6 +20,15 @@
 # database in practice, but check the migration list before rolling back far.
 set -euo pipefail
 
+# This script updates its own file (git reset below). Bash reads a script as it
+# runs, so run from a copy: the new version takes effect on the next deploy.
+if [ -z "${CW_DEPLOY_COPY:-}" ]; then
+  COPY=$(mktemp /tmp/civicwise-deploy.XXXXXX.sh)
+  cp "$0" "$COPY"
+  CW_DEPLOY_COPY=1 exec bash "$COPY" "$@"
+fi
+trap 'rm -f "$0"' EXIT
+
 APP_DIR=/var/www/civicwise/app
 WEB_DIR=/var/www/civicwise/web
 TARGET="${1:-origin/main}"
@@ -47,6 +56,19 @@ say "API: install, build"
 cd "$APP_DIR/server"
 npm ci --no-audit --no-fund
 npm run build
+
+# A backup before anything touches the database. The newest 14 are kept in
+# /var/www/civicwise/backups. Restore one with:
+#   pg_restore --clean --no-owner -d "<DATABASE_URL>" <file>
+say "Database: backup"
+BACKUP_DIR=/var/www/civicwise/backups
+mkdir -p "$BACKUP_DIR" && chmod 700 "$BACKUP_DIR"
+DB_URL=$(grep -E '^DATABASE_URL=' "$APP_DIR/server/.env" | head -n 1 | cut -d= -f2-)
+BACKUP_FILE="$BACKUP_DIR/civicwise-$(date +%Y%m%d-%H%M%S)-$COMMIT.dump"
+pg_dump -Fc --no-owner "$DB_URL" -f "$BACKUP_FILE"
+chmod 600 "$BACKUP_FILE"
+say "Saved $(du -h "$BACKUP_FILE" | cut -f1) to $BACKUP_FILE"
+ls -1t "$BACKUP_DIR"/civicwise-*.dump 2>/dev/null | tail -n +15 | xargs -r rm -f --
 
 say "Database: migrate, then add any new courses"
 npm run migrate

@@ -10,6 +10,7 @@
 // replayed when the connection returns; the server upsert is idempotent, so a
 // replay is always safe.
 import { useEffect, useState } from "react";
+import { getToken } from "@/lib/api";
 import { apiPost } from "@/lib/api";
 
 const API_CACHE = "db-api";
@@ -79,7 +80,9 @@ export async function downloadPack(course: CourseLike, onProgress?: (done: numbe
   await Promise.all([
     ...api.map(async (url) => {
       try {
-        const res = await fetch(url, { credentials: "same-origin" });
+        // Lessons and quizzes need the learner's sign-in, like in the app.
+        const token = getToken();
+        const res = await fetch(url, { credentials: "same-origin", headers: token ? { Authorization: `Bearer ${token}` } : {} });
         if (res.ok) await apiCache.put(url, res.clone());
       } catch { /* a missing entry just means that part is not available offline */ }
       finally { tick(); }

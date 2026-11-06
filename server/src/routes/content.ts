@@ -131,6 +131,7 @@ contentRouter.get(
     );
     rows[0].modules = modules;
     const lang = overlayLang(req.query.lang);
+    await overlay("module", lang, modules);
     await overlay("course", lang, rows);
     await overlay("category", lang, [rows[0].category as Record<string, unknown>].filter(Boolean));
     await overlay("lesson", lang, (rows[0].lessons as Record<string, unknown>[]) ?? []);

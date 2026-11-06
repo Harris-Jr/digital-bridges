@@ -97,7 +97,7 @@ The UI hides what a role cannot use, but the real boundary is the API: every `/a
 - **Page builder:** edit Home, About, For Trainers and the policy pages section by section; make new pages with their own address and menu link. See [Page Builder](#page-builder).
 - **News:** posts with cover images, tags, drafts and publishing; a public News page that appears once the first post is live.
 - **Media library:** every upload in one place, reusable anywhere through "Choose from library".
-- **Translations editor:** fill in Bemba and Nyanja for any course, lesson, quiz or page field.
+- **Translations:** progress per course and language, side-by-side English and translation, AI drafts (one field, a page, or a whole course in the background), review and approve, "English changed" warnings, and a shared glossary.
 - **Community groups overview, trainer materials, workshops, testimonials, partners, FAQs and the logo.**
 - **Grouped, collapsible admin menu** (Learning, People, Website, Files and brand) that works on phones.
 
@@ -195,7 +195,9 @@ Every site page is a **hero** (small heading, title, intro, photo) plus an order
 
 ### Languages
 - **Interface strings** live in `i18n_strings` keyed by `(key, lang)`. `t(key, fallback)` resolves the current language, then English, then the fallback in code. Languages: `en`, `bem`, `nya`.
-- **Content** (courses, lessons, quizzes, scenarios, categories, pathways) is translated through the `content_translations` overlay keyed by `(entity_type, entity_id, lang, field)`. English rows are the source of truth; missing translations fall back to English.
+- **Content** (courses, modules, lessons, quizzes, scenarios, categories, pathways) is translated through the `content_translations` overlay keyed by `(entity_type, entity_id, lang, field)`. English rows are the source of truth; missing translations fall back to English.
+- **Review workflow:** each translation is `draft` or `approved`. Learners only ever see approved rows. AI suggestions arrive as drafts; anything a person types or approves is approved. `source_hash` records the English a translation was made from, so the editor flags "English changed" when the English is edited later.
+- **AI translation** (Admin, Translations): suggest one field, every missing field on a page, or a whole course in the background with a progress bar. The prompt keeps formatting, links, numbers, short codes and brand names, and uses the **glossary** (`translation_glossary`) so terms stay consistent. Replies are checked before saving: a list must keep its length and every link must survive unchanged.
 - Content endpoints take `?lang=bem|nya` and overlay translations when reading. The client keys its cache by language.
 
 ### Offline
@@ -223,7 +225,8 @@ Migrations live in `server/migrations/` and run in filename order. The runner wr
 | `lessons` | course_id, module_id, slug, title, type, body_richtext, key_points, try_it_action, image_url, audio_url, video_url, est_minutes, sort_order | Lessons. `sort_order` is `(module index + 1) * 1000 + lesson index` |
 | `quiz_questions` | lesson_id, question, options, correct_index, explanation | Quiz questions |
 | `scenario_steps` | lesson_id, prompt, options, feedback, best_index | Scenario lessons |
-| `content_translations` | entity_type, entity_id, lang, field, value | Bemba and Nyanja overlays |
+| `content_translations` | entity_type, entity_id, lang, field, value, status, origin, source_hash | Bemba and Nyanja overlays, draft or approved |
+| `translation_glossary` | term, bem, nya, note | Agreed terms the AI and translators use |
 | `i18n_strings` | key, lang, value | Interface text |
 
 ### Learners and progress
@@ -466,6 +469,7 @@ npm run migrate
 | `028_trainer_materials_cohorts` | Trainer materials fields, group courses |
 | `029_media_library_and_news` | `media` and `posts` |
 | `030_page_builder` | Page hero fields, blocks, menu labels, built-in page flags |
+| `031_translation_review` | Draft/approved translations, AI origin, English-changed tracking, glossary |
 
 ### Step 4: Load content
 
@@ -627,7 +631,7 @@ digital-bridges/
 │   └── vite.config.ts            # PWA, Workbox, chunk splitting
 ├── server/                       # Express API
 │   ├── content/                  # course JSON, pathways, categories, badges
-│   ├── migrations/               # 001 ... 030 SQL files
+│   ├── migrations/               # 001 ... 031 SQL files
 │   └── src/
 │       ├── index.ts              # bootstrap, middleware, routes, sitemap
 │       ├── env.ts, db.ts, middleware.ts, migrate.ts

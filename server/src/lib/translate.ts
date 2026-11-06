@@ -3,6 +3,7 @@
 // we fetch the overrides for the rows in hand and apply them in place. A
 // missing field (e.g. a long lesson body not yet translated) simply keeps its
 // English value, graceful fallback, no special-casing per field.
+// Only approved rows are applied: AI drafts wait for a person to review them.
 import { query } from "../db.js";
 
 const SUPPORTED = new Set(["bem", "nya"]);
@@ -26,7 +27,8 @@ export async function overlay(entityType: string, lang: string | null, rows: Row
   const { rows: trs } = await query<{ entity_id: string; field: string; value: unknown }>(
     `select entity_id, field, value
        from content_translations
-      where entity_type = $1 and lang = $2 and entity_id = any($3::uuid[])`,
+      where entity_type = $1 and lang = $2 and entity_id = any($3::uuid[])
+        and status = 'approved'`,
     [entityType, lang, ids],
   );
   if (trs.length === 0) return;

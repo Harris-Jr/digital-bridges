@@ -106,7 +106,7 @@ const same = (a: unknown, b: unknown) => JSON.stringify(a) === JSON.stringify(b)
 /** When the English text of a field changes, its Bemba/Nyanja translation no
     longer matches, so remove it (the app falls back to English until it is
     translated again in Admin > Translations). Unchanged fields keep theirs. */
-async function dropStale(db: PoolClient, entity: "course" | "lesson", id: string, fields: Record<string, [unknown, unknown]>) {
+async function dropStale(db: PoolClient, entity: "course" | "module" | "lesson", id: string, fields: Record<string, [unknown, unknown]>) {
   const changed = Object.entries(fields).filter(([, [a, b]]) => !same(a, b)).map(([f]) => f);
   if (changed.length) {
     await db.query("delete from content_translations where entity_type = $1 and entity_id = $2 and field = any($3)", [entity, id, changed]);
@@ -168,11 +168,12 @@ async function seedCourse(db: PoolClient, c: CourseFile) {
   }
 
   // Modules have no slug: reuse existing ones in order, add or drop the rest.
-  const { rows: oldMods } = await db.query("select id from modules where course_id = $1 order by sort_order, created_at", [courseId]);
+  const { rows: oldMods } = await db.query("select id, title, summary from modules where course_id = $1 order by sort_order, created_at", [courseId]);
   const moduleIds: string[] = [];
   for (const [mi, m] of c.modules.entries()) {
     const existing = oldMods[mi]?.id as string | undefined;
     if (existing) {
+      await dropStale(db, "module", existing, { title: [oldMods[mi]?.title, m.title], summary: [oldMods[mi]?.summary, m.summary] });
       await db.query("update modules set title=$2, summary=$3, sort_order=$4, is_published=true where id=$1", [existing, m.title, m.summary, mi]);
       moduleIds.push(existing);
     } else {
@@ -219,7 +220,8 @@ async function seedCourse(db: PoolClient, c: CourseFile) {
   await db.query(`delete from content_translations t where
       (t.entity_type = 'quiz_question' and not exists (select 1 from quiz_questions x where x.id = t.entity_id))
    or (t.entity_type = 'scenario_step' and not exists (select 1 from scenario_steps x where x.id = t.entity_id))
-   or (t.entity_type = 'lesson' and not exists (select 1 from lessons x where x.id = t.entity_id))`);
+   or (t.entity_type = 'lesson' and not exists (select 1 from lessons x where x.id = t.entity_id))
+   or (t.entity_type = 'module' and not exists (select 1 from modules x where x.id = t.entity_id))`);
 }
 
 async function main() {
